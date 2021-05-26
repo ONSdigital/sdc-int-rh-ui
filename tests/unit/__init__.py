@@ -937,68 +937,10 @@ class RHTestCase(AioHTTPTestCase):
 
         self.start_ni_select_language_data_empty = {}
 
-        self.get_webchat_en = self.app.router['WebChat:get'].url_for(display_region='en')
-        self.get_webchat_cy = self.app.router['WebChat:get'].url_for(display_region='cy')
-        self.get_webchat_ni = self.app.router['WebChat:get'].url_for(display_region='ni')
-        self.post_webchat_en = self.app.router['WebChat:post'].url_for(display_region='en')
-        self.post_webchat_cy = self.app.router['WebChat:post'].url_for(display_region='cy')
-        self.post_webchat_ni = self.app.router['WebChat:post'].url_for(display_region='ni')
-
-        self.content_webchat_form_page_title_en = '<title>Web chat - Census 2021</title>'
-        self.content_webchat_form_page_title_error_en = '<title>Error: Web chat - Census 2021</title>'
-        self.content_webchat_form_title_en = 'Web chat'
-        self.content_webchat_form_page_title_cy = '<title>Gwe-sgwrs - Cyfrifiad 2021</title>'
-        self.content_webchat_form_page_title_error_cy = '<title>Gwall: Gwe-sgwrs - Cyfrifiad 2021</title>'
-        self.content_webchat_form_title_cy = "Gwe-sgwrs"
-
-        self.webchat_form_data = {
-            'screen_name': 'Test',
-            'query': 'address',
-        }
-
-        self.webchat_form_data_en = {
-            **self.webchat_form_data,
-            'language': 'english',
-            'country': 'england'
-        }
-
-        self.webchat_form_data_cy = {
-            **self.webchat_form_data,
-            'language': 'welsh',
-            'country': 'wales',
-        }
-
-        self.webchat_form_data_ni = {
-            **self.webchat_form_data,
-            'language': 'english',
-            'country': 'northern_ireland'
-        }
-
-        self.webchatsvc_url = self.app['WEBCHAT_SVC_URL']
-
-        self.content_webchat_error_missing_screen_name_panel_en = \
-            {'text': 'Enter your name', 'clickable': True, 'level': 'ERROR', 'type': 'BAD_CODE',
-             'field': 'error_screen_name', 'screen_name': '', 'country': 'england', 'query': 'help'}
-
-        self.content_webchat_error_selected_screen_name = \
-            'name="screen_name"\\n            value="Test"'
-        self.content_webchat_error_selected_country_en = \
-            'value="england" \\n                            name="country"\\n                             checked'
-        self.content_webchat_error_selected_country_cy = \
-            'value="wales" \\n                            name="country"\\n                             checked'
-        self.content_webchat_error_selected_country_ni = \
-            'value="northern_ireland" \\n                            name="country"\\n' \
-            '                             checked'
-        self.content_webchat_error_selected_query = \
-            'value="address" \\n                            name="query"\\n                             checked'
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'
         self.content_common_error_panel_answer_cy = "Mae problem gyda\\\'ch ateb"
         self.content_common_error_select_an_option_en = 'Select an option'
         self.content_common_error_select_an_option_cy = 'Dewiswch opsiwn'
-        self.content_webchat_error_enter_your_name_en = \
-            'class="panel__error"\\n            \\n        >\\n            <strong>Enter your name</strong>'
-        self.content_webchat_error_enter_your_name_cy = \
-            'class="panel__error"\\n            \\n        >\\n            <strong>Nodwch eich enw</strong>'
 
         self.addressindexsvc_url = f'{address_index_svc_url}/addresses/rh/postcode/'
         self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
