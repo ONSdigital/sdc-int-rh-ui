@@ -49,12 +49,8 @@ class TestSessionHandling(TestHelpers):
             else:
                 self.assertIn(self.content_request_timeout_title_cy, contents)
                 self.assertIn(self.content_request_timeout_bullet_one_cy, contents)
-                if (sub_user_journey == 'access-code') or (request_type == 'access-code'):
-                    self.assertIn(self.content_request_code_timeout_bullet_two_cy, contents)
-                    self.assertIn(self.content_request_code_timeout_link_text_cy, contents)
-                else:
-                    self.assertIn(self.content_request_form_timeout_bullet_two_cy, contents)
-                    self.assertIn(self.content_request_form_timeout_link_text_cy, contents)
+                self.assertIn(self.content_request_code_timeout_bullet_two_cy, contents)
+                self.assertIn(self.content_request_code_timeout_link_text_cy, contents)
         else:
             if display_region == 'ni':
                 self.assertNotIn(self.content_start_exit_button_ni, contents)
@@ -70,12 +66,9 @@ class TestSessionHandling(TestHelpers):
             else:
                 self.assertIn(self.content_request_timeout_title_en, contents)
                 self.assertIn(self.content_request_timeout_bullet_one_en, contents)
-                if (sub_user_journey == 'access-code') or (request_type == 'access-code'):
-                    self.assertIn(self.content_request_code_timeout_bullet_two_en, contents)
-                    self.assertIn(self.content_request_code_timeout_link_text_en, contents)
-                else:
-                    self.assertIn(self.content_request_form_timeout_bullet_two_en, contents)
-                    self.assertIn(self.content_request_form_timeout_link_text_en, contents)
+                self.assertIn(self.content_request_code_timeout_bullet_two_en, contents)
+                self.assertIn(self.content_request_code_timeout_link_text_en, contents)
+
 
     async def assert_forbidden(
             self, class_name, method, display_region=None, user_journey='', sub_user_journey=''):
@@ -282,14 +275,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('CommonEnterAddress', 'POST', 'cy', 'request', 'access-code')
         await self.assert_no_session('CommonEnterAddress', 'POST', 'ni', 'request', 'access-code')
 
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'ni', 'request', 'paper-questionnaire')
-
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'en', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'cy', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonEnterAddress', 'POST', 'ni', 'request', 'continuation-questionnaire')
-
     @unittest_run_loop
     async def test_no_direct_access_no_session_start_common_select_address(self):
         await self.assert_no_session('CommonSelectAddress', 'GET', 'en', 'start', 'change-address')
@@ -330,20 +315,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('CommonSelectAddress', 'POST', 'en', 'request', 'access-code')
         await self.assert_no_session('CommonSelectAddress', 'POST', 'cy', 'request', 'access-code')
         await self.assert_no_session('CommonSelectAddress', 'POST', 'ni', 'request', 'access-code')
-
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'ni', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'ni', 'request', 'paper-questionnaire')
-
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'en', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'cy', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'GET', 'ni', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'en', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'cy', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonSelectAddress', 'POST', 'ni', 'request', 'continuation-questionnaire')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_start_common_confirm_address(self):
@@ -386,20 +357,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('CommonConfirmAddress', 'POST', 'cy', 'request', 'access-code')
         await self.assert_no_session('CommonConfirmAddress', 'POST', 'ni', 'request', 'access-code')
 
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'ni', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'ni', 'request', 'paper-questionnaire')
-
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'en', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'cy', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'GET', 'ni', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'en', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'cy', 'request', 'continuation-questionnaire')
-        await self.assert_no_session('CommonConfirmAddress', 'POST', 'ni', 'request', 'continuation-questionnaire')
-
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_common_ce_manager(self):
         await self.assert_no_session('CommonCEMangerQuestion', 'GET', 'en', 'request', 'access-code')
@@ -408,13 +365,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'en', 'request', 'access-code')
         await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'cy', 'request', 'access-code')
         await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'ni', 'request', 'access-code')
-
-        await self.assert_no_session('CommonCEMangerQuestion', 'GET', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonCEMangerQuestion', 'GET', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonCEMangerQuestion', 'GET', 'ni', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonCEMangerQuestion', 'POST', 'ni', 'request', 'paper-questionnaire')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_common_enter_room_number(self):
@@ -425,22 +375,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('CommonEnterRoomNumber', 'POST', 'cy', 'request', 'access-code')
         await self.assert_no_session('CommonEnterRoomNumber', 'POST', 'ni', 'request', 'access-code')
 
-        await self.assert_no_session('CommonEnterRoomNumber', 'GET', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterRoomNumber', 'GET', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterRoomNumber', 'GET', 'ni', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterRoomNumber', 'POST', 'en', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterRoomNumber', 'POST', 'cy', 'request', 'paper-questionnaire')
-        await self.assert_no_session('CommonEnterRoomNumber', 'POST', 'ni', 'request', 'paper-questionnaire')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_individual_form(self):
-        await self.assert_no_session('RequestIndividualForm', 'GET', 'en')
-        await self.assert_no_session('RequestIndividualForm', 'GET', 'cy', )
-        await self.assert_no_session('RequestIndividualForm', 'GET', 'ni')
-        await self.assert_no_session('RequestIndividualForm', 'POST', 'en')
-        await self.assert_no_session('RequestIndividualForm', 'POST', 'cy',)
-        await self.assert_no_session('RequestIndividualForm', 'POST', 'ni')
-
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_code_household(self):
         await self.assert_no_session('RequestCodeHousehold', 'GET', 'en', request_type='access-code')
@@ -449,15 +383,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('RequestCodeHousehold', 'POST', 'en', request_type='access-code')
         await self.assert_no_session('RequestCodeHousehold', 'POST', 'cy', request_type='access-code')
         await self.assert_no_session('RequestCodeHousehold', 'POST', 'ni', request_type='access-code')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_household_form(self):
-        await self.assert_no_session('RequestHouseholdForm', 'GET', 'en')
-        await self.assert_no_session('RequestHouseholdForm', 'GET', 'cy')
-        await self.assert_no_session('RequestHouseholdForm', 'GET', 'ni')
-        await self.assert_no_session('RequestHouseholdForm', 'POST', 'en')
-        await self.assert_no_session('RequestHouseholdForm', 'POST', 'cy')
-        await self.assert_no_session('RequestHouseholdForm', 'POST', 'ni')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_code_select_how_to_receive(self):
@@ -494,18 +419,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('RequestCommonEnterName', 'POST', 'en', request_type='access-code')
         await self.assert_no_session('RequestCommonEnterName', 'POST', 'cy', request_type='access-code')
         await self.assert_no_session('RequestCommonEnterName', 'POST', 'ni', request_type='access-code')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'en', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'cy', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'ni', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'en', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'cy', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'ni', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'en', request_type='continuation-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'cy', request_type='continuation-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'GET', 'ni', request_type='continuation-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'en', request_type='continuation-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'cy', request_type='continuation-questionnaire')
-        await self.assert_no_session('RequestCommonEnterName', 'POST', 'ni', request_type='continuation-questionnaire')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_common_confirm_send_by_post(self):
@@ -515,24 +428,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'en', request_type='access-code')
         await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'cy', request_type='access-code')
         await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'ni', request_type='access-code')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'GET', 'en', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'GET', 'cy', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'GET', 'ni', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'en', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'cy', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonConfirmSendByPost', 'POST', 'ni', request_type='paper-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'GET', 'en', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'GET', 'cy', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'GET', 'ni', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'POST', 'en', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'POST', 'cy', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonConfirmSendByPost', 'POST', 'ni', request_type='continuation-questionnaire')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_code_sent_by_text(self):
@@ -545,36 +440,6 @@ class TestSessionHandling(TestHelpers):
         await self.assert_no_session('RequestCodeSentByPost', 'GET', 'en', request_type='access-code')
         await self.assert_no_session('RequestCodeSentByPost', 'GET', 'cy', request_type='access-code')
         await self.assert_no_session('RequestCodeSentByPost', 'GET', 'ni', request_type='access-code')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_common_people_in_household(self):
-        await self.assert_no_session('RequestCommonPeopleInHousehold', 'POST', 'en', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonPeopleInHousehold', 'POST', 'cy', request_type='paper-questionnaire')
-        await self.assert_no_session('RequestCommonPeopleInHousehold', 'POST', 'ni', request_type='paper-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonPeopleInHousehold', 'POST', 'en', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonPeopleInHousehold', 'POST', 'cy', request_type='continuation-questionnaire')
-        await self.assert_no_session(
-            'RequestCommonPeopleInHousehold', 'POST', 'ni', request_type='continuation-questionnaire')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_questionnaire_sent(self):
-        await self.assert_no_session('RequestQuestionnaireSent', 'GET', 'en')
-        await self.assert_no_session('RequestQuestionnaireSent', 'GET', 'cy')
-        await self.assert_no_session('RequestQuestionnaireSent', 'GET', 'ni')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_continuation_sent(self):
-        await self.assert_no_session('RequestContinuationSent', 'GET', 'en')
-        await self.assert_no_session('RequestContinuationSent', 'GET', 'cy')
-        await self.assert_no_session('RequestContinuationSent', 'GET', 'ni')
-
-    @unittest_run_loop
-    async def test_no_direct_access_no_session_request_large_print_sent_post(self):
-        await self.assert_no_session('RequestLargePrintSentPost', 'GET', 'en')
-        await self.assert_no_session('RequestLargePrintSentPost', 'GET', 'cy')
-        await self.assert_no_session('RequestLargePrintSentPost', 'GET', 'ni')
 
     @unittest_run_loop
     async def test_session_start_to_fulfilment_to_start(self):

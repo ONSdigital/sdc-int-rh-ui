@@ -38,7 +38,7 @@ class View:
     valid_ew_display_regions = r'{display_region:\ben|cy\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     valid_sub_user_journeys = \
-        r'{sub_user_journey:\blink-address|change-address|access-code|paper-questionnaire|continuation-questionnaire\b}'
+        r'{sub_user_journey:\blink-address|change-address|access-code\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
 
@@ -353,134 +353,6 @@ class ProcessName:
             name_valid = False
 
         return name_valid
-
-
-class ProcessNumberOfPeople:
-
-    @staticmethod
-    def validate_number_of_people(request, data, display_region, request_type):
-
-        number_of_people_valid = True
-        number_of_people_value = data.get('number_of_people')
-
-        if (not number_of_people_value) or (number_of_people_value == ''):
-            logger.info('number_of_people empty',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'],
-                        region_of_site=display_region,
-                        type_of_request=request_type)
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch nifer y bobl yn eich cartref",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_empty'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter the number of people in your household',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_empty'))
-            number_of_people_valid = False
-
-        elif not number_of_people_value.isdecimal():
-            logger.info('number_of_people nan',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'],
-                        region_of_site=display_region,
-                        type_of_request=request_type)
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch rif",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_nan'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter a number',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_nan'))
-            number_of_people_valid = False
-
-        elif request_type == 'continuation-questionnaire':
-            if (display_region == 'ni') and (int(number_of_people_value) < 7):
-                logger.info('number_of_people continuation less than 7',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'],
-                            region_of_site=display_region,
-                            type_of_request=request_type)
-                flash(request, FlashMessage.generate_flash_message('Enter a number greater than 6',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_continuation_low'))
-                number_of_people_valid = False
-
-            elif (not display_region == 'ni') and (int(number_of_people_value) < 6):
-                logger.info('number_of_people continuation less than 6',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'],
-                            region_of_site=display_region,
-                            type_of_request=request_type)
-                if display_region == 'cy':
-                    flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n fwy na 5",
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_low'))
-                else:
-                    flash(request, FlashMessage.generate_flash_message('Enter a number greater than 5',
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_low'))
-                number_of_people_valid = False
-
-            elif int(number_of_people_value) > 30:
-                logger.info('number_of_people continuation greater than 30',
-                            client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-                if display_region == 'cy':
-                    flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n llai na 31",
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_high'))
-                else:
-                    flash(request, FlashMessage.generate_flash_message('Enter a number less than 31',
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_high'))
-                number_of_people_valid = False
-
-        elif int(number_of_people_value) > 30:
-            logger.info('number_of_people greater than 30',
-                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n llai na 31",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_high'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter a number less than 31',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_high'))
-            number_of_people_valid = False
-
-        return number_of_people_valid
-
-    @staticmethod
-    def form_calculation(region, number_of_people, include_household=False, large_print=False):
-        number_of_people = int(number_of_people)
-        number_of_household_forms = 0
-        number_of_continuation_forms = 0
-        number_of_large_print_forms = 0
-
-        # '0' is valid for second properties, but trips up the calculation, so should be treated as '1'
-        if number_of_people == 0:
-            number_of_people = 1
-
-        if large_print:
-            number_of_large_print_forms = math.ceil(number_of_people / 2)
-        else:
-            if region == 'N':
-                offset = 6
-            else:
-                offset = 5
-            if include_household:
-                number_of_household_forms = 1
-            if number_of_people > offset:
-                number_of_continuation_forms = math.ceil((number_of_people - offset) / 5)
-
-        return {'number_of_household_forms': number_of_household_forms,
-                'number_of_continuation_forms': number_of_continuation_forms,
-                'number_of_large_print_forms': number_of_large_print_forms}
 
 
 class FlashMessage:

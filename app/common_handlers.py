@@ -34,26 +34,13 @@ class CommonCommon(View):
                                                                          sub_user_journey=sub_user_journey,
                                                                          display_region=display_region))
         else:
-            if sub_user_journey == 'paper-questionnaire':
-                if (case_type == 'HH' or case_type == 'SPG') and not individual:
-                    raise HTTPFound(
-                        request.app.router['RequestHouseholdForm:get'].url_for(display_region=display_region))
-                else:
-                    raise HTTPFound(
-                        request.app.router['RequestCommonEnterName:get'].url_for(
-                            request_type=sub_user_journey, display_region=display_region))
-            elif sub_user_journey == 'continuation-questionnaire':
+            if (case_type == 'HH' or case_type == 'SPG') and not individual:
                 raise HTTPFound(
-                    request.app.router['RequestCommonPeopleInHousehold:get'].url_for(
-                        request_type=sub_user_journey, display_region=display_region))
+                    request.app.router['RequestCodeHousehold:get'].url_for(display_region=display_region))
             else:
-                if (case_type == 'HH' or case_type == 'SPG') and not individual:
-                    raise HTTPFound(
-                        request.app.router['RequestCodeHousehold:get'].url_for(display_region=display_region))
-                else:
-                    raise HTTPFound(
-                        request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                            request_type=sub_user_journey, display_region=display_region))
+                raise HTTPFound(
+                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                        request_type=sub_user_journey, display_region=display_region))
 
 
 @common_routes.view(r'/' + View.valid_display_regions + '/' + View.valid_user_journeys + '/address-in-scotland/')
@@ -595,15 +582,6 @@ class CommonConfirmAddress(CommonCommon):
 
         if address_confirmation == 'yes':
 
-            if (attributes['censusAddressType'] == 'CE') and (sub_user_journey == 'continuation-questionnaire'):
-                logger.info('continuation form for a CE - rejecting',
-                            **tracking,
-                            sub_journey=sub_user_journey,
-                            census_addr_type=attributes['censusAddressType'])
-                raise HTTPFound(
-                    request.app.router['RequestContinuationNotAHousehold:get'].url_for(
-                        display_region=display_region))
-
             try:
                 country_code_value = attributes['countryCode']
                 uprn = attributes['uprn']
@@ -826,36 +804,22 @@ class CommonCEMangerQuestion(CommonCommon):
             attributes['individual'] = True
             session.changed()
 
-            if sub_user_journey == 'paper-questionnaire':
-                raise HTTPFound(
-                    request.app.router['RequestCommonEnterName:get'].url_for(
-                        request_type=sub_user_journey, display_region=display_region))
-            else:
-                raise HTTPFound(
-                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                        request_type=sub_user_journey, display_region=display_region))
+            raise HTTPFound(
+                request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                    request_type=sub_user_journey, display_region=display_region))
 
         elif resident_or_manager == 'manager':
 
             attributes['individual'] = False
             session.changed()
 
-            if sub_user_journey == 'paper-questionnaire':
-                if display_region == 'ni':
-                    raise HTTPFound(
-                        request.app.router['RequestFormNIManager:get'].url_for())
-                else:
-                    raise HTTPFound(
-                        request.app.router['RequestQuestionnaireManager:get'].url_for(
-                            request_type=sub_user_journey, display_region=display_region))
+            if display_region == 'ni':
+                raise HTTPFound(
+                    request.app.router['RequestCodeNIManager:get'].url_for())
             else:
-                if display_region == 'ni':
-                    raise HTTPFound(
-                        request.app.router['RequestCodeNIManager:get'].url_for())
-                else:
-                    raise HTTPFound(
-                        request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                            request_type=sub_user_journey, display_region=display_region))
+                raise HTTPFound(
+                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                        request_type=sub_user_journey, display_region=display_region))
 
         else:
             # catch all just in case, should never get here

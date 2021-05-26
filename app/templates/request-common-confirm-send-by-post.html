@@ -24,53 +24,25 @@
     {%- set error_radio = {'id': 'no-selection', 'text': _('Select an answer')} -%}
 {%- endif -%}
 
-{%- if (request_type == 'paper-questionnaire') or (request_type == 'continuation-questionnaire') -%}
 {%- set form_options = [
-                    {
-                        'id': 'yes',
-                        'label': {
-                            'text': _('Yes, send the questionnaire by post')
-                        },
-                        'value': 'yes'
+                {
+                    'id': 'yes',
+                    'label': {
+                        'text': _('Yes, send the access code by post')
                     },
-                    {
-                        'id': 'no',
-                        'label': {
-                            'text': _('No, cancel and return')
-                        },
-                        'value': 'no'
-                    }
-                ]
-    -%}
-{%- else -%}
-    {%- set form_options = [
-                    {
-                        'id': 'yes',
-                        'label': {
-                            'text': _('Yes, send the access code by post')
-                        },
-                        'value': 'yes'
+                    'value': 'yes'
+                },
+                {
+                    'id': 'no',
+                    'label': {
+                        'text': _('No, send it by text message')
                     },
-                    {
-                        'id': 'no',
-                        'label': {
-                            'text': _('No, send it by text message')
-                        },
-                        'value': 'no'
-                    }
-                ]
-    -%}
-{%- endif -%}
+                    'value': 'no'
+                }
+            ]
+-%}
 
-{%- if (request_type == 'paper-questionnaire') -%}
-    {%- if (individual == True) -%}
-        {%- set question_title = _('Do you want to send an individual paper questionnaire to this address?') -%}
-    {%- else -%}
-        {%- set question_title = _('Do you want to send a household paper questionnaire to this address?') -%}
-    {%- endif -%}
-{%- elif (request_type == 'continuation-questionnaire') -%}
-    {%- set question_title = _('Do you want to send a continuation questionnaire to this address?') -%}
-{%- elif (individual == True) -%}
+{%- if (individual == True) -%}
     {%- set question_title = _('Do you want to send an individual access code to this address?') -%}
 {%- elif (case_type == 'CE' and address_level == 'E') -%}
     {%- set question_title = _('Do you want to send a new manager access code to this address?') -%}
@@ -115,11 +87,7 @@
                     'classes': 'u-mb-m'
                 })
             -%}
-                {%- if request_type == 'paper-questionnaire' -%}
-                    <p>{{ _('Your individual paper questionnaire will arrive in a white unbranded envelope') }}</p>
-                {%- else -%}
-                    <p>{{ _('A letter with your individual access code will arrive in a brown unbranded envelope') }}</p>
-                {%- endif -%}
+                <p>{{ _('A letter with your individual access code will arrive in a brown unbranded envelope') }}</p>
             {%- endcall -%}
         {%- endif -%}
 
@@ -132,46 +100,6 @@
                 'error': error_radio
             })
         }}
-
-        {%- if (request_type == 'paper-questionnaire') -%}
-
-            {%- set content -%}
-                <p>{{ _('If you are visually impaired, confirm that you need a paper census questionnaire in a larger font.') }}</p>
-
-                {{
-                    onsCheckboxes({
-                        'dontWrap': true,
-                        'checkboxes': [
-                            {
-                                'id': 'large-print-yes',
-                                'classes': 'u-mb-m',
-                                'name': 'request-name-address-large-print',
-                                'label': {
-                                    'text': _('I am visually impaired and need a large-print questionnaire')
-                                },
-                                'value': 'large-print'
-                            }
-                        ]
-                    })
-                }}
-
-            {%- endset -%}
-
-            {%- call onsCollapsible({
-                    'id': 'collapsible',
-                    'title': _('Need a large-print questionnaire?'),
-                    'titleTag': 'h2',
-                    'button': {
-                        'close': _('Hide this'),
-                        'contextSuffix': 'content'
-                    },
-                    'saveState': 'true'
-                })
-            -%}
-                {{ content | safe }}
-            {%- endcall -%}
-
-        {%- endif -%}
 
     {%- endcall -%}
 
