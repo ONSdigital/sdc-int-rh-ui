@@ -1,6 +1,3 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f86365f13b044491b9047a549589109f)](https://www.codacy.com/app/philwhiles/census-rh-ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ONSdigital/census-rh-ui&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/ONSdigital/census-rh-ui.svg?branch=master)](https://travis-ci.org/ONSdigital/census-rh-ui)
-[![codecov](https://codecov.io/gh/ONSdigital/census-rh-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/ONSdigital/census-rh-ui)
 
 # Respondent Home Python Web Application
 Respondent Home is part of ONS's Census Survey Data Collection platform. It allows users to validate their Internet Access Code (IAC) and forwards

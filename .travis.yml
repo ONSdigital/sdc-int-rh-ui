@@ -20,7 +20,7 @@ script:
   - pipenv run coverage report
 
 after_success:
-  - if [ "$BRANCH" != "master" ]; then
+  - if [ "$BRANCH" != "main" ]; then
       ./scripts/docker_push.sh;
     fi
   - pipenv run codecov
