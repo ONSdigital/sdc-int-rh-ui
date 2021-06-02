@@ -308,30 +308,10 @@ class TestUtils(RHTestCase):
     def test_get_call_centre_number(self):
         built_ew = View.get_call_centre_number('en')
         built_cy = View.get_call_centre_number('cy')
-        built_ni = View.get_call_centre_number('ni')
         expected_ew = '0800 141 2021'
         expected_cy = '0800 169 2021'
-        expected_ni = '0800 328 2021'
         self.assertEqual(built_ew, expected_ew)
         self.assertEqual(built_cy, expected_cy)
-        self.assertEqual(built_ni, expected_ni)
-
-    def after_census_day(self, year, month=None, day=None, hour=0, minute=0, second=0):
-        mocked_now_utc = datetime.datetime(year, month, day, hour, minute, second, 0)
-        with mock.patch('app.utils.View.get_now_utc') as mocked_get_now_utc:
-            mocked_get_now_utc.return_value = mocked_now_utc
-            self.assertTrue(View.check_if_after_census_day())
-
-    def before_census_day(self, year, month=None, day=None, hour=0, minute=0, second=0):
-        mocked_now_utc = datetime.datetime(year, month, day, hour, minute, second, 0)
-        with mock.patch('app.utils.View.get_now_utc') as mocked_get_now_utc:
-            mocked_get_now_utc.return_value = mocked_now_utc
-            self.assertFalse(View.check_if_after_census_day())
-
-    def test_check_before_after_census_day(self):
-        self.after_census_day(2021, 3, 22)
-        self.before_census_day(2021, 3, 21)
-        self.before_census_day(2021, 3, 20)
 
     def test_client_ip_valid(self):
         valid_request = {'client_ip': '192.168.0.0, 35.190.0.0, 35.191.10.0'}

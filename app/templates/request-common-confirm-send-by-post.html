@@ -11,7 +11,6 @@
 {%- from "components/collapsible/_macro.njk" import onsCollapsible -%}
 
 {%- set request_common_enter_name_link = url('RequestCommonEnterName:get', display_region=display_region, request_type=request_type) -%}
-{%- set room_number_link = url('CommonEnterRoomNumber:get', display_region=display_region, user_journey='request', sub_user_journey=request_type) -%}
 
 {%- set form =  {
     'method': 'POST',
@@ -44,10 +43,8 @@
 
 {%- if (individual == True) -%}
     {%- set question_title = _('Do you want to send an individual access code to this address?') -%}
-{%- elif (case_type == 'CE' and address_level == 'E') -%}
-    {%- set question_title = _('Do you want to send a new manager access code to this address?') -%}
 {%- else -%}
-    {%- set question_title = _('Do you want to send a new household access code to this address?') -%}
+    {%- set question_title = _('Do you want to send a new access code to this address?') -%}
 {%- endif -%}
 
 {%- block main -%}
@@ -59,15 +56,7 @@
     {%- call onsQuestion({ 'title': question_title }) -%}
 
         <p>
-            {%- if roomNumber -%}
-                {%- if last_name|length > 23 -%}
-                    {{ roomNumber }} {{ first_name }} {{ last_name }}<br>
-                {%- else -%}
-                    {{ first_name }} {{ last_name }}, {{ roomNumber }}<br>
-                {%- endif -%}
-            {%- else -%}
-                {{ first_name }} {{ last_name }}<br>
-            {%- endif -%}
+            {{ first_name }} {{ last_name }}<br>
             {{ addressLine1 }}<br>
             {%- if addressLine2 -%}{{ addressLine2 }}<br>{%- endif -%}
             {%- if addressLine3 -%}{{ addressLine3 }}<br>{%- endif -%}
@@ -75,11 +64,7 @@
             {{ postcode }}
         </p>
 
-        <p class="u-mb-m"><a href="{{ request_common_enter_name_link }}">{{ _('Change name') }}</a>
-            {%- if roomNumber -%}&nbsp;|&nbsp;<a href="{{ room_number_link }}">{{ _('Change flat or room number') }}</a>
-            {%- elif (case_type == 'CE') -%}&nbsp;|&nbsp;<a href="{{ room_number_link }}">{{ _('Add flat or room number') }}</a>
-            {%- endif -%}
-        </p>
+        <p class="u-mb-m"><a href="{{ request_common_enter_name_link }}">{{ _('Change name') }}</a></p>
 
         {%- if (individual == True) -%}
             {%- call

@@ -35,9 +35,7 @@ def create_error_middleware(overrides):
 
             index_resource = request.app.router['Start:get']
 
-            if path_starts_with('/ni'):
-                display_region = 'ni'
-            elif path_starts_with('/cy'):
+            if path_starts_with('/cy'):
                 display_region = 'cy'
             else:
                 display_region = 'en'
@@ -273,13 +271,7 @@ def check_display_region(request):
         'page_url': View.gen_page_url(request)
     }
 
-    if path_starts_with('/ni'):
-        attributes = {
-            **base_attributes,
-            'display_region': 'ni',
-            'page_title': 'Error',
-        }
-    elif path_starts_with('/cy'):
+    if path_starts_with('/cy'):
         attributes = {
             **base_attributes,
             'display_region': 'cy',

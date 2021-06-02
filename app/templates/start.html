@@ -27,16 +27,7 @@
     {%- set error_uac = {'id': 'uac_invalid', 'text': _('Enter a valid access code')} -%}
 {%- endif -%}
 
-{% if display_region == 'ni' %}
-    {% set breadcrumb_items = [
-                {
-                    "url": domain_url_ni,
-                    "text": 'Home'
-                }
-            ]
-    %}
-    {%- set where_code_link = domain_url_ni + '/where-to-find-your-access-code/' -%}
-{% elif display_region == 'cy' %}
+{% if display_region == 'cy' %}
     {% set breadcrumb_items = [
                 {
                     "url": domain_url_cy,
@@ -87,17 +78,6 @@
             'error': error_uac
         })
     }}
-
-    {% if adlocation %}
-        {{
-            onsInput({
-                "type": "hidden",
-                "id": "adlocation",
-                "name": "adlocation",
-                "value": adlocation
-            })
-        }}
-    {% endif %}
 
     {{ onsButton({
         'text': _('Access census'),

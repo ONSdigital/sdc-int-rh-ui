@@ -20,9 +20,6 @@ from .session import get_existing_session, get_session_value
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()
 
-# Limit for last name field to include room number (35 char limit - 10 char room number value max - a comma and a space)
-last_name_char_limit = 23
-
 
 @request_routes.view(r'/' + View.valid_display_regions + '/request/access-code/individual/')
 class RequestCodeIndividual(View):
@@ -57,14 +54,13 @@ class RequestCodeIndividual(View):
                 session.changed()
 
                 attributes = session['attributes']
-                case_type_value = attributes['case_type']
-                if case_type_value:
-                    logger.info('have session and case_type - directing to select method',
+                case_id_value = attributes['case_id']
+                if case_id_value:
+                    logger.info('have session and case_id - directing to select method',
                                 client_ip=request['client_ip'],
                                 client_id=request['client_id'],
                                 trace=request['trace'],
-                                is_individual=session['attributes']['individual'],
-                                type_of_case=case_type_value)
+                                is_individual=session['attributes']['individual'])
                     raise HTTPFound(
                         request.app.router['RequestCodeSelectHowToReceive:get'].url_for(request_type=request_type,
                                                                                         display_region=display_region))
@@ -86,43 +82,6 @@ class RequestCodeIndividual(View):
                                                                      display_region=display_region))
 
 
-@request_routes.view(r'/' + View.valid_display_regions + '/request/access-code/household/')
-class RequestCodeHousehold(View):
-    @aiohttp_jinja2.template('request-code-household.html')
-    async def get(self, request):
-        display_region = request.match_info['display_region']
-
-        await get_existing_session(request, 'request', 'access-code')
-
-        if display_region == 'cy':
-            page_title = 'Gofyn am god mynediad newydd ar gyfer y cartref'
-            locale = 'cy'
-        else:
-            page_title = 'Request new household access code'
-            locale = 'en'
-
-        self.log_entry(request, display_region + '/request/access-code/household')
-        return {
-            'display_region': display_region,
-            'locale': locale,
-            'page_title': page_title,
-            'page_url': View.gen_page_url(request)
-        }
-
-    async def post(self, request):
-        display_region = request.match_info['display_region']
-        request_type = 'access-code'
-        self.log_entry(request, display_region + '/request/access-code/household')
-
-        session = await get_existing_session(request, 'request', 'access-code')
-        session['attributes']['individual'] = False
-        session.changed()
-
-        raise HTTPFound(
-            request.app.router['RequestCodeSelectHowToReceive:get'].url_for(request_type=request_type,
-                                                                            display_region=display_region))
-
-
 @request_routes.view(r'/' + View.valid_display_regions + '/request/access-code/select-how-to-receive/')
 class RequestCodeSelectHowToReceive(View):
     @aiohttp_jinja2.template('request-code-select-how-to-receive.html')
@@ -139,20 +98,16 @@ class RequestCodeSelectHowToReceive(View):
         if display_region == 'cy':
             if attributes['individual']:
                 page_title = 'Dewis sut i anfon cod mynediad unigol'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Dewis sut i gael cod mynediad rheolwr'
             else:
-                page_title = 'Dewis sut i gael cod mynediad y cartref'
+                page_title = 'Select how to receive access code'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_cy + page_title
             locale = 'cy'
         else:
             if attributes['individual']:
                 page_title = 'Select how to receive individual access code'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Select how to receive manager access code'
             else:
-                page_title = 'Select how to receive household access code'
+                page_title = 'Select how to receive access code'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
@@ -313,20 +268,16 @@ class RequestCodeConfirmSendByText(View):
         if display_region == 'cy':
             if attributes['individual']:
                 page_title = 'Cadarnhau i anfon cod mynediad unigol drwy neges destun'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Cadarnhau i anfon cod mynediad rheolwr drwy neges destun'
             else:
-                page_title = 'Cadarnhau i anfon cod mynediad y cartref drwy neges destun'
+                page_title = 'Confirm to send access code by text'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_cy + page_title
             locale = 'cy'
         else:
             if attributes['individual']:
                 page_title = 'Confirm to send individual access code by text'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Confirm to send manager access code by text'
             else:
-                page_title = 'Confirm to send household access code by text'
+                page_title = 'Confirm to send access code by text'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
@@ -377,7 +328,7 @@ class RequestCodeConfirmSendByText(View):
             else:
                 fulfilment_language = 'E'
 
-            logger.info(f"fulfilment query: case_type={attributes['case_type']}, region={attributes['region']}, "
+            logger.info(f"fulfilment query: region={attributes['region']}, "
                         f"individual={fulfilment_individual}",
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -388,7 +339,7 @@ class RequestCodeConfirmSendByText(View):
 
             try:
                 available_fulfilments = await RHService.get_fulfilment(
-                    request, attributes['case_type'], attributes['region'], 'SMS', 'UAC', fulfilment_individual)
+                    request, 'HH', attributes['region'], 'SMS', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
                         if fulfilment['language'] == fulfilment_language:
@@ -525,16 +476,11 @@ class RequestCommonConfirmSendByPost(View):
                 page_title = "Cadarnhau i anfon cod mynediad unigol drwy'r post"
             else:
                 page_title = 'Confirm to send individual access code by post'
-        elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-            if display_region == 'cy':
-                page_title = "Cadarnhau i anfon cod mynediad rheolwr drwy'r post"
-            else:
-                page_title = 'Confirm to send manager access code by post'
         else:
             if display_region == 'cy':
-                page_title = "Cadarnhau i anfon cod mynediad y cartref drwy'r post"
+                page_title = "Confirm to send access code by post"
             else:
-                page_title = 'Confirm to send household access code by post'
+                page_title = 'Confirm to send access code by post'
 
         if request.get('flash'):
             if display_region == 'cy':
@@ -555,9 +501,6 @@ class RequestCommonConfirmSendByPost(View):
             'addressLine3': attributes['addressLine3'],
             'townName': attributes['townName'],
             'postcode': attributes['postcode'],
-            'case_type': attributes['case_type'],
-            'address_level': attributes['address_level'],
-            'roomNumber': attributes['roomNumber'],
             'individual': attributes['individual']
         }
 
@@ -601,18 +544,15 @@ class RequestCommonConfirmSendByPost(View):
             else:
                 fulfilment_language = 'E'
 
-            fulfilment_type = 'UAC'
-
             fulfilment_code_array = []
-            fulfilment_type_array = []
 
             try:
                 available_fulfilments = await RHService.get_fulfilment(
                     request,
-                    attributes['case_type'],
+                    'HH',
                     attributes['region'],
                     'POST',
-                    fulfilment_type,
+                    'UAC',
                     fulfilment_individual)
 
                 if len(available_fulfilments) > 1:
@@ -622,37 +562,20 @@ class RequestCommonConfirmSendByPost(View):
                 else:
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
-                fulfilment_type_array.append(fulfilment_type)
-
-                room_number_value = attributes['roomNumber']
                 logger.info(
-                    f"fulfilment query: case_type={attributes['case_type']}, "
-                    f"fulfilment_type={fulfilment_type_array}, "
-                    f"region={attributes['region']}, individual={fulfilment_individual}",
+                    f"fulfilment query: region={attributes['region']}, individual={fulfilment_individual}",
                     client_ip=request['client_ip'],
                     client_id=request['client_id'],
                     trace=request['trace'],
-                    postcode=attributes['postcode'],
-                    room_number_entered=room_number_value)
-
-                if room_number_value:
-                    if len(attributes['last_name']) < last_name_char_limit:
-                        last_name = attributes['last_name'] + ', ' + room_number_value
-                        title = None
-                    else:
-                        last_name = attributes['last_name']
-                        title = room_number_value
-                else:
-                    last_name = attributes['last_name']
-                    title = None
+                    postcode=attributes['postcode'])
 
                 try:
                     await RHService.request_fulfilment_post(request,
                                                             attributes['case_id'],
                                                             attributes['first_name'],
-                                                            last_name,
+                                                            attributes['last_name'],
                                                             fulfilment_code_array,
-                                                            title)
+                                                            None)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -712,18 +635,14 @@ class RequestCodeSentByText(View):
         if display_region == 'cy':
             if attributes['individual']:
                 page_title = "Mae cod mynediad unigol wedi cael ei anfon drwy neges destun"
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = "Mae cod mynediad rheolwr wedi cael ei anfon drwy neges destun"
             else:
-                page_title = "Mae cod mynediad y cartref wedi cael ei anfon drwy neges destun"
+                page_title = "Access code has been sent by text"
             locale = 'cy'
         else:
             if attributes['individual']:
                 page_title = 'Individual access code has been sent by text'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Manager access code has been sent by text'
             else:
-                page_title = 'Household access code has been sent by text'
+                page_title = 'Access code has been sent by text'
             locale = 'en'
 
         attributes['page_title'] = page_title
@@ -753,18 +672,14 @@ class RequestCodeSentByPost(View):
         if display_region == 'cy':
             if attributes['individual']:
                 page_title = "Caiff cod mynediad unigol ei anfon drwy'r post"
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = "Caiff cod mynediad rheolwr ei anfon drwy'r post"
             else:
-                page_title = "Caiff cod mynediad y cartref ei anfon drwy'r post"
+                page_title = "Access code will be sent by post"
             locale = 'cy'
         else:
             if attributes['individual']:
                 page_title = 'Individual access code will be sent by post'
-            elif (attributes['case_type'] == 'CE') and (attributes['address_level'] == 'E'):
-                page_title = 'Manager access code will be sent by post'
             else:
-                page_title = 'Household access code will be sent by post'
+                page_title = 'Access code will be sent by post'
             locale = 'en'
 
         await invalidate(request)
@@ -783,25 +698,5 @@ class RequestCodeSentByPost(View):
                 'addressLine3': attributes['addressLine3'],
                 'townName': attributes['townName'],
                 'postcode': attributes['postcode'],
-                'case_type': attributes['case_type'],
-                'address_level': attributes['address_level'],
-                'roomNumber': attributes['roomNumber'],
                 'individual': attributes['individual']
-            }
-
-
-@request_routes.view(r'/ni/request/access-code/ce-manager/')
-class RequestCodeNIManager(View):
-    @aiohttp_jinja2.template('request-code-nisra-manager.html')
-    async def get(self, request):
-
-        display_region = 'ni'
-        page_title = 'You need to visit the Communal Establishment Manager Portal'
-        locale = 'en'
-
-        self.log_entry(request, display_region + '/request/access-code/ce-manager')
-
-        return {
-                'page_title': page_title,
-                'locale': locale
             }

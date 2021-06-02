@@ -20,18 +20,10 @@
     {%- set error_radio = {'id': 'no-selection', 'text': _('Select an answer')} -%}
 {%- endif -%}
 
-{%- if case_type == 'CE' -%}
-    {%- if (individual == True) -%}
-        {%- set post_description = _('An unbranded envelope can be addressed to you at the registered address') -%}
-    {%- else -%}
-        {%- set post_description = _('We can only send access codes to the registered address') -%}
-    {%- endif -%}
+{%- if (individual == True) -%}
+    {%- set post_description = _('An unbranded envelope can be addressed to you at the registered address') -%}
 {%- else -%}
-    {%- if (individual == True) -%}
-        {%- set post_description = _('An unbranded envelope can be addressed to you at the registered household address') -%}
-    {%- else -%}
-        {%- set post_description = _('We can only send access codes to the registered household address') -%}
-    {%- endif -%}
+    {%- set post_description = _('We can only send access codes to the registered address') -%}
 {%- endif -%}
 
 {%- set form_options = [
@@ -56,10 +48,8 @@
 
 {%- if (individual == True) -%}
     {%- set question_title = _('How would you like to receive an individual access code?') -%}
-{%- elif (case_type == 'CE' and address_level == 'E') -%}
-    {%- set question_title = _('How would you like to receive a new manager access code?') -%}
 {%- else -%}
-    {%- set question_title = _('How would you like to receive a new household access code?') -%}
+    {%- set question_title = _('How would you like to receive a new access code?') -%}
 {%- endif -%}
 
 {%- block main -%}

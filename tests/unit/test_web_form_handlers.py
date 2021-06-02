@@ -211,52 +211,40 @@ class TestWebFormHandlers(TestHelpers):
     async def test_form_submission_success(self):
         await self.form_submission_success(self.get_webform_en, self.post_webform_en, 'en')
         await self.form_submission_success(self.get_webform_cy, self.post_webform_cy, 'cy')
-        await self.form_submission_success(self.get_webform_ni, self.post_webform_ni, 'ni')
 
     @unittest_run_loop
     async def test_form_submission_error(self):
         await self.form_submission_error(self.post_webform_en, 'en', 400)
         await self.form_submission_error(self.post_webform_cy, 'cy', 400)
-        await self.form_submission_error(self.post_webform_ni, 'ni', 400)
 
     @unittest_run_loop
     async def test_form_submission_error_429(self):
         await self.form_submission_error_429(self.post_webform_en, 'en')
         await self.form_submission_error_429(self.post_webform_cy, 'cy')
-        await self.form_submission_error_429(self.post_webform_ni, 'ni')
 
     @unittest_run_loop
     async def test_form_submission_incomplete(self):
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'country')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'country')
-        await self.form_submission_incomplete(self.post_webform_ni, 'ni', 'country')
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'category')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'category')
-        await self.form_submission_incomplete(self.post_webform_ni, 'ni', 'category')
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'description')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'description')
-        await self.form_submission_incomplete(self.post_webform_ni, 'ni', 'description')
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'name')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'name')
-        await self.form_submission_incomplete(self.post_webform_ni, 'ni', 'name')
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'email')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'email')
-        await self.form_submission_incomplete(self.post_webform_ni, 'ni', 'email')
 
     @unittest_run_loop
     async def test_form_submission_name_invalid(self):
         await self.form_submission_name_invalid(self.post_webform_en, 'en', '')
         await self.form_submission_name_invalid(self.post_webform_cy, 'cy', '')
-        await self.form_submission_name_invalid(self.post_webform_ni, 'ni', '')
         await self.form_submission_name_invalid(self.post_webform_en, 'en', ' ')
         await self.form_submission_name_invalid(self.post_webform_cy, 'cy', ' ')
-        await self.form_submission_name_invalid(self.post_webform_ni, 'ni', ' ')
 
     @unittest_run_loop
     async def test_form_submission_email_invalid(self):
         await self.form_submission_email_invalid(self.post_webform_en, 'en', 'cheese scone')
         await self.form_submission_email_invalid(self.post_webform_cy, 'cy', 'cheese scone')
-        await self.form_submission_email_invalid(self.post_webform_ni, 'ni', 'cheese scone')
         await self.form_submission_email_invalid(self.post_webform_en, 'en', 'cheese@scone')
         await self.form_submission_email_invalid(self.post_webform_cy, 'cy', 'cheese@scone')
-        await self.form_submission_email_invalid(self.post_webform_ni, 'ni', 'cheese@scone')

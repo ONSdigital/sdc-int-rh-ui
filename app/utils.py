@@ -1,6 +1,5 @@
 import string
 import re
-import math
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
@@ -30,21 +29,14 @@ OBSCURE_WHITESPACE = (
 uk_prefix = '44'
 uk_zone = timezone('Europe/London')
 
-census_day = date(2021, 3, 21)
-
 
 class View:
-    valid_display_regions = r'{display_region:\ben|cy|ni\b}'
-    valid_ew_display_regions = r'{display_region:\ben|cy\b}'
+    valid_display_regions = r'{display_region:\ben|cy\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     valid_sub_user_journeys = \
-        r'{sub_user_journey:\blink-address|change-address|access-code\b}'
+        r'{sub_user_journey:\baccess-code\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
-
-    @staticmethod
-    def get_now_utc():
-        return datetime.utcnow()
 
     @staticmethod
     def single_client_ip(request):
@@ -84,7 +76,7 @@ class View:
     @staticmethod
     def gen_page_url(request):
         full_url = str(request.rel_url)
-        if full_url[:3] == '/en' or full_url[:3] == '/cy' or full_url[:3] == '/ni':
+        if full_url[:3] == '/en' or full_url[:3] == '/cy':
             generic_url = full_url[3:]
         else:
             generic_url = full_url
@@ -92,50 +84,31 @@ class View:
 
     @staticmethod
     def get_call_centre_number(display_region):
-        if display_region == 'ni':
-            call_centre_number = '0800 328 2021'
-        elif display_region == 'cy':
+        if display_region == 'cy':
             call_centre_number = '0800 169 2021'
         else:
             call_centre_number = '0800 141 2021'
         return call_centre_number
 
     @staticmethod
-    def check_if_after_census_day():
-        wall_clock = utc.localize(View.get_now_utc()).astimezone(uk_zone)
-        now_date = wall_clock.date()
-        if now_date > census_day:
-            after_census_day = True
-        else:
-            after_census_day = False
-        return after_census_day
-
-    @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
         base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN']
         base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_CY']
-        base_ni = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/ni'
 
         link = '/'
 
         if requested_link == 'census-home':
-            if display_region == 'ni':
-                link = base_ni
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy
             else:
                 link = base_en
         elif requested_link == 'contact-us':
-            if display_region == 'ni':
-                link = base_ni + '/contact-us/'
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy + '/cysylltu-a-ni/'
             else:
                 link = base_en + '/contact-us/'
         elif requested_link == 'privacy':
-            if display_region == 'ni':
-                link = base_ni + '/privacy-and-data-protection/'
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy + '/preifatrwydd-a-diogelu-data/'
             else:
                 link = base_en + '/privacy-and-data-protection/'
@@ -406,10 +379,11 @@ class AddressIndex(View):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
+        headers = {'Authorization': request.app['ADDRESS_INDEX_SVC_JWT']}
         return await View._make_request(request,
                                         'GET',
                                         url,
-                                        auth=request.app['ADDRESS_INDEX_SVC_AUTH'],
+                                        headers=headers,
                                         return_json=True)
 
     @staticmethod
@@ -417,10 +391,11 @@ class AddressIndex(View):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
+        headers = {'Authorization': request.app['ADDRESS_INDEX_SVC_JWT']}
         return await View._make_request(request,
                                         'GET',
                                         url,
-                                        auth=request.app['ADDRESS_INDEX_SVC_AUTH'],
+                                        headers=headers,
                                         return_json=True)
 
 
