@@ -17,17 +17,17 @@ class InvalidIACError(Exception):
 
 class SessionTimeout(Exception):
     """Raised when users session expires in journeys requiring sessions"""
-    def __init__(self, user_journey, sub_user_journey=None):
+    def __init__(self, user_journey, request_type=None):
         super().__init__()
         self.user_journey = user_journey
-        self.sub_user_journey = sub_user_journey
+        self.request_type = request_type
 
 
 class TooManyRequests(Exception):
     """Raised when request fulfilment returns a 429"""
-    def __init__(self, sub_user_journey):
+    def __init__(self, request_type):
         super().__init__()
-        self.sub_user_journey = sub_user_journey
+        self.request_type = request_type
 
 
 class TooManyRequestsWebForm(Exception):

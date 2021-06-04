@@ -1,6 +1,6 @@
 {% extends 'base-' + display_region + '.html' %}
 
-{% set request_enter_address_url = url('CommonEnterAddress:get', display_region=display_region, user_journey=user_journey, sub_user_journey=sub_user_journey) %}
+{% set request_enter_address_url = url('RequestEnterAddress:get', display_region=display_region, user_journey=user_journey, request_type=request_type) %}
 
 {% from 'components/panel/_macro.njk' import onsPanel %}
 

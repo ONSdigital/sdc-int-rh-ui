@@ -790,12 +790,12 @@ class RHTestCase(AioHTTPTestCase):
             'name_first_name': 'Bob', 'action[save_continue]': '',
         }
 
-        self.request_common_enter_name_form_data_overlong_firstname = {
+        self.request_common_enter_name_form_data_overlength_firstname = {
             'name_first_name': 'Robert Albert Everest Reginald Bartholomew', 'name_last_name': 'Bobbington',
             'action[save_continue]': '',
         }
 
-        self.request_common_enter_name_form_data_overlong_lastname = {
+        self.request_common_enter_name_form_data_overlength_lastname = {
             'name_first_name': 'Bob', 'name_last_name': 'Bobbington-Browning Fortesque-Smythe',
             'action[save_continue]': '',
         }
@@ -827,50 +827,30 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_individual_page_title_en = '<title>Request individual access code - Census 2021</title>'
-        self.content_request_individual_title_en = 'Request an individual access code'
-        self.content_request_individual_secondary_en = 'You can choose to receive your new access code by text or post.'
-        self.content_request_individual_page_title_cy = '<title>Gofyn am god mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_individual_title_cy = "Gofyn am god mynediad unigol"
-        self.content_request_individual_secondary_cy = \
-            "Gallwch chi ddewis cael eich cod mynediad newydd drwy neges destun neu drwy\\\'r post."
-
         self.content_request_enter_address_page_title_en = '<title>Enter address - Census 2021</title>'
         self.content_request_enter_address_page_title_error_en = '<title>Error: Enter address - Census 2021</title>'
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request an access code, we need your address'
-        self.content_request_individual_code_enter_address_secondary_en = \
-            'To request an individual access code, we need your address'
         self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - Cyfrifiad 2021</title>'
         self.content_request_enter_address_page_title_error_cy = '<title>Gwall: Nodi cyfeiriad - Cyfrifiad 2021</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             "I ofyn am god mynediad, bydd angen eich cyfeiriad arnom"
-        self.content_request_individual_code_enter_address_secondary_cy = \
-            "I ofyn am god mynediad unigol, bydd angen eich cyfeiriad arnom"
 
-        self.content_request_code_select_how_to_receive_individual_response_question_en = \
-            'Need to answer separately from your household?'
         self.content_request_code_select_how_to_receive_error_en = 'Select an answer'
         self.content_request_code_select_how_to_receive_secondary_en = 'Select how to send access code'
         self.content_request_code_select_how_to_receive_option_text_en = 'Text message'
         self.content_request_code_select_how_to_receive_option_post_en = 'Post'
         self.content_request_code_select_how_to_receive_option_post_hint_en = \
             'We can only send access codes to the registered address'
-        self.content_request_code_select_how_to_receive_option_post_hint_individual_en = \
-            'An unbranded envelope can be addressed to you at the registered address'
 
-        self.content_request_code_select_how_to_receive_individual_response_question_cy = \
-            "Angen ateb ar wahân i aelodau eich cartref?"
         self.content_request_code_select_how_to_receive_error_cy = "Dewiswch ateb"
         self.content_request_code_select_how_to_receive_secondary_cy = "Dewiswch sut i anfon y cod mynediad"
         self.content_request_code_select_how_to_receive_option_text_cy = "Neges destun"
         self.content_request_code_select_how_to_receive_option_post_cy = "Post"
         self.content_request_code_select_how_to_receive_option_post_hint_cy = \
             "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
-        self.content_request_code_select_how_to_receive_option_post_hint_individual_cy = \
-            "Gall amlen blaen gael ei hanfon atoch chi yn y cyfeiriad cofrestredig"
 
         self.content_request_code_select_how_to_receive_page_title_en = \
             '<title>Select how to receive access code - Census 2021</title>'
@@ -884,19 +864,6 @@ class RHTestCase(AioHTTPTestCase):
             '<title>Gwall: Select how to receive access code - Cyfrifiad 2021</title>'
         self.content_request_code_select_how_to_receive_title_cy = \
             "How would you like to receive a new access code?"
-
-        self.content_request_code_select_how_to_receive_individual_page_title_en = \
-            '<title>Select how to receive individual access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_page_title_error_en = \
-            '<title>Error: Select how to receive individual access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_title_en = \
-            'How would you like to receive an individual access code?'
-        self.content_request_code_select_how_to_receive_individual_page_title_cy = \
-            '<title>Dewis sut i anfon cod mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_page_title_error_cy = \
-            '<title>Gwall: Dewis sut i anfon cod mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_title_cy = \
-            "Sut hoffech chi gael cod mynediad unigol?"
 
         self.content_request_code_enter_mobile_page_title_en = '<title>Enter mobile number - Census 2021</title>'
         self.content_request_code_enter_mobile_page_title_error_en = \
@@ -923,41 +890,24 @@ class RHTestCase(AioHTTPTestCase):
             '<title>Confirm to send access code by text - Census 2021</title>'
         self.content_request_code_confirm_send_by_text_page_title_error_en = \
             '<title>Error: Confirm to send access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_en = \
-            '<title>Confirm to send individual access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_error_en = \
-            '<title>Error: Confirm to send individual access code by text - Census 2021</title>'
         self.content_request_code_confirm_send_by_text_title_en = 'Is this mobile number correct?'
         self.content_request_code_confirm_send_by_text_error_en = 'Select an answer'
         self.content_request_code_confirm_send_by_text_page_title_cy = \
             '<title>Confirm to send access code by text - Cyfrifiad 2021</title>'
         self.content_request_code_confirm_send_by_text_page_title_error_cy = \
             '<title>Gwall: Confirm to send access code by text - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_cy = \
-            '<title>Cadarnhau i anfon cod mynediad unigol drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad unigol drwy neges destun - Cyfrifiad 2021</title>'
         self.content_request_code_confirm_send_by_text_title_cy = \
             "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
         self.content_request_code_confirm_send_by_text_error_cy = "Dewiswch ateb"
 
         self.content_request_code_sent_by_text_page_title_en = \
             '<title>Access code has been sent by text - Census 2021</title>'
-        self.content_request_code_sent_by_text_page_title_individual_en = \
-            '<title>Individual access code has been sent by text - Census 2021</title>'
         self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
-        self.content_request_code_sent_by_text_secondary_individual_en = \
-            'The text message with an individual access code should arrive soon for you to start your census'
         self.content_request_code_sent_by_text_secondary_en = \
             'The text message with a new access code should arrive soon for you to start your census'
         self.content_request_code_sent_by_text_page_title_cy = \
             '<title>Access code has been sent by text - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_text_page_title_individual_cy = \
-            '<title>Mae cod mynediad unigol wedi cael ei anfon drwy neges destun - Cyfrifiad 2021</title>'
         self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
-        self.content_request_code_sent_by_text_secondary_individual_cy = \
-            "Dylai\\xe2\\x80\\x99r neges destun yn cynnwys cod mynediad unigol gyrraedd yn fuan er mwyn " \
-            "i chi ddechrau eich cyfrifiad"
         self.content_request_code_sent_by_text_secondary_cy = \
             "The text message with a new access code should arrive soon for you to start your census"
 
@@ -984,70 +934,43 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_common_enter_name_error_last_name_overlength_cy = \
             "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
 
-        self.content_request_code_confirm_send_by_post_page_title_individual_en = \
-            '<title>Confirm to send individual access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_individual_en = \
-            '<title>Error: Confirm to send individual access code by post - Census 2021</title>'
         self.content_request_code_confirm_send_by_post_page_title_en = \
             '<title>Confirm to send access code by post - Census 2021</title>'
         self.content_request_code_confirm_send_by_post_page_title_error_en = \
             '<title>Error: Confirm to send access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_title_individual_en = \
-            'Do you want to send an individual access code to this address?'
         self.content_request_code_confirm_send_by_post_title_en = \
             'Do you want to send a new access code to this address?'
         self.content_request_common_confirm_send_by_post_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_post_individual_message_en = \
-            'A letter with your individual access code will arrive in a brown unbranded envelope'
         self.content_request_code_confirm_send_by_post_option_yes_en = 'Yes, send the access code by post'
         self.content_request_code_confirm_send_by_post_option_no_en = 'No, send it by text message'
-        self.content_request_code_confirm_send_by_post_page_title_individual_cy = \
-            '<title>Cadarnhau i anfon cod mynediad unigol drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_individual_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad unigol drwy&#39;r post - Cyfrifiad 2021</title>'
         self.content_request_code_confirm_send_by_post_page_title_cy = \
             '<title>Confirm to send access code by post - Cyfrifiad 2021</title>'
         self.content_request_code_confirm_send_by_post_page_title_error_cy = \
             '<title>Gwall: Confirm to send access code by post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_title_individual_cy = \
-            "Ydych chi am anfon cod mynediad unigol i\\\'r cyfeiriad hwn?"
         self.content_request_code_confirm_send_by_post_title_cy = \
             "Do you want to send a new access code to this address?"
         self.content_request_common_confirm_send_by_post_error_cy = "Dewiswch ateb"
-        self.content_request_code_confirm_send_by_post_individual_message_cy = \
-            "Bydd llythyr yn cynnwys eich cod mynediad unigol yn cyrraedd mewn amlen blaen frown"
-        self.content_request_questionnaire_confirm_send_by_post_individual_message_cy = \
-            "Bydd eich holiadur papur i unigolion yn cyrraedd mewn amlen blaen wen"
         self.content_request_code_confirm_send_by_post_option_yes_cy = "Ydw, anfonwch y cod mynediad drwy\\\'r post"
         self.content_request_code_confirm_send_by_post_option_no_cy = \
             "Nac ydw, anfonwch y cod mynediad drwy neges destun"
 
         self.content_request_code_sent_by_post_page_title_en = \
             '<title>Access code will be sent by post - Census 2021</title>'
-        self.content_request_code_sent_by_post_page_title_individual_en = \
-            '<title>Individual access code will be sent by post - Census 2021</title>'
         self.content_request_code_hh_region_e_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
         self.content_request_code_hh_region_w_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_secondary_individual_en = \
-            'The letter with an individual access code for you to start the census should arrive within 5 working days'
         self.content_request_code_sent_post_secondary_household_en = \
             'The letter with a new household access code for you to start the census should arrive ' \
             'within 5 working days'
         self.content_request_code_sent_by_post_page_title_cy = \
             '<title>Access code will be sent by post - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_post_page_title_individual_cy = \
-            '<title>Caiff cod mynediad unigol ei anfon drwy&#39;r post - Cyfrifiad 2021</title>'
         self.content_request_code_hh_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_secondary_individual_cy = \
-            "Dylai\\\'r llythyr gyda chod mynediad unigol i chi ddechrau\\\'r cyfrifiad " \
-            "gyrraedd cyn pen 5 diwrnod gwaith"
         self.content_request_code_sent_post_secondary_cy = \
             "Dylai\\\'r llythyr gyda chod mynediad cartref newydd i chi ddechrau\\\'r cyfrifiad " \
             "gyrraedd cyn pen 5 diwrnod gwaith"
@@ -1057,216 +980,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.content_request_timeout_error_en = 're-enter your postcode'
         self.content_request_timeout_error_cy = 'nodi eich cod post eto'
-
-        # Start Request Access Code
-
-        # URLs
-
-        self.get_request_access_code_enter_address_en = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_enter_address_cy = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_address_en = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_address_cy = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_select_address_en = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_select_address_cy = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_select_address_en = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_select_address_cy = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_confirm_address_en = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_confirm_address_cy = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_confirm_address_en = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_confirm_address_cy = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.get_request_access_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.post_request_access_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.post_request_access_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-
-        self.get_request_access_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_access_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_access_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_access_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.get_request_access_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='en')
-        self.get_request_access_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='cy')
-        self.post_request_access_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='en')
-        self.post_request_access_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='cy')
-
-        self.post_request_access_code_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_access_code_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.post_request_access_code_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='en')
-        self.post_request_access_code_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='cy')
-
-        # Start Request Individual Code
-
-        # URLs
-
-        self.get_request_individual_code_en = self.app.router['RequestCodeIndividual:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_individual_code_cy = self.app.router['RequestCodeIndividual:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.post_request_individual_code_en = self.app.router['RequestCodeIndividual:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_cy = self.app.router['RequestCodeIndividual:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.get_request_individual_code_enter_address_en = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_enter_address_cy = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_enter_address_en = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_enter_address_cy = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_select_address_en = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_select_address_cy = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_select_address_en = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_select_address_cy = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_confirm_address_en = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_confirm_address_cy = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_confirm_address_en = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_confirm_address_cy = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.get_request_individual_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.post_request_individual_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.post_request_individual_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-
-        self.get_request_individual_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_individual_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_individual_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.get_request_individual_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='en')
-        self.get_request_individual_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='cy')
-        self.post_request_individual_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='en')
-        self.post_request_individual_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='cy')
-
-        self.post_request_individual_code_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-
-        self.post_request_individual_code_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='en')
-        self.post_request_individual_code_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='cy')
 
         # Start Web Form
 
@@ -1312,16 +1025,16 @@ class RHTestCase(AioHTTPTestCase):
         # yapf: enable
 
     # URL functions
-    def get_url_from_class(self, class_name, method_type, display_region=None, query=None):
+    def get_url_from_class(self, class_name, method_type, display_region=None, request_type=None):
         if display_region:
-            if query:
-                url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region).\
-                    with_query(query)
+            if request_type:
+                url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region,
+                                                                              request_type=request_type)
             else:
                 url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region)
         else:
-            if query:
-                url = self.app.router[class_name + ':' + method_type].url_for().with_query(query)
+            if request_type:
+                url = self.app.router[class_name + ':' + method_type].url_for(request_type=request_type)
             else:
                 url = self.app.router[class_name + ':' + method_type].url_for()
         return url

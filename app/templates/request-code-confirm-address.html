@@ -10,7 +10,7 @@
 {%- set form =  {
     'method': 'POST',
     'attributes': {
-        'action': url('CommonConfirmAddress:post', display_region=display_region, user_journey=user_journey, sub_user_journey=sub_user_journey)
+        'action': url('RequestConfirmAddress:post', display_region=display_region, user_journey=user_journey, request_type=request_type)
     }
 } -%}
 

@@ -220,10 +220,10 @@ class StartConfirmAddress(StartCommon):
                                           session.get('adlocation'))
 
         elif address_confirmation == 'No':
-            raise HTTPFound(request.app.router['CommonEnterAddress:get'].url_for(
+            raise HTTPFound(request.app.router['RequestEnterAddress:get'].url_for(
                 display_region=display_region,
                 user_journey='start',
-                sub_user_journey='change-address'
+                request_type=request_type
             ))
 
         else:

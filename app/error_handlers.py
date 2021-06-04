@@ -53,9 +53,9 @@ def create_error_middleware(overrides):
         except InvalidAccessCode:
             return await invalid_access_code(request)
         except SessionTimeout as ex:
-            return await session_timeout(request, ex.user_journey, ex.sub_user_journey)
+            return await session_timeout(request, ex.user_journey, ex.request_type)
         except TooManyRequests as ex:
-            return await too_many_requests(request, ex.sub_user_journey)
+            return await too_many_requests(request, ex.request_type)
         except TooManyRequestsWebForm:
             return await too_many_requests_web_form(request)
         except TooManyRequestsEQLaunch:
@@ -180,9 +180,9 @@ async def forbidden(request):
     return jinja.render_template('error-forbidden.html', request, attributes, status=403)
 
 
-async def too_many_requests(request, sub_user_journey: str):
+async def too_many_requests(request, request_type: str):
     attributes = check_display_region(request)
-    attributes['sub_user_journey'] = sub_user_journey
+    attributes['request_type'] = request_type
     await invalidate(request)
     return jinja.render_template('request-too-many-requests.html', request, attributes, status=429)
 
@@ -200,14 +200,14 @@ async def too_many_requests_eq_launch(request):
     return jinja.render_template('start-too-many-requests.html', request, attributes, status=429)
 
 
-async def session_timeout(request, user_journey: str, sub_user_journey: str):
+async def session_timeout(request, user_journey: str, request_type: str):
     attributes = check_display_region(request)
     attributes['timeout'] = 'true'
     if user_journey == 'start':
         return jinja.render_template('start-timeout.html', request, attributes, status=403)
     else:
         attributes['user_journey'] = user_journey
-        attributes['sub_user_journey'] = sub_user_journey
+        attributes['request_type'] = request_type
         return jinja.render_template('request-timeout.html', request, attributes, status=403)
 
 

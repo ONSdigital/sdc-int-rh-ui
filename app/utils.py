@@ -386,18 +386,6 @@ class AddressIndex(View):
                                         headers=headers,
                                         return_json=True)
 
-    @staticmethod
-    async def get_ai_uprn(request, uprn):
-        ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
-        ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
-        url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
-        headers = {'Authorization': request.app['ADDRESS_INDEX_SVC_JWT']}
-        return await View._make_request(request,
-                                        'GET',
-                                        url,
-                                        headers=headers,
-                                        return_json=True)
-
 
 class RHService(View):
 
@@ -407,37 +395,6 @@ class RHService(View):
         return await View._make_request(request,
                                         'GET',
                                         f'{rhsvc_url}/cases/uprn/{uprn}',
-                                        return_json=True)
-
-    @staticmethod
-    async def post_link_uac(request, uac, address):
-        uac_hash = uac
-        logger.info('request linked case',
-                    uac_hash=uac_hash,
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    country_code=address['countryCode'],
-                    postcode_value=address['postcode'],
-                    uprn_value=address['uprn'])
-        rhsvc_url = request.app['RHSVC_URL']
-        address_json = {
-            "addressLine1": address['addressLine1'],
-            "addressLine2": address['addressLine2'],
-            "addressLine3": address['addressLine3'],
-            "townName": address['townName'],
-            "region": address['countryCode'],
-            "postcode": address['postcode'],
-            "uprn": address['uprn'],
-            "estabType": address['censusEstabType'],
-            "addressType": address['censusAddressType']
-        }
-        url = f'{rhsvc_url}/uacs/{uac_hash}/link'
-        return await View._make_request(request,
-                                        'POST',
-                                        url,
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=address_json,
                                         return_json=True)
 
     @staticmethod
@@ -500,28 +457,6 @@ class RHService(View):
                                         'GET',
                                         f'{rhsvc_url}/uacs/{uac_hash}',
                                         auth=request.app['RHSVC_AUTH'],
-                                        return_json=True)
-
-    @staticmethod
-    async def post_case_create(request, address):
-        rhsvc_url = request.app['RHSVC_URL']
-        rhsvc_auth = request.app['RHSVC_AUTH']
-        case_json = {
-            'uprn': address['uprn'],
-            'addressLine1': address['addressLine1'],
-            'addressLine2': address['addressLine2'],
-            'addressLine3': address['addressLine3'],
-            'townName': address['townName'],
-            'postcode': address['postcode'],
-            'region': address['countryCode'],
-            'estabType': address['censusEstabType'],
-            'addressType': address['censusAddressType']
-        }
-        return await View._make_request(request,
-                                        'POST',
-                                        f'{rhsvc_url}/cases/create',
-                                        auth=rhsvc_auth,
-                                        request_json=case_json,
                                         return_json=True)
 
     @staticmethod
