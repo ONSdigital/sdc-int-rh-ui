@@ -69,13 +69,9 @@ class BaseConfig:
     WEBCHAT_SVC_URL = env('WEBCHAT_SVC_URL')
 
     ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL')
-    ADDRESS_INDEX_SVC_AUTH = (env('ADDRESS_INDEX_SVC_USERNAME'), env('ADDRESS_INDEX_SVC_PASSWORD'))
+    ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='')
     ADDRESS_INDEX_EPOCH = env('ADDRESS_INDEX_EPOCH', default='')
 
-    AD_LOOK_UP_SVC_URL = env('AD_LOOK_UP_SVC_URL')
-    AD_LOOK_UP_SVC_AUTH = (env('AD_LOOK_UP_SVC_USERNAME'), env('AD_LOOK_UP_SVC_PASSWORD'))
-    AD_LOOK_UP_SVC_APIKEY = env('AD_LOOK_UP_SVC_APIKEY')
-    AD_LOOK_UP_SVC_APPID = env('AD_LOOK_UP_SVC_APPID')
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
 
@@ -124,15 +120,9 @@ class DevelopmentConfig:
     )  # yapf: disable
 
     ADDRESS_INDEX_SVC_URL = env.str('ADDRESS_INDEX_SVC_URL', default='http://localhost:9000')
-    ADDRESS_INDEX_SVC_AUTH = (env.str('ADDRESS_INDEX_SVC_USERNAME', default='admin'),
-                              env.str('ADDRESS_INDEX_SVC_PASSWORD', default='secret'))
+    ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='secret')
     ADDRESS_INDEX_EPOCH = env.str('ADDRESS_INDEX_EPOCH', default='')
 
-    AD_LOOK_UP_SVC_URL = env.str('AD_LOOK_UP_SVC_URL', default='http://localhost:8071/v1')
-    AD_LOOK_UP_SVC_AUTH = (env.str('AD_LOOK_UP_SVC_USERNAME', default='admin'),
-                           env.str('AD_LOOK_UP_SVC_PASSWORD', default='secret'))
-    AD_LOOK_UP_SVC_APIKEY = env.str('AD_LOOK_UP_SVC_APIKEY', default='apikey')
-    AD_LOOK_UP_SVC_APPID = env.str('AD_LOOK_UP_SVC_APPID', default='appid')
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
 
@@ -169,11 +159,7 @@ class TestingConfig:
     WEBCHAT_SVC_URL = 'https://www.timeforstorm.com/IM/endpoint/client/5441/ONSWebchat/ce033298af0c07067a77b7940c011ec8ef670d66b7fe15c5776a16e205478221'
 
     ADDRESS_INDEX_SVC_URL = 'http://localhost:9000'
-    ADDRESS_INDEX_SVC_AUTH = ('admin', 'secret')
+    ADDRESS_INDEX_SVC_JWT = 'secret'
     ADDRESS_INDEX_EPOCH = ''
 
-    AD_LOOK_UP_SVC_URL = 'http://localhost:8071/v1'
-    AD_LOOK_UP_SVC_AUTH = ('admin', 'secret')
-    AD_LOOK_UP_SVC_APIKEY = 'apikey'
-    AD_LOOK_UP_SVC_APPID = 'appid'
     EQ_SALT = 's3cr3tS4lt'

@@ -1,7 +1,6 @@
 {% extends 'base-' + display_region + '.html' %}
 
-{% set request_access_code_link = url('CommonEnterAddress:get', display_region=display_region, user_journey='request', sub_user_journey='access-code') %}
-{% set request_individual_code_link = url('RequestCodeIndividual:get', display_region=display_region) %}
+{% set request_access_code_link = url('RequestEnterAddress:get', display_region=display_region, user_journey='request', request_type='access-code') %}
 
 {% from 'components/uac/_macro.njk' import onsUACInput %}
 {% from 'components/button/_macro.njk' import onsButton %}
@@ -27,16 +26,7 @@
     {%- set error_uac = {'id': 'uac_invalid', 'text': _('Enter a valid access code')} -%}
 {%- endif -%}
 
-{% if display_region == 'ni' %}
-    {% set breadcrumb_items = [
-                {
-                    "url": domain_url_ni,
-                    "text": 'Home'
-                }
-            ]
-    %}
-    {%- set where_code_link = domain_url_ni + '/where-to-find-your-access-code/' -%}
-{% elif display_region == 'cy' %}
+{% if display_region == 'cy' %}
     {% set breadcrumb_items = [
                 {
                     "url": domain_url_cy,
@@ -88,17 +78,6 @@
         })
     }}
 
-    {% if adlocation %}
-        {{
-            onsInput({
-                "type": "hidden",
-                "id": "adlocation",
-                "name": "adlocation",
-                "value": adlocation
-            })
-        }}
-    {% endif %}
-
     {{ onsButton({
         'text': _('Access census'),
         'classes': 'u-mb-xl',
@@ -110,30 +89,5 @@
     {% autoescape false %}
         <p>{{ _('You can %(open)srequest a new access code%(close)s to start a new census if you have lost or not received an access code. This can be sent to you by text or post.', open='<a href="%s">' % request_access_code_link, close='</a>')|safe }}</p>
     {% endautoescape %}
-
-    {% set content %}
-        {% autoescape false %}
-            <p>{{ _('If you need to answer separately from the people you live with, you can %(open)srequest an individual access code%(close)s to start a separate census.', open='<a href="%s">' % request_individual_code_link, close='</a>')|safe }}</p>
-        {% endautoescape %}
-        {% call onsPanel({
-                'type': 'warn'
-            })
-        %}
-        <p><strong>{{ _('Someone in your household must still complete a census using a household access code')}}</strong></p>
-        {% endcall %}
-    {% endset %}
-
-    {% call onsCollapsible({
-            'id': 'collapsible',
-            'title': _('Need to answer separately from your household?'),
-            'titleTag': 'h2',
-            'button': {
-                'close': _('Hide this'),
-                'contextSuffix': 'content'
-            }
-        })
-    %}
-        {{ content | safe }}
-    {% endcall %}
 
 {% endblock %}

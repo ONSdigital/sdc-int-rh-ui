@@ -7,8 +7,6 @@
 {%- from 'components/button/_macro.njk' import onsButton -%}
 {%- from 'components/radios/_macro.njk' import onsRadios -%}
 
-{%- set request_individual_code_link = url('RequestCodeIndividual:get', display_region=display_region) -%}
-
 {%- set form =  {
     'method': 'POST',
     'attributes': {
@@ -20,19 +18,7 @@
     {%- set error_radio = {'id': 'no-selection', 'text': _('Select an answer')} -%}
 {%- endif -%}
 
-{%- if case_type == 'CE' -%}
-    {%- if (individual == True) -%}
-        {%- set post_description = _('An unbranded envelope can be addressed to you at the registered address') -%}
-    {%- else -%}
-        {%- set post_description = _('We can only send access codes to the registered address') -%}
-    {%- endif -%}
-{%- else -%}
-    {%- if (individual == True) -%}
-        {%- set post_description = _('An unbranded envelope can be addressed to you at the registered household address') -%}
-    {%- else -%}
-        {%- set post_description = _('We can only send access codes to the registered household address') -%}
-    {%- endif -%}
-{%- endif -%}
+{%- set post_description = _('We can only send access codes to the registered address') -%}
 
 {%- set form_options = [
         {
@@ -54,13 +40,7 @@
     ]
 -%}
 
-{%- if (individual == True) -%}
-    {%- set question_title = _('How would you like to receive an individual access code?') -%}
-{%- elif (case_type == 'CE' and address_level == 'E') -%}
-    {%- set question_title = _('How would you like to receive a new manager access code?') -%}
-{%- else -%}
-    {%- set question_title = _('How would you like to receive a new household access code?') -%}
-{%- endif -%}
+{%- set question_title = _('How would you like to receive a new access code?') -%}
 
 {%- block main -%}
 

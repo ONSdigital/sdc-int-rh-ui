@@ -125,40 +125,6 @@ class TestEq(RHTestCase):
         self.assertEqual(payload, eq_payload)
 
     @unittest_run_loop
-    async def test_build_ni(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['region_code'] = 'GB-NIR'
-        eq_payload['language_code'] = 'ul'
-        account_service_url = self.app['ACCOUNT_SERVICE_URL']
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        url_display_region = '/ni'
-        eq_payload[
-            'account_service_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
-        eq_payload[
-            'account_service_log_out_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-        self.maxDiff = None  # for full payload comparison when running this test
-        with mock.patch('app.eq.uuid4') as mocked_uuid4, mock.patch(
-                'app.eq.time.time') as mocked_time:
-            # NB: has to be mocked after setup but before import
-            mocked_time.return_value = self.eq_payload['iat']
-            mocked_uuid4.return_value = self.jti
-
-            with self.assertLogs('respondent-home', 'DEBUG') as cm:
-                payload = await EqPayloadConstructor(self.uac_json_n,
-                                                     self.attributes_ni,
-                                                     self.app, None).build()
-            self.assertLogEvent(cm,
-                                'creating payload for jwt',
-                                case_id=self.case_id,
-                                tx_id=self.jti)
-
-        mocked_uuid4.assert_called()
-        mocked_time.assert_called()
-        self.assertEqual(payload, eq_payload)
-
-    @unittest_run_loop
     async def test_build_assisted_digital_en(self):
         eq_payload = self.eq_payload.copy()
         eq_payload['channel'] = 'ad'
@@ -229,41 +195,6 @@ class TestEq(RHTestCase):
         self.assertEqual(payload, eq_payload)
 
     @unittest_run_loop
-    async def test_build_assisted_digital_ni(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['channel'] = 'ad'
-        eq_payload['user_id'] = '1000007'
-        eq_payload['region_code'] = 'GB-NIR'
-        eq_payload['language_code'] = 'ul'
-        account_service_url = self.app['ACCOUNT_SERVICE_URL']
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        url_display_region = '/ni'
-        eq_payload[
-            'account_service_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
-        eq_payload[
-            'account_service_log_out_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-        with mock.patch('app.eq.uuid4') as mocked_uuid4, mock.patch(
-                'app.eq.time.time') as mocked_time:
-            # NB: has to be mocked after setup but before import
-            mocked_time.return_value = self.eq_payload['iat']
-            mocked_uuid4.return_value = self.jti
-
-            with self.assertLogs('respondent-home', 'DEBUG') as cm:
-                payload = await EqPayloadConstructor(
-                    self.uac_json_n, self.attributes_ni, self.app,
-                    eq_payload['user_id']).build()
-            self.assertLogEvent(cm,
-                                'creating payload for jwt',
-                                case_id=self.case_id,
-                                tx_id=self.jti)
-
-        mocked_uuid4.assert_called()
-        mocked_time.assert_called()
-        self.assertEqual(payload, eq_payload)
-
-    @unittest_run_loop
     async def test_build_raises_InvalidEqPayLoad_missing_attributes(self):
 
         from app import eq  # NB: local import to avoid overwriting the patched version for some tests
@@ -291,15 +222,6 @@ class TestEq(RHTestCase):
             self.uac_json_e['address'])
         self.assertEqual(result, eq_payload['display_address'])
 
-    def test_build_display_address_ni(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['region_code'] = 'GB-NIR'
-        from app import eq
-
-        result = eq.EqPayloadConstructor.build_display_address(
-            self.uac_json_e['address'])
-        self.assertEqual(result, eq_payload['display_address'])
-
     def test_convert_region_code_e(self):
         eq_payload = self.eq_payload.copy()
         eq_payload['region_code'] = 'GB-ENG'
@@ -316,15 +238,6 @@ class TestEq(RHTestCase):
 
         result = eq.EqPayloadConstructor.convert_region_code(
             self.uac_json_w['region'])
-        self.assertEqual(result, eq_payload['region_code'])
-
-    def test_convert_region_code_n(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['region_code'] = 'GB-NIR'
-        from app import eq
-
-        result = eq.EqPayloadConstructor.convert_region_code(
-            self.uac_json_n['region'])
         self.assertEqual(result, eq_payload['region_code'])
 
     def test_build_display_address_raises(self):

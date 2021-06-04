@@ -1,0 +1,99 @@
+{%- extends 'base-' + display_region + '.html' -%}
+
+{%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
+{%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
+
+{%- from 'components/question/_macro.njk' import onsQuestion -%}
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from 'components/radios/_macro.njk' import onsRadios -%}
+{%- from 'components/checkboxes/_macro.njk' import onsCheckboxes -%}
+{%- from "components/panel/_macro.njk" import onsPanel -%}
+{%- from "components/collapsible/_macro.njk" import onsCollapsible -%}
+
+{%- set request_common_enter_name_link = url('RequestCommonEnterName:get', display_region=display_region, request_type=request_type) -%}
+
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': url('RequestCommonConfirmSendByPost:post', display_region=display_region, request_type=request_type)
+    }
+} -%}
+
+{%- if 'no-selection' in field_messages_dict -%}
+    {%- set error_radio = {'id': 'no-selection', 'text': _('Select an answer')} -%}
+{%- endif -%}
+
+{%- set form_options = [
+                {
+                    'id': 'yes',
+                    'label': {
+                        'text': _('Yes, send the access code by post')
+                    },
+                    'value': 'yes'
+                },
+                {
+                    'id': 'no',
+                    'label': {
+                        'text': _('No, send it by text message')
+                    },
+                    'value': 'no'
+                }
+            ]
+-%}
+
+{%- if (individual == True) -%}
+    {%- set question_title = _('Do you want to send an individual access code to this address?') -%}
+{%- else -%}
+    {%- set question_title = _('Do you want to send a new access code to this address?') -%}
+{%- endif -%}
+
+{%- block main -%}
+
+    {%- if messages_dict -%}
+        {%- include 'partials/messages.html' with context -%}
+    {%- endif -%}
+
+    {%- call onsQuestion({ 'title': question_title }) -%}
+
+        <p>
+            {{ first_name }} {{ last_name }}<br>
+            {{ addressLine1 }}<br>
+            {%- if addressLine2 -%}{{ addressLine2 }}<br>{%- endif -%}
+            {%- if addressLine3 -%}{{ addressLine3 }}<br>{%- endif -%}
+            {%- if townName -%}{{ townName }}<br>{%- endif -%}
+            {{ postcode }}
+        </p>
+
+        <p class="u-mb-m"><a href="{{ request_common_enter_name_link }}">{{ _('Change name') }}</a></p>
+
+        {%- if (individual == True) -%}
+            {%- call
+                onsPanel({
+                    'classes': 'u-mb-m'
+                })
+            -%}
+                <p>{{ _('A letter with your individual access code will arrive in a brown unbranded envelope') }}</p>
+            {%- endcall -%}
+        {%- endif -%}
+
+        {{
+            onsRadios({
+                'name': 'request-name-address-confirmation',
+                'radios': form_options,
+                'legend': question_title,
+                'legendClasses': 'u-vh',
+                'error': error_radio
+            })
+        }}
+
+    {%- endcall -%}
+
+    {{
+        onsButton({
+            'text': _('Continue'),
+            'classes': 'u-mt-l',
+            'submitType': 'loader'
+        })
+    }}
+
+{%- endblock -%}

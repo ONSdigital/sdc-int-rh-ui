@@ -1,6 +1,5 @@
 import string
 import re
-import math
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
@@ -30,21 +29,14 @@ OBSCURE_WHITESPACE = (
 uk_prefix = '44'
 uk_zone = timezone('Europe/London')
 
-census_day = date(2021, 3, 21)
-
 
 class View:
-    valid_display_regions = r'{display_region:\ben|cy|ni\b}'
-    valid_ew_display_regions = r'{display_region:\ben|cy\b}'
+    valid_display_regions = r'{display_region:\ben|cy\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     valid_sub_user_journeys = \
-        r'{sub_user_journey:\blink-address|change-address|access-code|paper-questionnaire|continuation-questionnaire\b}'
+        r'{sub_user_journey:\baccess-code\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
-
-    @staticmethod
-    def get_now_utc():
-        return datetime.utcnow()
 
     @staticmethod
     def single_client_ip(request):
@@ -84,7 +76,7 @@ class View:
     @staticmethod
     def gen_page_url(request):
         full_url = str(request.rel_url)
-        if full_url[:3] == '/en' or full_url[:3] == '/cy' or full_url[:3] == '/ni':
+        if full_url[:3] == '/en' or full_url[:3] == '/cy':
             generic_url = full_url[3:]
         else:
             generic_url = full_url
@@ -92,50 +84,31 @@ class View:
 
     @staticmethod
     def get_call_centre_number(display_region):
-        if display_region == 'ni':
-            call_centre_number = '0800 328 2021'
-        elif display_region == 'cy':
+        if display_region == 'cy':
             call_centre_number = '0800 169 2021'
         else:
             call_centre_number = '0800 141 2021'
         return call_centre_number
 
     @staticmethod
-    def check_if_after_census_day():
-        wall_clock = utc.localize(View.get_now_utc()).astimezone(uk_zone)
-        now_date = wall_clock.date()
-        if now_date > census_day:
-            after_census_day = True
-        else:
-            after_census_day = False
-        return after_census_day
-
-    @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
         base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN']
         base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_CY']
-        base_ni = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/ni'
 
         link = '/'
 
         if requested_link == 'census-home':
-            if display_region == 'ni':
-                link = base_ni
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy
             else:
                 link = base_en
         elif requested_link == 'contact-us':
-            if display_region == 'ni':
-                link = base_ni + '/contact-us/'
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy + '/cysylltu-a-ni/'
             else:
                 link = base_en + '/contact-us/'
         elif requested_link == 'privacy':
-            if display_region == 'ni':
-                link = base_ni + '/privacy-and-data-protection/'
-            elif display_region == 'cy':
+            if display_region == 'cy':
                 link = base_cy + '/preifatrwydd-a-diogelu-data/'
             else:
                 link = base_en + '/privacy-and-data-protection/'
@@ -355,134 +328,6 @@ class ProcessName:
         return name_valid
 
 
-class ProcessNumberOfPeople:
-
-    @staticmethod
-    def validate_number_of_people(request, data, display_region, request_type):
-
-        number_of_people_valid = True
-        number_of_people_value = data.get('number_of_people')
-
-        if (not number_of_people_value) or (number_of_people_value == ''):
-            logger.info('number_of_people empty',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'],
-                        region_of_site=display_region,
-                        type_of_request=request_type)
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch nifer y bobl yn eich cartref",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_empty'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter the number of people in your household',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_empty'))
-            number_of_people_valid = False
-
-        elif not number_of_people_value.isdecimal():
-            logger.info('number_of_people nan',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'],
-                        region_of_site=display_region,
-                        type_of_request=request_type)
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch rif",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_nan'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter a number',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_nan'))
-            number_of_people_valid = False
-
-        elif request_type == 'continuation-questionnaire':
-            if (display_region == 'ni') and (int(number_of_people_value) < 7):
-                logger.info('number_of_people continuation less than 7',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'],
-                            region_of_site=display_region,
-                            type_of_request=request_type)
-                flash(request, FlashMessage.generate_flash_message('Enter a number greater than 6',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_continuation_low'))
-                number_of_people_valid = False
-
-            elif (not display_region == 'ni') and (int(number_of_people_value) < 6):
-                logger.info('number_of_people continuation less than 6',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'],
-                            region_of_site=display_region,
-                            type_of_request=request_type)
-                if display_region == 'cy':
-                    flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n fwy na 5",
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_low'))
-                else:
-                    flash(request, FlashMessage.generate_flash_message('Enter a number greater than 5',
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_low'))
-                number_of_people_valid = False
-
-            elif int(number_of_people_value) > 30:
-                logger.info('number_of_people continuation greater than 30',
-                            client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-                if display_region == 'cy':
-                    flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n llai na 31",
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_high'))
-                else:
-                    flash(request, FlashMessage.generate_flash_message('Enter a number less than 31',
-                                                                       'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                       'number_of_people_continuation_high'))
-                number_of_people_valid = False
-
-        elif int(number_of_people_value) > 30:
-            logger.info('number_of_people greater than 30',
-                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message("Rhowch rif sy'n llai na 31",
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_high'))
-            else:
-                flash(request, FlashMessage.generate_flash_message('Enter a number less than 31',
-                                                                   'ERROR', 'NUMBER_OF_PEOPLE_ERROR',
-                                                                   'number_of_people_high'))
-            number_of_people_valid = False
-
-        return number_of_people_valid
-
-    @staticmethod
-    def form_calculation(region, number_of_people, include_household=False, large_print=False):
-        number_of_people = int(number_of_people)
-        number_of_household_forms = 0
-        number_of_continuation_forms = 0
-        number_of_large_print_forms = 0
-
-        # '0' is valid for second properties, but trips up the calculation, so should be treated as '1'
-        if number_of_people == 0:
-            number_of_people = 1
-
-        if large_print:
-            number_of_large_print_forms = math.ceil(number_of_people / 2)
-        else:
-            if region == 'N':
-                offset = 6
-            else:
-                offset = 5
-            if include_household:
-                number_of_household_forms = 1
-            if number_of_people > offset:
-                number_of_continuation_forms = math.ceil((number_of_people - offset) / 5)
-
-        return {'number_of_household_forms': number_of_household_forms,
-                'number_of_continuation_forms': number_of_continuation_forms,
-                'number_of_large_print_forms': number_of_large_print_forms}
-
-
 class FlashMessage:
 
     @staticmethod
@@ -534,21 +379,11 @@ class AddressIndex(View):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
+        headers = {'Authorization': request.app['ADDRESS_INDEX_SVC_JWT']}
         return await View._make_request(request,
                                         'GET',
                                         url,
-                                        auth=request.app['ADDRESS_INDEX_SVC_AUTH'],
-                                        return_json=True)
-
-    @staticmethod
-    async def get_ai_uprn(request, uprn):
-        ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
-        ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
-        url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
-        return await View._make_request(request,
-                                        'GET',
-                                        url,
-                                        auth=request.app['ADDRESS_INDEX_SVC_AUTH'],
+                                        headers=headers,
                                         return_json=True)
 
 
@@ -560,37 +395,6 @@ class RHService(View):
         return await View._make_request(request,
                                         'GET',
                                         f'{rhsvc_url}/cases/uprn/{uprn}',
-                                        return_json=True)
-
-    @staticmethod
-    async def post_link_uac(request, uac, address):
-        uac_hash = uac
-        logger.info('request linked case',
-                    uac_hash=uac_hash,
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    country_code=address['countryCode'],
-                    postcode_value=address['postcode'],
-                    uprn_value=address['uprn'])
-        rhsvc_url = request.app['RHSVC_URL']
-        address_json = {
-            "addressLine1": address['addressLine1'],
-            "addressLine2": address['addressLine2'],
-            "addressLine3": address['addressLine3'],
-            "townName": address['townName'],
-            "region": address['countryCode'],
-            "postcode": address['postcode'],
-            "uprn": address['uprn'],
-            "estabType": address['censusEstabType'],
-            "addressType": address['censusAddressType']
-        }
-        url = f'{rhsvc_url}/uacs/{uac_hash}/link'
-        return await View._make_request(request,
-                                        'POST',
-                                        url,
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=address_json,
                                         return_json=True)
 
     @staticmethod
@@ -653,28 +457,6 @@ class RHService(View):
                                         'GET',
                                         f'{rhsvc_url}/uacs/{uac_hash}',
                                         auth=request.app['RHSVC_AUTH'],
-                                        return_json=True)
-
-    @staticmethod
-    async def post_case_create(request, address):
-        rhsvc_url = request.app['RHSVC_URL']
-        rhsvc_auth = request.app['RHSVC_AUTH']
-        case_json = {
-            'uprn': address['uprn'],
-            'addressLine1': address['addressLine1'],
-            'addressLine2': address['addressLine2'],
-            'addressLine3': address['addressLine3'],
-            'townName': address['townName'],
-            'postcode': address['postcode'],
-            'region': address['countryCode'],
-            'estabType': address['censusEstabType'],
-            'addressType': address['censusAddressType']
-        }
-        return await View._make_request(request,
-                                        'POST',
-                                        f'{rhsvc_url}/cases/create',
-                                        auth=rhsvc_auth,
-                                        request_json=case_json,
                                         return_json=True)
 
     @staticmethod

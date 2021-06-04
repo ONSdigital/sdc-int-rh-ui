@@ -3,19 +3,7 @@
 {%- from "components/breadcrumb/_macro.njk" import onsBreadcrumb -%}
 {%- from 'components/panel/_macro.njk' import onsPanel -%}
 
-{%- if display_region == 'ni' -%}
-    {%- set breadcrumb_items = [
-                {
-                    "url": domain_url_ni,
-                    "text": 'Home'
-                },
-                {
-                    "url": domain_url_ni + '/ni/web-form/',
-                    "text": 'Web form'
-                }
-            ]
-    -%}
-{%- elif display_region == 'cy' -%}
+{%- if display_region == 'cy' -%}
     {%- set breadcrumb_items = [
                 {
                     "url": domain_url_cy,

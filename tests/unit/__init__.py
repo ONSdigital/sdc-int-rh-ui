@@ -245,22 +245,12 @@ class RHTestCase(AioHTTPTestCase):
         with open('tests/test_data/rhsvc/uac-n.json') as fp:
             self.uac_json_n = json.load(fp)
 
-        with open('tests/test_data/rhsvc/uac_no_estabtype_e.json') as fp:
-            self.uac_json_no_estabtype_e = json.load(fp)
-
-        with open('tests/test_data/rhsvc/uac_no_estabtype_w.json') as fp:
-            self.uac_json_no_estabtype_w = json.load(fp)
-
-        with open('tests/test_data/rhsvc/uac_no_estabtype_n.json') as fp:
-            self.uac_json_no_estabtype_n = json.load(fp)
-
         # URLs used in later statements
         url_path_prefix = self.app['URL_PATH_PREFIX']
         account_svc_url = self.app['ACCOUNT_SERVICE_URL']
         rh_svc_url = self.app['RHSVC_URL']
         address_index_svc_url = self.app['ADDRESS_INDEX_SVC_URL']
         aims_epoch = self.app['ADDRESS_INDEX_EPOCH']
-        ad_look_up_svc_url = self.app['AD_LOOK_UP_SVC_URL']
 
         self.aims_postcode_limit = '5000'
 
@@ -304,18 +294,6 @@ class RHTestCase(AioHTTPTestCase):
             'form-confirm-address': 'invalid', 'action[save_continue]': ''
         }
 
-        self.common_resident_or_manager_input_resident = {
-            'form-resident-or-manager': 'resident', 'action[save_continue]': ''
-        }
-
-        self.common_resident_or_manager_input_manager = {
-            'form-resident-or-manager': 'manager', 'action[save_continue]': ''
-        }
-
-        self.common_resident_or_manager_input_invalid = {
-            'form-resident-or-manager': 'invalid', 'action[save_continue]': ''
-        }
-
         self.common_postcode_input_valid = {
             'form-enter-address-postcode': self.postcode_valid, 'action[save_continue]': '',
         }
@@ -347,16 +325,6 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.ai_uprn_result_hh = f
 
-        with open('tests/test_data/address_index/uprn_valid_spg.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_spg = f
-
-        with open('tests/test_data/address_index/uprn_valid_ce.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_ce = f
-
         with open('tests/test_data/address_index/uprn_england.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
@@ -367,73 +335,12 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.ai_uprn_result_wales = f
 
-        with open('tests/test_data/address_index/uprn_northern_ireland.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_northern_ireland = f
-
-        with open('tests/test_data/address_index/uprn_northern_ireland_ce.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_northern_ireland_ce = f
-
-        with open('tests/test_data/address_index/uprn_scotland.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_scotland = f
-
-        with open('tests/test_data/address_index/uprn_censusaddresstype_na_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_censusaddresstype_na_e = f
-
-        with open('tests/test_data/address_index/uprn_censusaddresstype_na_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_censusaddresstype_na_w = f
-
-        with open('tests/test_data/address_index/uprn_censusaddresstype_na_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_censusaddresstype_na_n = f
-
         # Content
         self.ons_logo_en = '/img/ons-logo-pos-en.svg'
         self.ons_logo_cy = '/img/ons-logo-pos-cy.svg'
-        self.nisra_logo = '/img/nisra-logo-en.svg'
 
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
-        self.content_call_centre_number_ni = '0800 328 2021'
-
-        self.content_common_address_in_northern_ireland_page_title_en = \
-            '<title>Address part of census in Northern Ireland - Census 2021</title>'
-        self.content_common_address_in_northern_ireland_en = \
-            'You have selected an address that is part of the census in Northern Ireland'
-        self.content_common_address_in_northern_ireland_page_title_cy = \
-            '<title>Rhan cyfeiriad y cyfrifiad yng Ngogledd Iwerddon - Cyfrifiad 2021</title>'
-        self.content_common_address_in_northern_ireland_cy = \
-            "Rydych chi wedi dewis cyfeiriad sy\\\'n rhan o\\\'r cyfrifiad yng Ngogledd Iwerddon"
-
-        self.content_common_address_not_in_northern_ireland_page_title = \
-            '<title>Address not part of census for Northern Ireland - Census 2021</title>'
-        self.content_common_address_not_in_northern_ireland = \
-            'This address is not part of the census for Northern Ireland'
-        self.content_common_address_in_england_secondary = \
-            'You have selected an address in England.'
-        self.content_common_address_in_wales_secondary = \
-            'You have selected an address in Wales.'
-
-        self.content_common_address_in_scotland_page_title_en = \
-            '<title>Address not part of census for England and Wales - Census 2021</title>'
-        self.content_common_address_in_scotland_en = 'This address is not part of the census for England and Wales'
-        self.content_common_address_in_scotland_page_title_cy = \
-            "<title>Nid yw&#39;r cyfeiriad yn rhan o&#39;r cyfrifiad ar gyfer Cymru a Lloegr - Cyfrifiad 2021</title>"
-        self.content_common_address_in_scotland_cy = \
-            "Nid yw\\\'r cyfeiriad hwn yn rhan o\\\'r cyfrifiad yng Nghymru a Lloegr"
-        self.content_common_address_in_scotland_page_title_ni = \
-            '<title>Address not part of census for Northern Ireland - Census 2021</title>'
-        self.content_common_address_in_scotland_ni = 'This address is not part of the census for Northern Ireland'
 
         self.content_common_enter_address_error_en = 'Enter a valid UK postcode'
         self.content_common_enter_address_error_cy = "Rhowch god post dilys yn y Deyrnas Unedig"
@@ -470,41 +377,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_confirm_address_value_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
         self.content_common_confirm_address_value_no_cy = "Na, rwyf am chwilio am fy nghyfeiriad eto"
 
-        self.content_common_ce_room_number_text = 'Room A8'
-        self.content_common_ce_room_number_add_link_en = 'Add flat or room number'
-        self.content_common_ce_room_number_change_link_en = 'Change flat or room number'
-        self.content_common_enter_room_number_page_title_en = \
-            '<title>Enter flat or room number - Census 2021</title>'
-        self.content_common_enter_room_number_page_title_error_en = \
-            '<title>Error: Enter flat or room number - Census 2021</title>'
-        self.content_common_enter_room_number_title_en = 'What is your flat or room number?'
-        self.content_common_enter_room_number_empty_en = 'Enter your flat or room number'
-        self.content_common_enter_room_number_over_length_en = \
-            'You have entered too many characters. Enter up to 10 characters'
-        self.content_common_ce_room_number_add_link_cy = "Ychwanegu rhif fflat neu ystafell"
-        self.content_common_ce_room_number_change_link_cy = "Newid rhif fflat neu ystafell"
-        self.content_common_enter_room_number_page_title_cy = \
-            '<title>Nodi rhif fflat neu ystafell - Cyfrifiad 2021</title>'
-        self.content_common_enter_room_number_page_title_error_cy = \
-            '<title>Gwall: Nodi rhif fflat neu ystafell - Cyfrifiad 2021</title>'
-        self.content_common_enter_room_number_title_cy = "Beth yw rhif eich fflat neu ystafell?"
-        self.content_common_enter_room_number_empty_cy = "Rhowch rif eich fflat neu ystafell"
-        self.content_common_enter_room_number_over_length_cy = \
-            "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 10 o nodau"
-
-        self.common_room_number_input_valid = {
-            'form-enter-room-number': self.content_common_ce_room_number_text, 'action[save_continue]': '',
-        }
-        self.common_room_number_input_empty = {
-            'form-enter-room-number': '', 'action[save_continue]': '',
-        }
-        self.common_room_number_input_over_length = {
-            'form-enter-room-number': 'Room A8, Flat 47', 'action[save_continue]': '',
-        }
-        self.common_room_number_input_only_space = {
-            'form-enter-room-number': ' ', 'action[save_continue]': '',
-        }
-
         self.content_common_register_address_title_en = \
             'Register an address'
         self.content_common_register_address_title_cy = \
@@ -516,10 +388,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_call_contact_centre_address_linking_en = \
             'There is an issue linking your address via the website.'
         self.content_common_call_contact_centre_address_linking_cy = \
-            "Mae problem wrth newid eich cyfeiriad drwy\\\'r wefan."
-        self.content_common_call_contact_centre_change_address_en = \
-            'There is an issue changing your address via the website.'
-        self.content_common_call_contact_centre_change_address_cy = \
             "Mae problem wrth newid eich cyfeiriad drwy\\\'r wefan."
 
         self.content_common_call_contact_centre_title_en = 'You need to call the Census customer contact centre'
@@ -547,45 +415,10 @@ class RHTestCase(AioHTTPTestCase):
             'We are currently experiencing very high demand, thank you for your patience'
         self.content_common_429_error_uac_title_en = \
             'You have reached the maximum number of access codes you can request online'
-        self.content_common_429_error_paper_questionnaire_title_en = \
-            'You have reached the maximum number of paper questionnaires you can request online'
-        self.content_common_429_error_continuation_questionnaire_title_en = \
-            'You have reached the maximum number of continuation questionnaires you can request online'
         self.content_common_429_error_eq_launch_title_cy = \
             "Rydym ni\\\'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
         self.content_common_429_error_uac_title_cy = \
             "Rydych chi wedi cyrraedd y nifer fwyaf o godau mynediad y gallwch ofyn amdanynt ar lein"
-        self.content_common_429_error_paper_questionnaire_title_cy = \
-            "Rydych chi wedi cyrraedd y nifer fwyaf o holiaduron papur y gallwch ofyn amdanynt ar lein"
-        self.content_common_429_error_continuation_questionnaire_title_cy = \
-            "Rydych wedi cyrraedd y nifer fwyaf o holiaduron cartref (parhad) y gallwch wneud cais amdanynt ar lein"
-
-        self.content_common_resident_or_manager_page_title_en = \
-            '<title>Confirm resident or manager - Census 2021</title>'
-        self.content_common_resident_or_manager_page_title_error_en = \
-            '<title>Error: Confirm resident or manager - Census 2021</title>'
-        self.content_common_resident_or_manager_title_en = 'Are you a resident or manager of this establishment?'
-        self.content_common_resident_or_manager_option_resident_en = 'Resident'
-        self.content_common_resident_or_manager_description_resident_en = \
-            'Residents are responsible for answering the census questions about themselves'
-        self.content_common_resident_or_manager_option_manager_en = 'Manager'
-        self.content_common_resident_or_manager_description_manager_en = \
-            'A manager is responsible for answering the census questions about this establishment'
-        self.content_common_resident_or_manager_error_en = 'Select an answer'
-        self.content_common_resident_or_manager_page_title_cy = \
-            '<title>Cadarnhau preswylydd neu reolwr - Cyfrifiad 2021</title>'
-        self.content_common_resident_or_manager_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau preswylydd neu reolwr - Cyfrifiad 2021</title>'
-        self.content_common_resident_or_manager_title_cy = "Ai preswylydd neu reolwr ydych chi yn y sefydliad hwn?"
-        self.content_common_resident_or_manager_option_resident_cy = "Preswylydd"
-        self.content_common_resident_or_manager_description_resident_cy = \
-            "Mae preswylwyr yn gyfrifol am ateb cwestiynau\\\'r cyfrifiad amdanyn nhw eu hunain"
-        self.content_common_resident_or_manager_option_manager_cy = "Rheolwr"
-        self.content_common_resident_or_manager_description_manager_cy = \
-            "Mae rheolwr yn gyfrifol am ateb cwestiynau\\\'r cyfrifiad am y sefydliad hwn"
-        self.content_common_resident_or_manager_error_cy = "Dewiswch ateb"
-
-        self.content_common_nisra_ce_manager_title = 'You need to visit the Communal Establishment Manager Portal'
 
         # End Common
 
@@ -595,7 +428,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.content_start_exit_button_en = 'href="/en/start/exit/"'
         self.content_start_exit_button_cy = 'href="/cy/start/exit/"'
-        self.content_start_exit_button_ni = 'href="/ni/start/exit/"'
 
         self.content_start_title_en = 'Start census'
         self.content_start_page_title_error_en = '<title>Error: Start census - Census 2021</title>'
@@ -606,15 +438,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.content_start_uac_expired_en = 'This access code has already been used'
         self.content_start_uac_expired_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
-
-        self.content_start_code_for_northern_ireland_title_en = \
-            'Access code for census in Northern Ireland'
-        self.content_start_code_for_northern_ireland_title_cy = \
-            "Cod mynediad ar gyfer y cyfrifiad yng Ngogledd Iwerddom"
-        self.content_start_code_not_for_northern_ireland_title = \
-            'This access code is not part of the census for Northern Ireland'
-        self.content_start_code_for_england_and_wales_secondary = \
-            'You have entered an access code for the census in England and Wales.'
 
         self.content_start_confirm_address_page_title_en = '<title>Confirm address - Census 2021</title>'
         self.content_start_confirm_address_page_title_error_en = '<title>Error: Confirm address - Census 2021</title>'
@@ -629,24 +452,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_confirm_address_option_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
         self.content_start_confirm_address_option_no_cy = "Na, nid dyma\\\'r cyfeiriad cywir"
         self.content_start_confirm_address_error_cy = "Dewiswch ateb"
-        self.content_start_confirm_address_region_warning_cy = \
-            'Mae eich cyfeiriad yn Lloegr, felly dim ond yn Saesneg y gallwch chi gwblhau eich cyfrifiad'
-
-        self.content_start_ni_language_options_page_title = \
-            '<title>Confirm English or other language - Census 2021</title>'
-        self.content_start_ni_language_options_page_title_error = \
-            '<title>Error: Confirm English or other language - Census 2021</title>'
-        self.content_start_ni_language_options_title = 'Would you like to complete the census in English?'
-        self.content_start_ni_language_options_error = 'Select a language option'
-        self.content_start_ni_language_options_option_yes = 'Yes, continue in English'
-
-        self.content_start_ni_select_language_page_title = '<title>Choose language - Census 2021</title>'
-        self.content_start_ni_select_language_page_title_error = \
-            '<title>Error: Choose language - Census 2021</title>'
-        self.content_start_ni_select_language_title = 'Choose your language'
-        self.content_start_ni_select_language_error = 'Select a language option'
-        self.content_start_ni_select_language_option = 'Continue in English'
-        self.content_start_ni_select_language_switch_back = 'You can change your language back to English at any time.'
 
         self.content_signed_out_page_title_en = '<title>Progress saved - Census 2021</title>'
         self.content_signed_out_title_en = 'Your progress has been saved'
@@ -695,52 +500,23 @@ class RHTestCase(AioHTTPTestCase):
             'followed a link to the middle of a request for a new access code'
         self.content_request_code_timeout_bullet_two_cy = \
             "wedi dilyn dolen i ganol cais am god mynediad newydd"
-        self.content_request_form_timeout_bullet_two_en = \
-            'followed a link to the middle of a request for a paper census questionnaire'
-        self.content_request_form_timeout_bullet_two_cy = \
-            "wedi dilyn dolen i ganol cais am holiadur papur y cyfrifiad"
         self.content_request_code_timeout_link_text_en = 'request a new access code'
         self.content_request_code_timeout_link_text_cy = "ofyn am god mynediad newydd"
-        self.content_request_form_timeout_link_text_en = 'request a paper census questionnaire'
-        self.content_request_form_timeout_link_text_cy = "ofyn am holiadur papur y cyfrifiad"
 
         # End Session Timeout
 
         self.get_start_en = self.app.router['Start:get'].url_for(display_region='en')
-        self.get_start_adlocation_valid_en = self.app.router['Start:get'].url_for(display_region='en').with_query(
-            {"adlocation": self.adlocation})
-        self.get_start_adlocation_invalid_en = self.app.router['Start:get'].url_for(display_region='en').with_query(
-            {"adlocation": "invalid"})
         self.post_start_en = self.app.router['Start:post'].url_for(display_region='en')
         self.get_start_confirm_address_en = self.app.router['StartConfirmAddress:get'].url_for(display_region='en')
         self.post_start_confirm_address_en = self.app.router['StartConfirmAddress:post'].url_for(display_region='en')
 
         self.get_start_cy = self.app.router['Start:get'].url_for(display_region='cy')
-        self.get_start_adlocation_valid_cy = self.app.router['Start:get'].url_for(display_region='cy').with_query(
-            {"adlocation": self.adlocation})
-        self.get_start_adlocation_invalid_cy = self.app.router['Start:get'].url_for(display_region='cy').with_query(
-            {"adlocation": "invalid"})
         self.post_start_cy = self.app.router['Start:post'].url_for(display_region='cy')
         self.get_start_confirm_address_cy = self.app.router['StartConfirmAddress:get'].url_for(display_region='cy')
         self.post_start_confirm_address_cy = self.app.router['StartConfirmAddress:post'].url_for(display_region='cy')
 
-        self.get_start_ni = self.app.router['Start:get'].url_for(display_region='ni')
-        self.get_start_adlocation_valid_ni = self.app.router['Start:get'].url_for(display_region='ni').with_query(
-            {"adlocation": self.adlocation})
-        self.get_start_adlocation_invalid_ni = self.app.router['Start:get'].url_for(display_region='ni').with_query(
-            {"adlocation": "invalid"})
-        self.post_start_ni = self.app.router['Start:post'].url_for(display_region='ni')
-        self.get_start_confirm_address_ni = self.app.router['StartConfirmAddress:get'].url_for(display_region='ni')
-        self.post_start_confirm_address_ni = self.app.router['StartConfirmAddress:post'].url_for(display_region='ni')
-
-        self.get_start_language_options_ni = self.app.router['StartNILanguageOptions:get'].url_for()
-        self.post_start_language_options_ni = self.app.router['StartNILanguageOptions:post'].url_for()
-        self.get_start_select_language_ni = self.app.router['StartNISelectLanguage:get'].url_for()
-        self.post_start_select_language_ni = self.app.router['StartNISelectLanguage:post'].url_for()
-
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
-        self.get_signed_out_ni = self.app.router['SignedOut:get'].url_for(display_region='ni')
 
         self.case_id = self.uac_json_e['caseId']
         self.collection_exercise_id = self.uac_json_e['collectionExerciseId']
@@ -753,7 +529,6 @@ class RHTestCase(AioHTTPTestCase):
             self.uac_code[:4], self.uac_code[4:8], self.uac_code[8:12], self.uac_code[12:]
         self.period_id = '2021'
         self.uac = 'w4nwwpphjjptp7fn'
-        self.uac_ce4 = 'ce4fghtykjuiplku'
         self.uacHash = self.uac_json_e['uacHash']
         self.uprn = self.uac_json_e['address']['uprn']
         self.response_id = '111000000092a445af12905967d'
@@ -775,11 +550,6 @@ class RHTestCase(AioHTTPTestCase):
             'language': 'cy',
             'display_region': 'cy',
             'locale': 'cy'
-        }
-        self.attributes_ni = {
-            **self.attributes_en,
-            'language': 'ul',
-            'display_region': 'ni'
         }
 
         self.eq_payload = {
@@ -858,14 +628,6 @@ class RHTestCase(AioHTTPTestCase):
             'uac': self.uac, 'action[save_continue]': '',
         }
 
-        self.start_data_valid_with_adlocation = {
-            'uac': self.uac, 'adlocation': self.adlocation, 'action[save_continue]': '',
-        }
-
-        self.start_data_ce4 = {
-            'uac': self.uac_ce4, 'action[save_continue]': '',
-        }
-
         self.start_confirm_address_data_yes = {
             'address-check-answer': 'Yes', 'action[save_continue]': ''
         }
@@ -879,20 +641,6 @@ class RHTestCase(AioHTTPTestCase):
         }
 
         self.start_confirm_address_data_empty = {}
-
-        self.start_ni_language_option_data_yes = {
-            'language-option': 'Yes', 'action[save_continue]': ''
-        }
-
-        self.start_ni_language_option_data_no = {
-            'language-option': 'No', 'action[save_continue]': ''
-        }
-
-        self.start_ni_language_option_data_invalid = {
-            'language-option': 'Invalid', 'action[save_continue]': ''
-        }
-
-        self.start_ni_language_option_data_empty = {}
 
         self.start_modify_address_data_valid = {
             'address-line-1': 'ONS',
@@ -919,24 +667,6 @@ class RHTestCase(AioHTTPTestCase):
             'postcode': self.uac_json_e['address']['postcode']
             }
 
-        self.start_ni_select_language_data_ul = {
-            'language-option': 'ulster-scotch', 'action[save_continue]': ''
-        }
-
-        self.start_ni_select_language_data_ga = {
-            'language-option': 'gaeilge', 'action[save_continue]': ''
-        }
-
-        self.start_ni_select_language_data_en = {
-            'language-option': 'english', 'action[save_continue]': ''
-        }
-
-        self.start_ni_select_language_data_invalid = {
-            'language-option': 'invalid', 'action[save_continue]': ''
-        }
-
-        self.start_ni_select_language_data_empty = {}
-
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'
         self.content_common_error_panel_answer_cy = "Mae problem gyda\\\'ch ateb"
         self.content_common_error_select_an_option_en = 'Select an option'
@@ -947,7 +677,6 @@ class RHTestCase(AioHTTPTestCase):
         self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
 
         self.selected_uprn = '10023122451'
-        self.selected_uprn_ni = '187748262'
 
         self.mobile_valid = '07012345678'
         self.mobile_invalid_short = '07012'
@@ -970,66 +699,6 @@ class RHTestCase(AioHTTPTestCase):
             f = asyncio.Future()
             f.set_result(json.load(fp))
             self.rhsvc_case_by_uprn_hh_n = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_spg_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_spg_e = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_spg_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_spg_w = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_spg_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_spg_n = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_m_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_m_e = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_m_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_m_w = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_m_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_m_n = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_r_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_r_e = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_r_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_r_w = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_ce_r_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_ce_r_n = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_na_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_na_e = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_na_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_na_w = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_na_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_na_n = f
 
         with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
             f = asyncio.Future()
@@ -1121,12 +790,12 @@ class RHTestCase(AioHTTPTestCase):
             'name_first_name': 'Bob', 'action[save_continue]': '',
         }
 
-        self.request_common_enter_name_form_data_overlong_firstname = {
+        self.request_common_enter_name_form_data_overlength_firstname = {
             'name_first_name': 'Robert Albert Everest Reginald Bartholomew', 'name_last_name': 'Bobbington',
             'action[save_continue]': '',
         }
 
-        self.request_common_enter_name_form_data_overlong_lastname = {
+        self.request_common_enter_name_form_data_overlength_lastname = {
             'name_first_name': 'Bob', 'name_last_name': 'Bobbington-Browning Fortesque-Smythe',
             'action[save_continue]': '',
         }
@@ -1158,110 +827,43 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_individual_page_title_en = '<title>Request individual access code - Census 2021</title>'
-        self.content_request_individual_title_en = 'Request an individual access code'
-        self.content_request_individual_secondary_en = 'You can choose to receive your new access code by text or post.'
-        self.content_request_individual_page_title_cy = '<title>Gofyn am god mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_individual_title_cy = "Gofyn am god mynediad unigol"
-        self.content_request_individual_secondary_cy = \
-            "Gallwch chi ddewis cael eich cod mynediad newydd drwy neges destun neu drwy\\\'r post."
-
-        self.content_request_individual_questionnaire_page_title_en = \
-            '<title>Request individual paper questionnaire - Census 2021</title>'
-        self.content_request_individual_questionnaire_title_en = 'Request an individual paper questionnaire'
-        self.content_request_individual_questionnaire_page_title_cy = \
-            '<title>Gofyn am holiadur papur i unigolion - Cyfrifiad 2021</title>'
-        self.content_request_individual_questionnaire_title_cy = "Gofyn am holiadur papur i unigolion"
-        self.content_request_individual_questionnaire_secondary_en = \
-            'An individual paper questionnaire lets you answer your census questions separately from the people ' \
-            'you live with, so they can\\xe2\\x80\\x99t see your answers.'
-        self.content_request_individual_questionnaire_secondary_cy = \
-            "Mae holiadur papur i unigolion yn eich galluogi chi i ateb eich cwestiynau ar gyfer y cyfrifiad " \
-            "ar wah\\xc3\\xa2n i\\\'r bobl rydych chi\\\'n byw gyda nhw, fel na allant weld eich atebion."
-
         self.content_request_enter_address_page_title_en = '<title>Enter address - Census 2021</title>'
         self.content_request_enter_address_page_title_error_en = '<title>Error: Enter address - Census 2021</title>'
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request an access code, we need your address'
-        self.content_request_individual_code_enter_address_secondary_en = \
-            'To request an individual access code, we need your address'
         self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - Cyfrifiad 2021</title>'
         self.content_request_enter_address_page_title_error_cy = '<title>Gwall: Nodi cyfeiriad - Cyfrifiad 2021</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             "I ofyn am god mynediad, bydd angen eich cyfeiriad arnom"
-        self.content_request_individual_code_enter_address_secondary_cy = \
-            "I ofyn am god mynediad unigol, bydd angen eich cyfeiriad arnom"
 
-        self.content_request_code_select_how_to_receive_individual_response_question_en = \
-            'Need to answer separately from your household?'
         self.content_request_code_select_how_to_receive_error_en = 'Select an answer'
         self.content_request_code_select_how_to_receive_secondary_en = 'Select how to send access code'
         self.content_request_code_select_how_to_receive_option_text_en = 'Text message'
         self.content_request_code_select_how_to_receive_option_post_en = 'Post'
         self.content_request_code_select_how_to_receive_option_post_hint_en = \
-            'We can only send access codes to the registered household address'
-        self.content_request_code_select_how_to_receive_option_post_hint_individual_en = \
-            'An unbranded envelope can be addressed to you at the registered household address'
-        self.content_request_code_select_how_to_receive_option_post_hint_ce_en = \
             'We can only send access codes to the registered address'
-        self.content_request_code_select_how_to_receive_option_post_hint_ce_individual_en = \
-            'An unbranded envelope can be addressed to you at the registered address'
 
-        self.content_request_code_select_how_to_receive_individual_response_question_cy = \
-            "Angen ateb ar wahân i aelodau eich cartref?"
         self.content_request_code_select_how_to_receive_error_cy = "Dewiswch ateb"
         self.content_request_code_select_how_to_receive_secondary_cy = "Dewiswch sut i anfon y cod mynediad"
         self.content_request_code_select_how_to_receive_option_text_cy = "Neges destun"
         self.content_request_code_select_how_to_receive_option_post_cy = "Post"
         self.content_request_code_select_how_to_receive_option_post_hint_cy = \
-            "Dim ond i\\\'r cyfeiriad cofrestredig y cartref y gallwn anfon codau mynediad"
-        self.content_request_code_select_how_to_receive_option_post_hint_individual_cy = \
-            "Gall amlen blaen gael ei hanfon atoch chi yn y cyfeiriad cofrestredig"
-        self.content_request_code_select_how_to_receive_option_post_hint_ce_cy = \
             "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
-        self.content_request_code_select_how_to_receive_option_post_hint_ce_individual_cy = \
-            "Gall amlen blaen gael ei hanfon atoch chi yn y cyfeiriad cofrestredig"
 
-        self.content_request_code_select_how_to_receive_household_page_title_en = \
-            '<title>Select how to receive household access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_household_page_title_error_en = \
-            '<title>Error: Select how to receive household access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_household_title_en = \
-            'How would you like to receive a new household access code?'
-        self.content_request_code_select_how_to_receive_household_page_title_cy = \
-            '<title>Dewis sut i gael cod mynediad y cartref - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_household_page_title_error_cy = \
-            '<title>Gwall: Dewis sut i gael cod mynediad y cartref - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_household_title_cy = \
-            "Sut hoffech chi gael cod mynediad newydd ar gyfer y cartref?"
-
-        self.content_request_code_select_how_to_receive_individual_page_title_en = \
-            '<title>Select how to receive individual access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_page_title_error_en = \
-            '<title>Error: Select how to receive individual access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_title_en = \
-            'How would you like to receive an individual access code?'
-        self.content_request_code_select_how_to_receive_individual_page_title_cy = \
-            '<title>Dewis sut i anfon cod mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_page_title_error_cy = \
-            '<title>Gwall: Dewis sut i anfon cod mynediad unigol - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_individual_title_cy = \
-            "Sut hoffech chi gael cod mynediad unigol?"
-
-        self.content_request_code_select_how_to_receive_manager_page_title_en = \
-            '<title>Select how to receive manager access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_manager_page_title_error_en = \
-            '<title>Error: Select how to receive manager access code - Census 2021</title>'
-        self.content_request_code_select_how_to_receive_manager_title_en = \
-            'How would you like to receive a new manager access code?'
-        self.content_request_code_select_how_to_receive_manager_page_title_cy = \
-            '<title>Dewis sut i gael cod mynediad rheolwr - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_manager_page_title_error_cy = \
-            '<title>Gwall: Dewis sut i gael cod mynediad rheolwr - Cyfrifiad 2021</title>'
-        self.content_request_code_select_how_to_receive_manager_title_cy = \
-            "Sut hoffech chi gael cod mynediad rheolwr newydd?"
+        self.content_request_code_select_how_to_receive_page_title_en = \
+            '<title>Select how to receive access code - Census 2021</title>'
+        self.content_request_code_select_how_to_receive_page_title_error_en = \
+            '<title>Error: Select how to receive access code - Census 2021</title>'
+        self.content_request_code_select_how_to_receive_title_en = \
+            'How would you like to receive a new access code?'
+        self.content_request_code_select_how_to_receive_page_title_cy = \
+            '<title>Select how to receive access code - Cyfrifiad 2021</title>'
+        self.content_request_code_select_how_to_receive_page_title_error_cy = \
+            '<title>Gwall: Select how to receive access code - Cyfrifiad 2021</title>'
+        self.content_request_code_select_how_to_receive_title_cy = \
+            "How would you like to receive a new access code?"
 
         self.content_request_code_enter_mobile_page_title_en = '<title>Enter mobile number - Census 2021</title>'
         self.content_request_code_enter_mobile_page_title_error_en = \
@@ -1284,91 +886,30 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_code_enter_mobile_secondary_cy = \
             "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
 
-        self.content_request_code_confirm_send_by_text_page_title_household_en = \
-            '<title>Confirm to send household access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_household_error_en = \
-            '<title>Error: Confirm to send household access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_manager_en = \
-            '<title>Confirm to send manager access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_manager_error_en = \
-            '<title>Error: Confirm to send manager access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_en = \
-            '<title>Confirm to send individual access code by text - Census 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_error_en = \
-            '<title>Error: Confirm to send individual access code by text - Census 2021</title>'
+        self.content_request_code_confirm_send_by_text_page_title_en = \
+            '<title>Confirm to send access code by text - Census 2021</title>'
+        self.content_request_code_confirm_send_by_text_page_title_error_en = \
+            '<title>Error: Confirm to send access code by text - Census 2021</title>'
         self.content_request_code_confirm_send_by_text_title_en = 'Is this mobile number correct?'
         self.content_request_code_confirm_send_by_text_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_text_page_title_household_cy = \
-            '<title>Cadarnhau i anfon cod mynediad y cartref drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_household_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad y cartref drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_manager_cy = \
-            '<title>Cadarnhau i anfon cod mynediad rheolwr drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_manager_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad rheolwr drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_cy = \
-            '<title>Cadarnhau i anfon cod mynediad unigol drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_text_page_title_individual_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad unigol drwy neges destun - Cyfrifiad 2021</title>'
+        self.content_request_code_confirm_send_by_text_page_title_cy = \
+            '<title>Confirm to send access code by text - Cyfrifiad 2021</title>'
+        self.content_request_code_confirm_send_by_text_page_title_error_cy = \
+            '<title>Gwall: Confirm to send access code by text - Cyfrifiad 2021</title>'
         self.content_request_code_confirm_send_by_text_title_cy = \
             "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
         self.content_request_code_confirm_send_by_text_error_cy = "Dewiswch ateb"
 
-        self.content_request_code_sent_by_text_page_title_household_en = \
-            '<title>Household access code has been sent by text - Census 2021</title>'
-        self.content_request_code_sent_by_text_page_title_individual_en = \
-            '<title>Individual access code has been sent by text - Census 2021</title>'
-        self.content_request_code_sent_by_text_page_title_manager_en = \
-            '<title>Manager access code has been sent by text - Census 2021</title>'
+        self.content_request_code_sent_by_text_page_title_en = \
+            '<title>Access code has been sent by text - Census 2021</title>'
         self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
-        self.content_request_code_sent_by_text_secondary_individual_en = \
-            'The text message with an individual access code should arrive soon for you to start your census'
-        self.content_request_code_sent_by_text_secondary_manager_en = \
-            'The text message with a new manager access code should arrive soon for you to start the census'
-        self.content_request_code_sent_by_text_secondary_household_en = \
-            'The text message with a new household access code should arrive soon for you to start your census'
-        self.content_request_code_sent_by_text_page_title_household_cy = \
-            '<title>Mae cod mynediad y cartref wedi cael ei anfon drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_text_page_title_individual_cy = \
-            '<title>Mae cod mynediad unigol wedi cael ei anfon drwy neges destun - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_text_page_title_manager_cy = \
-            '<title>Mae cod mynediad rheolwr wedi cael ei anfon drwy neges destun - Cyfrifiad 2021</title>'
+        self.content_request_code_sent_by_text_secondary_en = \
+            'The text message with a new access code should arrive soon for you to start your census'
+        self.content_request_code_sent_by_text_page_title_cy = \
+            '<title>Access code has been sent by text - Cyfrifiad 2021</title>'
         self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
-        self.content_request_code_sent_by_text_secondary_individual_cy = \
-            "Dylai\\xe2\\x80\\x99r neges destun yn cynnwys cod mynediad unigol gyrraedd yn fuan er mwyn " \
-            "i chi ddechrau eich cyfrifiad"
-        self.content_request_code_sent_by_text_secondary_manager_cy = \
-            "Dylai\\xe2\\x80\\x99r neges destun yn cynnwys cod mynediad rheolwr newydd gyrraedd yn " \
-            "fuan er mwyn i chi ddechrau\\xe2\\x80\\x99r cyfrifiad"
-        self.content_request_code_sent_by_text_secondary_household_cy = \
-            "Dylai\\xe2\\x80\\x99r neges destun yn cynnwys cod mynediad newydd ar gyfer y cartref gyrraedd " \
-            "yn fuan er mwyn i chi ddechrau eich cyfrifiad"
-
-        self.content_request_code_household_page_title_en = \
-            '<title>Request new household access code - Census 2021</title>'
-        self.content_request_code_household_title_en = 'Request a new household access code'
-        self.content_request_code_household_page_title_cy = \
-            '<title>Gofyn am god mynediad newydd ar gyfer y cartref - Cyfrifiad 2021</title>'
-        self.content_request_code_household_title_cy = "Gofyn am god mynediad newydd ar gyfer eich cartref"
-
-        self.content_request_questionnaire_household_page_title_en = \
-            '<title>Request household paper questionnaire - Census 2021</title>'
-        self.content_request_questionnaire_household_title_en = 'Request a household paper questionnaire'
-        self.content_request_questionnaire_household_page_title_cy = \
-            '<title>Gofyn am holiadur papur y cartref - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_household_title_cy = "Gofyn am holiadur papur y cartref"
-
-        self.content_request_questionnaire_people_in_household_title_en = 'How many people are in your household?'
-        self.content_request_questionnaire_people_in_household_error_empty_en = \
-            'Enter the number of people in your household'
-        self.content_request_questionnaire_people_in_household_error_nan_en = 'Enter a number'
-        self.content_request_questionnaire_people_in_household_error_number_less_en = \
-            'Enter a number less than 31'
-        self.content_request_questionnaire_people_in_household_title_cy = "Faint o bobl sydd yn eich cartref?"
-        self.content_request_questionnaire_people_in_household_error_empty_cy = "Rhowch nifer y bobl yn eich cartref"
-        self.content_request_questionnaire_people_in_household_error_nan_cy = "Rhowch rif"
-        self.content_request_questionnaire_people_in_household_error_number_less_cy = \
-            "Rhowch rif sy\\\'n llai na 31"
+        self.content_request_code_sent_by_text_secondary_cy = \
+            "The text message with a new access code should arrive soon for you to start your census"
 
         self.content_request_common_enter_name_page_title_en = \
             '<title>Enter name - Census 2021</title>'
@@ -1393,144 +934,46 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_common_enter_name_error_last_name_overlength_cy = \
             "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
 
-        self.content_request_code_confirm_send_by_post_page_title_individual_en = \
-            '<title>Confirm to send individual access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_individual_en = \
-            '<title>Error: Confirm to send individual access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_manager_en = \
-            '<title>Confirm to send manager access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_manager_en = \
-            '<title>Error: Confirm to send manager access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_household_en = \
-            '<title>Confirm to send household access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_household_en = \
-            '<title>Error: Confirm to send household access code by post - Census 2021</title>'
-        self.content_request_code_confirm_send_by_post_title_individual_en = \
-            'Do you want to send an individual access code to this address?'
-        self.content_request_code_confirm_send_by_post_title_manager_en = \
-            'Do you want to send a new manager access code to this address?'
-        self.content_request_code_confirm_send_by_post_title_household_en = \
-            'Do you want to send a new household access code to this address?'
+        self.content_request_code_confirm_send_by_post_page_title_en = \
+            '<title>Confirm to send access code by post - Census 2021</title>'
+        self.content_request_code_confirm_send_by_post_page_title_error_en = \
+            '<title>Error: Confirm to send access code by post - Census 2021</title>'
+        self.content_request_code_confirm_send_by_post_title_en = \
+            'Do you want to send a new access code to this address?'
         self.content_request_common_confirm_send_by_post_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_post_individual_message_en = \
-            'A letter with your individual access code will arrive in a brown unbranded envelope'
-        self.content_request_questionnaire_confirm_send_by_post_individual_message_en = \
-            'Your individual paper questionnaire will arrive in a white unbranded envelope'
         self.content_request_code_confirm_send_by_post_option_yes_en = 'Yes, send the access code by post'
         self.content_request_code_confirm_send_by_post_option_no_en = 'No, send it by text message'
-        self.content_request_code_confirm_send_by_post_page_title_individual_cy = \
-            '<title>Cadarnhau i anfon cod mynediad unigol drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_individual_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad unigol drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_manager_cy = \
-            '<title>Cadarnhau i anfon cod mynediad rheolwr drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_manager_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad rheolwr drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_household_cy = \
-            '<title>Cadarnhau i anfon cod mynediad y cartref drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_household_cy = \
-            '<title>Gwall: Cadarnhau i anfon cod mynediad y cartref drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_confirm_send_by_post_title_individual_cy = \
-            "Ydych chi am anfon cod mynediad unigol i\\\'r cyfeiriad hwn?"
-        self.content_request_code_confirm_send_by_post_title_manager_cy = \
-            "Ydych chi am anfon cod mynediad rheolwr newydd i\\\'r cyfeiriad hwn?"
-        self.content_request_code_confirm_send_by_post_title_household_cy = \
-            "Ydych chi am anfon cod mynediad newydd ar gyfer y cartref i\\\'r cyfeiriad hwn?"
+        self.content_request_code_confirm_send_by_post_page_title_cy = \
+            '<title>Confirm to send access code by post - Cyfrifiad 2021</title>'
+        self.content_request_code_confirm_send_by_post_page_title_error_cy = \
+            '<title>Gwall: Confirm to send access code by post - Cyfrifiad 2021</title>'
+        self.content_request_code_confirm_send_by_post_title_cy = \
+            "Do you want to send a new access code to this address?"
         self.content_request_common_confirm_send_by_post_error_cy = "Dewiswch ateb"
-        self.content_request_code_confirm_send_by_post_individual_message_cy = \
-            "Bydd llythyr yn cynnwys eich cod mynediad unigol yn cyrraedd mewn amlen blaen frown"
-        self.content_request_questionnaire_confirm_send_by_post_individual_message_cy = \
-            "Bydd eich holiadur papur i unigolion yn cyrraedd mewn amlen blaen wen"
         self.content_request_code_confirm_send_by_post_option_yes_cy = "Ydw, anfonwch y cod mynediad drwy\\\'r post"
         self.content_request_code_confirm_send_by_post_option_no_cy = \
             "Nac ydw, anfonwch y cod mynediad drwy neges destun"
 
-        self.content_request_code_sent_by_post_page_title_household_en = \
-            '<title>Household access code will be sent by post - Census 2021</title>'
-        self.content_request_code_sent_by_post_page_title_manager_en = \
-            '<title>Manager access code will be sent by post - Census 2021</title>'
-        self.content_request_code_sent_by_post_page_title_individual_en = \
-            '<title>Individual access code will be sent by post - Census 2021</title>'
+        self.content_request_code_sent_by_post_page_title_en = \
+            '<title>Access code will be sent by post - Census 2021</title>'
         self.content_request_code_hh_region_e_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
         self.content_request_code_hh_region_w_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 West Street, West Westingham'
-        self.content_request_code_na_region_e_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at Holiday Accommodation, Brampton Road'
-        self.content_request_code_na_region_w_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at Holiday Wales Accommodation, Brampton Road'
-        self.content_request_code_spg_region_e_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at 2 Main Street, Upper Upperingham'
-        self.content_request_code_spg_region_w_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at 2 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Gate Reach, Exeter'
-        self.content_request_code_region_e_sent_post_title_ce_en = \
-            'A letter will be sent to Bob Bobbington at Halls Of Residence, Upton University'
-        self.content_request_code_region_w_sent_post_title_ce_en = \
-            'A letter will be sent to Bob Bobbington at Halls Of Residence, Weston University'
-        self.content_request_code_region_e_sent_post_title_ce_with_room_en = \
-            'A letter will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_code_region_w_sent_post_title_ce_with_room_en = \
-            'A letter will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_code_region_e_sent_post_title_ce_with_room_long_surname_en = \
-            'A letter will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Upton University'
-        self.content_request_code_region_w_sent_post_title_ce_with_room_long_surname_en = \
-            'A letter will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Weston University'
-        self.content_request_code_sent_post_secondary_individual_en = \
-            'The letter with an individual access code for you to start the census should arrive within 5 working days'
-        self.content_request_code_sent_post_secondary_manager_en = \
-            'The letter with a new manager access code for you to start the census should arrive within 5 working days'
         self.content_request_code_sent_post_secondary_household_en = \
             'The letter with a new household access code for you to start the census should arrive ' \
             'within 5 working days'
-        self.content_request_code_sent_by_post_page_title_household_cy = \
-            '<title>Caiff cod mynediad y cartref ei anfon drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_post_page_title_manager_cy = \
-            '<title>Caiff cod mynediad rheolwr ei anfon drwy&#39;r post - Cyfrifiad 2021</title>'
-        self.content_request_code_sent_by_post_page_title_individual_cy = \
-            '<title>Caiff cod mynediad unigol ei anfon drwy&#39;r post - Cyfrifiad 2021</title>'
+        self.content_request_code_sent_by_post_page_title_cy = \
+            '<title>Access code will be sent by post - Cyfrifiad 2021</title>'
         self.content_request_code_hh_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 West Street, West Westingham'
-        self.content_request_code_na_sent_post_title_cy = \
-            'Caiff llythyr ei anfon at Bob Bobbington yn Holiday Wales Accommodation, Brampton Road'
-        self.content_request_code_spg_sent_post_title_cy = \
-            'Caiff llythyr ei anfon at Bob Bobbington yn 2 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_title_ce_cy = \
-            "Caiff llythyr ei anfon at Bob Bobbington yn Halls Of Residence, Weston University"
-        self.content_request_code_sent_post_title_ce_with_room_cy = \
-            "Caiff llythyr ei anfon at Bob Bobbington, Room A8 yn Halls Of Residence, " \
-            "Weston University"
-        self.content_request_code_sent_post_title_ce_with_room_long_surname_cy = \
-            "Caiff llythyr ei anfon at Room A8 Bob Bobbington-Fortesque-Smythe " \
-            "yn Halls Of Residence, Weston University"
-        self.content_request_code_sent_post_secondary_individual_cy = \
-            "Dylai\\\'r llythyr gyda chod mynediad unigol i chi ddechrau\\\'r cyfrifiad " \
-            "gyrraedd cyn pen 5 diwrnod gwaith"
-        self.content_request_code_sent_post_secondary_manager_cy = \
-            "Dylai\\\'r llythyr gyda chod mynediad rheolwr newydd i chi ddechrau\\\'r cyfrifiad " \
-            "gyrraedd cyn pen 5 diwrnod gwaith"
-        self.content_request_code_sent_post_secondary_household_cy = \
+        self.content_request_code_sent_post_secondary_cy = \
             "Dylai\\\'r llythyr gyda chod mynediad cartref newydd i chi ddechrau\\\'r cyfrifiad " \
             "gyrraedd cyn pen 5 diwrnod gwaith"
-        self.content_request_code_rhsvc_sent_post_title_ni = \
-            'A letter will be sent to Bob Bobbington at 1 Side Street, Lower Loweringham'
-        self.content_request_code_aims_na_sent_post_title_ni = \
-            'A letter will be sent to Bob Bobbington at 27 Kings Road, Whitehead'
-        self.content_request_code_sent_post_title_ce_ni = \
-            'A letter will be sent to Bob Bobbington at Halls Of Residence, Lowton University'
-        self.content_request_code_sent_post_title_ce_with_room_long_surname_ni = \
-            'A letter will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Lowton University'
-        self.content_request_code_sent_post_title_ce_with_room_ni = \
-            'A letter will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Lowton University'
 
         self.content_request_contact_centre_en = 'You need to call the Census customer contact centre'
         self.content_request_contact_centre_cy = "Mae angen i chi ffonio canolfan gyswllt cwsmeriaid y cyfrifiad"
@@ -1538,1173 +981,12 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_timeout_error_en = 're-enter your postcode'
         self.content_request_timeout_error_cy = 'nodi eich cod post eto'
 
-        # Unlinked/Link Address UACs
-
-        # URLs
-        self.get_start_link_address_enter_address_en = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='en', user_journey='start',
-                                                              sub_user_journey='link-address')
-        self.get_start_link_address_enter_address_cy = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                              sub_user_journey='link-address')
-        self.get_start_link_address_enter_address_ni = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                              sub_user_journey='link-address')
-        self.post_start_link_address_enter_address_en = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='en', user_journey='start',
-                                                               sub_user_journey='link-address')
-        self.post_start_link_address_enter_address_cy = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                               sub_user_journey='link-address')
-        self.post_start_link_address_enter_address_ni = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                               sub_user_journey='link-address')
-
-        self.get_start_link_address_select_address_en = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='en', user_journey='start',
-                                                               sub_user_journey='link-address')
-        self.get_start_link_address_select_address_cy = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                               sub_user_journey='link-address')
-        self.get_start_link_address_select_address_ni = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                               sub_user_journey='link-address')
-        self.post_start_link_address_select_address_en = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='en', user_journey='start',
-                                                                sub_user_journey='link-address')
-        self.post_start_link_address_select_address_cy = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                                sub_user_journey='link-address')
-        self.post_start_link_address_select_address_ni = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                                sub_user_journey='link-address')
-
-        self.get_start_link_address_confirm_address_en = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='en', user_journey='start',
-                                                                sub_user_journey='link-address')
-        self.get_start_link_address_confirm_address_cy = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                                sub_user_journey='link-address')
-        self.get_start_link_address_confirm_address_ni = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                                sub_user_journey='link-address')
-        self.post_start_link_address_confirm_address_en = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='en', user_journey='start',
-                                                                 sub_user_journey='link-address')
-        self.post_start_link_address_confirm_address_cy = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                                 sub_user_journey='link-address')
-        self.post_start_link_address_confirm_address_ni = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                                 sub_user_journey='link-address')
-
-        # Test Data
-        with open('tests/test_data/rhsvc/uac_unlinked_e.json') as fp:
-            self.link_address_uac_json_e = json.load(fp)
-        with open('tests/test_data/rhsvc/uac_unlinked_w.json') as fp:
-            self.link_address_uac_json_w = json.load(fp)
-        with open('tests/test_data/rhsvc/uac_unlinked_n.json') as fp:
-            self.link_address_uac_json_n = json.load(fp)
-
-        with open('tests/test_data/rhsvc/uac_linked_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_e = f
-        with open('tests/test_data/rhsvc/uac_linked_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_w = f
-        with open('tests/test_data/rhsvc/uac_linked_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_n = f
-
-        self.start_address_linked = {
-            'action[save_continue]': ''
-        }
-
-        # Content
-        self.content_start_link_address_enter_address_question_title_en = 'What is your postcode?'
-        self.content_start_link_address_enter_address_question_title_cy = 'Beth yw eich cod post?'
-
-        self.content_link_address_timeout_error_en = 'enter your 16-character access code'
-        self.content_link_address_timeout_error_cy = 'eich cod mynediad 16 nod'
-
-        # Start Change Address
-
-        # URLs
-        self.get_start_change_address_enter_address_en = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='en', user_journey='start',
-                                                              sub_user_journey='change-address')
-        self.get_start_change_address_enter_address_cy = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                              sub_user_journey='change-address')
-        self.get_start_change_address_enter_address_ni = \
-            self.app.router['CommonEnterAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                              sub_user_journey='change-address')
-        self.post_start_change_address_enter_address_en = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='en', user_journey='start',
-                                                               sub_user_journey='change-address')
-        self.post_start_change_address_enter_address_cy = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                               sub_user_journey='change-address')
-        self.post_start_change_address_enter_address_ni = \
-            self.app.router['CommonEnterAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                               sub_user_journey='change-address')
-
-        self.get_start_change_address_select_address_en = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='en', user_journey='start',
-                                                               sub_user_journey='change-address')
-        self.get_start_change_address_select_address_cy = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                               sub_user_journey='change-address')
-        self.get_start_change_address_select_address_ni = \
-            self.app.router['CommonSelectAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                               sub_user_journey='change-address')
-        self.post_start_change_address_select_address_en = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='en', user_journey='start',
-                                                                sub_user_journey='change-address')
-        self.post_start_change_address_select_address_cy = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                                sub_user_journey='change-address')
-        self.post_start_change_address_select_address_ni = \
-            self.app.router['CommonSelectAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                                sub_user_journey='change-address')
-
-        self.get_start_change_address_confirm_address_en = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='en', user_journey='start',
-                                                                sub_user_journey='change-address')
-        self.get_start_change_address_confirm_address_cy = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='cy', user_journey='start',
-                                                                sub_user_journey='change-address')
-        self.get_start_change_address_confirm_address_ni = \
-            self.app.router['CommonConfirmAddress:get'].url_for(display_region='ni', user_journey='start',
-                                                                sub_user_journey='change-address')
-        self.post_start_change_address_confirm_address_en = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='en', user_journey='start',
-                                                                 sub_user_journey='change-address')
-        self.post_start_change_address_confirm_address_cy = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='cy', user_journey='start',
-                                                                 sub_user_journey='change-address')
-        self.post_start_change_address_confirm_address_ni = \
-            self.app.router['CommonConfirmAddress:post'].url_for(display_region='ni', user_journey='start',
-                                                                 sub_user_journey='change-address')
-
-        # Test Data
-        with open('tests/test_data/rhsvc/uac_linked_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_e = f
-        with open('tests/test_data/rhsvc/uac_linked_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_w = f
-        with open('tests/test_data/rhsvc/uac_linked_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_post_linked_uac_n = f
-
-        self.start_address_changed = {
-            'action[save_continue]': ''
-        }
-
-        # Content
-        self.content_start_change_address_enter_address_question_title_en = 'What is your postcode?'
-        self.content_start_change_address_enter_address_question_title_cy = 'Beth yw eich cod post?'
-
-        self.content_start_change_address_timeout_error_en = 're-enter your access code'
-        self.content_start_change_address_timeout_error_cy = 'nodi eich cod mynediad eto'
-
-        # Start Request Access Code
-
-        # URLs
-
-        self.get_request_access_code_enter_address_en = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_enter_address_cy = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_enter_address_ni = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_address_en = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_address_cy = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_address_ni = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_select_address_en = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_select_address_cy = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_select_address_ni = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_select_address_en = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_select_address_cy = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_select_address_ni = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_confirm_address_en = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_confirm_address_cy = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_confirm_address_ni = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_confirm_address_en = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_confirm_address_cy = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_confirm_address_ni = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_enter_room_number_en = self.app.router['CommonEnterRoomNumber:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_enter_room_number_cy = self.app.router['CommonEnterRoomNumber:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_access_code_enter_room_number_ni = self.app.router['CommonEnterRoomNumber:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_room_number_en = self.app.router['CommonEnterRoomNumber:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_room_number_cy = self.app.router['CommonEnterRoomNumber:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_enter_room_number_ni = self.app.router['CommonEnterRoomNumber:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.post_request_access_code_resident_or_manager_en = self.app.router['CommonCEMangerQuestion:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_resident_or_manager_cy = self.app.router['CommonCEMangerQuestion:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_resident_or_manager_ni = self.app.router['CommonCEMangerQuestion:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_access_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.get_request_access_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.get_request_access_code_select_how_to_receive_ni = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='ni'
-            )
-        self.post_request_access_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.post_request_access_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.post_request_access_code_select_how_to_receive_ni = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='ni'
-            )
-
-        self.get_request_access_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_access_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.get_request_access_code_enter_mobile_ni = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-        self.post_request_access_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_access_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_access_code_enter_mobile_ni = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.get_request_access_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='en')
-        self.get_request_access_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='cy')
-        self.get_request_access_code_confirm_send_by_text_ni = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='ni')
-        self.post_request_access_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='en')
-        self.post_request_access_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='cy')
-        self.post_request_access_code_confirm_send_by_text_ni = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='ni')
-
-        self.post_request_access_code_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_access_code_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_access_code_enter_name_ni = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.post_request_access_code_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='en')
-        self.post_request_access_code_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='cy')
-        self.post_request_access_code_confirm_send_by_post_ni = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='ni')
-
-        # Start Request Individual Code
-
-        # URLs
-
-        self.get_request_individual_code_en = self.app.router['RequestCodeIndividual:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_individual_code_cy = self.app.router['RequestCodeIndividual:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.get_request_individual_code_ni = self.app.router['RequestCodeIndividual:get'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.get_request_individual_form_en = self.app.router['RequestIndividualForm:get'].url_for(
-            request_type='paper-questionnaire', display_region='en'
-        )
-        self.get_request_individual_form_cy = self.app.router['RequestIndividualForm:get'].url_for(
-            request_type='paper-questionnaire', display_region='cy'
-        )
-        self.get_request_individual_form_ni = self.app.router['RequestIndividualForm:get'].url_for(
-            request_type='paper-questionnaire', display_region='ni'
-        )
-
-        self.post_request_individual_code_en = self.app.router['RequestCodeIndividual:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_cy = self.app.router['RequestCodeIndividual:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_individual_code_ni = self.app.router['RequestCodeIndividual:post'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.post_request_individual_form_en = self.app.router['RequestIndividualForm:post'].url_for(
-            request_type='paper-questionnaire', display_region='en'
-        )
-        self.post_request_individual_form_cy = self.app.router['RequestIndividualForm:post'].url_for(
-            request_type='paper-questionnaire', display_region='cy'
-        )
-        self.post_request_individual_form_ni = self.app.router['RequestIndividualForm:post'].url_for(
-            request_type='paper-questionnaire', display_region='ni'
-        )
-
-        self.get_request_individual_code_enter_address_en = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_enter_address_cy = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_enter_address_ni = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_enter_address_en = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_enter_address_cy = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_enter_address_ni = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_select_address_en = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_select_address_cy = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_select_address_ni = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_select_address_en = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_select_address_cy = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_select_address_ni = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_confirm_address_en = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_confirm_address_cy = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.get_request_individual_code_confirm_address_ni = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_confirm_address_en = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_confirm_address_cy = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_individual_code_confirm_address_ni = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.get_request_individual_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.get_request_individual_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.get_request_individual_code_select_how_to_receive_ni = \
-            self.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                request_type='access-code', display_region='ni'
-            )
-        self.post_request_individual_code_select_how_to_receive_en = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='en'
-            )
-        self.post_request_individual_code_select_how_to_receive_cy = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='cy'
-            )
-        self.post_request_individual_code_select_how_to_receive_ni = \
-            self.app.router['RequestCodeSelectHowToReceive:post'].url_for(
-                request_type='access-code', display_region='ni'
-            )
-
-        self.get_request_individual_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.get_request_individual_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.get_request_individual_code_enter_mobile_ni = self.app.router['RequestCodeEnterMobile:get'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-        self.post_request_individual_code_enter_mobile_en = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_enter_mobile_cy = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_individual_code_enter_mobile_ni = self.app.router['RequestCodeEnterMobile:post'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.get_request_individual_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='en')
-        self.get_request_individual_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='cy')
-        self.get_request_individual_code_confirm_send_by_text_ni = \
-            self.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type='access-code', display_region='ni')
-        self.post_request_individual_code_confirm_send_by_text_en = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='en')
-        self.post_request_individual_code_confirm_send_by_text_cy = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='cy')
-        self.post_request_individual_code_confirm_send_by_text_ni = \
-            self.app.router['RequestCodeConfirmSendByText:post'].url_for(request_type='access-code',
-                                                                         display_region='ni')
-
-        self.post_request_individual_code_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='en'
-        )
-        self.post_request_individual_code_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='cy'
-        )
-        self.post_request_individual_code_enter_name_ni = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='access-code', display_region='ni'
-        )
-
-        self.post_request_individual_form_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='en'
-        )
-        self.post_request_individual_form_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='cy'
-        )
-        self.post_request_individual_form_enter_name_ni = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='ni'
-        )
-
-        self.post_request_individual_code_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='en')
-        self.post_request_individual_code_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='cy')
-        self.post_request_individual_code_confirm_send_by_post_ni = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='access-code',
-                                                                           display_region='ni')
-
-        self.post_request_individual_form_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='en')
-        self.post_request_individual_form_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='cy')
-        self.post_request_individual_form_confirm_send_by_post_ni = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='ni')
-
-        # Start Request Paper Questionnaire
-
-        # URLs
-
-        self.get_request_paper_questionnaire_enter_address_en = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_enter_address_cy = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_enter_address_ni = self.app.router['CommonEnterAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_enter_address_en = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_enter_address_cy = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_enter_address_ni = self.app.router['CommonEnterAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-
-        self.get_request_paper_questionnaire_select_address_en = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_select_address_cy = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_select_address_ni = self.app.router['CommonSelectAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_select_address_en = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_select_address_cy = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_select_address_ni = self.app.router['CommonSelectAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-
-        self.get_request_paper_questionnaire_confirm_address_en = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_confirm_address_cy = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.get_request_paper_questionnaire_confirm_address_ni = self.app.router['CommonConfirmAddress:get'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_confirm_address_en = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_confirm_address_cy = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-        self.post_request_paper_questionnaire_confirm_address_ni = self.app.router['CommonConfirmAddress:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-        )
-
-        self.get_request_paper_questionnaire_enter_room_number_en = \
-            self.app.router['CommonEnterRoomNumber:get'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.get_request_paper_questionnaire_enter_room_number_cy = \
-            self.app.router['CommonEnterRoomNumber:get'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.get_request_paper_questionnaire_enter_room_number_ni = \
-            self.app.router['CommonEnterRoomNumber:get'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_enter_room_number_en = \
-            self.app.router['CommonEnterRoomNumber:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_enter_room_number_cy = \
-            self.app.router['CommonEnterRoomNumber:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_enter_room_number_ni = \
-            self.app.router['CommonEnterRoomNumber:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-
-        self.post_request_access_code_household_en = self.app.router['RequestCodeHousehold:post'].url_for(
-            display_region='en', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_household_cy = self.app.router['RequestCodeHousehold:post'].url_for(
-            display_region='cy', user_journey='request', sub_user_journey='access-code'
-        )
-        self.post_request_access_code_household_ni = self.app.router['RequestCodeHousehold:post'].url_for(
-            display_region='ni', user_journey='request', sub_user_journey='access-code'
-        )
-
-        self.post_request_paper_questionnaire_household_en = \
-            self.app.router['RequestHouseholdForm:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_household_cy = \
-            self.app.router['RequestHouseholdForm:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_household_ni = \
-            self.app.router['RequestHouseholdForm:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-
-        self.post_request_paper_questionnaire_people_in_household_en = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='en', user_journey='request', request_type='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_people_in_household_cy = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='cy', user_journey='request', request_type='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_people_in_household_ni = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='ni', user_journey='request', request_type='paper-questionnaire'
-            )
-
-        self.post_request_paper_questionnaire_resident_or_manager_en = \
-            self.app.router['CommonCEMangerQuestion:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_resident_or_manager_cy = \
-            self.app.router['CommonCEMangerQuestion:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-        self.post_request_paper_questionnaire_resident_or_manager_ni = \
-            self.app.router['CommonCEMangerQuestion:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='paper-questionnaire'
-            )
-
-        self.post_request_paper_questionnaire_enter_name_en = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='en'
-        )
-        self.post_request_paper_questionnaire_enter_name_cy = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='cy'
-        )
-        self.post_request_paper_questionnaire_enter_name_ni = self.app.router['RequestCommonEnterName:post'].url_for(
-            request_type='paper-questionnaire', display_region='ni'
-        )
-
-        self.post_request_paper_questionnaire_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='en')
-        self.post_request_paper_questionnaire_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='cy')
-        self.post_request_paper_questionnaire_confirm_send_by_post_ni = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='paper-questionnaire',
-                                                                           display_region='ni')
-
-        # Content
-
-        self.content_request_paper_questionnaire_enter_address_secondary_en = \
-            'To send a paper census questionnaire, we need your address'
-        self.content_request_paper_questionnaire_enter_address_secondary_cy = \
-            "I anfon holiadur papur y cyfrifiad, bydd angen eich cyfeiriad arnom"
-
-        self.content_request_questionnaire_sent_post_page_title_en = \
-            '<title>Household paper questionnaire will be sent - Census 2021</title>'
-        self.content_request_questionnaire_sent_post_individual_page_title_en = \
-            '<title>Individual paper questionnaire will be sent - Census 2021</title>'
-        self.content_request_questionnaire_sent_post_page_title_large_print_en = \
-            '<title>Large-print household paper questionnaire will be sent - Census 2021</title>'
-        self.content_request_questionnaire_sent_post_individual_page_title_large_print_en = \
-            '<title>Large-print individual paper questionnaire will be sent - Census 2021</title>'
-        self.content_request_pq_rhsvc_region_e_hh_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_hh_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 1 West Street, West Westingham'
-        self.content_request_pq_aims_region_e_na_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at Holiday Accommodation, Brampton Road'
-        self.content_request_pq_aims_region_w_na_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at ' \
-            'Holiday Wales Accommodation, Brampton Road'
-        self.content_request_pq_rhsvc_region_e_spg_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 2 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_spg_sent_post_title_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 2 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_e_hh_sent_post_individual_title_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_e_spg_sent_post_individual_title_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at 2 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_hh_sent_post_individual_title_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at 1 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_w_spg_sent_post_individual_title_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at 2 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_e_hh_sent_post_title_lp_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_hh_sent_post_title_lp_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_e_spg_sent_post_title_lp_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at ' \
-            '2 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_spg_sent_post_title_lp_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at ' \
-            '2 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_e_hh_sent_post_individual_title_lp_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_hh_sent_post_individual_title_lp_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 West Street, West Westingham'
-        self.content_request_pq_rhsvc_region_e_spg_sent_post_individual_title_lp_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at ' \
-            '2 Main Street, Upper Upperingham'
-        self.content_request_pq_rhsvc_region_w_spg_sent_post_individual_title_lp_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at ' \
-            '2 West Street, West Westingham'
-        self.content_request_pq_region_e_sent_post_title_ce_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_region_w_sent_post_title_ce_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_region_e_sent_post_individual_title_ce_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_region_w_sent_post_individual_title_ce_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_region_e_sent_post_title_ce_with_room_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_region_w_sent_post_title_ce_with_room_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_region_e_sent_indi_title_ce_room_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_region_w_sent_indi_title_ce_room_en = \
-            'An individual paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_region_e_sent_title_ce_room_long_last_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Upton University'
-        self.content_request_pq_region_w_sent_title_ce_room_long_last_en = \
-            'A household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Weston University'
-        self.content_request_pq_region_e_sent_indi_title_ce_room_long_last_en = \
-            'An individual paper questionnaire will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Upton University'
-        self.content_request_pq_region_w_sent_indi_title_ce_room_long_last_en = \
-            'An individual paper questionnaire will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Weston University'
-        self.content_request_pq_rhsvc_region_e_sent_post_title_lp_ce_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_rhsvc_region_w_sent_post_title_lp_ce_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_rhsvc_region_e_sent_post_individual_title_lp_ce_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Upton University'
-        self.content_request_pq_rhsvc_region_w_sent_post_individual_title_lp_ce_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_pq_rhsvc_region_e_sent_title_lp_ce_room_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington, ' \
-            'Room A8 at Halls Of Residence, Upton University'
-        self.content_request_pq_rhsvc_region_w_sent_title_lp_ce_room_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington, ' \
-            'Room A8 at Halls Of Residence, Weston University'
-        self.content_request_pq_region_e_sent_indi_title_lp_ce_room_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington, ' \
-            'Room A8 at Halls Of Residence, Upton University'
-        self.content_request_pq_region_w_sent_indi_title_lp_ce_room_en = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington, ' \
-            'Room A8 at Halls Of Residence, Weston University'
-        self.content_request_pq_region_e_sent_post_title_lp_ce_room_long_last_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Upton University'
-        self.content_request_pq_region_w_sent_post_title_lp_ce_room_long_last_en = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Weston University'
-        self.content_request_questionnaire_sent_post_secondary_en = \
-            'This should arrive within 5 working days for you to complete your census'
-
-        self.content_request_questionnaire_sent_post_page_title_cy = \
-            '<title>Caiff holiadur papur y cartref ei anfon - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_sent_post_individual_page_title_cy = \
-            '<title>Caiff holiadur papur i unigolion ei anfon - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_sent_post_page_title_large_print_cy = \
-            '<title>Caiff copi print mawr o holiadur papur y cartref ei anfon - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_sent_post_individual_page_title_large_print_cy = \
-            "<title>Caiff copi print mawr o&#39;r holiadur papur i unigolion ei anfon - Cyfrifiad 2021</title>"
-        self.content_request_pq_rhsvc_hh_sent_post_title_cy = \
-            "Caiff holiadur papur y cartref ei anfon at Bob Bobbington yn 1 West Street, West Westingham"
-        self.content_request_pq_aims_na_sent_post_title_cy = \
-            "Caiff holiadur papur y cartref ei anfon at Bob Bobbington yn Holiday Wales Accommodation, Brampton Road"
-        self.content_request_pq_rhsvc_spg_sent_post_title_cy = \
-            "Caiff holiadur papur y cartref ei anfon at Bob Bobbington yn 2 West Street, West Westingham"
-        self.content_request_pq_rhsvc_hh_sent_post_individual_title_cy = \
-            "Caiff holiadur papur i unigolion ei anfon at Bob Bobbington yn 1 West Street, West Westingham"
-        self.content_request_pq_rhsvc_spg_sent_post_individual_title_cy = \
-            "Caiff holiadur papur i unigolion ei anfon at Bob Bobbington yn 2 West Street, West Westingham"
-        self.content_request_pq_aims_sent_post_individual_title_cy = \
-            "Caiff holiadur papur i unigolion ei anfon at Bob Bobbington yn 1 Gate Reach, Exeter"
-        self.content_request_pq_rhsvc_hh_sent_post_title_lp_cy = \
-            "Caiff copi print mawr o holiadur papur y cartref ei anfon at Bob Bobbington yn " \
-            "1 West Street, West Westingham"
-        self.content_request_pq_rhsvc_spg_sent_post_title_lp_cy = \
-            "Caiff copi print mawr o holiadur papur y cartref ei anfon at Bob Bobbington yn " \
-            "2 West Street, West Westingham"
-        self.content_request_pq_rhsvc_hh_sent_post_individual_title_lp_cy = \
-            "Caiff copi print mawr o\\\'r holiadur papur i unigolion ei anfon at Bob Bobbington yn " \
-            "1 West Street, West Westingham"
-        self.content_request_pq_rhsvc_spg_sent_post_individual_title_lp_cy = \
-            "Caiff copi print mawr o\\\'r holiadur papur i unigolion ei anfon at Bob Bobbington yn " \
-            "2 West Street, West Westingham"
-        self.content_request_questionnaire_sent_post_title_ce_cy = \
-            'Caiff holiadur papur y cartref ei anfon at Bob Bobbington yn Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_questionnaire_sent_post_individual_title_ce_cy = \
-            'Caiff holiadur papur i unigolion ei anfon at Bob Bobbington yn Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_questionnaire_sent_title_ce_with_room_cy = \
-            "Caiff holiadur papur y cartref ei anfon at Bob Bobbington, Room A8 yn Halls Of Residence, " \
-            "Weston University"
-        self.content_request_questionnaire_sent_individual_title_ce_with_room_cy = \
-            'Caiff holiadur papur i unigolion ei anfon at Bob Bobbington, Room A8 yn Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_questionnaire_sent_title_ce_with_room_long_last_cy = \
-            'Caiff holiadur papur y cartref ei anfon at Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 yn Halls Of Residence, Weston University'
-        self.content_request_questionnaire_sent_indi_title_ce_room_long_last_cy = \
-            'Caiff holiadur papur i unigolion ei anfon at Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'yn Halls Of Residence, Weston University'
-        self.content_request_questionnaire_sent_post_title_large_print_ce_cy = \
-            'Caiff copi print mawr o holiadur papur y cartref ei anfon at Bob Bobbington yn Halls Of Residence, ' \
-            'Weston University'
-        self.content_request_questionnaire_sent_post_individual_title_large_print_ce_cy = \
-            "Caiff copi print mawr o\\\'r holiadur papur i unigolion ei anfon at Bob Bobbington yn " \
-            "Halls Of Residence, Weston University"
-        self.content_request_questionnaire_sent_title_lp_ce_room_cy = \
-            "Caiff copi print mawr o holiadur papur y cartref ei anfon at Bob Bobbington, Room A8 yn " \
-            "Halls Of Residence, Weston University"
-        self.content_request_questionnaire_sent_indi_title_lp_ce_room_cy = \
-            "Caiff copi print mawr o\\\'r holiadur papur i unigolion ei anfon at Bob Bobbington, Room A8 yn " \
-            "Halls Of Residence, Weston University"
-        self.content_request_questionnaire_sent_post_title_lp_ce_with_room_long_last_cy = \
-            'Caiff copi print mawr o holiadur papur y cartref ei anfon at Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 yn Halls Of Residence, Weston University'
-        self.content_request_questionnaire_sent_post_secondary_cy = \
-            "Dylai hyn gyrraedd cyn pen 5 diwrnod gwaith i chi gwblhau eich cyfrifiad"
-
-        self.content_request_pq_rhsvc_hh_sent_post_title_ni = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 1 Side Street, Lower Loweringham'
-        self.content_request_pq_aims_na_sent_post_title_ni = \
-            'A household paper questionnaire will be sent to Bob Bobbington at 27 Kings Road, Whitehead'
-        self.content_request_pq_rhsvc_hh_sent_post_individual_title_ni = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at 1 Side Street, Lower Loweringham'
-        self.content_request_pq_rhsvc_hh_sent_post_title_lp_ni = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 Side Street, Lower Loweringham'
-        self.content_request_pq_rhsvc_hh_sent_post_individual_title_lp_ni = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at ' \
-            '1 Side Street, Lower Loweringham'
-        self.content_request_pq_sent_post_individual_title_ce_ni = \
-            'An individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_post_title_ce_ni = \
-            'A household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_post_title_ce_with_room_ni = \
-            'A household paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_individual_title_ce_room_ni = \
-            'An individual paper questionnaire will be sent to Bob Bobbington, Room A8 at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_title_ce_room_long_last_ni = \
-            'A household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Lowton University'
-        self.content_request_pq_sent_indi_title_ce_room_long_last_ni = \
-            'An individual paper questionnaire will be sent to Room A8 Bob Bobbington-Fortesque-Smythe ' \
-            'at Halls Of Residence, Lowton University'
-        self.content_request_pq_sent_post_title_lp_ce_ni = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_post_individual_title_lp_ce_ni = \
-            'A large-print individual paper questionnaire will be sent to Bob Bobbington at Halls Of Residence, ' \
-            'Lowton University'
-        self.content_request_pq_sent_title_lp_ce_room_ni = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington, ' \
-            'Room A8 at Halls Of Residence, Lowton University'
-        self.content_request_pq_sent_post_title_lp_ce_room_long_last_ni = \
-            'A large-print household paper questionnaire will be sent to Bob Bobbington-Fortesque-Smythe, ' \
-            'Room A8 at Halls Of Residence, Lowton University'
-
-        self.content_request_questionnaire_confirm_send_by_post_page_title_en = \
-            '<title>Confirm to send household paper questionnaire - Census 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_page_title_error_en = \
-            '<title>Error: Confirm to send household paper questionnaire - Census 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_title_en = \
-            'Do you want to send a household paper questionnaire to this address?'
-        self.content_request_questionnaire_confirm_send_by_post_individual_page_title_en = \
-            '<title>Confirm to send individual paper questionnaire - Census 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_individual_page_title_error_en = \
-            '<title>Error: Confirm to send individual paper questionnaire - Census 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_individual_title_en = \
-            'Do you want to send an individual paper questionnaire to this address?'
-        self.content_request_questionnaire_confirm_send_by_post_option_yes_en = 'Yes, send the questionnaire by post'
-        self.content_request_questionnaire_confirm_send_by_post_option_no_en = 'No, cancel and return'
-        self.content_request_questionnaire_confirm_send_by_post_large_print_checkbox_en = \
-            'I am visually impaired and need a large-print questionnaire'
-        self.content_request_questionnaire_confirm_send_by_post_large_print_section_title_en = \
-            'Need a large-print questionnaire?'
-
-        self.content_request_questionnaire_confirm_send_by_post_page_title_cy = \
-            '<title>Cadarnhau i anfon holiadur papur y cartref - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon holiadur papur y cartref - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_title_cy = \
-            "Ydych chi am anfon holiadur papur y cartref i\\\'r cyfeiriad hwn?"
-        self.content_request_questionnaire_confirm_send_by_post_individual_page_title_cy = \
-            '<title>Cadarnhau i anfon holiadur papur i unigolion - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_individual_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon holiadur papur i unigolion - Cyfrifiad 2021</title>'
-        self.content_request_questionnaire_confirm_send_by_post_individual_title_cy = \
-            "Ydych chi am anfon holiadur papur i unigolion i\\\'r cyfeiriad hwn?"
-        self.content_request_questionnaire_confirm_send_by_post_option_yes_cy = \
-            "Ydw, anfonwch yr holiadur drwy\\\'r post"
-        self.content_request_questionnaire_confirm_send_by_post_option_no_cy = "Nac ydw, rwyf am ganslo a dychwelyd"
-        self.content_request_questionnaire_confirm_send_by_post_large_print_checkbox_cy = \
-            'Mae gen i nam ar fy ngolwg ac mae angen holiadur print mawr arnaf'
-        self.content_request_questionnaire_confirm_send_by_post_large_print_section_title_cy = \
-            'Oes angen holiadur print mawr arnoch?'
-
-        self.content_request_questionnaire_manager_title_en = \
-            'We cannot send communal establishment paper questionnaires to managers'
-        self.content_request_questionnaire_manager_title_cy = \
-            "Ni allwn anfon holiaduron papur sefydliadau cymunedol at reolwyr"
-
-        self.content_request_questionnaire_request_cancelled_title_en = \
-            'Your request for a paper questionnaire has been cancelled'
-        self.content_request_questionnaire_request_cancelled_title_cy = \
-            "Mae eich cais am holiadur papur wedi cael ei ganslo"
-
-        # Start Request Continuation Questionnaire
-
-        # URLs
-
-        self.get_request_continuation_questionnaire_enter_address_en = \
-            self.app.router['CommonEnterAddress:get'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.get_request_continuation_questionnaire_enter_address_cy = \
-            self.app.router['CommonEnterAddress:get'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.get_request_continuation_questionnaire_enter_address_ni = \
-            self.app.router['CommonEnterAddress:get'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_enter_address_en = \
-            self.app.router['CommonEnterAddress:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_enter_address_cy = \
-            self.app.router['CommonEnterAddress:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_enter_address_ni = \
-            self.app.router['CommonEnterAddress:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-
-        self.post_request_continuation_questionnaire_select_address_en = \
-            self.app.router['CommonSelectAddress:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_select_address_cy = \
-            self.app.router['CommonSelectAddress:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_select_address_ni = \
-            self.app.router['CommonSelectAddress:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-
-        self.post_request_continuation_questionnaire_confirm_address_en = \
-            self.app.router['CommonConfirmAddress:post'].url_for(
-                display_region='en', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_confirm_address_cy = \
-            self.app.router['CommonConfirmAddress:post'].url_for(
-                display_region='cy', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_confirm_address_ni = \
-            self.app.router['CommonConfirmAddress:post'].url_for(
-                display_region='ni', user_journey='request', sub_user_journey='continuation-questionnaire'
-            )
-
-        self.post_request_continuation_questionnaire_people_in_household_en = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='en', user_journey='request', request_type='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_people_in_household_cy = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='cy', user_journey='request', request_type='continuation-questionnaire'
-            )
-        self.post_request_continuation_questionnaire_people_in_household_ni = \
-            self.app.router['RequestCommonPeopleInHousehold:post'].url_for(
-                display_region='ni', user_journey='request', request_type='continuation-questionnaire'
-            )
-
-        self.post_request_continuation_questionnaire_enter_name_en = \
-            self.app.router['RequestCommonEnterName:post'].url_for(
-                request_type='continuation-questionnaire', display_region='en'
-            )
-        self.post_request_continuation_questionnaire_enter_name_cy = \
-            self.app.router['RequestCommonEnterName:post'].url_for(
-                request_type='continuation-questionnaire', display_region='cy'
-            )
-        self.post_request_continuation_questionnaire_enter_name_ni = \
-            self.app.router['RequestCommonEnterName:post'].url_for(
-                request_type='continuation-questionnaire', display_region='ni'
-            )
-
-        self.post_request_continuation_questionnaire_confirm_send_by_post_en = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='continuation-questionnaire',
-                                                                           display_region='en')
-        self.post_request_continuation_questionnaire_confirm_send_by_post_cy = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='continuation-questionnaire',
-                                                                           display_region='cy')
-        self.post_request_continuation_questionnaire_confirm_send_by_post_ni = \
-            self.app.router['RequestCommonConfirmSendByPost:post'].url_for(request_type='continuation-questionnaire',
-                                                                           display_region='ni')
-
-        # Content
-
-        self.content_request_continuation_questionnaire_enter_address_secondary_en = \
-            'To send a continuation questionnaire, we need your address'
-        self.content_request_continuation_questionnaire_enter_address_secondary_cy = \
-            "I anfon holiadur cartref (parhad), bydd angen eich cyfeiriad arnom"
-
-        self.content_request_continuation_questionnaire_not_a_household_title_en = \
-            'This address is not a household address'
-        self.content_request_continuation_questionnaire_not_a_household_secondary_en = \
-            'Continuation questionnaires can only be requested for household addresses.'
-        self.content_request_continuation_questionnaire_not_a_household_title_cy = \
-            "Nid yw\\\'r cyfeiriad hwn yn gyfeiriad cartref"
-        self.content_request_continuation_questionnaire_not_a_household_secondary_cy = \
-            "Dim ond ar gyfer cyfeiriadau cartref y gellir gwneud cais am holiaduron cartref (Parhad)."
-
-        self.content_request_continuation_questionnaire_people_in_household_error_number_greater_en = \
-            'Enter a number greater than 5'
-        self.content_request_continuation_questionnaire_people_in_household_error_number_greater_cy = \
-            "Rhowch rif sy\\\'n fwy na 5"
-        self.content_request_continuation_questionnaire_people_in_household_error_number_greater_ni = \
-            'Enter a number greater than 6'
-
-        self.content_request_cq_sent_post_page_title_en = \
-            '<title>Continuation questionnaire will be sent - Census 2021</title>'
-        self.content_request_cq_rhsvc_sent_post_title_hh_region_e_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
-        self.content_request_cq_rhsvc_sent_post_title_hh_region_w_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 1 West Street, West Westingham'
-        self.content_request_cq_aims_sent_post_title_na_region_e_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at Holiday Accommodation, Brampton Road'
-        self.content_request_cq_aims_sent_post_title_na_region_w_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at Holiday Wales Accommodation, Brampton Road'
-        self.content_request_cq_rhsvc_sent_post_title_spg_region_e_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 2 Main Street, Upper Upperingham'
-        self.content_request_cq_rhsvc_sent_post_title_spg_region_w_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 2 West Street, West Westingham'
-        self.content_request_continuation_questionnaire_aims_sent_post_title_en = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 1 Gate Reach, Exeter'
-        self.content_request_continuation_questionnaire_sent_post_secondary_en = \
-            'This should arrive within 5 working days for you to complete your census'
-        self.content_request_cq_sent_post_page_title_cy = \
-            '<title>Caiff holiadur y cartref (parhad) ei anfon - Cyfrifiad 2021</title>'
-        self.content_request_cq_rhsvc_sent_post_title_hh_cy = \
-            "Caiff holiadur papur y cartref (parhad) ei anfon at Bob Bobbington yn 1 West Street, West Westingham"
-        self.content_request_cq_rhsvc_sent_post_title_spg_cy = \
-            "Caiff holiadur papur y cartref (parhad) ei anfon at Bob Bobbington yn 2 West Street, West Westingham"
-        self.content_request_cq_aims_sent_post_title_na_cy = \
-            "Caiff holiadur papur y cartref (parhad) ei anfon at Bob Bobbington yn " \
-            "Holiday Wales Accommodation, Brampton Road"
-        self.content_request_continuation_questionnaire_sent_post_secondary_cy = \
-            "Dylai hyn gyrraedd cyn pen 5 diwrnod gwaith i chi gwblhau eich cyfrifiad"
-
-        self.content_request_cq_rhsvc_sent_post_title_hh_ni = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 1 Side Street, Lower Loweringham'
-        self.content_request_cq_aims_sent_post_title_na_ni = \
-            'A continuation questionnaire will be sent to Bob Bobbington at 27 Kings Road, Whitehead'
-
-        self.content_request_continuation_questionnaire_confirm_send_by_post_page_title_en = \
-            '<title>Confirm to send continuation questionnaire - Census 2021</title>'
-        self.content_request_continuation_questionnaire_confirm_send_by_post_page_title_error_en = \
-            '<title>Error: Confirm to send continuation questionnaire - Census 2021</title>'
-        self.content_request_continuation_questionnaire_confirm_send_by_post_title_en = \
-            'Do you want to send a continuation questionnaire to this address?'
-        self.content_request_continuation_questionnaire_confirm_send_by_post_page_title_cy = \
-            '<title>Cadarnhau i anfon holiadur parhad - Cyfrifiad 2021</title>'
-        self.content_request_continuation_questionnaire_confirm_send_by_post_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau i anfon holiadur parhad - Cyfrifiad 2021</title>'
-        self.content_request_continuation_questionnaire_confirm_send_by_post_title_cy = \
-            "Ydych chi am anfon holiadur y cartref (parhad) i\\\'r cyfeiriad hwn?"
-
-        self.content_request_continuation_questionnaire_request_cancelled_title_en = \
-            'Your request for a continuation questionnaire has been cancelled'
-        self.content_request_continuation_questionnaire_request_cancelled_title_cy = \
-            "Mae eich cais am holiadur y cartref (parhad) wedi cael ei ganslo"
-
         # Start Web Form
 
         self.get_webform_en = self.app.router['WebForm:get'].url_for(display_region='en')
         self.get_webform_cy = self.app.router['WebForm:get'].url_for(display_region='cy')
-        self.get_webform_ni = self.app.router['WebForm:get'].url_for(display_region='ni')
         self.post_webform_en = self.app.router['WebForm:post'].url_for(display_region='en')
         self.post_webform_cy = self.app.router['WebForm:post'].url_for(display_region='cy')
-        self.post_webform_ni = self.app.router['WebForm:post'].url_for(display_region='ni')
 
         self.webform_form_data = {
             'name': 'Bob Bobbington',
@@ -2740,101 +1022,19 @@ class RHTestCase(AioHTTPTestCase):
         self.content_web_form_error_429_title_en = 'You have reached the maximum number web form submissions'
         self.content_web_form_error_429_title_cy = "Allwch chi ddim cyflwyno mwy o ffurflenni gwe"
 
-        # Transient
-
-        # Content
-
-        self.content_start_transient_enter_town_name_page_title_en = \
-            '<title>Nearest town or city - Census 2021</title>'
-        self.content_start_transient_enter_town_name_page_title_error_en = \
-            '<title>Error: Nearest town or city - Census 2021</title>'
-        self.content_start_transient_enter_town_name_pre_census_day_title_en = \
-            'What is the nearest town or city to where you will be living on Sunday 21 March 2021?'
-        self.content_start_transient_enter_town_name_post_census_day_title_en = \
-            'What is the nearest town or city to where you were living on Sunday 21 March 2021?'
-        self.content_start_transient_enter_town_name_error_en = "Enter your nearest town or city"
-        self.content_start_transient_enter_town_name_page_title_cy = \
-            '<title>Tref neu ddinas agosaf - Cyfrifiad 2021</title>'
-        self.content_start_transient_enter_town_name_page_title_error_cy = \
-            '<title>Gwall: Tref neu ddinas agosaf - Cyfrifiad 2021</title>'
-        self.content_start_transient_enter_town_name_pre_census_day_title_cy = \
-            "Beth yw\\\'r dref neu\\\'r ddinas agosaf i ble y byddwch chi\\\'n byw ddydd Sul 21 Mawrth 2021?"
-        self.content_start_transient_enter_town_name_post_census_day_title_cy = \
-            "Beth yw\\\'r dref neu\\\'r ddinas agosaf i ble y byddwch chi\\\'n byw ddydd Sul 21 Mawrth 2021?"
-        self.content_start_transient_enter_town_name_error_cy = "Rhowch eich tref neu ddinas agosaf"
-
-        self.content_start_transient_accommodation_type_page_title_en = \
-            "<title>Select type of accommodation - Census 2021</title>"
-        self.content_start_transient_accommodation_type_page_title_error_en = \
-            "<title>Error: Select type of accommodation - Census 2021</title>"
-        self.content_start_transient_accommodation_type_title_en = \
-            "Which of the following best describes your type of accommodation?"
-        self.content_start_transient_accommodation_type_error_en = "Select an answer"
-        self.content_start_transient_accommodation_type_value_barge_en = "Barge or boat"
-        self.content_start_transient_accommodation_type_value_caravan_en = "Caravan or live-in vehicle"
-        self.content_start_transient_accommodation_type_value_tent_en = "Tent or temporary structure"
-        self.content_start_transient_accommodation_type_page_title_cy = \
-            "<title>Dewis math o gartref - Cyfrifiad 2021</title>"
-        self.content_start_transient_accommodation_type_page_title_error_cy = \
-            "<title>Gwall: Dewis math o gartref - Cyfrifiad 2021</title>"
-        self.content_start_transient_accommodation_type_title_cy = \
-            "Pa un o\\xe2\\x80\\x99r canlynol sy\\xe2\\x80\\x99n disgrifio eich math o gartref orau?"
-        self.content_start_transient_accommodation_type_error_cy = "Dewiswch ateb"
-        self.content_start_transient_accommodation_type_value_barge_cy = "Bad neu gwch"
-        self.content_start_transient_accommodation_type_value_caravan_cy = "Caraf\\xc3\\xa1n neu gerbyd preswyl"
-        self.content_start_transient_accommodation_type_value_tent_cy = "Pabell neu strwythur dros dro"
-
-        # Test Data
-        self.data_start_transient_town_name = 'Fareham'
-        self.start_transient_town_name_input_valid = {
-            'form-enter-town-name': self.data_start_transient_town_name, 'action[save_continue]': '',
-        }
-        self.start_transient_town_name_input_empty = {
-            'form-enter-town-name': '', 'action[save_continue]': '',
-        }
-        self.start_transient_town_name_input_only_space = {
-            'form-enter-town-name': ' ', 'action[save_continue]': '',
-        }
-
-        self.start_transient_accommodation_type_input_barge_en = {
-            'accommodation-type': 'Barge or boat', 'action[save_continue]': '',
-        }
-        self.start_transient_accommodation_type_input_caravan_en = {
-            'accommodation-type': 'Caravan or live-in vehicle', 'action[save_continue]': '',
-        }
-        self.start_transient_accommodation_type_input_tent_en = {
-            'accommodation-type': 'Tent or temporary structure', 'action[save_continue]': '',
-        }
-        self.start_transient_accommodation_type_input_barge_cy = {
-            'accommodation-type': 'Bad neu gwch', 'action[save_continue]': '',
-        }
-        self.start_transient_accommodation_type_input_caravan_cy = {
-            'accommodation-type': 'Caraf\\xc3\\xa1n neu gerbyd preswyl', 'action[save_continue]': '',
-        }
-        self.start_transient_accommodation_type_input_tent_cy = {
-            'accommodation-type': 'Pabell neu strwythur dros dro', 'action[save_continue]': '',
-        }
-
-        with open('tests/test_data/rhsvc/uac_transient_e.json') as fp:
-            self.transient_uac_json_e = json.load(fp)
-        with open('tests/test_data/rhsvc/uac_transient_w.json') as fp:
-            self.transient_uac_json_w = json.load(fp)
-        with open('tests/test_data/rhsvc/uac_transient_n.json') as fp:
-            self.transient_uac_json_n = json.load(fp)
-
         # yapf: enable
 
     # URL functions
-    def get_url_from_class(self, class_name, method_type, display_region=None, query=None):
+    def get_url_from_class(self, class_name, method_type, display_region=None, request_type=None):
         if display_region:
-            if query:
-                url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region).\
-                    with_query(query)
+            if request_type:
+                url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region,
+                                                                              request_type=request_type)
             else:
                 url = self.app.router[class_name + ':' + method_type].url_for(display_region=display_region)
         else:
-            if query:
-                url = self.app.router[class_name + ':' + method_type].url_for().with_query(query)
+            if request_type:
+                url = self.app.router[class_name + ':' + method_type].url_for(request_type=request_type)
             else:
                 url = self.app.router[class_name + ':' + method_type].url_for()
         return url

@@ -3,23 +3,13 @@
 {% from "components/breadcrumb/_macro.njk" import onsBreadcrumb %}
 {% from "components/panel/_macro.njk" import onsPanel %}
 
-{%- if display_region == 'ni' -%}
-    {%- set about_the_census_link = domain_url_ni + '/about-the-census/' -%}
-{%- elif display_region == 'cy' -%}
+{%- if display_region == 'cy' -%}
     {%- set about_the_census_link = domain_url_cy + '/ynglyn-ar-cyfrifiad/' -%}
 {%- else -%}
     {%- set about_the_census_link = domain_url_en + '/about-the-census/' -%}
 {%- endif -%}
 
-{% if display_region == 'ni' %}
-    {% set breadcrumb_items = [
-                {
-                    "url": domain_url_ni,
-                    "text": 'Home'
-                }
-            ]
-    %}
-{% elif display_region == 'cy' %}
+{% if display_region == 'cy' %}
     {% set breadcrumb_items = [
                 {
                     "url": domain_url_cy,
