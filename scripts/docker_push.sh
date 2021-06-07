@@ -8,6 +8,6 @@ export TAG=$TRAVIS_BUILD_ID"-"$BRANCH
 
 echo "Building with tags [$TAG]"
 
-docker build -t eu.gcr.io/census-int-ci/census-rh-ui:$TAG .
+docker build -t eu.gcr.io/sdc-int-ci/sdc-int-rh-ui:$TAG .
 
-docker push eu.gcr.io/census-int-ci/census-rh-ui:$TAG
+docker push eu.gcr.io/sdc-int-ci/sdc-int-rh-ui:$TAG
