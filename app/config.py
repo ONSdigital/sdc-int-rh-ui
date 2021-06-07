@@ -66,13 +66,14 @@ class BaseConfig:
 
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
-    WEBCHAT_SVC_URL = env('WEBCHAT_SVC_URL')
-
     ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL')
     ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='')
     ADDRESS_INDEX_EPOCH = env('ADDRESS_INDEX_EPOCH', default='')
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
+
+    SURVEY_NAME_EN = env('SURVEY_NAME_EN', default='Survey name')
+    SURVEY_NAME_CY = env('SURVEY_NAME_CY', default='Survey name')
 
 
 class ProductionConfig(BaseConfig):
@@ -114,16 +115,14 @@ class DevelopmentConfig:
 
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
-    WEBCHAT_SVC_URL = env.str(
-        'WEBCHAT_SVC_URL',
-        default='https://www.timeforstorm.com/IM/endpoint/client/5441/ONSWebchat/ce033298af0c07067a77b7940c011ec8ef670d66b7fe15c5776a16e205478221'
-    )  # yapf: disable
-
     ADDRESS_INDEX_SVC_URL = env.str('ADDRESS_INDEX_SVC_URL', default='http://localhost:9000')
     ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='secret')
     ADDRESS_INDEX_EPOCH = env.str('ADDRESS_INDEX_EPOCH', default='')
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
+
+    SURVEY_NAME_EN = env('SURVEY_NAME_EN', default='Survey name')
+    SURVEY_NAME_CY = env('SURVEY_NAME_CY', default='Survey name')
 
 
 class TestingConfig:
@@ -156,10 +155,11 @@ class TestingConfig:
 
     SESSION_AGE = ''
 
-    WEBCHAT_SVC_URL = 'https://www.timeforstorm.com/IM/endpoint/client/5441/ONSWebchat/ce033298af0c07067a77b7940c011ec8ef670d66b7fe15c5776a16e205478221'
-
     ADDRESS_INDEX_SVC_URL = 'http://localhost:9000'
     ADDRESS_INDEX_SVC_JWT = 'secret'
     ADDRESS_INDEX_EPOCH = ''
 
     EQ_SALT = 's3cr3tS4lt'
+
+    SURVEY_NAME_EN = 'Survey name'
+    SURVEY_NAME_CY = 'Survey name'

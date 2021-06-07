@@ -1,9 +1,9 @@
 {%- extends 'layout/_template.njk' -%}
 
 {%- if page_title -%}
-    {%- set page_title_value = page_title + ' - Census 2021' -%}
+    {%- set page_title_value = page_title + ' - ' + survey_name_en -%}
 {%- else -%}
-    {%- set page_title_value = 'Census 2021' -%}
+    {%- set page_title_value = survey_name_en -%}
 {%- endif -%}
 
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
@@ -27,14 +27,6 @@
                     {
                         'text': 'Contact us',
                         'url': domain_url_en + '/contact-us/'
-                    },
-                    {
-                        'text': 'Languages',
-                        'url': domain_url_en + '/help/languages-and-accessibility/languages/'
-                    },
-                    {
-                        'text': 'BSL and audio videos',
-                        'url': domain_url_en + '/help/languages-and-accessibility/accessibility/accessible-videos-with-bsl/'
                     }
                 ]
             }
@@ -96,12 +88,9 @@
 
 {%- set pageConfig = {
     'title': page_title_value,
-    'theme': 'census',
     'header': {
         'logoHref': 'https://www.ons.gov.uk/',
-        'titleLogo': 'census-logo-en',
-        'titleLogoHref': domain_url_en,
-        'titleLogoAlt': 'Census 2021'
+        'title': survey_name_en
     },
     'cdn': {
         'url': 'https://cdn.census.gov.uk/design-system/'
