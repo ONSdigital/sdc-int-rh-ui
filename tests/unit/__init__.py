@@ -251,6 +251,9 @@ class RHTestCase(AioHTTPTestCase):
         rh_svc_url = self.app['RHSVC_URL']
         address_index_svc_url = self.app['ADDRESS_INDEX_SVC_URL']
         aims_epoch = self.app['ADDRESS_INDEX_EPOCH']
+        
+        survey_name_en = self.app['SURVEY_NAME_EN']
+        survey_name_cy = self.app['SURVEY_NAME_CY']
 
         self.aims_postcode_limit = '5000'
 
@@ -348,30 +351,33 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_enter_address_error_empty_en = 'Enter a postcode'
         self.content_common_enter_address_error_empty_cy = "Rhowch god post"
 
-        self.content_common_select_address_page_title_en = '<title>Select address - Census 2021</title>'
-        self.content_common_select_address_page_title_error_en = '<title>Error: Select address - Census 2021</title>'
+        self.content_common_select_address_page_title_en = '<title>Select address - ' + survey_name_en + '</title>'
+        self.content_common_select_address_page_title_error_en = \
+            '<title>Error: Select address - ' + survey_name_en + '</title>'
         self.content_common_select_address_title_en = 'Select your address'
         self.content_common_select_address_error_en = 'Select an address'
         self.content_common_select_address_value_en = '1 Gate Reach'
         self.content_common_select_address_no_results_en = 'Sorry, there was a problem processing your postcode'
-        self.content_common_select_address_page_title_cy = '<title>Dewis cyfeiriad - Cyfrifiad 2021</title>'
+        self.content_common_select_address_page_title_cy = '<title>Dewis cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_common_select_address_page_title_error_cy = \
-            '<title>Gwall: Dewis cyfeiriad - Cyfrifiad 2021</title>'
+            '<title>Gwall: Dewis cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_common_select_address_title_cy = 'Dewiswch eich cyfeiriad'
         self.content_common_select_address_error_cy = 'Dewiswch gyfeiriad'
         self.content_common_select_address_value_cy = '1 Gate Reach'
         self.content_common_select_address_no_results_cy = \
             "Mae\\\'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
 
-        self.content_common_confirm_address_page_title_en = '<title>Confirm address - Census 2021</title>'
-        self.content_common_confirm_address_page_title_error_en = '<title>Error: Confirm address - Census 2021</title>'
+        self.content_common_confirm_address_page_title_en = '<title>Confirm address - ' + survey_name_en + '</title>'
+        self.content_common_confirm_address_page_title_error_en = \
+            '<title>Error: Confirm address - ' + survey_name_en + '</title>'
         self.content_common_confirm_address_title_en = 'Is this the correct address?'
         self.content_common_confirm_address_error_en = 'Select an answer'
         self.content_common_confirm_address_value_yes_en = 'Yes, this is the correct address'
         self.content_common_confirm_address_value_no_en = 'No, search for address again'
-        self.content_common_confirm_address_page_title_cy = '<title>Cadarnhau cyfeiriad - Cyfrifiad 2021</title>'
+        self.content_common_confirm_address_page_title_cy = \
+            '<title>Cadarnhau cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_common_confirm_address_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau cyfeiriad - Cyfrifiad 2021</title>'
+            '<title>Gwall: Cadarnhau cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_common_confirm_address_title_cy = "Ai dyma\\\'r cyfeiriad cywir?"
         self.content_common_confirm_address_error_cy = "Dewiswch ateb"
         self.content_common_confirm_address_value_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
@@ -430,32 +436,34 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_exit_button_cy = 'href="/cy/start/exit/"'
 
         self.content_start_title_en = 'Start census'
-        self.content_start_page_title_error_en = '<title>Error: Start census - Census 2021</title>'
+        self.content_start_page_title_error_en = '<title>Error: Start census - ' + survey_name_en + '</title>'
         self.content_start_uac_title_en = 'Enter your 16-character access code'
         self.content_start_title_cy = "Dechrau\\\'r cyfrifiad"
-        self.content_start_page_title_error_cy = '<title>Gwall: Dechrau&#39;r cyfrifiad - Cyfrifiad 2021</title>'
+        self.content_start_page_title_error_cy = \
+            '<title>Gwall: Dechrau&#39;r cyfrifiad - ' + survey_name_cy + '</title>'
         self.content_start_uac_title_cy = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
 
         self.content_start_uac_expired_en = 'This access code has already been used'
         self.content_start_uac_expired_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
-        self.content_start_confirm_address_page_title_en = '<title>Confirm address - Census 2021</title>'
-        self.content_start_confirm_address_page_title_error_en = '<title>Error: Confirm address - Census 2021</title>'
+        self.content_start_confirm_address_page_title_en = '<title>Confirm address - ' + survey_name_en + '</title>'
+        self.content_start_confirm_address_page_title_error_en = \
+            '<title>Error: Confirm address - ' + survey_name_en + '</title>'
         self.content_start_confirm_address_title_en = 'Is this the correct address?'
         self.content_start_confirm_address_option_yes_en = 'Yes, this is the correct address'
         self.content_start_confirm_address_option_no_en = 'No, this is not the correct address'
         self.content_start_confirm_address_error_en = 'Select an answer'
-        self.content_start_confirm_address_page_title_cy = '<title>Cadarnhau cyfeiriad - Cyfrifiad 2021</title>'
+        self.content_start_confirm_address_page_title_cy = '<title>Cadarnhau cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_start_confirm_address_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau cyfeiriad - Cyfrifiad 2021</title>'
+            '<title>Gwall: Cadarnhau cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_start_confirm_address_title_cy = "Ai dyma\\\'r cyfeiriad cywir?"
         self.content_start_confirm_address_option_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
         self.content_start_confirm_address_option_no_cy = "Na, nid dyma\\\'r cyfeiriad cywir"
         self.content_start_confirm_address_error_cy = "Dewiswch ateb"
 
-        self.content_signed_out_page_title_en = '<title>Progress saved - Census 2021</title>'
+        self.content_signed_out_page_title_en = '<title>Progress saved - ' + survey_name_en + '</title>'
         self.content_signed_out_title_en = 'Your progress has been saved'
-        self.content_signed_out_page_title_cy = "<title>Cynnydd wedi&#39;i gadw - Cyfrifiad 2021</title>"
+        self.content_signed_out_page_title_cy = "<title>Cynnydd wedi&#39;i gadw - " + survey_name_cy + "</title>"
         self.content_signed_out_title_cy = 'Mae eich cynnydd wedi cael ei gadw'
 
         self.content_start_timeout_title_en = 'Your session has timed out due to inactivity'
@@ -827,13 +835,15 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_enter_address_page_title_en = '<title>Enter address - Census 2021</title>'
-        self.content_request_enter_address_page_title_error_en = '<title>Error: Enter address - Census 2021</title>'
+        self.content_request_enter_address_page_title_en = '<title>Enter address - ' + survey_name_en + '</title>'
+        self.content_request_enter_address_page_title_error_en = \
+            '<title>Error: Enter address - ' + survey_name_en + '</title>'
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request an access code, we need your address'
-        self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - Cyfrifiad 2021</title>'
-        self.content_request_enter_address_page_title_error_cy = '<title>Gwall: Nodi cyfeiriad - Cyfrifiad 2021</title>'
+        self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - ' + survey_name_cy + '</title>'
+        self.content_request_enter_address_page_title_error_cy = \
+            '<title>Gwall: Nodi cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             "I ofyn am god mynediad, bydd angen eich cyfeiriad arnom"
@@ -853,21 +863,22 @@ class RHTestCase(AioHTTPTestCase):
             "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
 
         self.content_request_code_select_how_to_receive_page_title_en = \
-            '<title>Select how to receive access code - Census 2021</title>'
+            '<title>Select how to receive access code - ' + survey_name_en + '</title>'
         self.content_request_code_select_how_to_receive_page_title_error_en = \
-            '<title>Error: Select how to receive access code - Census 2021</title>'
+            '<title>Error: Select how to receive access code - ' + survey_name_en + '</title>'
         self.content_request_code_select_how_to_receive_title_en = \
             'How would you like to receive a new access code?'
         self.content_request_code_select_how_to_receive_page_title_cy = \
-            '<title>Select how to receive access code - Cyfrifiad 2021</title>'
+            '<title>Select how to receive access code - ' + survey_name_cy + '</title>'
         self.content_request_code_select_how_to_receive_page_title_error_cy = \
-            '<title>Gwall: Select how to receive access code - Cyfrifiad 2021</title>'
+            '<title>Gwall: Select how to receive access code - ' + survey_name_cy + '</title>'
         self.content_request_code_select_how_to_receive_title_cy = \
             "How would you like to receive a new access code?"
 
-        self.content_request_code_enter_mobile_page_title_en = '<title>Enter mobile number - Census 2021</title>'
+        self.content_request_code_enter_mobile_page_title_en = \
+            '<title>Enter mobile number - ' + survey_name_en + '</title>'
         self.content_request_code_enter_mobile_page_title_error_en = \
-            '<title>Error: Enter mobile number - Census 2021</title>'
+            '<title>Error: Enter mobile number - ' + survey_name_en + '</title>'
         self.content_request_code_enter_mobile_title_en = 'What is your mobile number?'
         self.content_request_code_enter_mobile_error_empty_en = 'Enter your mobile number'
         self.content_request_code_enter_mobile_error_invalid_en = \
@@ -875,9 +886,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_code_enter_mobile_secondary_en = \
             'This will not be stored and only used once to send the access code'
         self.content_request_code_enter_mobile_page_title_cy = \
-            '<title>Nodi rhif ff\\xc3\\xb4n symudol - Cyfrifiad 2021</title>'
+            '<title>Nodi rhif ff\\xc3\\xb4n symudol - ' + survey_name_cy + '</title>'
         self.content_request_code_enter_mobile_page_title_error_cy = \
-            '<title>Gwall: Nodi rhif ff\\xc3\\xb4n symudol - Cyfrifiad 2021</title>'
+            '<title>Gwall: Nodi rhif ff\\xc3\\xb4n symudol - ' + survey_name_cy + '</title>'
         self.content_request_code_enter_mobile_title_cy = "Beth yw eich rhif ff\\xc3\\xb4n symudol?"
         self.content_request_code_enter_mobile_error_empty_cy = "Rhowch eich rhif ff\\xc3\\xb4n symudol"
         self.content_request_code_enter_mobile_error_invalid_cy = \
@@ -887,34 +898,34 @@ class RHTestCase(AioHTTPTestCase):
             "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
 
         self.content_request_code_confirm_send_by_text_page_title_en = \
-            '<title>Confirm to send access code by text - Census 2021</title>'
+            '<title>Confirm to send access code by text - ' + survey_name_en + '</title>'
         self.content_request_code_confirm_send_by_text_page_title_error_en = \
-            '<title>Error: Confirm to send access code by text - Census 2021</title>'
+            '<title>Error: Confirm to send access code by text - ' + survey_name_en + '</title>'
         self.content_request_code_confirm_send_by_text_title_en = 'Is this mobile number correct?'
         self.content_request_code_confirm_send_by_text_error_en = 'Select an answer'
         self.content_request_code_confirm_send_by_text_page_title_cy = \
-            '<title>Confirm to send access code by text - Cyfrifiad 2021</title>'
+            '<title>Confirm to send access code by text - ' + survey_name_cy + '</title>'
         self.content_request_code_confirm_send_by_text_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by text - Cyfrifiad 2021</title>'
+            '<title>Gwall: Confirm to send access code by text - ' + survey_name_cy + '</title>'
         self.content_request_code_confirm_send_by_text_title_cy = \
             "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
         self.content_request_code_confirm_send_by_text_error_cy = "Dewiswch ateb"
 
         self.content_request_code_sent_by_text_page_title_en = \
-            '<title>Access code has been sent by text - Census 2021</title>'
+            '<title>Access code has been sent by text - ' + survey_name_en + '</title>'
         self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
         self.content_request_code_sent_by_text_secondary_en = \
             'The text message with a new access code should arrive soon for you to start your census'
         self.content_request_code_sent_by_text_page_title_cy = \
-            '<title>Access code has been sent by text - Cyfrifiad 2021</title>'
+            '<title>Access code has been sent by text - ' + survey_name_cy + '</title>'
         self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
         self.content_request_code_sent_by_text_secondary_cy = \
             "The text message with a new access code should arrive soon for you to start your census"
 
         self.content_request_common_enter_name_page_title_en = \
-            '<title>Enter name - Census 2021</title>'
+            '<title>Enter name - ' + survey_name_en + '</title>'
         self.content_request_common_enter_name_page_title_error_en = \
-            '<title>Error: Enter name - Census 2021</title>'
+            '<title>Error: Enter name - ' + survey_name_en + '</title>'
         self.content_request_common_enter_name_title_en = 'What is your name?'
         self.content_request_common_enter_name_error_first_name_en = 'Enter your first name'
         self.content_request_common_enter_name_error_first_name_overlength_en = \
@@ -923,9 +934,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_common_enter_name_error_last_name_overlength_en = \
             "You have entered too many characters. Enter up to 35 characters"
         self.content_request_common_enter_name_page_title_cy = \
-            '<title>Nodi enw - Cyfrifiad 2021</title>'
+            '<title>Nodi enw - ' + survey_name_cy + '</title>'
         self.content_request_common_enter_name_page_title_error_cy = \
-            '<title>Gwall: Nodi enw - Cyfrifiad 2021</title>'
+            '<title>Gwall: Nodi enw - ' + survey_name_cy + '</title>'
         self.content_request_common_enter_name_title_cy = "Beth yw eich enw?"
         self.content_request_common_enter_name_error_first_name_cy = "Rhowch eich enw cyntaf"
         self.content_request_common_enter_name_error_first_name_overlength_cy = \
@@ -935,18 +946,18 @@ class RHTestCase(AioHTTPTestCase):
             "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
 
         self.content_request_code_confirm_send_by_post_page_title_en = \
-            '<title>Confirm to send access code by post - Census 2021</title>'
+            '<title>Confirm to send access code by post - ' + survey_name_en + '</title>'
         self.content_request_code_confirm_send_by_post_page_title_error_en = \
-            '<title>Error: Confirm to send access code by post - Census 2021</title>'
+            '<title>Error: Confirm to send access code by post - ' + survey_name_en + '</title>'
         self.content_request_code_confirm_send_by_post_title_en = \
             'Do you want to send a new access code to this address?'
         self.content_request_common_confirm_send_by_post_error_en = 'Select an answer'
         self.content_request_code_confirm_send_by_post_option_yes_en = 'Yes, send the access code by post'
         self.content_request_code_confirm_send_by_post_option_no_en = 'No, send it by text message'
         self.content_request_code_confirm_send_by_post_page_title_cy = \
-            '<title>Confirm to send access code by post - Cyfrifiad 2021</title>'
+            '<title>Confirm to send access code by post - ' + survey_name_cy + '</title>'
         self.content_request_code_confirm_send_by_post_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by post - Cyfrifiad 2021</title>'
+            '<title>Gwall: Confirm to send access code by post - ' + survey_name_cy + '</title>'
         self.content_request_code_confirm_send_by_post_title_cy = \
             "Do you want to send a new access code to this address?"
         self.content_request_common_confirm_send_by_post_error_cy = "Dewiswch ateb"
@@ -955,7 +966,7 @@ class RHTestCase(AioHTTPTestCase):
             "Nac ydw, anfonwch y cod mynediad drwy neges destun"
 
         self.content_request_code_sent_by_post_page_title_en = \
-            '<title>Access code will be sent by post - Census 2021</title>'
+            '<title>Access code will be sent by post - ' + survey_name_en + '</title>'
         self.content_request_code_hh_region_e_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
         self.content_request_code_hh_region_w_sent_post_title_en = \
@@ -966,7 +977,7 @@ class RHTestCase(AioHTTPTestCase):
             'The letter with a new household access code for you to start the census should arrive ' \
             'within 5 working days'
         self.content_request_code_sent_by_post_page_title_cy = \
-            '<title>Access code will be sent by post - Cyfrifiad 2021</title>'
+            '<title>Access code will be sent by post - ' + survey_name_cy + '</title>'
         self.content_request_code_hh_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_cy = \
@@ -1000,21 +1011,23 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/webform'
         )
 
-        self.content_web_form_page_title_en = '<title>Web form - Census 2021</title>'
-        self.content_web_form_page_title_error_en = '<title>Error: Web form - Census 2021</title>'
+        self.content_web_form_page_title_en = '<title>Web form - ' + survey_name_en + '</title>'
+        self.content_web_form_page_title_error_en = '<title>Error: Web form - ' + survey_name_en + '</title>'
         self.content_web_form_title_en = 'Web form'
         self.content_web_form_warning_en = 'Information about what we do with your personal data is available in our'
-        self.content_web_form_page_title_cy = '<title>Gwe-ffurflen - Cyfrifiad 2021</title>'
-        self.content_web_form_page_title_error_cy = '<title>Gwall: Gwe-ffurflen - Cyfrifiad 2021</title>'
+        self.content_web_form_page_title_cy = '<title>Gwe-ffurflen - ' + survey_name_cy + '</title>'
+        self.content_web_form_page_title_error_cy = '<title>Gwall: Gwe-ffurflen - ' + survey_name_cy + '</title>'
         self.content_web_form_title_cy = 'Gwe-ffurflen'
         self.content_web_form_warning_cy = \
             "Mae gwybodaeth am yr hyn rydym yn ei wneud gyda\\\'ch data personol ar gael yn ein"
 
-        self.content_web_form_success_page_title_en = '<title>Thank you for contacting us - Census 2021</title>'
+        self.content_web_form_success_page_title_en = \
+            '<title>Thank you for contacting us - ' + survey_name_en + '</title>'
         self.content_web_form_success_title_en = 'Thank you for contacting us'
         self.content_web_form_success_confirmation_en = 'Your message has been sent'
         self.content_web_form_success_secondary_en = 'We will respond to you within 4 working days'
-        self.content_web_form_success_page_title_cy = '<title>Diolch am gysylltu \\xc3\\xa2 ni - Cyfrifiad 2021</title>'
+        self.content_web_form_success_page_title_cy = \
+            '<title>Diolch am gysylltu \\xc3\\xa2 ni - ' + survey_name_cy + '</title>'
         self.content_web_form_success_title_cy = 'Diolch am gysylltu \\xc3\\xa2 ni'
         self.content_web_form_success_confirmation_cy = "Mae eich neges wedi cael ei hanfon"
         self.content_web_form_success_secondary_cy = "Byddwn yn ymateb i chi o fewn 4 diwrnod gwaith"

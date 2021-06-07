@@ -1,9 +1,9 @@
 {%- extends 'layout/_template.njk' -%}
 
 {%- if page_title -%}
-    {%- set page_title_value = page_title + ' - Cyfrifiad 2021' -%}
+    {%- set page_title_value = page_title + ' - ' + survey_name_cy -%}
 {%- else -%}
-    {%- set page_title_value = 'Cyfrifiad 2021' -%}
+    {%- set page_title_value = survey_name_cy -%}
 {%- endif -%}
 
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
@@ -28,14 +28,6 @@
                     {
                         'text': 'Cysylltu â ni',
                         'url': domain_url_cy + '/cysylltu-a-ni/'
-                    },
-                    {
-                        'text': 'Ieithoedd',
-                        'url': domain_url_cy + '/help/ieithoedd-a-hygyrchedd/ieithoedd/'
-                    },
-                    {
-                        'text': 'Fideos BSL a sain',
-                        'url': domain_url_cy + '/help/ieithoedd-a-hygyrchedd/hygyrchedd/fideos-hygyrch-gyda-bsl/'
                     }
                 ]
             }
@@ -97,14 +89,10 @@
 
 {%- set pageConfig = {
     'title': page_title_value,
-    'theme': 'census',
     'language': language,
     'header': {
         'language': 'cy',
-        'logoHref': 'https://cy.ons.gov.uk/',
-        'titleLogo': 'census-logo-cy',
-        'titleLogoHref': domain_url_cy,
-        'titleLogoAlt': 'Cyfrifiad 2021'
+        'title': survey_name_cy
     },
     'cdn': {
         'url': 'https://cdn.census.gov.uk/design-system/'
