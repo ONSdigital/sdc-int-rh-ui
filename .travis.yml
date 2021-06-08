@@ -16,11 +16,13 @@ install:
 script:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
-  - pipenv run pytest tests/unit --cov=app --cov-report xml --ignore=node_modules
-  - pipenv run coverage report
+  - pipenv run pytest tests/unit xml --ignore=node_modules
+#  - pipenv run pytest tests/unit --cov=app --cov-report xml --ignore=node_modules
+#  - pipenv run coverage report
 
 after_success:
   - if [ "$BRANCH" != "main" ]; then
       ./scripts/docker_push.sh;
     fi
+#  - pipenv run codecov
 
