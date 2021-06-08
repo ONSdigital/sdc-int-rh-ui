@@ -1,6 +1,5 @@
 import aiohttp_jinja2
 import re
-import uuid
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import HTTPFound, RouteTableDef
@@ -21,6 +20,7 @@ from .utils import View, RHService
 
 logger = get_logger('respondent-home')
 start_routes = RouteTableDef()
+user_journey = 'start'
 
 
 class StartCommon(View):
@@ -52,7 +52,7 @@ class StartCommon(View):
         return get_sha256_hash(combined)
 
 
-@start_routes.view(r'/' + View.valid_display_regions + '/start/')
+@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/')
 class Start(StartCommon):
     @aiohttp_jinja2.template('start.html')
     async def get(self, request):
@@ -63,7 +63,7 @@ class Start(StartCommon):
         :return:
         """
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start')
+        self.log_entry(request, display_region + '/' + user_journey)
         if display_region == 'cy':
             locale = 'cy'
             page_title = START_PAGE_TITLE_CY
@@ -89,7 +89,7 @@ class Start(StartCommon):
         :return: address confirmation view
         """
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start')
+        self.log_entry(request, display_region + '/' + user_journey)
 
         data = await request.post()
 
@@ -141,7 +141,7 @@ class Start(StartCommon):
         raise HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
 
-@start_routes.view(r'/' + View.valid_display_regions + '/start/confirm-address/')
+@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/confirm-address/')
 class StartConfirmAddress(StartCommon):
     @aiohttp_jinja2.template('start-confirm-address.html')
     async def get(self, request):
@@ -149,7 +149,7 @@ class StartConfirmAddress(StartCommon):
         Address Confirmation get.
         """
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start/confirm-address')
+        self.log_entry(request, display_region + '/' + user_journey + '/confirm-address')
 
         session = await get_permitted_session(request)
 
@@ -164,17 +164,17 @@ class StartConfirmAddress(StartCommon):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(session, 'attributes', 'start')
+        attributes = get_session_value(request, session, 'attributes', user_journey)
 
         return {'locale': locale,
                 'page_title': page_title,
                 'page_url': View.gen_page_url(request),
                 'display_region': display_region,
-                'addressLine1': attributes['addressLine1'],
-                'addressLine2': attributes['addressLine2'],
-                'addressLine3': attributes['addressLine3'],
-                'townName': attributes['townName'],
-                'postcode': attributes['postcode']
+                'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey),
+                'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey),
+                'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey),
+                'townName': get_session_value(request, attributes, 'townName', user_journey),
+                'postcode': get_session_value(request, attributes, 'postcode', user_journey)
                 }
 
     @aiohttp_jinja2.template('start-confirm-address.html')
@@ -184,7 +184,7 @@ class StartConfirmAddress(StartCommon):
         """
         session = await get_permitted_session(request)
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start/confirm-address')
+        self.log_entry(request, display_region + '/' + user_journey + '/confirm-address')
 
         data = await request.post()
         if display_region == 'cy':
@@ -192,8 +192,8 @@ class StartConfirmAddress(StartCommon):
         else:
             locale = 'en'
 
-        attributes = get_session_value(session, 'attributes', 'start')
-        case = get_session_value(session, 'case', 'start')
+        attributes = get_session_value(request, session, 'attributes', user_journey)
+        case = get_session_value(request, session, 'case', user_journey)
 
         try:
             address_confirmation = data['address-check-answer']
@@ -203,7 +203,7 @@ class StartConfirmAddress(StartCommon):
                         client_id=request['client_id'],
                         trace=request['trace'],
                         region_of_site=display_region,
-                        postcode=attributes['postcode'])
+                        postcode=get_session_value(request, attributes, 'postcode', user_journey))
             if display_region == 'cy':
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
@@ -220,11 +220,7 @@ class StartConfirmAddress(StartCommon):
                                           session.get('adlocation'))
 
         elif address_confirmation == 'No':
-            raise HTTPFound(request.app.router['RequestEnterAddress:get'].url_for(
-                display_region=display_region,
-                user_journey='start',
-                request_type=request_type
-            ))
+            raise HTTPFound(request.app.router['StartContactCentre:get'].url_for(display_region=display_region))
 
         else:
             # catch all just in case, should never get here
@@ -234,7 +230,7 @@ class StartConfirmAddress(StartCommon):
                         trace=request['trace'],
                         user_selection=address_confirmation,
                         region_of_site=display_region,
-                        postcode=attributes['postcode'])
+                        postcode=get_session_value(request, attributes, 'postcode', user_journey))
             if display_region == 'cy':
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
@@ -243,12 +239,36 @@ class StartConfirmAddress(StartCommon):
                 request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
 
-@start_routes.view(r'/' + View.valid_display_regions + '/start/exit/')
+@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
 class StartExit(StartCommon):
     async def get(self, request):
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start/exit')
+        self.log_entry(request, display_region + '/' + user_journey + '/exit')
         await invalidate(request)
         raise HTTPFound(
             request.app.router['Start:get'].url_for(display_region=display_region)
         )
+
+
+@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/contact-centre/')
+class StartContactCentre(View):
+    @aiohttp_jinja2.template('start-contact-centre.html')
+    async def get(self, request):
+        display_region = request.match_info['display_region']
+
+        if display_region == 'cy':
+            page_title = "Customer Contact Centre"
+            locale = 'cy'
+        else:
+            page_title = 'Customer Contact Centre'
+            locale = 'en'
+
+        self.log_entry(request, display_region + '/' + user_journey + '/contact-centre')
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'contact_centre_number': View.get_contact_centre_number(display_region)
+        }

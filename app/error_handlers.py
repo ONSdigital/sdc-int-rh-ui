@@ -272,17 +272,15 @@ def check_display_region(request):
     }
 
     if path_starts_with('/cy'):
-        attributes = {
+        return {
             **base_attributes,
             'display_region': 'cy',
             'locale': 'cy',
             'page_title': 'Gwall',
         }
     else:
-        attributes = {
+        return {
             **base_attributes,
             'display_region': 'en',
             'page_title': 'Error',
         }
-
-    return attributes

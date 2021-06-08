@@ -24,6 +24,7 @@ request_routes = RouteTableDef()
 
 user_journey = 'request'
 valid_request_types = r'{request_type:\baccess-code\b}'
+valid_issue_types = r'{issue:\baddress-not-required|address-not-found\b}'
 
 
 @request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
@@ -132,8 +133,8 @@ class RequestSelectAddress(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(session, 'attributes', user_journey, request_type)
-        postcode = attributes['postcode']
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
 
         address_content = await AddressIndex.get_postcode_return(request, postcode, display_region)
         address_content['page_title'] = page_title
@@ -143,7 +144,7 @@ class RequestSelectAddress(View):
         address_content['locale'] = locale
         address_content['page_url'] = View.gen_page_url(request)
         address_content['contact_us_link'] = View.get_campaign_site_link(request, display_region, 'contact-us')
-        address_content['call_centre_number'] = View.get_call_centre_number(display_region)
+        address_content['call_centre_number'] = View.get_contact_centre_number(display_region)
 
         return address_content
 
@@ -155,7 +156,7 @@ class RequestSelectAddress(View):
 
         session = await get_existing_session(request, user_journey, request_type)
 
-        attributes = get_session_value(session, 'attributes', user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -181,10 +182,12 @@ class RequestSelectAddress(View):
 
         if selected_uprn == 'xxxx':
             raise HTTPFound(
-                request.app.router['RequestRegisterAddress:get'].url_for(
+                request.app.router['RequestContactCentre:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
-                    request_type=request_type))
+                    request_type=request_type,
+                    issue='address-not-found'
+                ))
         else:
             attributes['uprn'] = selected_uprn
             session.changed()
@@ -226,8 +229,8 @@ class RequestConfirmAddress(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(session, 'attributes', user_journey, request_type)
-        uprn = attributes['uprn']
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        uprn = get_session_value(request, attributes, 'uprn', user_journey, request_type)
 
         try:
             rhsvc_uprn_return = await RHService.get_case_by_uprn(request, uprn)
@@ -248,10 +251,17 @@ class RequestConfirmAddress(View):
 
         except ClientResponseError as ex:
             if ex.status == 404:
-                logger.info('no case matching uprn in RHSvc - call contact centre page',
+                logger.info('no case matching uprn in RHSvc - return customer contact centre page',
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
                             trace=request['trace'])
+                raise HTTPFound(
+                    request.app.router['RequestContactCentre:get'].url_for(
+                        display_region=display_region,
+                        user_journey=user_journey,
+                        request_type=request_type,
+                        issue='address-not-required'
+                    ))
             else:
                 logger.info('error response from RHSvc',
                             client_ip=request['client_ip'],
@@ -267,11 +277,11 @@ class RequestConfirmAddress(View):
             'request_type': request_type,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'addressLine1': attributes['addressLine1'],
-            'addressLine2': attributes['addressLine2'],
-            'addressLine3': attributes['addressLine3'],
-            'townName': attributes['townName'],
-            'postcode': attributes['postcode']
+            'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
+            'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
+            'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
+            'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
+            'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
         }
 
     async def post(self, request):
@@ -282,10 +292,7 @@ class RequestConfirmAddress(View):
 
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-address')
 
-        session = await get_existing_session(request, user_journey, request_type)
-
-        attributes = get_session_value(session, 'attributes', user_journey, request_type)
-
+        await get_existing_session(request, user_journey, request_type)
         data = await request.post()
 
         try:
@@ -304,19 +311,11 @@ class RequestConfirmAddress(View):
                 ))
 
         if address_confirmation == 'yes':
-
-            if attributes.get('case_id'):
-                raise HTTPFound(
-                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                        request_type=request_type, display_region=display_region))
-            else:
-                logger.info('no case', **tracking)
-                raise HTTPFound(
-                    request.app.router['CommonCallContactCentre:get'].url_for(
-                        display_region=display_region, user_journey=user_journey))
+            raise HTTPFound(
+                request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                    request_type=request_type, display_region=display_region))
 
         elif address_confirmation == 'no':
-
             raise HTTPFound(
                 request.app.router['RequestEnterAddress:get'].url_for(display_region=display_region,
                                                                       user_journey=user_journey,
@@ -345,8 +344,7 @@ class RequestCodeSelectHowToReceive(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/select-how-to-receive')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        await get_existing_session(request, user_journey, request_type)
 
         if display_region == 'cy':
             page_title = 'Select how to receive access code'
@@ -359,21 +357,21 @@ class RequestCodeSelectHowToReceive(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes['page_title'] = page_title
-        attributes['display_region'] = display_region
-        attributes['locale'] = locale
-        attributes['request_type'] = request_type
-        attributes['page_url'] = View.gen_page_url(request)
-        attributes['contact_us_link'] = View.get_campaign_site_link(request, display_region, 'contact-us')
-
-        return attributes
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
+        }
 
     async def post(self, request):
 
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        await get_existing_session(request, 'request', request_type)
+        await get_existing_session(request, user_journey, request_type)
 
         self.log_entry(request, display_region + '/request/' + request_type + '/select-how-to-receive')
 
@@ -442,16 +440,15 @@ class RequestCodeEnterMobile(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-mobile')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes',  'request', request_type)
+        await get_existing_session(request, user_journey, request_type)
 
-        attributes['page_title'] = page_title
-        attributes['display_region'] = display_region
-        attributes['locale'] = locale
-        attributes['request_type'] = request_type
-        attributes['page_url'] = View.gen_page_url(request)
-
-        return attributes
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request)
+        }
 
     async def post(self, request):
         request_type = request.match_info['request_type']
@@ -464,8 +461,8 @@ class RequestCodeEnterMobile(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-mobile')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -509,10 +506,10 @@ class RequestCodeConfirmSendByText(View):
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-text')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-text')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = 'Confirm to send access code by text'
@@ -525,13 +522,14 @@ class RequestCodeConfirmSendByText(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes['page_title'] = page_title
-        attributes['display_region'] = display_region
-        attributes['locale'] = locale
-        attributes['request_type'] = request_type
-        attributes['page_url'] = View.gen_page_url(request)
-
-        return attributes
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'submitted_mobile_number': get_session_value(request, attributes, 'submitted_mobile_number', user_journey)
+        }
 
     async def post(self, request):
 
@@ -540,8 +538,8 @@ class RequestCodeConfirmSendByText(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-text')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         data = await request.post()
         try:
@@ -560,6 +558,10 @@ class RequestCodeConfirmSendByText(View):
                 ))
 
         if mobile_confirmation == 'yes':
+            region = get_session_value(request, attributes, 'region', user_journey, request_type)
+            postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
+            case_id = get_session_value(request, attributes, 'case_id', user_journey, request_type)
+            mobile_number = get_session_value(request, attributes, 'mobile_number', user_journey, request_type)
 
             fulfilment_individual = 'false'
 
@@ -568,18 +570,18 @@ class RequestCodeConfirmSendByText(View):
             else:
                 fulfilment_language = 'E'
 
-            logger.info(f"fulfilment query: region={attributes['region']}, "
+            logger.info(f"fulfilment query: region={region}, "
                         f"individual={fulfilment_individual}",
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
                         trace=request['trace'],
-                        postcode=attributes['postcode'])
+                        postcode=postcode)
 
             fulfilment_code_array = []
 
             try:
                 available_fulfilments = await RHService.get_fulfilment(
-                    request, 'HH', attributes['region'], 'SMS', 'UAC', fulfilment_individual)
+                    request, 'HH', region, 'SMS', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
                         if fulfilment['language'] == fulfilment_language:
@@ -589,8 +591,8 @@ class RequestCodeConfirmSendByText(View):
 
                 try:
                     await RHService.request_fulfilment_sms(request,
-                                                           attributes['case_id'],
-                                                           attributes['mobile_number'],
+                                                           case_id,
+                                                           mobile_number,
                                                            fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
@@ -646,16 +648,15 @@ class RequestCommonEnterName(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-name')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        await get_existing_session(request, user_journey, request_type)
 
-        attributes['page_title'] = page_title
-        attributes['display_region'] = display_region
-        attributes['locale'] = locale
-        attributes['request_type'] = request_type
-        attributes['page_url'] = View.gen_page_url(request)
-
-        return attributes
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request)
+        }
 
     async def post(self, request):
         request_type = request.match_info['request_type']
@@ -663,8 +664,8 @@ class RequestCommonEnterName(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-name')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -710,8 +711,8 @@ class RequestCommonConfirmSendByPost(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-post')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Confirm to send access code by post"
@@ -730,23 +731,23 @@ class RequestCommonConfirmSendByPost(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': attributes['first_name'],
-            'last_name': attributes['last_name'],
-            'addressLine1': attributes['addressLine1'],
-            'addressLine2': attributes['addressLine2'],
-            'addressLine3': attributes['addressLine3'],
-            'townName': attributes['townName'],
-            'postcode': attributes['postcode']
+            'first_name': get_session_value(request, attributes, 'first_name', user_journey, request_type),
+            'last_name': get_session_value(request, attributes, 'last_name', user_journey, request_type),
+            'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
+            'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
+            'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
+            'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
+            'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
         }
 
     async def post(self, request):
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-post')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-post')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         data = await request.post()
         try:
@@ -768,6 +769,11 @@ class RequestCommonConfirmSendByPost(View):
                                                                                  request_type=request_type))
 
         if name_address_confirmation == 'yes':
+            region = get_session_value(request, attributes, 'region', user_journey, request_type)
+            first_name = get_session_value(request, attributes, 'first_name', user_journey, request_type)
+            last_name = get_session_value(request, attributes, 'last_name', user_journey, request_type)
+            case_id = get_session_value(request, attributes, 'case_id', user_journey, request_type)
+            postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
 
             fulfilment_individual = 'false'
 
@@ -782,7 +788,7 @@ class RequestCommonConfirmSendByPost(View):
                 available_fulfilments = await RHService.get_fulfilment(
                     request,
                     'HH',
-                    attributes['region'],
+                    region,
                     'POST',
                     'UAC',
                     fulfilment_individual)
@@ -795,17 +801,17 @@ class RequestCommonConfirmSendByPost(View):
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
                 logger.info(
-                    f"fulfilment query: region={attributes['region']}, individual={fulfilment_individual}",
+                    f"fulfilment query: region={region}, individual={fulfilment_individual}",
                     client_ip=request['client_ip'],
                     client_id=request['client_id'],
                     trace=request['trace'],
-                    postcode=attributes['postcode'])
+                    postcode=postcode)
 
                 try:
                     await RHService.request_fulfilment_post(request,
-                                                            attributes['case_id'],
-                                                            attributes['first_name'],
-                                                            attributes['last_name'],
+                                                            case_id,
+                                                            first_name,
+                                                            last_name,
                                                             fulfilment_code_array,
                                                             None)
                 except (KeyError, ClientResponseError) as ex:
@@ -862,8 +868,7 @@ class RequestCodeSentByText(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/code-sent-by-text')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        await get_existing_session(request, user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Access code has been sent by text"
@@ -872,15 +877,15 @@ class RequestCodeSentByText(View):
             page_title = 'Access code has been sent by text'
             locale = 'en'
 
-        attributes['page_title'] = page_title
-        attributes['display_region'] = display_region
-        attributes['locale'] = locale
-        attributes['request_type'] = request_type
-        attributes['page_url'] = View.gen_page_url(request)
-
         await invalidate(request)
 
-        return attributes
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request)
+        }
 
 
 @request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
@@ -892,10 +897,10 @@ class RequestCodeSentByPost(View):
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        self.log_entry(request, display_region + '/request/' + request_type + '/code-sent-by-post')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/code-sent-by-post')
 
-        session = await get_existing_session(request, 'request', request_type)
-        attributes = get_session_value(session, 'attributes', 'request', request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Access code will be sent by post"
@@ -913,38 +918,39 @@ class RequestCodeSentByPost(View):
                 'request_type': request_type,
                 'page_url': View.gen_page_url(request),
                 'census_home_link': View.get_campaign_site_link(request, display_region, 'census-home'),
-                'first_name': attributes['first_name'],
-                'last_name': attributes['last_name'],
-                'addressLine1': attributes['addressLine1'],
-                'addressLine2': attributes['addressLine2'],
-                'addressLine3': attributes['addressLine3'],
-                'townName': attributes['townName'],
-                'postcode': attributes['postcode']
+                'first_name': get_session_value(request, attributes, 'first_name', user_journey, request_type),
+                'last_name': get_session_value(request, attributes, 'last_name', user_journey, request_type),
+                'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
+                'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
+                'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
+                'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
+                'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
             }
 
 
-@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
-                     '/register-address/')
-class RequestRegisterAddress(View):
-    @aiohttp_jinja2.template('request-register-address.html')
+@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types + '/' +
+                     valid_issue_types + '/')
+class RequestContactCentre(View):
+    @aiohttp_jinja2.template('request-contact-centre.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
+        issue = request.match_info['issue']
 
         if display_region == 'cy':
-            page_title = 'Cofrestru cyfeiriad'
+            page_title = "Customer Contact Centre"
             locale = 'cy'
         else:
-            page_title = 'Register address'
+            page_title = 'Customer Contact Centre'
             locale = 'en'
 
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/register-address')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/' + issue)
 
         return {
             'page_title': page_title,
             'display_region': display_region,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
-            'call_centre_number': View.get_call_centre_number(display_region)
+            'contact_centre_number': View.get_contact_centre_number(display_region),
+            'issue': issue
         }

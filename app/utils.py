@@ -33,8 +33,6 @@ uk_zone = timezone('Europe/London')
 class View:
     valid_display_regions = r'{display_region:\ben|cy\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
-    valid_sub_user_journeys = \
-        r'{sub_user_journey:\baccess-code\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
 
@@ -83,12 +81,12 @@ class View:
         return generic_url
 
     @staticmethod
-    def get_call_centre_number(display_region):
+    def get_contact_centre_number(display_region):
         if display_region == 'cy':
-            call_centre_number = '0800 169 2021'
+            contact_centre_number = '0800 169 2021'
         else:
-            call_centre_number = '0800 141 2021'
-        return call_centre_number
+            contact_centre_number = '0800 141 2021'
+        return contact_centre_number
 
     @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):

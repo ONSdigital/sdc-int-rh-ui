@@ -333,9 +333,13 @@ class TestHelpers(RHTestCase):
             else:
                 self.assertIn(self.content_common_select_address_no_results_en, contents)
 
-    async def check_post_enter_address_input_empty(self, url, display_region):
+    async def check_post_enter_address_input_empty(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('POST', url, data=self.common_postcode_input_empty)
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestEnterAddress', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.common_postcode_input_empty)
 
             self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
             self.assertLogEvent(cm, 'invalid postcode')
@@ -410,30 +414,32 @@ class TestHelpers(RHTestCase):
             self.assertIn(self.build_translation_link('confirm-address', display_region), contents)
             self.check_text_confirm_address(display_region, contents, check_error=False)
 
-    async def check_post_select_address_no_case(self, url, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.utils.AddressIndex.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.utils.AddressIndex.get_ai_uprn') as mocked_get_ai_uprn, aioresponses(
+    async def check_post_select_address_no_case(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
             passthrough=[str(self.server._root)]
         ) as mocked_get_case_by_uprn:
 
             mocked_get_case_by_uprn.get(self.rhsvc_cases_by_uprn_url + self.selected_uprn, status=404)
 
-            mocked_get_ai_postcode.return_value = self.ai_postcode_results
-            mocked_get_ai_uprn.return_value = self.ai_uprn_result_hh
-
-            response = await self.client.request('POST', url, data=self.common_select_address_input_valid)
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestSelectAddress', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.common_select_address_input_valid)
 
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
-
-            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - using AIMS data')
+            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - return customer contact centre page')
+            self.assertLogEvent(cm, self.build_url_log_entry('address-not-required', display_region, 'GET'))
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('confirm-address', display_region), contents)
-            self.check_text_confirm_address(display_region, contents, check_error=False)
+            self.assertIn(self.build_translation_link('address-not-required', display_region), contents)
+            if display_region == 'cy':
+                self.assertIn(self.content_common_contact_centre_title_cy, contents)
+            else:
+                self.assertIn(self.content_common_contact_centre_title_en, contents)
 
     async def check_post_select_address_error_from_get_cases(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -465,17 +471,17 @@ class TestHelpers(RHTestCase):
                                                  data=self.common_select_address_input_not_listed)
 
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
-            self.assertLogEvent(cm, self.build_url_log_entry('register-address', display_region, 'GET', True))
+            self.assertLogEvent(cm, self.build_url_log_entry('address-not-found', display_region, 'GET', True))
             self.assertEqual(response.status, 200)
 
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('register-address', display_region, True), contents)
+            self.assertIn(self.build_translation_link('address-not-found', display_region, True), contents)
             if display_region == 'cy':
-                self.assertIn(self.content_common_register_address_title_cy, contents)
+                self.assertIn(self.content_common_contact_centre_title_cy, contents)
                 self.assertIn(self.content_call_centre_number_cy, contents)
             else:
-                self.assertIn(self.content_common_register_address_title_en, contents)
+                self.assertIn(self.content_common_contact_centre_title_en, contents)
                 self.assertIn(self.content_call_centre_number_ew, contents)
 
     async def check_post_confirm_address_input_invalid(self, display_region):

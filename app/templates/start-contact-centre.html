@@ -1,0 +1,19 @@
+{%- extends 'base-' + display_region + '.html' -%}
+
+{%- if display_region == 'cy' -%}
+    {%- set contact_us_link = domain_url_cy + '/cysylltu-a-ni/' -%}
+{%- else -%}
+    {%- set contact_us_link = domain_url_en + '/contact-us/' -%}
+{%- endif -%}
+
+{%- block main -%}
+
+    <h1 class="u-mt-l">{{ _('You need to call the customer contact centre') }}</h1>
+
+    <p>You have indicated that the address held for your access code is no longer correct. As a result we need you to contact us.</p>
+
+    {%- autoescape false -%}
+        <p>{{ _('You can call us free on %(telephone_number)s or %(open)schoose another way to contact us%(close)s.', telephone_number=contact_centre_number, open='<a href="%s">' % contact_us_link, close='</a>')|safe }}</p>
+    {%- endautoescape -%}
+
+{%- endblock -%}

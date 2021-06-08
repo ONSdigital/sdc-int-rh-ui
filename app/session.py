@@ -63,7 +63,7 @@ async def make_redis_pool(host, port, poolMin, poolMax):
         logger.error('failed to create redis connection')
 
 
-async def get_existing_session(request, user_journey, sub_user_journey=None) -> Session:
+async def get_existing_session(request, user_journey, request_type=None) -> Session:
     session = await get_session(request)
     if not session.new:
         return session
@@ -72,12 +72,15 @@ async def get_existing_session(request, user_journey, sub_user_journey=None) -> 
                     client_ip=request['client_ip'],
                     client_id=request['client_id'],
                     trace=request['trace'])
-        raise SessionTimeout(user_journey, sub_user_journey)
+        raise SessionTimeout(user_journey, request_type)
 
 
-def get_session_value(session, key, user_journey, sub_user_journey=None):
+def get_session_value(request, session, key, user_journey, request_type=None):
     try:
         return session[key]
     except KeyError:
-        logger.info(f'Failed to extract session key {key}', client_id=session['client_id'])
-        raise SessionTimeout(user_journey, sub_user_journey)
+        logger.info(f'Failed to extract session key {key}',
+                    client_ip=request['client_ip'],
+                    client_id=request['client_id'],
+                    trace=request['trace'])
+        raise SessionTimeout(user_journey, request_type)
