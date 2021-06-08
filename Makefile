@@ -44,8 +44,8 @@ live_integration_tests:
 unittests:
 	pipenv run inv unittests
 
-coverage:
-	pipenv run inv coverage
+#coverage:
+#	pipenv run inv coverage
 
 flake8:
 	pipenv run inv flake8

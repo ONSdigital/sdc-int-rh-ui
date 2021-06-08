@@ -23,7 +23,6 @@ tenacity = "~=6.2.0"
 [dev-packages]
 aiohttp-devtools = "~=0.13.1"
 aioresponses = "~=0.6.3"
-codecov = "~=2.0.22"
 coverage = "~=5.1"
 flake8 = "~=3.8.1"
 ipython = "~=7.14.0"
