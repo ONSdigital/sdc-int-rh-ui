@@ -22,14 +22,7 @@
 } -%}
 
 {%- set question_title = _('What is your postcode?') -%}
-
-{%- if (individual == True) -%}
-    {%- set question_description = _('<p>To request an individual access code, we need your address</p>') -%}
-{%- elif request_type == 'access-code' -%}
-    {%- set question_description = _('<p>To request an access code, we need your address</p>') -%}
-{%- else -%}
-    {%- set question_description = '' -%}
-{%- endif -%}
+{%- set question_description = _('<p>To request a new access code, we need your address</p>') -%}
 
 {%- block main -%}
 

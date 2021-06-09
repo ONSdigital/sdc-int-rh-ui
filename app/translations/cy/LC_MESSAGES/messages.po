@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-27 12:36+0100\n"
+"POT-Creation-Date: 2021-06-09 12:57+0100\n"
 "PO-Revision-Date: 2019-08-30 11:45+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -19,21 +19,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.1\n"
 
-#: app/templates/404.html:13
+#: app/templates/404.html:11
 msgid "Page not found"
 msgstr "Heb ddod o hyd i'r dudalen"
 
-#: app/templates/404.html:15
+#: app/templates/404.html:13
 msgid "If you entered a web address, check it is correct."
 msgstr "Os gwnaethoch chi roi cyfeiriad gwe, gwnewch yn siŵr ei fod yn gywir."
 
-#: app/templates/404.html:16
+#: app/templates/404.html:14
 msgid "If you pasted the web address, check you copied the whole address."
 msgstr ""
 "Os gwnaethoch chi ludo'r cyfeiriad gwe, gwnewch yn siŵr eich bod wedi "
 "copïo'r cyfeiriad cyfan."
 
-#: app/templates/404.html:18
+#: app/templates/404.html:16
 #, python-format
 msgid ""
 "If the web address is correct or you selected a link or button, "
@@ -42,197 +42,17 @@ msgstr ""
 "Os yw'r cyfeiriad gwe yn gywir neu os gwnaethoch chi ddewis dolen neu "
 "fotwm, %(open)scysylltwch â ni%(close)s am fwy o help."
 
-#: app/templates/closed.html:12
+#: app/templates/closed.html:10
 msgid "This survey has closed"
 msgstr "Mae'r arolwg hwn wedi cau"
 
-#: app/templates/closed.html:15
+#: app/templates/closed.html:13
 msgid "Your access code is for a survey that has now closed."
 msgstr "Mae eich cod mynediad ar gyfer arolwg sydd bellach wedi cau."
 
-#: app/templates/closed.html:17
+#: app/templates/closed.html:15
 msgid "Thank you for your help."
 msgstr "Diolch am eich help."
-
-#: app/templates/common-confirm-address.html:21
-#: app/templates/start-confirm-address.html:21
-msgid "Yes, this is the correct address"
-msgstr "Ie, dyma'r cyfeiriad cywir"
-
-#: app/templates/common-confirm-address.html:28
-msgid "No, search for address again"
-msgstr "Na, rwyf am chwilio am fy nghyfeiriad eto"
-
-#: app/templates/common-confirm-address.html:36
-#: app/templates/request-code-confirm-send-by-text.html:36
-#: app/templates/request-code-select-how-to-receive.html:20
-#: app/templates/request-common-confirm-send-by-post.html:23
-#: app/templates/start-confirm-address.html:36
-msgid "Select an answer"
-msgstr "Dewiswch ateb"
-
-#: app/templates/common-confirm-address.html:46
-#: app/templates/common-confirm-address.html:61
-#: app/templates/start-confirm-address.html:56
-#: app/templates/start-confirm-address.html:72
-msgid "Is this the correct address?"
-msgstr "Ai dyma'r cyfeiriad cywir?"
-
-#: app/templates/common-confirm-address.html:71
-#: app/templates/common-enter-address.html:85
-#: app/templates/common-select-address.html:65
-#: app/templates/request-code-confirm-send-by-text.html:64
-#: app/templates/request-code-enter-mobile.html:52
-#: app/templates/request-code-select-how-to-receive.html:78
-#: app/templates/request-common-confirm-send-by-post.html:93
-#: app/templates/request-common-enter-name.html:152
-#: app/templates/start-confirm-address.html:82
-#: app/templates/start-transient-accommodation-type.html:72
-#: app/templates/start-transient-enter-town.html:55
-msgid "Continue"
-msgstr "Parhau"
-
-#: app/templates/common-contact-centre.html:15
-#: app/templates/common-contact-centre.html:25
-#: app/templates/common-contact-centre.html:35
-msgid "You need to call the Census customer contact centre"
-msgstr "Mae angen i chi ffonio canolfan gyswllt cwsmeriaid y cyfrifiad"
-
-#: app/templates/common-contact-centre.html:17
-msgid "There is an issue linking your address via the website."
-msgstr "Mae problem wrth newid eich cyfeiriad drwy'r wefan."
-
-#: app/templates/common-contact-centre.html:20
-#: app/templates/common-contact-centre.html:30
-#: app/templates/common-contact-centre.html:40
-#, python-format
-msgid ""
-"You can call us free on %(telephone_number)s or %(open)schoose another "
-"way to contact us%(close)s."
-msgstr ""
-"Gallwch chi ein ffonio ni am ddim ar %(telephone_number)s neu "
-"%(open)sddewis ffordd arall o gysylltu â ni%(close)s."
-
-#: app/templates/common-contact-centre.html:27
-msgid "There is an issue changing your address via the website."
-msgstr "Mae problem wrth newid eich cyfeiriad drwy'r wefan."
-
-#: app/templates/common-contact-centre.html:37
-msgid "There is an issue processing your address via the website."
-msgstr "Mae problem wrth newid eich cyfeiriad drwy'r wefan."
-
-#: app/templates/common-enter-address.html:7
-msgid "Enter a postcode"
-msgstr "Rhowch god post"
-
-#: app/templates/common-enter-address.html:9
-msgid "Enter a valid UK postcode"
-msgstr "Nodwch god post dilys yn y Deyrnas Unedig"
-
-#: app/templates/common-enter-address.html:24
-msgid "What is your postcode?"
-msgstr "Beth yw eich cod post?"
-
-#: app/templates/common-enter-address.html:29
-msgid "<p>To request an individual access code, we need your address</p>"
-msgstr "<p>I ofyn am god mynediad unigol, bydd angen eich cyfeiriad arnom</p>"
-
-#: app/templates/common-enter-address.html:31
-msgid "<p>To request an access code, we need your address</p>"
-msgstr "<p>I ofyn am god mynediad, bydd angen eich cyfeiriad arnom</p>"
-
-#: app/templates/common-enter-address.html:54
-msgid "UK postcode"
-msgstr "Cod post yn y Deyrnas Unedig"
-
-#: app/templates/common-enter-address.html:65
-#, python-format
-msgid ""
-"If you live somewhere that is mobile, such as a canal boat or motorhome, "
-"%(open)scontact us to request an access code%(close)s."
-msgstr ""
-"Os ydych chi'n byw mewn cartref symudol, fel cwch camlas neu gartref "
-"modur, %(open)s cysylltwch â ni i ofyn am god mynediad%(close)s."
-
-#: app/templates/common-enter-address.html:71
-msgid "I don’t live at a fixed address"
-msgstr "Nid wyf yn byw mewn cyfeiriad sefydlog"
-
-#: app/templates/common-enter-address.html:75 app/templates/start.html:131
-msgid "Hide this"
-msgstr "Cuddio hwn"
-
-#: app/templates/common-register-address.html:5
-msgid "Register an address"
-msgstr "Cofrestru cyfeiriad"
-
-#: app/templates/common-register-address.html:7
-msgid "If you can’t find your address, it may not be registered on our system."
-msgstr ""
-"Os na allwch chi ddod o hyd i'ch cyfeiriad, mae'n bosibl nad yw wedi'i "
-"gofrestru ar ein system."
-
-#: app/templates/common-register-address.html:10
-#, python-format
-msgid ""
-"To register your address, we need you to get in touch. You can call us "
-"free on %(telephone_number)s or %(open)schoose another way to contact "
-"us%(close)s."
-msgstr ""
-"I gofrestru eich cyfeiriad, bydd angen i chi gysylltu â ni. Gallwch chi "
-"ein ffonio ni am ddim ar %(telephone_number)s neu %(open)sddewis ffordd "
-"arall o gysylltu â ni%(close)s."
-
-#: app/templates/common-select-address.html:18
-#, python-format
-msgid "<p class=\"u-fs-r--b\">%(total)s address found for postcode %(pcode)s</p>"
-msgstr "Wedi dod o hyd i %(total)s o gyfeiriadau ar gyfer y cod post"
-
-#: app/templates/common-select-address.html:20
-#, python-format
-msgid ""
-"<p class=\"u-fs-r--b\">%(total)s addresses found for postcode "
-"%(pcode)s</p>"
-msgstr ""
-"<p class=\"u-fs-r--b\">Wedi dod o hyd i %(total)s o gyfeiriadau ar gyfer "
-"y cod post %(pcode)s</p>"
-
-#: app/templates/common-select-address.html:24
-msgid "Select an address"
-msgstr "Dewiswch gyfeiriad"
-
-#: app/templates/common-select-address.html:35
-msgid "Sorry, there was a problem processing your postcode"
-msgstr "Mae'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
-
-#: app/templates/common-select-address.html:37
-#, python-format
-msgid ""
-"We can’t find the postcode <strong>%(pcode)s</strong>. It may not be "
-"registered on our system."
-msgstr ""
-"Ni allwn ddod o hyd i'r cod post <strong>%(pcode)s</strong>. Mae'n bosibl"
-" nad yw wedi'i gofrestru ar ein system."
-
-#: app/templates/common-select-address.html:40
-#, python-format
-msgid ""
-"To register your address, we need you to get in touch. You can call us "
-"free on %(telephone_number)s or %(start_contact_link)schoose another way "
-"to contact us%(end_link)s."
-msgstr ""
-"I gofrestru eich cyfeiriad, bydd angen i chi gysylltu â ni. Gallwch chi "
-"ein ffonio ni am ddim ar %(telephone_number)s neu "
-"%(start_contact_link)sddewis ffordd arall o gysylltu â ni%(end_link)s."
-
-#: app/templates/common-select-address.html:46
-#: app/templates/common-select-address.html:55
-msgid "Select your address"
-msgstr "Dewiswch eich cyfeiriad"
-
-#: app/templates/common-select-address.html:53
-msgid "Or"
-msgstr "Neu"
 
 #: app/templates/error-forbidden.html:8
 msgid "Sorry, there is a problem"
@@ -247,15 +67,15 @@ msgstr ""
 "I fynd i'r dudalen hon, bydd angen i chi roi %(open)seich cod mynediad 16"
 " nod%(close)s."
 
-#: app/templates/error.html:15
+#: app/templates/error.html:12
 msgid "Sorry, something went wrong"
 msgstr "Mae'n flin gennym, aeth rhywbeth o'i le"
 
-#: app/templates/error.html:18
+#: app/templates/error.html:15
 msgid "We are experiencing some technical problems."
 msgstr "Rydym yn profi rhai problemau technegol."
 
-#: app/templates/error.html:21
+#: app/templates/error.html:18
 #, python-format
 msgid ""
 "Please try again later, or %(open)scontact us%(close)s if the problem "
@@ -263,6 +83,70 @@ msgid ""
 msgstr ""
 "Rhowch gynnig arall arni yn nes ymlaen, neu %(open)scysylltwch â "
 "ni%(close)s os yw'r broblem yn parhau."
+
+#: app/templates/launch-eq.html:15
+msgid "Launch EQ"
+msgstr ""
+
+#: app/templates/launch-eq.html:17
+msgid "Press the below button to launch census EQ"
+msgstr ""
+
+#: app/templates/launch-eq.html:31
+msgid "Launch census"
+msgstr ""
+
+#: app/templates/request-code-confirm-address.html:21
+#: app/templates/start-confirm-address.html:21
+msgid "Yes, this is the correct address"
+msgstr "Ie, dyma'r cyfeiriad cywir"
+
+#: app/templates/request-code-confirm-address.html:28
+msgid "No, search for address again"
+msgstr "Na, rwyf am chwilio am fy nghyfeiriad eto"
+
+#: app/templates/request-code-confirm-address.html:36
+#: app/templates/request-code-confirm-send-by-post.html:23
+#: app/templates/request-code-confirm-send-by-text.html:36
+#: app/templates/request-code-select-how-to-receive.html:18
+#: app/templates/start-confirm-address.html:36
+msgid "Select an answer"
+msgstr "Dewiswch ateb"
+
+#: app/templates/request-code-confirm-address.html:46
+#: app/templates/request-code-confirm-address.html:61
+#: app/templates/start-confirm-address.html:45
+#: app/templates/start-confirm-address.html:61
+msgid "Is this the correct address?"
+msgstr "Ai dyma'r cyfeiriad cywir?"
+
+#: app/templates/request-code-confirm-address.html:71
+#: app/templates/request-code-confirm-send-by-post.html:79
+#: app/templates/request-code-confirm-send-by-text.html:64
+#: app/templates/request-code-enter-address.html:76
+#: app/templates/request-code-enter-mobile.html:52
+#: app/templates/request-code-enter-name.html:152
+#: app/templates/request-code-select-address.html:65
+#: app/templates/request-code-select-how-to-receive.html:68
+#: app/templates/start-confirm-address.html:71
+msgid "Continue"
+msgstr "Parhau"
+
+#: app/templates/request-code-confirm-send-by-post.html:30
+msgid "Yes, send the access code by post"
+msgstr "Ydw, anfonwch y cod mynediad drwy'r post"
+
+#: app/templates/request-code-confirm-send-by-post.html:37
+msgid "No, send it by text message"
+msgstr "Nac ydw, anfonwch y cod mynediad drwy neges destun"
+
+#: app/templates/request-code-confirm-send-by-post.html:44
+msgid "Do you want to send a new access code to this address?"
+msgstr ""
+
+#: app/templates/request-code-confirm-send-by-post.html:63
+msgid "Change name"
+msgstr "Newid enw"
 
 #: app/templates/request-code-confirm-send-by-text.html:21
 msgid "Yes, send the text"
@@ -276,6 +160,43 @@ msgstr "Nac ydy, mae angen i mi ei newid"
 #: app/templates/request-code-confirm-send-by-text.html:54
 msgid "Is this mobile number correct?"
 msgstr "Ydy’r rhif ffôn symudol hwn yn gywir?"
+
+#: app/templates/request-code-enter-address.html:7
+msgid "Enter a postcode"
+msgstr "Rhowch god post"
+
+#: app/templates/request-code-enter-address.html:9
+msgid "Enter a valid UK postcode"
+msgstr "Nodwch god post dilys yn y Deyrnas Unedig"
+
+#: app/templates/request-code-enter-address.html:24
+msgid "What is your postcode?"
+msgstr "Beth yw eich cod post?"
+
+#: app/templates/request-code-enter-address.html:25
+msgid "<p>To request a new access code, we need your address</p>"
+msgstr ""
+
+#: app/templates/request-code-enter-address.html:45
+msgid "UK postcode"
+msgstr "Cod post yn y Deyrnas Unedig"
+
+#: app/templates/request-code-enter-address.html:56
+#, python-format
+msgid ""
+"If you live somewhere that is mobile, such as a canal boat or motorhome, "
+"%(open)scontact us to request an access code%(close)s."
+msgstr ""
+"Os ydych chi'n byw mewn cartref symudol, fel cwch camlas neu gartref "
+"modur, %(open)s cysylltwch â ni i ofyn am god mynediad%(close)s."
+
+#: app/templates/request-code-enter-address.html:62
+msgid "I don’t live at a fixed address"
+msgstr "Nid wyf yn byw mewn cyfeiriad sefydlog"
+
+#: app/templates/request-code-enter-address.html:66
+msgid "Hide this"
+msgstr "Cuddio hwn"
 
 #: app/templates/request-code-enter-mobile.html:18
 msgid "Enter your mobile number"
@@ -303,78 +224,143 @@ msgstr ""
 "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y "
 "caiff ei ddefnyddio"
 
-#: app/templates/request-code-individual.html:15
-msgid "Request an individual access code"
-msgstr "Gofyn am god mynediad unigol"
+#: app/templates/request-code-enter-name.html:18
+#: app/templates/request-code-enter-name.html:23
+msgid "You have entered too many characters. Enter up to 35 characters"
+msgstr "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
 
-#: app/templates/request-code-individual.html:17
+#: app/templates/request-code-enter-name.html:20
+msgid "Enter your first name"
+msgstr "Rhowch eich enw cyntaf"
+
+#: app/templates/request-code-enter-name.html:25
+msgid "Enter your last name"
+msgstr "Rhowch eich cyfenw"
+
+#: app/templates/request-code-enter-name.html:28
+msgid "<p>This is who the letter will be addressed to</p>"
+msgstr "<p>Dyma at bwy y bydd y llythyr wedi'i gyfeirio</p>"
+
+#: app/templates/request-code-enter-name.html:37
+msgid "What is your name?"
+msgstr "Beth yw eich enw?"
+
+#: app/templates/request-code-enter-name.html:53
+#: app/templates/request-code-enter-name.html:76
+msgid "First name"
+msgstr "Enw cyntaf"
+
+#: app/templates/request-code-enter-name.html:60
+#: app/templates/request-code-enter-name.html:83
+#: app/templates/request-code-enter-name.html:112
+#: app/templates/request-code-enter-name.html:135
+msgid "{x} character too many"
+msgstr "{x} nod yn ormod"
+
+#: app/templates/request-code-enter-name.html:61
+#: app/templates/request-code-enter-name.html:84
+#: app/templates/request-code-enter-name.html:113
+#: app/templates/request-code-enter-name.html:136
+msgid "{x} characters too many"
+msgstr "{x} nod yn ormod"
+
+#: app/templates/request-code-enter-name.html:62
+#: app/templates/request-code-enter-name.html:85
+#: app/templates/request-code-enter-name.html:114
+#: app/templates/request-code-enter-name.html:137
+#: app/templates/web-form.html:168
+msgid "You have {x} character remaining"
+msgstr "Mae gennych {x} o nodau ar ôl"
+
+#: app/templates/request-code-enter-name.html:63
+#: app/templates/request-code-enter-name.html:86
+#: app/templates/request-code-enter-name.html:115
+#: app/templates/request-code-enter-name.html:138
+#: app/templates/web-form.html:169
+msgid "You have {x} characters remaining"
+msgstr "Mae gennych {x} o nodau ar ôl"
+
+#: app/templates/request-code-enter-name.html:105
+#: app/templates/request-code-enter-name.html:128
+msgid "Last name"
+msgstr "Cyfenw"
+
+#: app/templates/request-code-select-address.html:18
+#, python-format
+msgid "<p class=\"u-fs-r--b\">%(total)s address found for postcode %(pcode)s</p>"
+msgstr "Wedi dod o hyd i %(total)s o gyfeiriadau ar gyfer y cod post"
+
+#: app/templates/request-code-select-address.html:20
+#, python-format
 msgid ""
-"An individual access code lets you answer your census questions "
-"separately from the people you live with, so they can’t see your answers."
+"<p class=\"u-fs-r--b\">%(total)s addresses found for postcode "
+"%(pcode)s</p>"
 msgstr ""
-"Mae cod mynediad unigol yn eich galluogi chi i ateb eich cwestiynau ar "
-"gyfer y cyfrifiad ar wahân i'r bobl rydych yn byw gyda nhw, fel na allant"
-" weld eich atebion."
+"<p class=\"u-fs-r--b\">Wedi dod o hyd i %(total)s o gyfeiriadau ar gyfer "
+"y cod post %(pcode)s</p>"
 
-#: app/templates/request-code-individual.html:19
-msgid "You can choose to receive your new access code by text or post."
-msgstr ""
-"Gallwch chi ddewis cael eich cod mynediad newydd drwy neges destun neu "
-"drwy'r post."
+#: app/templates/request-code-select-address.html:24
+msgid "Select an address"
+msgstr "Dewiswch gyfeiriad"
 
-#: app/templates/request-code-individual.html:27
+#: app/templates/request-code-select-address.html:35
+msgid "Sorry, there was a problem processing your postcode"
+msgstr "Mae'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
+
+#: app/templates/request-code-select-address.html:37
+#, python-format
 msgid ""
-"No one in your household will be told that you have requested an "
-"individual access code"
+"We can’t find the postcode <strong>%(pcode)s</strong>. It may not be "
+"registered on our system."
 msgstr ""
-"Ni fydd neb yn eich cartref yn cael gwybod eich bod chi wedi gofyn am god"
-" mynediad unigol"
+"Ni allwn ddod o hyd i'r cod post <strong>%(pcode)s</strong>. Mae'n bosibl"
+" nad yw wedi'i gofrestru ar ein system."
 
-#: app/templates/request-code-individual.html:31
+#: app/templates/request-code-select-address.html:40
+#, python-format
 msgid ""
-"Your individual answers will take priority over any information submitted"
-" about you in the household census."
+"To register your address, we need you to get in touch. You can call us "
+"free on %(telephone_number)s or %(start_contact_link)schoose another way "
+"to contact us%(end_link)s."
 msgstr ""
-"Bydd eich atebion unigol yn cael blaenoriaeth dros unrhyw wybodaeth a "
-"gaiff ei chyflwyno amdanoch chi ar ffurflen y cartref."
+"I gofrestru eich cyfeiriad, bydd angen i chi gysylltu â ni. Gallwch chi "
+"ein ffonio ni am ddim ar %(telephone_number)s neu "
+"%(start_contact_link)sddewis ffordd arall o gysylltu â ni%(end_link)s."
 
-#: app/templates/request-code-individual.html:35
-msgid "Start"
-msgstr "Dechrau"
+#: app/templates/request-code-select-address.html:46
+#: app/templates/request-code-select-address.html:55
+msgid "Select your address"
+msgstr "Dewiswch eich cyfeiriad"
 
-#: app/templates/request-code-select-how-to-receive.html:24
-msgid "An unbranded envelope can be addressed to you at the registered address"
-msgstr "Gall amlen blaen gael ei hanfon atoch chi yn y cyfeiriad cofrestredig"
+#: app/templates/request-code-select-address.html:53
+msgid "Or"
+msgstr "Neu"
 
-#: app/templates/request-code-select-how-to-receive.html:26
+#: app/templates/request-code-select-how-to-receive.html:21
 msgid "We can only send access codes to the registered address"
 msgstr "Dim ond i'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
 
-#: app/templates/request-code-select-how-to-receive.html:33
+#: app/templates/request-code-select-how-to-receive.html:27
 msgid "Text message"
 msgstr "Neges destun"
 
-#: app/templates/request-code-select-how-to-receive.html:34
+#: app/templates/request-code-select-how-to-receive.html:28
 msgid "We will need your mobile number for this"
 msgstr "Bydd angen eich rhif ffôn symudol arnom ar gyfer hyn"
 
-#: app/templates/request-code-select-how-to-receive.html:41
+#: app/templates/request-code-select-how-to-receive.html:35
 msgid "Post"
 msgstr "Post"
 
-#: app/templates/request-code-select-how-to-receive.html:50
-msgid "How would you like to receive an individual access code?"
-msgstr "Sut hoffech chi gael cod mynediad unigol?"
-
-#: app/templates/request-code-select-how-to-receive.html:52
+#: app/templates/request-code-select-how-to-receive.html:43
 msgid "How would you like to receive a new access code?"
 msgstr ""
 
-#: app/templates/request-code-select-how-to-receive.html:68
+#: app/templates/request-code-select-how-to-receive.html:58
 msgid "Select how to send access code"
 msgstr "Dewiswch sut i anfon y cod mynediad"
 
-#: app/templates/request-code-select-how-to-receive.html:84
+#: app/templates/request-code-select-how-to-receive.html:74
 #, python-format
 msgid ""
 "To request a census in a different format or for further help, please "
@@ -388,31 +374,13 @@ msgstr ""
 msgid "A letter will be sent to %(name)s at %(address)s"
 msgstr "Caiff llythyr ei anfon at %(name)s yn %(address)s"
 
-#: app/templates/request-code-sent-by-post.html:32
+#: app/templates/request-code-sent-by-post.html:31
 msgid ""
-"The letter with an individual access code for you to start the census "
-"should arrive within 5 working days"
+"The letter with a new access code for you to start the survey should "
+"arrive within 5 working days"
 msgstr ""
-"Dylai'r llythyr gyda chod mynediad unigol i chi ddechrau'r cyfrifiad "
-"gyrraedd cyn pen 5 diwrnod gwaith"
 
-#: app/templates/request-code-sent-by-post.html:34
-msgid ""
-"The letter with a new manager access code for you to start the census "
-"should arrive within 5 working days"
-msgstr ""
-"Dylai'r llythyr gyda chod mynediad rheolwr newydd i chi ddechrau'r "
-"cyfrifiad gyrraedd cyn pen 5 diwrnod gwaith"
-
-#: app/templates/request-code-sent-by-post.html:36
-msgid ""
-"The letter with a new household access code for you to start the census "
-"should arrive within 5 working days"
-msgstr ""
-"Dylai'r llythyr gyda chod mynediad cartref newydd i chi ddechrau'r "
-"cyfrifiad gyrraedd cyn pen 5 diwrnod gwaith"
-
-#: app/templates/request-code-sent-by-post.html:44
+#: app/templates/request-code-sent-by-post.html:38
 msgid "Done"
 msgstr "Wedi gorffen"
 
@@ -421,29 +389,21 @@ msgstr "Wedi gorffen"
 msgid "A text has been sent to %(number)s"
 msgstr "Mae neges destun wedi cael ei hanfon i %(number)s"
 
-#: app/templates/request-code-sent-by-text.html:26
-msgid ""
-"The text message with an individual access code should arrive soon for "
-"you to start your census"
-msgstr ""
-"Dylai’r neges destun yn cynnwys cod mynediad unigol gyrraedd yn fuan er "
-"mwyn i chi ddechrau eich cyfrifiad"
-
-#: app/templates/request-code-sent-by-text.html:28
+#: app/templates/request-code-sent-by-text.html:25
 msgid ""
 "The text message with a new access code should arrive soon for you to "
-"start your census"
+"start your survey"
 msgstr ""
 
-#: app/templates/request-code-sent-by-text.html:41
+#: app/templates/request-code-sent-by-text.html:37
 msgid "The text will be sent from <strong>Census2021</strong>"
 msgstr "Caiff y neges destun ei hanfon o <strong>Census2021</strong>"
 
-#: app/templates/request-code-sent-by-text.html:45
+#: app/templates/request-code-sent-by-text.html:41
 msgid "Didn’t receive a text?"
 msgstr "Heb gael neges destun?"
 
-#: app/templates/request-code-sent-by-text.html:48
+#: app/templates/request-code-sent-by-text.html:44
 #, python-format
 msgid ""
 "It can take a few minutes for the text to arrive. If it doesn’t arrive, "
@@ -452,102 +412,28 @@ msgstr ""
 "Gall gymryd ychydig funudau i'r neges destun gyrraedd. Os na fydd yn "
 "cyrraedd, gallwch %(open)sofyn am god mynediad newydd%(close)s."
 
-#: app/templates/request-code-sent-by-text.html:51
-msgid "Ready to start your census online?"
-msgstr "Barod i ddechrau'ch cyfrifiad ar lein?"
-
-#: app/templates/request-code-sent-by-text.html:56 app/templates/start.html:74
-msgid "Start census"
-msgstr "Dechrau'r cyfrifiad"
-
-#: app/templates/request-common-confirm-send-by-post.html:30
-msgid "Yes, send the access code by post"
-msgstr "Ydw, anfonwch y cod mynediad drwy'r post"
-
-#: app/templates/request-common-confirm-send-by-post.html:37
-msgid "No, send it by text message"
-msgstr "Nac ydw, anfonwch y cod mynediad drwy neges destun"
-
-#: app/templates/request-common-confirm-send-by-post.html:45
-msgid "Do you want to send an individual access code to this address?"
-msgstr "Ydych chi am anfon cod mynediad unigol i'r cyfeiriad hwn?"
-
-#: app/templates/request-common-confirm-send-by-post.html:47
-msgid "Do you want to send a new access code to this address?"
+#: app/templates/request-code-sent-by-text.html:47
+msgid "Ready to start your survey?"
 msgstr ""
 
-#: app/templates/request-common-confirm-send-by-post.html:67
-msgid "Change name"
-msgstr "Newid enw"
+#: app/templates/request-code-sent-by-text.html:52 app/templates/start.html:64
+msgid "Start survey"
+msgstr ""
 
-#: app/templates/request-common-confirm-send-by-post.html:75
+#: app/templates/request-contact-centre.html:11
+#: app/templates/start-contact-centre.html:11
+msgid "You need to call the customer contact centre"
+msgstr ""
+
+#: app/templates/request-contact-centre.html:20
+#: app/templates/start-contact-centre.html:16
+#, python-format
 msgid ""
-"A letter with your individual access code will arrive in a brown "
-"unbranded envelope"
+"You can call us free on %(telephone_number)s or %(open)schoose another "
+"way to contact us%(close)s."
 msgstr ""
-"Bydd llythyr yn cynnwys eich cod mynediad unigol yn cyrraedd mewn amlen "
-"blaen frown"
-
-#: app/templates/request-common-enter-name.html:18
-#: app/templates/request-common-enter-name.html:23
-msgid "You have entered too many characters. Enter up to 35 characters"
-msgstr "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
-
-#: app/templates/request-common-enter-name.html:20
-msgid "Enter your first name"
-msgstr "Rhowch eich enw cyntaf"
-
-#: app/templates/request-common-enter-name.html:25
-msgid "Enter your last name"
-msgstr "Rhowch eich cyfenw"
-
-#: app/templates/request-common-enter-name.html:28
-msgid "<p>This is who the letter will be addressed to</p>"
-msgstr "<p>Dyma at bwy y bydd y llythyr wedi'i gyfeirio</p>"
-
-#: app/templates/request-common-enter-name.html:37
-msgid "What is your name?"
-msgstr "Beth yw eich enw?"
-
-#: app/templates/request-common-enter-name.html:53
-#: app/templates/request-common-enter-name.html:76
-msgid "First name"
-msgstr "Enw cyntaf"
-
-#: app/templates/request-common-enter-name.html:60
-#: app/templates/request-common-enter-name.html:83
-#: app/templates/request-common-enter-name.html:112
-#: app/templates/request-common-enter-name.html:135
-msgid "{x} character too many"
-msgstr "{x} nod yn ormod"
-
-#: app/templates/request-common-enter-name.html:61
-#: app/templates/request-common-enter-name.html:84
-#: app/templates/request-common-enter-name.html:113
-#: app/templates/request-common-enter-name.html:136
-msgid "{x} characters too many"
-msgstr "{x} nod yn ormod"
-
-#: app/templates/request-common-enter-name.html:62
-#: app/templates/request-common-enter-name.html:85
-#: app/templates/request-common-enter-name.html:114
-#: app/templates/request-common-enter-name.html:137
-#: app/templates/web-form.html:168
-msgid "You have {x} character remaining"
-msgstr "Mae gennych {x} o nodau ar ôl"
-
-#: app/templates/request-common-enter-name.html:63
-#: app/templates/request-common-enter-name.html:86
-#: app/templates/request-common-enter-name.html:115
-#: app/templates/request-common-enter-name.html:138
-#: app/templates/web-form.html:169
-msgid "You have {x} characters remaining"
-msgstr "Mae gennych {x} o nodau ar ôl"
-
-#: app/templates/request-common-enter-name.html:105
-#: app/templates/request-common-enter-name.html:128
-msgid "Last name"
-msgstr "Cyfenw"
+"Gallwch chi ein ffonio ni am ddim ar %(telephone_number)s neu "
+"%(open)sddewis ffordd arall o gysylltu â ni%(close)s."
 
 #: app/templates/request-timeout.html:8
 msgid "Sorry, you need to start again"
@@ -576,13 +462,13 @@ msgstr ""
 "Bydd angen i chi ddechrau eto i %(open)sofyn am god mynediad "
 "newydd%(close)s."
 
-#: app/templates/request-too-many-requests.html:50
+#: app/templates/request-too-many-requests.html:40
 msgid "You have reached the maximum number of access codes you can request online"
 msgstr ""
 "Rydych chi wedi cyrraedd y nifer fwyaf o godau mynediad y gallwch ofyn "
 "amdanynt ar lein"
 
-#: app/templates/request-too-many-requests.html:52
+#: app/templates/request-too-many-requests.html:42
 #, python-format
 msgid "If you need a new access code, please %(open)scontact us%(close)s"
 msgstr ""
@@ -602,35 +488,9 @@ msgstr ""
 "Cadwch eich cod mynediad, sy'n cynnwys 16 nod, yn ddiogel. Bydd angen i "
 "chi roi eich cod eto er mwyn %(open)smynd at eich cyfrifiad%(close)s."
 
-#: app/templates/start-code-for-northern-ireland.html:5
-msgid "You have entered an access code for the census in Northern Ireland"
-msgstr ""
-"Rydych chi wedi rhoi cod mynediad ar gyfer y cyfrifiad yng Ngogledd "
-"Iwerddon"
-
-#: app/templates/start-code-for-northern-ireland.html:8
-#, python-format
-msgid "Start your census on the %(open)sNorthern Ireland census website%(close)s."
-msgstr ""
-"Dechreuwch eich cyfrifiad ar %(open)swefan cyfrifiad Gogledd "
-"Iwerddon%(close)s."
-
-#: app/templates/start-code-for-northern-ireland.html:10
-#, python-format
-msgid "Alternatively, you can %(open)scontact us%(close)s for help."
-msgstr "Fel arall, gallwch chi %(open)sgysylltu â ni%(close)s am help."
-
 #: app/templates/start-confirm-address.html:28
 msgid "No, this is not the correct address"
 msgstr "Na, nid dyma'r cyfeiriad cywir"
-
-#: app/templates/start-confirm-address.html:45
-msgid ""
-"Your address is in England, so you can only complete your census in "
-"English."
-msgstr ""
-"Mae eich cyfeiriad yn Lloegr, felly dim ond yn Saesneg y gallwch chi "
-"gwblhau eich cyfrifiad."
 
 #: app/templates/start-expired.html:7
 msgid "This access code has already been used"
@@ -651,18 +511,6 @@ msgstr ""
 "Os bydd angen i chi ddechrau eich cyfrifiad eto, gallwch chi %(open)sofyn"
 " am god mynediad newydd."
 
-#: app/templates/start-launch-eq.html:15
-msgid "Launch EQ"
-msgstr ""
-
-#: app/templates/start-launch-eq.html:17
-msgid "Press the below button to launch census EQ"
-msgstr ""
-
-#: app/templates/start-launch-eq.html:31
-msgid "Launch census"
-msgstr ""
-
 #: app/templates/start-timeout.html:7
 msgid "Sorry, you need to enter your access code"
 msgstr "Mae'n ddrwg gennym, bydd angen i chi roi eich cod mynediad"
@@ -680,17 +528,17 @@ msgstr ""
 "Bydd angen i chi %(open)sroi eich cod mynediad 16 nod%(close)s i agor "
 "eich cyfrifiad."
 
-#: app/templates/start-too-many-requests.html:51
+#: app/templates/start-too-many-requests.html:41
 msgid ""
 "We are currently experiencing very high demand, thank you for your "
 "patience"
 msgstr "Rydym ni'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
 
-#: app/templates/start-too-many-requests.html:53
+#: app/templates/start-too-many-requests.html:43
 msgid "Please try again later."
 msgstr "Rhowch gynnig arall arni yn nes ymlaen."
 
-#: app/templates/start-too-many-requests.html:60
+#: app/templates/start-too-many-requests.html:50
 msgid ""
 "Keep your 16-character access code safe. You will need it every time you "
 "access your census."
@@ -698,11 +546,11 @@ msgstr ""
 "Cadwch eich cod mynediad 16 nod yn ddiogel. Bydd angen y cod arnoch chi "
 "bob tro y byddwch chi'n mynd at eich cyfrifiad."
 
-#: app/templates/start-too-many-requests.html:66
+#: app/templates/start-too-many-requests.html:56
 msgid "Why it's important you take part in the census"
 msgstr "Pam mae'n bwysig eich bod chi'n cymryd rhan yn y cyfrifiad"
 
-#: app/templates/start-too-many-requests.html:68
+#: app/templates/start-too-many-requests.html:58
 msgid ""
 "Taking part in the census is your chance to help make sure you and your "
 "community get the services you need for the next 10 years and beyond."
@@ -711,90 +559,40 @@ msgstr ""
 " chi a'ch cymuned yn cael y gwasanaethau sydd eu hangen arnoch am y 10 "
 "mlynedd nesaf a thu hwnt."
 
-#: app/templates/start-too-many-requests.html:70
+#: app/templates/start-too-many-requests.html:60
 msgid "You must complete the census by law or you could be fined up to £1,000."
 msgstr ""
 "Rhaid i chi gwblhau'r cyfrifiad yn ôl y gyfraith neu gallech chi gael "
 "dirwy o hyd at £1,000."
 
-#: app/templates/start-too-many-requests.html:73
+#: app/templates/start-too-many-requests.html:63
 #, python-format
 msgid "%(open)sFind out more about the census%(close)s"
 msgstr "%(open)sMwy o wybodaeth am y cyfrifiad%(close)s"
 
-#: app/templates/start-transient-accommodation-type.html:25
-#: app/templates/start-transient-accommodation-type.html:27
-msgid "Barge or boat"
-msgstr "Bad neu gwch"
-
-#: app/templates/start-transient-accommodation-type.html:32
-#: app/templates/start-transient-accommodation-type.html:35
-msgid "Caravan or live-in vehicle"
-msgstr "Carafán neu gerbyd preswyl"
-
-#: app/templates/start-transient-accommodation-type.html:33
-msgid "For example, a motorhome, van or campervan"
-msgstr "Er enghraifft, cartref modur, fan neu gerbyd gwersylla"
-
-#: app/templates/start-transient-accommodation-type.html:40
-#: app/templates/start-transient-accommodation-type.html:42
-msgid "Tent or temporary structure"
-msgstr "Pabell neu strwythur dros dro"
-
-#: app/templates/start-transient-accommodation-type.html:54
-#: app/templates/start-transient-accommodation-type.html:62
-msgid "Which of the following best describes your type of accommodation?"
-msgstr "Pa un o’r canlynol sy’n disgrifio eich math o gartref orau?"
-
-#: app/templates/start-transient-enter-town.html:18
-msgid "Enter your nearest town or city"
-msgstr "Rhowch eich tref neu ddinas agosaf"
-
-#: app/templates/start-transient-enter-town.html:22
-msgid ""
-"What is the nearest town or city to where you were living on Sunday 21 "
-"March 2021?"
-msgstr ""
-"Beth yw'r dref neu'r ddinas agosaf i ble y byddwch chi'n byw ddydd Sul 21"
-" Mawrth 2021?"
-
-#: app/templates/start-transient-enter-town.html:24
-msgid ""
-"What is the nearest town or city to where you will be living on Sunday 21"
-" March 2021?"
-msgstr ""
-"Beth yw'r dref neu'r ddinas agosaf i ble y byddwch chi'n byw ddydd Sul 21"
-" Mawrth 2021?"
-
-#: app/templates/start-transient-enter-town.html:44
-msgid "Enter a town or city"
-msgstr "Rhowch dref neu ddinas "
-
-#: app/templates/start.html:25
+#: app/templates/start.html:24
 msgid "Enter an access code"
 msgstr "Rhowch god mynediad"
 
-#: app/templates/start.html:27
+#: app/templates/start.html:26
 msgid "Enter a valid access code"
 msgstr "Rhowch god mynediad dilys"
 
-#: app/templates/start.html:80
+#: app/templates/start.html:70
 msgid "Where to find your access code"
 msgstr "Ble i ddod o hyd i'ch cod mynediad"
 
-#: app/templates/start.html:83
+#: app/templates/start.html:73
 msgid "Enter your 16-character access code"
 msgstr "Rhowch eich cod mynediad, sy'n cynnwys 16 nod"
 
-#: app/templates/start.html:84
+#: app/templates/start.html:74
 msgid ""
 "Keep this code safe. You will need to enter it every time you access your"
-" census"
+" survey"
 msgstr ""
-"Cadwch y cod hwn yn ddiogel. Bydd angen i chi roi eich cod bob tro y "
-"byddwch chi'n mynd at eich cyfrifiad"
 
-#: app/templates/start.html:86
+#: app/templates/start.html:76
 msgid ""
 "Your personal information is protected by law and will be kept "
 "confidential."
@@ -802,65 +600,39 @@ msgstr ""
 "Mae eich gwybodaeth bersonol yn cael ei diogelu gan y gyfraith a chaiff "
 "ei chadw'n gyfrinachol."
 
-#: app/templates/start.html:103
-msgid "Access census"
-msgstr "Agor y cyfrifiad"
+#: app/templates/start.html:82
+msgid "Access survey"
+msgstr ""
 
-#: app/templates/start.html:109
+#: app/templates/start.html:88
 msgid "If you don’t have an access code"
 msgstr "Os nad oes gennych chi god mynediad"
 
-#: app/templates/start.html:111
+#: app/templates/start.html:90
 #, python-format
 msgid ""
-"You can %(open)srequest a new access code%(close)s to start a new census "
+"You can %(open)srequest a new access code%(close)s to start a new survey "
 "if you have lost or not received an access code. This can be sent to you "
 "by text or post."
 msgstr ""
-"Gallwch chi %(open)sofyn am god mynediad newydd%(close)s i ddechrau "
-"cyfrifiad newydd os ydych chi wedi colli eich cod mynediad neu heb gael "
-"un. Gall y cod gael ei anfon atoch drwy neges destun neu drwy'r post."
 
-#: app/templates/start.html:116
-#, python-format
-msgid ""
-"If you need to answer separately from the people you live with, you can "
-"%(open)srequest an individual access code%(close)s to start a separate "
-"census."
-msgstr ""
-"Os bydd angen i chi ateb ar wahân i'r bobl rydych chi'n byw gyda nhw, "
-"gallwch chi %(open)sofyn am god mynediad unigol%(close)s i ddechrau "
-"cyfrifiad ar wahân."
-
-#: app/templates/start.html:122
-msgid ""
-"Someone in your household must still complete a census using a household "
-"access code"
-msgstr ""
-"Bydd yn rhaid i rywun yn eich cartref gwblhau cyfrifiad gan ddefnyddio "
-"cod mynediad y cartref o hyd"
-
-#: app/templates/start.html:128
-msgid "Need to answer separately from your household?"
-msgstr "Angen ateb ar wahân i aelodau eich cartref?"
-
-#: app/templates/web-form-success.html:56
+#: app/templates/web-form-success.html:44
 msgid "Thank you for contacting us"
 msgstr "Diolch am gysylltu â ni"
 
-#: app/templates/web-form-success.html:57
+#: app/templates/web-form-success.html:45
 msgid "Your message has been sent"
 msgstr "Mae eich neges wedi cael ei hanfon"
 
-#: app/templates/web-form-success.html:70
+#: app/templates/web-form-success.html:58
 msgid "We will respond to you within 4 working days"
 msgstr "Byddwn yn ymateb i chi o fewn 4 diwrnod gwaith"
 
-#: app/templates/web-form-too-many-requests.html:50
+#: app/templates/web-form-too-many-requests.html:40
 msgid "You have reached the maximum number web form submissions"
 msgstr "Allwch chi ddim cyflwyno mwy o ffurflenni gwe"
 
-#: app/templates/web-form-too-many-requests.html:52
+#: app/templates/web-form-too-many-requests.html:42
 #, python-format
 msgid "If you need further assistance, please %(open)scontact us%(close)s"
 msgstr "Os oes angen rhagor o help arnoch chi, %(open)scysylltwch â ni%(close)s"

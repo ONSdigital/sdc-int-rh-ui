@@ -2,12 +2,6 @@
 
 {% from "components/breadcrumb/_macro.njk" import onsBreadcrumb %}
 
-{%- if display_region == 'cy' -%}
-    {%- set contact_us_link = domain_url_cy + '/cysylltu-a-ni/' -%}
-{%- else -%}
-    {%- set contact_us_link = domain_url_en + '/contact-us/' -%}
-{%- endif -%}
-
 {% if display_region == 'cy' %}
     {% set breadcrumb_items = [
                 {

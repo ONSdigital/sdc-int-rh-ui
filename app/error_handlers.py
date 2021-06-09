@@ -277,10 +277,12 @@ def check_display_region(request):
             'display_region': 'cy',
             'locale': 'cy',
             'page_title': 'Gwall',
+            'contact_us_link': View.get_campaign_site_link(request, 'cy', 'contact-us')
         }
     else:
         return {
             **base_attributes,
             'display_region': 'en',
             'page_title': 'Error',
+            'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
         }
