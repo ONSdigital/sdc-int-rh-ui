@@ -23,5 +23,5 @@ after_success:
   - if [ "$BRANCH" != "main" ]; then
       ./scripts/docker_push.sh;
     fi
-  - pipenv run codecov
+#  - pipenv run codecov
 

@@ -19,11 +19,11 @@ python-json-logger = "~=0.1.11"
 sdc-cryptography = "~=0.4.0"
 structlog = "~=20.1.0"
 tenacity = "~=6.2.0"
+jinja2 = "~=2.11.2"
 
 [dev-packages]
 aiohttp-devtools = "~=0.13.1"
 aioresponses = "~=0.6.3"
-codecov = "~=2.0.22"
 coverage = "~=5.1"
 flake8 = "~=3.8.1"
 ipython = "~=7.14.0"

@@ -383,27 +383,8 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_confirm_address_value_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
         self.content_common_confirm_address_value_no_cy = "Na, rwyf am chwilio am fy nghyfeiriad eto"
 
-        self.content_common_register_address_title_en = \
-            'Register an address'
-        self.content_common_register_address_title_cy = \
-            "Cofrestru cyfeiriad"
-        self.content_common_register_address_text_en = \
-            'If you can\\xe2\\x80\\x99t find your address, it may not be registered on our system.'
-        self.content_common_register_address_text_cy = \
-            "Os na allwch chi ddod o hyd i\\\'ch cyfeiriad, mae\\\'n bosibl nad yw wedi\\\'i gofrestru ar ein system."
-        self.content_common_call_contact_centre_address_linking_en = \
-            'There is an issue linking your address via the website.'
-        self.content_common_call_contact_centre_address_linking_cy = \
-            "Mae problem wrth newid eich cyfeiriad drwy\\\'r wefan."
-
-        self.content_common_call_contact_centre_title_en = 'You need to call the Census customer contact centre'
-        self.content_common_call_contact_centre_title_cy = \
-            "Mae angen i chi ffonio canolfan gyswllt cwsmeriaid y cyfrifiad"
-
-        self.content_common_call_contact_centre_unable_to_match_address_en = \
-            'There is an issue processing your address via the website.'
-        self.content_common_call_contact_centre_unable_to_match_address_cy = \
-            "Mae problem wrth newid eich cyfeiriad drwy\\\'r wefan."
+        self.content_common_contact_centre_title_en = 'You need to call the customer contact centre'
+        self.content_common_contact_centre_title_cy = 'You need to call the customer contact centre'
 
         self.content_common_500_error_en = 'Sorry, something went wrong'
         self.content_common_500_error_cy = "Mae\\'n flin gennym, aeth rhywbeth o\\'i le"
@@ -435,12 +416,12 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_exit_button_en = 'href="/en/start/exit/"'
         self.content_start_exit_button_cy = 'href="/cy/start/exit/"'
 
-        self.content_start_title_en = 'Start census'
-        self.content_start_page_title_error_en = '<title>Error: Start census - ' + survey_name_en + '</title>'
+        self.content_start_title_en = 'Start survey'
+        self.content_start_page_title_error_en = '<title>Error: Start survey - ' + survey_name_en + '</title>'
         self.content_start_uac_title_en = 'Enter your 16-character access code'
-        self.content_start_title_cy = "Dechrau\\\'r cyfrifiad"
+        self.content_start_title_cy = "Start survey"
         self.content_start_page_title_error_cy = \
-            '<title>Gwall: Dechrau&#39;r cyfrifiad - ' + survey_name_cy + '</title>'
+            '<title>Gwall: Start survey - ' + survey_name_cy + '</title>'
         self.content_start_uac_title_cy = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
 
         self.content_start_uac_expired_en = 'This access code has already been used'

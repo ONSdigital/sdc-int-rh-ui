@@ -23,12 +23,12 @@ class Info(View):
         return json_response(info)
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/start/launch-eq/')
+@static_routes.view('/launch-eq/')
 class LaunchEQ(View):
-    @aiohttp_jinja2.template('start-launch-eq.html')
+    @aiohttp_jinja2.template('launch-eq.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start/launch-eq')
+        self.log_entry(request, '/launch-eq')
         if display_region == 'cy':
             locale = 'cy'
             page_title = 'Launch EQ'
@@ -43,10 +43,10 @@ class LaunchEQ(View):
             'page_url': View.gen_page_url(request)
         }
 
-    @aiohttp_jinja2.template('start-launch-eq.html')
+    @aiohttp_jinja2.template('launch-eq.html')
     async def post(self, request):
         display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/start/launch-eq')
+        self.log_entry(request, '/launch-eq')
 
         data = await request.post()
 

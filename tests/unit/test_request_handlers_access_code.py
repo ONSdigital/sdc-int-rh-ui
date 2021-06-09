@@ -57,6 +57,10 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address_address_not_found(display_region)
 
+    async def assert_post_request_access_code_enter_address_empty(self, display_region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address_input_empty(display_region)
+
     async def assert_post_request_access_code_enter_address_invalid_postcode(self, display_region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address_input_invalid(display_region)
@@ -88,6 +92,11 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address_no_selection_made(display_region)
+
+    async def assert_post_request_access_code_select_address_no_case(self, display_region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address_no_case(display_region)
 
     async def assert_post_request_access_code_select_how_to_receive_no_selection(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -291,6 +300,14 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.assert_get_request_access_code_address_not_found('cy')
 
     @unittest_run_loop
+    async def test_post_request_access_code_enter_address_empty_ew(self):
+        await self.assert_post_request_access_code_enter_address_empty('en')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_address_empty_cy(self):
+        await self.assert_post_request_access_code_enter_address_empty('cy')
+
+    @unittest_run_loop
     async def test_post_request_access_code_enter_address_invalid_postcode_ew(self):
         await self.assert_post_request_access_code_enter_address_invalid_postcode('en')
 
@@ -349,6 +366,14 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_post_request_access_code_select_address_no_selection_cy(self):
         await self.assert_post_request_access_code_select_address_no_selection('cy')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_address_no_case_ew(self):
+        await self.assert_post_request_access_code_select_address_no_case('en')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_address_no_case_cy(self):
+        await self.assert_post_request_access_code_select_address_no_case('cy')
 
     @unittest_run_loop
     async def test_post_request_access_code_select_how_to_receive_no_selection_ew_e(self):

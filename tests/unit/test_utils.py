@@ -306,8 +306,8 @@ class TestUtils(RHTestCase):
         self.assertEqual(built, expected)
 
     def test_get_call_centre_number(self):
-        built_ew = View.get_call_centre_number('en')
-        built_cy = View.get_call_centre_number('cy')
+        built_ew = View.get_contact_centre_number('en')
+        built_cy = View.get_contact_centre_number('cy')
         expected_ew = '0800 141 2021'
         expected_cy = '0800 169 2021'
         self.assertEqual(built_ew, expected_ew)
