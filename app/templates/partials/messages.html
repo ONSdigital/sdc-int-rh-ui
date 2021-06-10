@@ -1,44 +1,44 @@
-{% for group, messages in messages_dict.items() %}
+{%- for group, messages in messages_dict.items() -%}
 
-{% from './components/panel/_macro.njk' import onsPanel %}
-{% from './components/lists/_macro.njk' import onsList %}
+{%- from './components/panel/_macro.njk' import onsPanel -%}
+{%- from './components/lists/_macro.njk' import onsList -%}
 
-{% if messages | length == 1 %}
-    {% if '/start/' in page_url %}
-        {% set errorTitle = _('There is a problem with this page') %}
-    {% else %}
-        {% set errorTitle = _('There is a problem with your answer') %}
-    {% endif %}
-{% else %}
-    {% if '/start/' in page_url %}
-        {% set errorTitle = _('There are %(errorcount)s problems with this page', errorcount= messages | length | string ) %}
-    {% else %}
-        {% set errorTitle = _('There are %(errorcount)s problems with your answer', errorcount= messages | length | string ) %}
-    {% endif %}
-{% endif %}
+{%- if messages | length == 1 -%}
+    {%- if '/start/' in page_url -%}
+        {%- set errorTitle = _('There is a problem with this page') -%}
+    {%- else -%}
+        {%- set errorTitle = _('There is a problem with your answer') -%}
+    {%- endif -%}
+{%- else -%}
+    {%- if '/start/' in page_url -%}
+        {%- set errorTitle = _('There are %(errorcount)s problems with this page', errorcount= messages | length | string ) -%}
+    {%- else -%}
+        {%- set errorTitle = _('There are %(errorcount)s problems with your answer', errorcount= messages | length | string ) -%}
+    {%- endif -%}
+{%- endif -%}
 
-{% set itemsList = [] %}
+{%- set itemsList = [] -%}
 
-{% for message in messages %}
+{%- for message in messages -%}
 
-{% if itemsList.append( {
+{%- if itemsList.append( {
                 'text': message.text,
                 'index': true,
                 'url': '#' + message.field,
                 'classes': 'js-inpagelink'
             } )
-%} {% endif %}
+-%} {%- endif -%}
 
-{% endfor %}
+{%- endfor -%}
 
 
-{% if group=='ERROR' %}
-{% call
+{%- if group=='ERROR' -%}
+{%- call
     onsPanel({
         'title': errorTitle,
         'type': 'error'
     })
-%}
+-%}
 
 {{
     onsList({
@@ -46,7 +46,7 @@
         'itemsList': itemsList
     })
 }}
-{% endcall %}
-{% endif %}
+{%- endcall -%}
+{%- endif -%}
 
-{% endfor %}
+{%- endfor -%}

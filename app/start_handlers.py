@@ -128,14 +128,14 @@ class Start(StartCommon):
         self.validate_case(uac_json)
 
         try:
-            attributes = uac_json['address']
+            auth_attributes = uac_json['address']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address details')
 
         logger.debug('address confirmation displayed',
                      client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
         session = await get_session(request)
-        session['attributes'] = attributes
+        session['auth_attributes'] = auth_attributes
         session['case'] = uac_json
 
         raise HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
@@ -164,17 +164,17 @@ class StartConfirmAddress(StartCommon):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(request, session, 'attributes', user_journey)
+        auth_attributes = get_session_value(request, session, 'auth_attributes', user_journey)
 
         return {'locale': locale,
                 'page_title': page_title,
                 'page_url': View.gen_page_url(request),
                 'display_region': display_region,
-                'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey),
-                'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey),
-                'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey),
-                'townName': get_session_value(request, attributes, 'townName', user_journey),
-                'postcode': get_session_value(request, attributes, 'postcode', user_journey)
+                'addressLine1': get_session_value(request, auth_attributes, 'addressLine1', user_journey),
+                'addressLine2': get_session_value(request, auth_attributes, 'addressLine2', user_journey),
+                'addressLine3': get_session_value(request, auth_attributes, 'addressLine3', user_journey),
+                'townName': get_session_value(request, auth_attributes, 'townName', user_journey),
+                'postcode': get_session_value(request, auth_attributes, 'postcode', user_journey)
                 }
 
     @aiohttp_jinja2.template('start-confirm-address.html')
@@ -192,7 +192,7 @@ class StartConfirmAddress(StartCommon):
         else:
             locale = 'en'
 
-        attributes = get_session_value(request, session, 'attributes', user_journey)
+        auth_attributes = get_session_value(request, session, 'auth_attributes', user_journey)
         case = get_session_value(request, session, 'case', user_journey)
 
         try:
@@ -203,7 +203,7 @@ class StartConfirmAddress(StartCommon):
                         client_id=request['client_id'],
                         trace=request['trace'],
                         region_of_site=display_region,
-                        postcode=get_session_value(request, attributes, 'postcode', user_journey))
+                        postcode=get_session_value(request, auth_attributes, 'postcode', user_journey))
             if display_region == 'cy':
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
@@ -213,9 +213,9 @@ class StartConfirmAddress(StartCommon):
                 request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
         if address_confirmation == 'Yes':
-            attributes['language'] = locale
-            attributes['display_region'] = display_region
-            await self.call_questionnaire(request, case, attributes,
+            auth_attributes['language'] = locale
+            auth_attributes['display_region'] = display_region
+            await self.call_questionnaire(request, case, auth_attributes,
                                           request.app,
                                           session.get('adlocation'))
 
@@ -230,7 +230,7 @@ class StartConfirmAddress(StartCommon):
                         trace=request['trace'],
                         user_selection=address_confirmation,
                         region_of_site=display_region,
-                        postcode=get_session_value(request, attributes, 'postcode', user_journey))
+                        postcode=get_session_value(request, auth_attributes, 'postcode', user_journey))
             if display_region == 'cy':
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
@@ -270,5 +270,6 @@ class StartContactCentre(View):
             'display_region': display_region,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'contact_centre_number': View.get_contact_centre_number(display_region)
+            'contact_centre_number': View.get_contact_centre_number(display_region),
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
         }

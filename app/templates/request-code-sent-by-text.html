@@ -22,11 +22,7 @@
             <h1 class="u-mb-xs u-fs-l">{{ _('A text has been sent to %(number)s', number=submitted_mobile_number|replace(" ", "&nbsp;"))|safe }} </h1>
         {%- endautoescape -%}
 
-        {%- if (individual == True) -%}
-            <p>{{ _('The text message with an individual access code should arrive soon for you to start your census') }}</p>
-        {%- else -%}
-            <p>{{ _('The text message with a new access code should arrive soon for you to start your census') }}</p>
-        {%- endif -%}
+        <p>{{ _('The text message with a new access code should arrive soon for you to start your survey') }}</p>
 
     {%- endcall -%}
 
@@ -48,12 +44,12 @@
         <p class="u-mb-l">{{ _("It can take a few minutes for the text to arrive. If it doesn’t arrive, you can %(open)srequest a new access code%(close)s.", open='<a href="%s">' % request_code_link, close='</a>')|safe }}</p>
     {%- endautoescape -%}
 
-    <h2 class="u-mb-s u-fs-m">{{ _("Ready to start your census online?") }}</h2>
+    <h2 class="u-mb-s u-fs-m">{{ _("Ready to start your survey?") }}</h2>
 
     {{
         onsButton({
             'type': 'button',
-            'text': _('Start census'),
+            'text': _('Start survey'),
             'classes': 'u-mb-m',
             'url': start_survey_link
         })

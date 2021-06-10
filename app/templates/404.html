@@ -1,19 +1,13 @@
-{% extends 'base-' + display_region + '.html' %}
+{%- extends 'base-' + display_region + '.html' -%}
 
-{% if display_region == 'cy' %}
-    {% set contact_us_link = domain_url_cy + '/cysylltu-a-ni/' %}
-{% else %}
-    {% set contact_us_link = domain_url_en + '/contact-us/' %}
-{% endif %}
-
-{% block main %}
+{%- block main -%}
 
     <h1>{{ _('Page not found') }}</h1>
 
     <p>{{ _('If you entered a web address, check it is correct.') }}</p>
     <p>{{ _('If you pasted the web address, check you copied the whole address.') }}</p>
-    {% autoescape false %}
+    {%- autoescape false -%}
     <p>{{ _('If the web address is correct or you selected a link or button, %(open)scontact us%(close)s for more help.', open='<a href="%s">' % contact_us_link, close='</a>')|safe }}</p>
-    {% endautoescape %}
+    {%- endautoescape -%}
 
-{% endblock %}
+{%- endblock -%}

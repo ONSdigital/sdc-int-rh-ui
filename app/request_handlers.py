@@ -97,8 +97,8 @@ class RequestEnterAddress(View):
                     request_type=request_type
                 ))
 
-        attributes = {'postcode': postcode}
-        session['attributes'] = attributes
+        fulfilment_attributes = {'postcode': postcode}
+        session['fulfilment_attributes'] = fulfilment_attributes
         session.changed()
 
         raise HTTPFound(
@@ -133,8 +133,8 @@ class RequestSelectAddress(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
-        postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
         address_content = await AddressIndex.get_postcode_return(request, postcode, display_region)
         address_content['page_title'] = page_title
@@ -156,7 +156,7 @@ class RequestSelectAddress(View):
 
         session = await get_existing_session(request, user_journey, request_type)
 
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -189,7 +189,7 @@ class RequestSelectAddress(View):
                     issue='address-not-found'
                 ))
         else:
-            attributes['uprn'] = selected_uprn
+            fulfilment_attributes['uprn'] = selected_uprn
             session.changed()
             logger.info('session updated',
                         client_ip=request['client_ip'],
@@ -229,8 +229,8 @@ class RequestConfirmAddress(View):
                 page_title = View.page_title_error_prefix_en + page_title
             locale = 'en'
 
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
-        uprn = get_session_value(request, attributes, 'uprn', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
         try:
             rhsvc_uprn_return = await RHService.get_case_by_uprn(request, uprn)
@@ -238,14 +238,14 @@ class RequestConfirmAddress(View):
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
                         trace=request['trace'])
-            attributes['addressLine1'] = rhsvc_uprn_return['addressLine1']
-            attributes['addressLine2'] = rhsvc_uprn_return['addressLine2']
-            attributes['addressLine3'] = rhsvc_uprn_return['addressLine3']
-            attributes['townName'] = rhsvc_uprn_return['townName']
-            attributes['postcode'] = rhsvc_uprn_return['postcode']
-            attributes['uprn'] = rhsvc_uprn_return['uprn']
-            attributes['case_id'] = rhsvc_uprn_return['caseId']
-            attributes['region'] = rhsvc_uprn_return['region']
+            fulfilment_attributes['addressLine1'] = rhsvc_uprn_return['addressLine1']
+            fulfilment_attributes['addressLine2'] = rhsvc_uprn_return['addressLine2']
+            fulfilment_attributes['addressLine3'] = rhsvc_uprn_return['addressLine3']
+            fulfilment_attributes['townName'] = rhsvc_uprn_return['townName']
+            fulfilment_attributes['postcode'] = rhsvc_uprn_return['postcode']
+            fulfilment_attributes['uprn'] = rhsvc_uprn_return['uprn']
+            fulfilment_attributes['case_id'] = rhsvc_uprn_return['caseId']
+            fulfilment_attributes['region'] = rhsvc_uprn_return['region']
 
             session.changed()
 
@@ -277,11 +277,14 @@ class RequestConfirmAddress(View):
             'request_type': request_type,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
-            'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
-            'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
-            'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
-            'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
+            'addressLine1': get_session_value(request, fulfilment_attributes, 'addressLine1',
+                                              user_journey, request_type),
+            'addressLine2': get_session_value(request, fulfilment_attributes, 'addressLine2',
+                                              user_journey, request_type),
+            'addressLine3': get_session_value(request, fulfilment_attributes, 'addressLine3',
+                                              user_journey, request_type),
+            'townName': get_session_value(request, fulfilment_attributes, 'townName', user_journey, request_type),
+            'postcode': get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
         }
 
     async def post(self, request):
@@ -462,7 +465,7 @@ class RequestCodeEnterMobile(View):
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-mobile')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -473,8 +476,8 @@ class RequestCodeEnterMobile(View):
             logger.info('valid mobile number',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
 
-            attributes['mobile_number'] = mobile_number
-            attributes['submitted_mobile_number'] = data['request-mobile-number']
+            fulfilment_attributes['mobile_number'] = mobile_number
+            fulfilment_attributes['submitted_mobile_number'] = data['request-mobile-number']
             session.changed()
 
             raise HTTPFound(
@@ -509,7 +512,7 @@ class RequestCodeConfirmSendByText(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-text')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = 'Confirm to send access code by text'
@@ -528,7 +531,8 @@ class RequestCodeConfirmSendByText(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'submitted_mobile_number': get_session_value(request, attributes, 'submitted_mobile_number', user_journey)
+            'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
+                                                         'submitted_mobile_number', user_journey)
         }
 
     async def post(self, request):
@@ -539,7 +543,7 @@ class RequestCodeConfirmSendByText(View):
         self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-text')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         data = await request.post()
         try:
@@ -558,10 +562,11 @@ class RequestCodeConfirmSendByText(View):
                 ))
 
         if mobile_confirmation == 'yes':
-            region = get_session_value(request, attributes, 'region', user_journey, request_type)
-            postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
-            case_id = get_session_value(request, attributes, 'case_id', user_journey, request_type)
-            mobile_number = get_session_value(request, attributes, 'mobile_number', user_journey, request_type)
+            region = get_session_value(request, fulfilment_attributes, 'region', user_journey, request_type)
+            postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
+            case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            mobile_number = get_session_value(request, fulfilment_attributes,
+                                              'mobile_number', user_journey, request_type)
 
             fulfilment_individual = 'false'
 
@@ -665,7 +670,7 @@ class RequestCommonEnterName(View):
         self.log_entry(request, display_region + '/request/' + request_type + '/enter-name')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -687,8 +692,8 @@ class RequestCommonEnterName(View):
         name_first_name = data['name_first_name'].strip()
         name_last_name = data['name_last_name'].strip()
 
-        attributes['first_name'] = name_first_name
-        attributes['last_name'] = name_last_name
+        fulfilment_attributes['first_name'] = name_first_name
+        fulfilment_attributes['last_name'] = name_last_name
         session.changed()
 
         raise HTTPFound(
@@ -712,7 +717,7 @@ class RequestCommonConfirmSendByPost(View):
         self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-post')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Confirm to send access code by post"
@@ -731,13 +736,16 @@ class RequestCommonConfirmSendByPost(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, attributes, 'first_name', user_journey, request_type),
-            'last_name': get_session_value(request, attributes, 'last_name', user_journey, request_type),
-            'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
-            'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
-            'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
-            'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
-            'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
+            'first_name': get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type),
+            'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type),
+            'addressLine1': get_session_value(request, fulfilment_attributes, 'addressLine1',
+                                              user_journey, request_type),
+            'addressLine2': get_session_value(request, fulfilment_attributes, 'addressLine2',
+                                              user_journey, request_type),
+            'addressLine3': get_session_value(request, fulfilment_attributes, 'addressLine3',
+                                              user_journey, request_type),
+            'townName': get_session_value(request, fulfilment_attributes, 'townName', user_journey, request_type),
+            'postcode': get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
         }
 
     async def post(self, request):
@@ -747,7 +755,7 @@ class RequestCommonConfirmSendByPost(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-post')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         data = await request.post()
         try:
@@ -769,11 +777,11 @@ class RequestCommonConfirmSendByPost(View):
                                                                                  request_type=request_type))
 
         if name_address_confirmation == 'yes':
-            region = get_session_value(request, attributes, 'region', user_journey, request_type)
-            first_name = get_session_value(request, attributes, 'first_name', user_journey, request_type)
-            last_name = get_session_value(request, attributes, 'last_name', user_journey, request_type)
-            case_id = get_session_value(request, attributes, 'case_id', user_journey, request_type)
-            postcode = get_session_value(request, attributes, 'postcode', user_journey, request_type)
+            region = get_session_value(request, fulfilment_attributes, 'region', user_journey, request_type)
+            first_name = get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type)
+            last_name = get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
+            case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
             fulfilment_individual = 'false'
 
@@ -868,7 +876,8 @@ class RequestCodeSentByText(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/code-sent-by-text')
 
-        await get_existing_session(request, user_journey, request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Access code has been sent by text"
@@ -884,7 +893,9 @@ class RequestCodeSentByText(View):
             'display_region': display_region,
             'locale': locale,
             'request_type': request_type,
-            'page_url': View.gen_page_url(request)
+            'page_url': View.gen_page_url(request),
+            'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
+                                                         'submitted_mobile_number', user_journey)
         }
 
 
@@ -900,7 +911,7 @@ class RequestCodeSentByPost(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/code-sent-by-post')
 
         session = await get_existing_session(request, user_journey, request_type)
-        attributes = get_session_value(request, session, 'attributes', user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = "Access code will be sent by post"
@@ -918,13 +929,17 @@ class RequestCodeSentByPost(View):
                 'request_type': request_type,
                 'page_url': View.gen_page_url(request),
                 'census_home_link': View.get_campaign_site_link(request, display_region, 'census-home'),
-                'first_name': get_session_value(request, attributes, 'first_name', user_journey, request_type),
-                'last_name': get_session_value(request, attributes, 'last_name', user_journey, request_type),
-                'addressLine1': get_session_value(request, attributes, 'addressLine1', user_journey, request_type),
-                'addressLine2': get_session_value(request, attributes, 'addressLine2', user_journey, request_type),
-                'addressLine3': get_session_value(request, attributes, 'addressLine3', user_journey, request_type),
-                'townName': get_session_value(request, attributes, 'townName', user_journey, request_type),
-                'postcode': get_session_value(request, attributes, 'postcode', user_journey, request_type)
+                'first_name': get_session_value(request, fulfilment_attributes, 'first_name',
+                                                user_journey, request_type),
+                'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type),
+                'addressLine1': get_session_value(request, fulfilment_attributes, 'addressLine1',
+                                                  user_journey, request_type),
+                'addressLine2': get_session_value(request, fulfilment_attributes, 'addressLine2',
+                                                  user_journey, request_type),
+                'addressLine3': get_session_value(request, fulfilment_attributes, 'addressLine3',
+                                                  user_journey, request_type),
+                'townName': get_session_value(request, fulfilment_attributes, 'townName', user_journey, request_type),
+                'postcode': get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
             }
 
 
@@ -952,5 +967,6 @@ class RequestContactCentre(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'contact_centre_number': View.get_contact_centre_number(display_region),
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
             'issue': issue
         }

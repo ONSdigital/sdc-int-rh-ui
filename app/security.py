@@ -13,31 +13,31 @@ from .session import get_existing_session
 CSP = {
     'default-src': [
         "'self'",
-        'https://cdn.census.gov.uk',
+        'https://cdn.ons.gov.uk',
     ],
     'font-src': [
         "'self'",
         'data:',
         'https://fonts.gstatic.com',
-        'https://cdn.census.gov.uk',
+        'https://cdn.ons.gov.uk',
     ],
     'script-src': [
         "'self'",
         'https://www.googletagmanager.com',
         'https://www.google-analytics.com',
         'https://ssl.google-analytics.com',
-        'https://cdn.census.gov.uk',
+        'https://cdn.ons.gov.uk',
     ],
     'style-src': [
         "'self'",
         'https://tagmanager.google.com',
         'https://fonts.googleapis.com',
         "'unsafe-inline'",
-        'https://cdn.census.gov.uk'
+        'https://cdn.ons.gov.uk'
     ],
     'connect-src': [
         "'self'",
-        'https://cdn.census.gov.uk',
+        'https://cdn.ons.gov.uk',
         'https://www.google-analytics.com'
     ],
     'frame-src': [
@@ -50,7 +50,7 @@ CSP = {
         'https://www.google-analytics.com',
         'https://ssl.gstatic.com',
         'https://www.gstatic.com',
-        'https://cdn.census.gov.uk'
+        'https://cdn.ons.gov.uk'
     ],
 }
 

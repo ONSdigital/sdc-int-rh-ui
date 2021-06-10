@@ -821,13 +821,13 @@ class RHTestCase(AioHTTPTestCase):
             '<title>Error: Enter address - ' + survey_name_en + '</title>'
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
-            'To request an access code, we need your address'
+            'To request a new access code, we need your address'
         self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_request_enter_address_page_title_error_cy = \
             '<title>Gwall: Nodi cyfeiriad - ' + survey_name_cy + '</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
-            "I ofyn am god mynediad, bydd angen eich cyfeiriad arnom"
+            'To request a new access code, we need your address'
 
         self.content_request_code_select_how_to_receive_error_en = 'Select an answer'
         self.content_request_code_select_how_to_receive_secondary_en = 'Select how to send access code'
@@ -896,12 +896,12 @@ class RHTestCase(AioHTTPTestCase):
             '<title>Access code has been sent by text - ' + survey_name_en + '</title>'
         self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
         self.content_request_code_sent_by_text_secondary_en = \
-            'The text message with a new access code should arrive soon for you to start your census'
+            'The text message with a new access code should arrive soon for you to start your survey'
         self.content_request_code_sent_by_text_page_title_cy = \
             '<title>Access code has been sent by text - ' + survey_name_cy + '</title>'
         self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
         self.content_request_code_sent_by_text_secondary_cy = \
-            "The text message with a new access code should arrive soon for you to start your census"
+            'The text message with a new access code should arrive soon for you to start your survey'
 
         self.content_request_common_enter_name_page_title_en = \
             '<title>Enter name - ' + survey_name_en + '</title>'
@@ -954,9 +954,8 @@ class RHTestCase(AioHTTPTestCase):
             'A letter will be sent to Bob Bobbington at 1 West Street, West Westingham'
         self.content_request_code_aims_sent_post_title_en = \
             'A letter will be sent to Bob Bobbington at 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_secondary_household_en = \
-            'The letter with a new household access code for you to start the census should arrive ' \
-            'within 5 working days'
+        self.content_request_code_sent_post_secondary_en = \
+            'The letter with a new access code for you to start the survey should arrive within 5 working days'
         self.content_request_code_sent_by_post_page_title_cy = \
             '<title>Access code will be sent by post - ' + survey_name_cy + '</title>'
         self.content_request_code_hh_sent_post_title_cy = \
@@ -964,8 +963,7 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_code_aims_sent_post_title_cy = \
             'Caiff llythyr ei anfon at Bob Bobbington yn 1 Gate Reach, Exeter'
         self.content_request_code_sent_post_secondary_cy = \
-            "Dylai\\\'r llythyr gyda chod mynediad cartref newydd i chi ddechrau\\\'r cyfrifiad " \
-            "gyrraedd cyn pen 5 diwrnod gwaith"
+            'The letter with a new access code for you to start the survey should arrive within 5 working days'
 
         self.content_request_contact_centre_en = 'You need to call the Census customer contact centre'
         self.content_request_contact_centre_cy = "Mae angen i chi ffonio canolfan gyswllt cwsmeriaid y cyfrifiad"

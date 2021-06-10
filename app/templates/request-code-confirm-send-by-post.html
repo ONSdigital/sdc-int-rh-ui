@@ -41,11 +41,7 @@
             ]
 -%}
 
-{%- if (individual == True) -%}
-    {%- set question_title = _('Do you want to send an individual access code to this address?') -%}
-{%- else -%}
-    {%- set question_title = _('Do you want to send a new access code to this address?') -%}
-{%- endif -%}
+{%- set question_title = _('Do you want to send a new access code to this address?') -%}
 
 {%- block main -%}
 
@@ -65,16 +61,6 @@
         </p>
 
         <p class="u-mb-m"><a href="{{ request_common_enter_name_link }}">{{ _('Change name') }}</a></p>
-
-        {%- if (individual == True) -%}
-            {%- call
-                onsPanel({
-                    'classes': 'u-mb-m'
-                })
-            -%}
-                <p>{{ _('A letter with your individual access code will arrive in a brown unbranded envelope') }}</p>
-            {%- endcall -%}
-        {%- endif -%}
 
         {{
             onsRadios({

@@ -1028,7 +1028,7 @@ class TestHelpers(RHTestCase):
                 else:
                     self.assertIn(self.content_request_code_hh_region_e_sent_post_title_en, contents)
                 self.assertIn(self.content_request_code_sent_by_post_page_title_en, contents)
-                self.assertIn(self.content_request_code_sent_post_secondary_household_en, contents)
+                self.assertIn(self.content_request_code_sent_post_secondary_en, contents)
 
     async def check_post_confirm_send_by_post_input_no(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
