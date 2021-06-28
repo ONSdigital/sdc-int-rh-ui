@@ -16,8 +16,7 @@ steps:
     args:
     - -c
     - |
-      ls
-      ./scripts.load_templates.sh
+      ./scripts/load_templates.sh
 
   # Install dependencies
   - name: python
