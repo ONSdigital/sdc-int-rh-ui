@@ -10,22 +10,20 @@ steps:
 #    args: ['xpzf', 'm2.tar.gz']
 steps:
   - name: python:3.6-buster
-    id: Load Pattern Library Templates
+    id: Python Env Setup And App Tests
     entrypoint: bash
     dir: /workspace
     args:
     - -c
     - |
-      python -version
+      echo "Loading Pattern Library Templates"
       ./scripts/load_templates.sh
+      echo "Pip Install"
       pip install pipenv
       pipenv install --dev --deploy
-
-  # Run unit tests
-  - name: python:3.6-buster
-    id: Run Python Unit Tests
-    entrypoint: python
-    args: ["-m", "pytest", "tests/unit", "--cov=app", "--cov-report xml", "--ignore=node_modules"] 
+      echo "Run Tests"
+      pipenv run pytest tests/unit --cov=app --cov-report xml --ignore=node_modules
+      pipenv run coverage report
 
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
