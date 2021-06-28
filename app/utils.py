@@ -5,7 +5,7 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
     TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
-from datetime import datetime, date
+from datetime import datetime
 from pytz import timezone, utc
 from unicodedata import normalize
 

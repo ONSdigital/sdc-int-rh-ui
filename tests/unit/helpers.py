@@ -278,14 +278,14 @@ class TestHelpers(RHTestCase):
 
     async def check_get_enter_address(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', self.get_url_from_class('RequestEnterAddress', 'get',
+            response = await self.client.request('GET', self.get_url_from_class('RequestEnterPostcode', 'get',
                                                                                 display_region,
                                                                                 request_type=self.request_type))
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'GET'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'GET'))
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('enter-address', display_region), contents)
+            self.assertIn(self.build_translation_link('enter-postcode', display_region), contents)
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=False)
 
     async def check_post_enter_address(self, display_region):
@@ -295,11 +295,11 @@ class TestHelpers(RHTestCase):
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
-                                                     'RequestEnterAddress', 'post',
+                                                     'RequestEnterPostcode', 'post',
                                                      display_region, request_type=self.request_type),
                                                  data=self.common_postcode_input_valid)
 
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'POST'))
             self.assertLogEvent(cm, 'valid postcode')
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'GET'))
 
@@ -316,11 +316,11 @@ class TestHelpers(RHTestCase):
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
-                                                     'RequestEnterAddress', 'post',
+                                                     'RequestEnterPostcode', 'post',
                                                      display_region, request_type=self.request_type),
                                                  data=self.common_postcode_input_valid)
 
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'POST'))
             self.assertLogEvent(cm, 'valid postcode')
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'GET'))
 
@@ -337,34 +337,34 @@ class TestHelpers(RHTestCase):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
-                                                     'RequestEnterAddress', 'post',
+                                                     'RequestEnterPostcode', 'post',
                                                      display_region, request_type=self.request_type),
                                                  data=self.common_postcode_input_empty)
 
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'POST'))
             self.assertLogEvent(cm, 'invalid postcode')
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('enter-address', display_region), contents)
+            self.assertIn(self.build_translation_link('enter-postcode', display_region), contents)
             self.check_text_enter_address(display_region, contents, check_empty=True, check_error=False)
 
     async def check_post_enter_address_input_invalid(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
-                                                     'RequestEnterAddress', 'post',
+                                                     'RequestEnterPostcode', 'post',
                                                      display_region, request_type=self.request_type),
                                                  data=self.common_postcode_input_invalid)
 
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'POST'))
             self.assertLogEvent(cm, 'invalid postcode')
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('enter-address', display_region), contents)
+            self.assertIn(self.build_translation_link('enter-postcode', display_region), contents)
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=True)
 
     async def check_post_select_address_no_selection_made(self, display_region):
@@ -533,11 +533,11 @@ class TestHelpers(RHTestCase):
                                                      display_region, request_type=self.request_type),
                                                  data=self.common_confirm_address_input_no)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
-            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'GET'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-postcode', display_region, 'GET'))
 
             contents = str(await response.content.read())
             self.assertIn(self.get_logo(display_region), contents)
-            self.assertIn(self.build_translation_link('enter-address', display_region), contents)
+            self.assertIn(self.build_translation_link('enter-postcode', display_region), contents)
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=False)
 
     async def check_post_confirm_address_input_yes_code(self, display_region):

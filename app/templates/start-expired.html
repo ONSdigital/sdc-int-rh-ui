@@ -1,6 +1,6 @@
 {%- extends 'base-' + display_region + '.html' -%}
 
-{%- set request_code_link = url('RequestEnterAddress:get', display_region=display_region, user_journey='request', request_type='access-code') -%}
+{%- set request_code_link = url('RequestEnterPostcode:get', display_region=display_region, user_journey='request', request_type='access-code') -%}
 
 {%- block main -%}
 

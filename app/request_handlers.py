@@ -102,6 +102,88 @@ class RequestEnterAddress(View):
         session.changed()
 
         raise HTTPFound(
+            request.app.router['RequestConfirmAddress:get'].url_for(
+                display_region=display_region,
+                user_journey=user_journey,
+                request_type=request_type
+            ))
+
+
+@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
+                     '/enter-postcode/')
+class RequestEnterPostcode(View):
+
+    @aiohttp_jinja2.template('request-code-enter-postcode.html')
+    async def get(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-postcode')
+
+        await forget(request)  # Removes identity in case user has existing auth session
+
+        if display_region == 'cy':
+            page_title = 'Enter postcode'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_cy + page_title
+            locale = 'cy'
+        else:
+            page_title = 'Enter postcode'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_en + page_title
+            locale = 'en'
+
+        return {
+            'display_region': display_region,
+            'page_title': page_title,
+            'user_journey': user_journey,
+            'request_type': request_type,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
+        }
+
+    async def post(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-postcode')
+
+        session = await get_existing_session(request, user_journey, request_type)
+
+        data = await request.post()
+
+        try:
+            postcode = ProcessPostcode.validate_postcode(data['form-enter-address-postcode'], display_region)
+            logger.info('valid postcode',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        postcode_entered=postcode,
+                        region_of_site=display_region)
+
+        except (InvalidDataError, InvalidDataErrorWelsh) as exc:
+            logger.info('invalid postcode',
+                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            if exc.message_type == 'empty':
+                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
+                                                                    'error_postcode_empty')
+            else:
+                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
+                                                                    'error_postcode_invalid')
+            flash(request, flash_message)
+            raise HTTPFound(
+                request.app.router['RequestEnterPostcode:get'].url_for(
+                    display_region=display_region,
+                    user_journey=user_journey,
+                    request_type=request_type
+                ))
+
+        fulfilment_attributes = {'postcode': postcode}
+        session['fulfilment_attributes'] = fulfilment_attributes
+        session.changed()
+
+        raise HTTPFound(
             request.app.router['RequestSelectAddress:get'].url_for(
                 display_region=display_region,
                 user_journey=user_journey,
@@ -320,7 +402,7 @@ class RequestConfirmAddress(View):
 
         elif address_confirmation == 'no':
             raise HTTPFound(
-                request.app.router['RequestEnterAddress:get'].url_for(display_region=display_region,
+                request.app.router['RequestEnterPostcode:get'].url_for(display_region=display_region,
                                                                       user_journey=user_journey,
                                                                       request_type=request_type))
 
