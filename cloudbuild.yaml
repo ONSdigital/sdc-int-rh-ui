@@ -12,10 +12,11 @@ steps:
   - name: python
     id: Load Pattern Library Templates
     entrypoint: bash
+    dir: /workspace
     args:
     - -c
     - |
-      /workspace/scripts.load_templates.sh
+      ./scripts.load_templates.sh
 
   # Install dependencies
   - name: python
