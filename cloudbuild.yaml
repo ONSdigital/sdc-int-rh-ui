@@ -17,12 +17,8 @@ steps:
     - -c
     - |
       ./scripts/load_templates.sh
-
-  # Install dependencies
-  - name: python
-    id: Pip setup
-    entrypoint: pip
-    args: ["install", "--dev", "--deploy"]
+      pip install pipenv
+      pipenv install --dev --deploy
 
   # Run unit tests
   - name: python
