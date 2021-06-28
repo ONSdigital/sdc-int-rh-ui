@@ -1,18 +1,9 @@
 steps:
-  # Grab cached M2 repo
-#  - name: gcr.io/cloud-builders/gsutil
-#    id: Get M2 Cache
-#    args: ['cp', 'gs://ons-ci-int-cloudbuild-maven-cache/m2.tar.gz', 'm2.tar.gz']
-#      #
-#  # See https://github.com/GoogleCloudPlatform/cloud-builders-community to get the tar command
-#  - name: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-ci/cloudbuild/tar
-#    id: Expand M2 Cache
-#    args: ['xpzf', 'm2.tar.gz']
-steps:
   - name: python:3.6-buster
     id: Python Env Setup And App Tests
     entrypoint: bash
     dir: /workspace
+    timeout: '1200s'
     args:
     - -c
     - |
@@ -29,15 +20,6 @@ steps:
     id: Docker Build
     args: [ 'build', '-t', 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME', '-f', 'Dockerfile', '.' ]
       
-#  - name: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-ci/cloudbuild/tar
-#    id: Compress M2 Cache
-#    args: ['cpzf', 'm2.tar.gz', '.m2']
-#
-#  - name: gcr.io/cloud-builders/gsutil
-#    id: Save M2 Cache
-#    args: ['cp', 'm2.tar.gz', 'gs://ons-ci-int-cloudbuild-maven-cache/m2.tar.gz']
-
-
 images: [ 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME' ]
 
 
