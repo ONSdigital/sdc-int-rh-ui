@@ -16,6 +16,7 @@ steps:
     args:
     - -c
     - |
+      python -version
       ./scripts/load_templates.sh
       pip install pipenv
       pipenv install --dev --deploy
