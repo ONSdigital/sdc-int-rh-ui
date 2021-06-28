@@ -34,7 +34,7 @@
         'title': question_title,
         'description': question_description
     }) -%}
-
+<div class="js-address-input__search u-db-no-js_disabled">
         <div class="js-address-autosuggest">
         {{ onsInput({
             "id": "address-lookup",
@@ -44,6 +44,7 @@
                 "classes": "js-autosuggest-label"
             },
             'name': 'form-enter-address-typeahead',
+            'mandatory': true,
             "autocomplete": "off",
             "autosuggest":{
                 "classes": "js-address-not-editable",
@@ -72,7 +73,7 @@
         })
     }}
             </div>
-
+</div>
     {%- endcall -%}
 
     {%- set content -%}
