@@ -58,7 +58,8 @@ class RequestEnterAddress(View):
             'request_type': request_type,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
+            'jwt': request.app['ADDRESS_INDEX_SVC_JWT']
         }
 
     async def post(self, request):
@@ -71,24 +72,35 @@ class RequestEnterAddress(View):
 
         data = await request.post()
 
-        try:
-            postcode = ProcessPostcode.validate_postcode(data['form-enter-address-postcode'], display_region)
-            logger.info('valid postcode',
+        logger.info('Field value ' + data['form-enter-address-typeahead'])
+        aims_response = await AddressIndex.get_typeahead_uprn(request, data['form-enter-address-typeahead'])
+        if aims_response['error'] == 'false':
+            uprn = aims_response['uprn']
+            fulfilment_attributes = {'uprn': uprn}
+            session['fulfilment_attributes'] = fulfilment_attributes
+            session.changed()
+            logger.info('session updated',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
                         trace=request['trace'],
-                        postcode_entered=postcode,
+                        uprn_selected=uprn,
                         region_of_site=display_region)
 
-        except (InvalidDataError, InvalidDataErrorWelsh) as exc:
-            logger.info('invalid postcode',
+            raise HTTPFound(
+                request.app.router['RequestConfirmAddress:get'].url_for(
+                    display_region=display_region,
+                    user_journey=user_journey,
+                    request_type=request_type
+                ))
+        else:
+            logger.error('Unable to match selected address text',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            if exc.message_type == 'empty':
-                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
-                                                                    'error_postcode_empty')
+            if display_region == 'cy':
+                error_message = 'Unable to match address'
             else:
-                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
-                                                                    'error_postcode_invalid')
+                error_message = 'Unable to match address'
+            flash_message = FlashMessage.generate_flash_message(error_message, 'ERROR', 'POSTCODE_ENTER_ERROR',
+                                                                'error_postcode_invalid')
             flash(request, flash_message)
             raise HTTPFound(
                 request.app.router['RequestEnterAddress:get'].url_for(
@@ -96,17 +108,6 @@ class RequestEnterAddress(View):
                     user_journey=user_journey,
                     request_type=request_type
                 ))
-
-        fulfilment_attributes = {'postcode': postcode}
-        session['fulfilment_attributes'] = fulfilment_attributes
-        session.changed()
-
-        raise HTTPFound(
-            request.app.router['RequestConfirmAddress:get'].url_for(
-                display_region=display_region,
-                user_journey=user_journey,
-                request_type=request_type
-            ))
 
 
 @request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +

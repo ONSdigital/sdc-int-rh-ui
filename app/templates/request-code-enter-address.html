@@ -17,7 +17,7 @@
 {%- set form =  {
     'method': 'POST',
     'attributes': {
-        'action': url('RequestEnterPostcode:post', display_region=display_region, user_journey=user_journey, request_type=request_type)
+        'action': url('RequestEnterAddress:post', display_region=display_region, user_journey=user_journey, request_type=request_type)
     }
 } -%}
 
@@ -43,6 +43,7 @@
                 "id": "address-lookup-label",
                 "classes": "js-autosuggest-label"
             },
+            'name': 'form-enter-address-typeahead',
             "autocomplete": "off",
             "autosuggest":{
                 "classes": "js-address-not-editable",
@@ -62,7 +63,7 @@
                 "tooManyResults": "{n} results found. Enter more of the address to improve results",
                 "externalInitialiser": true,
                 "APIDomain": "https://whitelodge-eq-ai-api.census-gcp.onsdigital.uk",
-                'APIDomainBearerToken': '',
+                'APIDomainBearerToken': jwt,
                 "errorTitle": "There is a problem with your answer",
                 "errorMessageEnter": "Enter an address",
                 "errorMessageSelect": "Select an address",

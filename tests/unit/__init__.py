@@ -816,15 +816,15 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_enter_address_page_title_en = '<title>Enter address - ' + survey_name_en + '</title>'
+        self.content_request_enter_address_page_title_en = '<title>Enter postcode - ' + survey_name_en + '</title>'
         self.content_request_enter_address_page_title_error_en = \
-            '<title>Error: Enter address - ' + survey_name_en + '</title>'
+            '<title>Error: Enter postcode - ' + survey_name_en + '</title>'
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request a new access code, we need your address'
-        self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - ' + survey_name_cy + '</title>'
+        self.content_request_enter_address_page_title_cy = '<title>Enter postcode - ' + survey_name_cy + '</title>'
         self.content_request_enter_address_page_title_error_cy = \
-            '<title>Gwall: Nodi cyfeiriad - ' + survey_name_cy + '</title>'
+            '<title>Gwall: Enter postcode - ' + survey_name_cy + '</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             'To request a new access code, we need your address'
