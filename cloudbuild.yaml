@@ -19,6 +19,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: Docker Build
     args: [ 'build', '-t', 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME', '-f', 'Dockerfile', '.' ]
+    timeout: '1200s'
       
 images: [ 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME' ]
 
