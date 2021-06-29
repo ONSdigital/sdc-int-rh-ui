@@ -3,15 +3,20 @@ steps:
     id: Python Env Setup And App Tests
     entrypoint: bash
     dir: /workspace
-    timeout: '1200s'
     args:
     - -c
     - |
+      date
       echo "Loading Pattern Library Templates"
       ./scripts/load_templates.sh
+      date
       echo "Pip Install"
+      date
       pip install pipenv
+      date
+      echo "PipEnv Install"
       pipenv install --dev --deploy
+      date
       echo "Run Tests"
       pipenv run pytest tests/unit --cov=app --cov-report xml --ignore=node_modules
 
@@ -19,8 +24,8 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: Docker Build
     args: [ 'build', '-t', 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME', '-f', 'Dockerfile', '.' ]
-    timeout: '1200s'
       
+timeout: '2400s'
 images: [ 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME' ]
 
 
