@@ -59,7 +59,8 @@ class RequestEnterAddress(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
-            'jwt': request.app['ADDRESS_INDEX_SVC_JWT']
+            'jwt': request.app['ADDRESS_INDEX_SVC_JWT'],
+            'aims_domain': request.app['ADDRESS_INDEX_SVC_URL']
         }
 
     async def post(self, request):
