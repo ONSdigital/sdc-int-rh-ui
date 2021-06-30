@@ -61,7 +61,7 @@
         {% include 'partials/messages.html' with context %}
     {% endif %}
 
-    <h1 class="u-fs-xxl u-mt-l">{{_('Start survey')}}</h1>
+    <h1 class="u-fs-xxl u-mt-l">{{_('Start study')}}</h1>
 
     {{
         onsUACInput({
@@ -71,7 +71,7 @@
             'postTextboxLinkUrl': where_code_link,
             'label': {
                 'text': _('Enter your 16-character access code'),
-                'description': _('Keep this code safe. You will need to enter it every time you access your survey')
+                'description': _('Keep this code safe. You will need to enter it every time you access your study')
             },
             'securityMessage': _('Your personal information is protected by law and will be kept confidential.'),
             'error': error_uac
@@ -87,7 +87,7 @@
 
     <h2>{{_("If you don’t have an access code")}}</h2>
     {% autoescape false %}
-        <p>{{ _('You can %(open)srequest a new access code%(close)s to start a new survey if you have lost or not received an access code. This can be sent to you by text or post.', open='<a href="%s">' % request_access_code_link, close='</a>')|safe }}</p>
+        <p>{{ _('You can %(open)srequest a new access code%(close)s to start a new study if you have lost or not received an access code. This can be sent to you by text or post.', open='<a href="%s">' % request_access_code_link, close='</a>')|safe }}</p>
     {% endautoescape %}
 
 {% endblock %}

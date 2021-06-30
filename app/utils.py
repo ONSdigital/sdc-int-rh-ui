@@ -377,7 +377,7 @@ class AddressIndex(View):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
-        headers = {'Authorization': request.app['ADDRESS_INDEX_SVC_JWT']}
+        headers = {'Authorization': 'Bearer ' + request.app['ADDRESS_INDEX_SVC_JWT']}
         return await View._make_request(request,
                                         'GET',
                                         url,

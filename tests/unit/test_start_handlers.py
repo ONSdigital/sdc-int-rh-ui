@@ -1183,6 +1183,81 @@ class TestStartHandlers(TestHelpers):
         # Then an InactiveCaseError is raised
 
     @unittest_run_loop
+    async def test_post_start_confirm_address_no_ew_e(self):
+        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
+                as mocked:
+            mocked.get(self.rhsvc_url, payload=self.uac_json_e)
+
+            await self.client.request('GET', self.get_start_en)
+            self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
+
+            await self.client.request('POST', self.post_start_en, allow_redirects=False, data=self.start_data_valid)
+            self.assertLogEvent(cm, "received POST on endpoint 'en/start'")
+
+            response = await self.client.request('POST', self.post_start_confirm_address_en,
+                                                 data=self.start_confirm_address_data_no)
+            self.assertLogEvent(cm, "received POST on endpoint 'en/start/confirm-address'")
+            self.assertLogEvent(cm, "received GET on endpoint 'en/start/incorrect-address'")
+
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertIn(self.ons_logo_en, contents)
+            self.assertIn('<a href="/cy/start/incorrect-address/" lang="cy" >Cymraeg</a>', contents)
+            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
+            self.assertIn(self.content_start_incorrect_address_title_en, contents)
+
+    @unittest_run_loop
+    async def test_post_start_confirm_address_no_ew_w(self):
+        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
+                as mocked:
+            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+
+            await self.client.request('GET', self.get_start_en)
+            self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
+
+            await self.client.request('POST', self.post_start_en, allow_redirects=False, data=self.start_data_valid)
+            self.assertLogEvent(cm, "received POST on endpoint 'en/start'")
+
+            response = await self.client.request('POST', self.post_start_confirm_address_en,
+                                                 data=self.start_confirm_address_data_no)
+            self.assertLogEvent(cm, "received POST on endpoint 'en/start/confirm-address'")
+            self.assertLogEvent(cm, "received GET on endpoint 'en/start/incorrect-address'")
+
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertIn(self.ons_logo_en, contents)
+            self.assertIn('<a href="/cy/start/incorrect-address/" lang="cy" >Cymraeg</a>', contents)
+            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
+            self.assertIn(self.content_start_incorrect_address_title_en, contents)
+
+    @unittest_run_loop
+    async def test_post_start_confirm_address_no_cy(self):
+        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
+                as mocked:
+            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+
+            await self.client.request('GET', self.get_start_cy)
+            self.assertLogEvent(cm, "received GET on endpoint 'cy/start'")
+
+            await self.client.request('POST', self.post_start_cy, allow_redirects=False, data=self.start_data_valid)
+            self.assertLogEvent(cm, "received POST on endpoint 'cy/start'")
+
+            response = await self.client.request('POST', self.post_start_confirm_address_cy,
+                                                 data=self.start_confirm_address_data_no)
+            self.assertLogEvent(cm, "received POST on endpoint 'cy/start/confirm-address'")
+            self.assertLogEvent(cm, "received GET on endpoint 'cy/start/incorrect-address'")
+
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertIn(self.ons_logo_cy, contents)
+            self.assertIn('<a href="/en/start/incorrect-address/" lang="en" >English</a>', contents)
+            self.assertIn(self.content_start_exit_button_cy, contents)
+            self.assertIn(self.content_start_incorrect_address_page_title_cy, contents)
+            self.assertIn(self.content_start_incorrect_address_title_cy, contents)
+
+    @unittest_run_loop
     async def test_post_start_confirm_address_empty_ew_e(self):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:

@@ -4,5 +4,5 @@ async def domain_processor(request):
     domain_cy = request.app['DOMAIN_URL_CY']
     return {'domain_url_en': domain_protocol + domain_en,
             'domain_url_cy': domain_protocol + domain_cy,
-            'survey_name_en': request.app['SURVEY_NAME_EN'],
-            'survey_name_cy': request.app['SURVEY_NAME_CY']}
+            'site_name_en': request.app['SITE_NAME_EN'],
+            'site_name_cy': request.app['SITE_NAME_CY']}
