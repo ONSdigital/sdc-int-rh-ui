@@ -1,9 +1,9 @@
 {%- extends 'layout/_template.njk' -%}
 
 {%- if page_title -%}
-    {%- set page_title_value = page_title + ' - ' + survey_name_cy -%}
+    {%- set page_title_value = page_title + ' - ' + site_name_cy -%}
 {%- else -%}
-    {%- set page_title_value = survey_name_cy -%}
+    {%- set page_title_value = site_name_cy -%}
 {%- endif -%}
 
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
@@ -22,8 +22,8 @@
             {
                 'itemsList': [
                     {
-                        'text': 'Help',
-                        'url': domain_url_cy + '/help/'
+                        'text': 'About ONS studies',
+                        'url': domain_url_cy + '/studies/'
                     },
                     {
                         'text': 'Cysylltu â ni',
@@ -92,7 +92,7 @@
     'language': language,
     'header': {
         'language': 'cy',
-        'title': survey_name_cy
+        'title': site_name_cy
     },
     'signoutButton': signout_button_value,
     'footer': footer_content,

@@ -72,8 +72,8 @@ class BaseConfig:
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
-    SURVEY_NAME_EN = env('SURVEY_NAME_EN', default='Survey name')
-    SURVEY_NAME_CY = env('SURVEY_NAME_CY', default='Survey name')
+    SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
 
 
 class ProductionConfig(BaseConfig):
@@ -121,8 +121,8 @@ class DevelopmentConfig:
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
-    SURVEY_NAME_EN = env('SURVEY_NAME_EN', default='Survey name')
-    SURVEY_NAME_CY = env('SURVEY_NAME_CY', default='Survey name')
+    SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
 
 
 class TestingConfig:
@@ -161,5 +161,5 @@ class TestingConfig:
 
     EQ_SALT = 's3cr3tS4lt'
 
-    SURVEY_NAME_EN = 'Survey name'
-    SURVEY_NAME_CY = 'Survey name'
+    SITE_NAME_EN = 'ONS Surveys'
+    SITE_NAME_CY = 'ONS Surveys'
