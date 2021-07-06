@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: respondenthomeui
+  labels:
+    app: respondenthomeui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: respondenthomeui
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      name: respondenthomeui
+      labels:
+        app: respondenthomeui
+    spec:
+      serviceAccountName: respondenthome-ui
+      containers:
+      - name: respondenthomeui
+        image: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:SOCINT-39-Prototype-update
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1000Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1000Mi"
+        readinessProbe:
+          httpGet:
+            path: /info
+            port: 9092
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
+        ports:
+        - name: http-server
+          containerPort: 9092
+        env:
+        - name: GTM_AUTH
+          valueFrom:
+            configMapKeyRef:
+              name: domains
+              key: google-analytics-prop
+        - name: GTM_CONTAINER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: domains
+              key: gtm-container-id
+        - name: DOMAIN_URL_EN
+          valueFrom:
+            configMapKeyRef:
+              name: domains
+              key: en-host
+        - name: DOMAIN_URL_CY
+          valueFrom:
+            configMapKeyRef:
+              name: domains
+              key: cy-host
+        - name: ADDRESS_INDEX_SVC_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rh-config
+              key: address-index-svc-url
+        - name: EQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: rh-config
+              key: eq-host
+        - name: JSON_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: rh-keys
+              key: rh-keys
+        - name: REDIS_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: redis-config
+              key: rh-redis-host
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: redis-config
+              key: rh-redis-port
+        - name: RHSVC_URL
+          value: "http://respondenthomesvc:80"
+        - name: URL_PATH_PREFIX
+          value: ""
+        - name: EQ_URL
+          value: "https://$(EQ_HOST)"
+        - name: EQ_SALT
+          valueFrom:
+            secretKeyRef:
+              name: env-secrets
+              key: response-id-salt
