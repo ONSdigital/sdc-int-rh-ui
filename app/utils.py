@@ -376,41 +376,8 @@ class AddressIndex(View):
     async def get_ai_postcode(request, postcode):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
-        jwt = request.app['ADDRESS_INDEX_SVC_JWT']
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
-        authorization = f'Bearer {jwt}'
-        headers = {'Authorization': authorization}
-        return await View._make_request(request,
-                                        'GET',
-                                        url,
-                                        headers=headers,
-                                        return_json=True)
-
-    @staticmethod
-    async def get_typeahead_uprn(request, address):
-        address_return = await AddressIndex.get_ai_address_partial(request, address)
-
-        if address_return['response']['total'] == 1:
-            address_content = {
-                'error': 'false',
-                'uprn': address_return['response']['addresses'][0]['uprn']
-            }
-        else:
-            address_content = {
-                'error': 'true',
-                'uprn': ''
-            }
-
-        return address_content
-
-    @staticmethod
-    async def get_ai_address_partial(request, address):
-        ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
-        ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
-        jwt = request.app['ADDRESS_INDEX_SVC_JWT']
-        url = f'{ai_svc_url}/addresses/rh/partial?input={address}&epoch={ai_epoch}'
-        authorization = f'Bearer {jwt}'
-        headers = {'Authorization': authorization}
+        headers = {'Authorization': 'Bearer ' + request.app['ADDRESS_INDEX_SVC_JWT']}
         return await View._make_request(request,
                                         'GET',
                                         url,

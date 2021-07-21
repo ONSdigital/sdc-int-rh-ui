@@ -1,9 +1,9 @@
 {%- extends 'layout/_template.njk' -%}
 
 {%- if page_title -%}
-    {%- set page_title_value = page_title + ' - ' + survey_name_en -%}
+    {%- set page_title_value = page_title + ' - ' + site_name_en -%}
 {%- else -%}
-    {%- set page_title_value = survey_name_en -%}
+    {%- set page_title_value = site_name_en -%}
 {%- endif -%}
 
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
@@ -21,8 +21,8 @@
             {
                 'itemsList': [
                     {
-                        'text': 'Help',
-                        'url': domain_url_en + '/help/'
+                        'text': 'About ONS studies',
+                        'url': domain_url_en + '/studies/'
                     },
                     {
                         'text': 'Contact us',
@@ -90,7 +90,7 @@
     'title': page_title_value,
     'header': {
         'logoHref': 'https://www.ons.gov.uk/',
-        'title': survey_name_en
+        'title': site_name_en
     },
     'signoutButton': signout_button_value,
     'language': language,

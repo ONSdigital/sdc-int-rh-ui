@@ -220,7 +220,7 @@ class StartConfirmAddress(StartCommon):
                                           session.get('adlocation'))
 
         elif address_confirmation == 'No':
-            raise HTTPFound(request.app.router['StartContactCentre:get'].url_for(display_region=display_region))
+            raise HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))
 
         else:
             # catch all just in case, should never get here
@@ -250,26 +250,24 @@ class StartExit(StartCommon):
         )
 
 
-@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/contact-centre/')
-class StartContactCentre(View):
-    @aiohttp_jinja2.template('start-contact-centre.html')
+@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/incorrect-address/')
+class StartIncorrectAddress(View):
+    @aiohttp_jinja2.template('start-incorrect-address.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
 
         if display_region == 'cy':
-            page_title = "Customer Contact Centre"
+            page_title = "You do not need to take part in this study"
             locale = 'cy'
         else:
-            page_title = 'Customer Contact Centre'
+            page_title = 'You do not need to take part in this study'
             locale = 'en'
 
-        self.log_entry(request, display_region + '/' + user_journey + '/contact-centre')
+        self.log_entry(request, display_region + '/' + user_journey + '/incorrect-address')
 
         return {
             'page_title': page_title,
             'display_region': display_region,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'contact_centre_number': View.get_contact_centre_number(display_region),
-            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
         }

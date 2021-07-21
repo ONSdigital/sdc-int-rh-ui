@@ -1,7 +1,7 @@
 
 # Respondent Home Python Web Application
-Respondent Home is part of ONS's Census Survey Data Collection platform. It allows users to validate their Internet Access Code (IAC) and forwards
-them to the [ONS eQ Survey Runner](https://github.com/ONSdigital/eq-survey-runner) upon successful validation.
+Respondent Home is part of ONS's Survey Data Collection platform. It allows users to validate their Unique Access Code (UAC) and forwards
+them to the [ONS eQ Survey Runner](https://github.com/ONSdigital/eq-survey-runner) upon successful validation. It also enables users to request new/replacement UACs.
 
 
 ![The ONS Survey Data Collection platform](/images/sdc_platform.png?raw=true)
@@ -21,9 +21,7 @@ Install the required Python packages for running and testing Respondent Home wit
 ## Running
 First, run scripts/load_templates.sh to pull the current/correct version of the ONS Design Patterns.
 
-Then to run this application in development use:
-
-  `make run`
+Then to run this application in development use, run 'run.py'
 
 and access using [http://localhost:9092](http://localhost:9092).
 
