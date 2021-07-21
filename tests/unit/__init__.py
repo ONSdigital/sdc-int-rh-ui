@@ -829,9 +829,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request a new access code, we need your address'
-        self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - ' + site_name_cy + '</title>'
+        self.content_request_enter_address_page_title_cy = '<title>Enter address - ' + site_name_cy + '</title>'
         self.content_request_enter_address_page_title_error_cy = \
-            '<title>Gwall: Nodi cyfeiriad - ' + site_name_cy + '</title>'
+            '<title>Gwall: Enter address - ' + site_name_cy + '</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             'To request a new access code, we need your address'

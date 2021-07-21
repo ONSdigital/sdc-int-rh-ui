@@ -12,6 +12,7 @@
 {%- from 'components/question/_macro.njk' import onsQuestion -%}
 {%- from 'components/button/_macro.njk' import onsButton -%}
 {%- from 'components/input/_macro.njk' import onsInput -%}
+{%- from "components/address-finder/_macro.njk" import onsAddressFinder -%}
 {%- from "components/collapsible/_macro.njk" import onsCollapsible -%}
 
 {%- set form =  {
@@ -22,6 +23,7 @@
 } -%}
 
 {%- set question_title = _('What is your address?') -%}
+{%- set question_title_postcode = _('What is your postcode?') -%}
 {%- set question_description = _('<p>To request a new access code, we need your address</p>') -%}
 
 {%- block main -%}
@@ -30,23 +32,56 @@
         {%- include 'partials/messages.html' with context -%}
     {%- endif -%}
 
-    {%- call onsQuestion({
-        'title': question_title,
-        'description': question_description
-    }) -%}
-<div class="js-address-input__search u-db-no-js_disabled">
-        <div class="js-address-autosuggest">
-        {{ onsInput({
-            "id": "address-lookup",
-            "label": {
-                "text": "Enter address or postcode and select from results",
-                "id": "address-lookup-label",
-                "classes": "js-autosuggest-label"
-            },
-            'name': 'form-enter-address-typeahead',
-            "autocomplete": "off",
-            "autosuggest":{
-                "classes": "js-address-not-editable",
+    <noscript>
+        {%- call onsQuestion({
+            'title': question_title_postcode,
+            'description': question_description
+        }) -%}
+
+            {{
+                onsInput({
+                    'id': 'postcode',
+                    'type': 'text',
+                    'autocomplete': 'postal-code',
+                    'classes': 'input--w-6',
+                    'label': {
+                        'text': _('UK postcode')
+                    },
+                    'name': 'form-enter-address-postcode',
+                    'error': error_postcode
+                })
+            }}
+
+            {{
+                onsButton({
+                    'text': _('Continue'),
+                    'classes': 'u-mt-l',
+                    'submitType': 'loader'
+                })
+            }}
+
+        {%- endcall -%}
+    </noscript>
+
+    <div id="address-by-autosuggest" style="display:none;">
+        {%- call onsQuestion({
+            'title': question_title,
+            'description': question_description
+        }) -%}
+
+            {{ onsAddressFinder({
+                "id": "address",
+                "dontWrap": true,
+                "label": {
+                    "text": "Enter address or postcode and select from results",
+                    "id": "address-label"
+                },
+                "isEditable": false,
+                "mandatory": true,
+                "externalInitialiser": true,
+                "autocomplete": "new-password",
+                "APIDomain": aims_domain,
+                'APIDomainBearerToken': jwt,
                 "instructions": "Use up and down keys to navigate suggestions once you\'ve typed more than two characters. Use the enter key to select a suggestion. Touch device users, explore by touch or with swipe gestures.",
                 "ariaYouHaveSelected": "You have selected",
                 "ariaMinChars": "Enter 3 or more characters for suggestions.",
@@ -54,54 +89,42 @@
                 "ariaOneResult": "There is one suggestion available.",
                 "ariaNResults": "There are {n} suggestions available.",
                 "ariaLimitedResults": "Results have been limited to 10 suggestions. Type more characters to improve your search",
-                "ariaGroupedResults": "There are {n} addresses for {x}",
+                "ariaGroupedResults": "There are {n} for {x}",
                 "groupCount": "{n} addresses",
                 "moreResults": "Enter more of the address to improve results",
                 "resultsTitle": "Select an address",
                 "noResults": "No results found. Try entering a different part of the address",
-                "typeMore": "Enter more of the address to get results",
                 "tooManyResults": "{n} results found. Enter more of the address to improve results",
-                "externalInitialiser": true,
-                "APIDomain": aims_domain,
-                'APIDomainBearerToken': jwt,
+                "typeMore": "Enter more of the address to get results",
                 "errorTitle": "There is a problem with your answer",
                 "errorMessageEnter": "Enter an address",
                 "errorMessageSelect": "Select an address",
-                "errorMessageAPI": "Sorry, there was a problem loading addresses. We are working to fix the problem. Please try again later.",
-                'mandatory': true,
-            }
-        })
-    }}
-            </div>
-</div>
-    {%- endcall -%}
+                "errorMessageAPI": "Sorry, there is a problem. We are working to fix it. Please try again later or",
+                "errorMessageAPILinkText": "contact us for more help",
+                "errorMessageAPILink": "#",
+                "options": {
+                    "addressType": "residential"
+                }
+            }) }}
 
-    {%- set content -%}
-        {%- autoescape false -%}
-            <p>{{ _('If you live somewhere that is mobile, such as a canal boat or motorhome, %(open)scontact us to request an access code%(close)s.', open='<a href="%s">' % contact_us_link, close='</a>')|safe }}</p>
-        {%- endautoescape -%}
-    {%- endset -%}
+            {{
+                onsButton({
+                    'text': _('Continue'),
+                    'classes': 'u-mt-l',
+                    'submitType': 'timer'
+                })
+            }}
 
-    {%- call onsCollapsible({
-            'id': 'collapsible',
-            'title': _("I don’t live at a fixed address"),
-            'titleTag': 'h2',
-            'classes': 'u-mt-m',
-            'button': {
-                'close': _('Hide this'),
-                'contextSuffix': 'content'
-            }
-        })
-    -%}
-        {{ content | safe }}
-    {%- endcall -%}
+        {%- endcall -%}
 
-    {{
-        onsButton({
-            'text': _('Continue'),
-            'classes': 'u-mt-l',
-            'submitType': 'loader'
-        })
-    }}
+    </div>
 
 {%- endblock -%}
+
+{% block scripts %}
+
+<script type="text/javascript" nonce="{{ cspNonce }}">
+    document.getElementById('address-by-autosuggest').style.display='block';
+</script>
+
+{% endblock %}

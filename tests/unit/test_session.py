@@ -111,12 +111,12 @@ class TestSessionHandling(TestHelpers):
                 self.assertIn(self.content_start_confirm_address_page_title_en, contents)
                 self.assertIn(self.content_start_confirm_address_title_en, contents)
 
-            request_url = self.get_url_from_class('RequestEnterPostcode', 'get', display_region, 'access-code')
+            request_url = self.get_url_from_class('RequestEnterAddress', 'get', display_region, 'access-code')
             confirm_url = self.get_url_from_class('StartConfirmAddress', 'post', display_region)
 
             response = await self.client.request('GET', request_url)
             self.assertLogEvent(cm, "received GET on endpoint '" + display_region +
-                                "/request/access-code/enter-postcode'")
+                                "/request/access-code/enter-address'")
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
@@ -152,8 +152,8 @@ class TestSessionHandling(TestHelpers):
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_common_enter_address(self):
-        await self.assert_no_session('RequestEnterPostcode', 'POST', 'en', 'access-code')
-        await self.assert_no_session('RequestEnterPostcode', 'POST', 'cy', 'access-code')
+        await self.assert_no_session('RequestEnterAddress', 'POST', 'en', 'access-code')
+        await self.assert_no_session('RequestEnterAddress', 'POST', 'cy', 'access-code')
 
     @unittest_run_loop
     async def test_no_direct_access_no_session_request_common_select_address(self):

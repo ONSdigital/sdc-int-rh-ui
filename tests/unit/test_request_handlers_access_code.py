@@ -23,33 +23,33 @@ class TestRequestHandlersAccessCode(TestHelpers):
 
     async def assert_post_request_access_code_get_ai_postcode_error(self, display_region):
         await self.check_post_enter_address_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'get', display_region, request_type=self.request_type),
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'get', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, 500)
         await self.check_post_enter_address_error_503_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region)
         await self.check_post_enter_address_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'get', display_region, request_type=self.request_type),
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'get', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, 403)
         await self.check_post_enter_address_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'get', display_region, request_type=self.request_type),
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'get', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, 401)
         await self.check_post_enter_address_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'get', display_region, request_type=self.request_type),
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'get', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, 400)
         await self.check_post_enter_address_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'get', display_region, request_type=self.request_type),
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'get', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, 429)
         await self.check_post_enter_address_connection_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region)
         await self.check_post_enter_address_connection_error_from_ai(
-            self.get_url_from_class('RequestEnterPostcode', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('RequestEnterAddress', 'post', display_region, request_type=self.request_type),
             display_region, epoch='test')
 
     async def assert_get_request_access_code_address_not_found(self, display_region):
