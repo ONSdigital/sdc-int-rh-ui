@@ -339,8 +339,8 @@ class RHTestCase(AioHTTPTestCase):
             self.ai_uprn_result_wales = f
 
         # Content
-        self.ons_logo_en = '/img/ons-logo-pos-en.svg'
-        self.ons_logo_cy = '/img/ons-logo-pos-cy.svg'
+        self.ons_logo_en = '<title id="ons-logo-en-alt">'
+        self.ons_logo_cy = '<title id="ons-logo-cy-alt">'
 
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
