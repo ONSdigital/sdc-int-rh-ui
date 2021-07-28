@@ -328,8 +328,12 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.assert_get_request_access_code_confirm_address_get_cases_error('cy')
 
     @unittest_run_loop
-    async def test_get_request_access_code_enter_address_finder_ew(self):
+    async def test_get_request_access_code_enter_address_finder_ew_e(self):
         await self.assert_get_request_access_code_enter_address_finder('en', 'E')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_enter_address_finder_ew_w(self):
+        await self.assert_get_request_access_code_enter_address_finder('en', 'W')
 
     @unittest_run_loop
     async def test_get_request_access_code_enter_address_finder_cy(self):
