@@ -269,6 +269,15 @@ class RHTestCase(AioHTTPTestCase):
         self.postcode_empty = ''
         self.adlocation = '1234567890'
 
+        self.selected_uprn = '10023122451'
+
+        self.mobile_valid = '07012345678'
+        self.mobile_invalid_short = '07012'
+        self.mobile_invalid_long = '0701234567890123456'
+        self.mobile_invalid_character = '0701234567$'
+
+        self.field_empty = None
+
         self.common_form_data_empty = {}
 
         self.content_common_invalid_mobile_error_en = \
@@ -311,6 +320,10 @@ class RHTestCase(AioHTTPTestCase):
 
         self.common_postcode_input_empty = {
             'form-enter-address-postcode': self.postcode_empty, 'action[save_continue]': '',
+        }
+
+        self.common_address_finder_input = {
+            'address-uprn': self.selected_uprn, 'action[save_continue]': '',
         }
 
         with open('tests/test_data/address_index/postcode_no_results.json') as fp:
@@ -671,15 +684,6 @@ class RHTestCase(AioHTTPTestCase):
         self.addressindexsvc_url = f'{address_index_svc_url}/addresses/rh/postcode/'
         self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
         self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
-
-        self.selected_uprn = '10023122451'
-
-        self.mobile_valid = '07012345678'
-        self.mobile_invalid_short = '07012'
-        self.mobile_invalid_long = '0701234567890123456'
-        self.mobile_invalid_character = '0701234567$'
-
-        self.field_empty = None
 
         with open('tests/test_data/rhsvc/case_by_uprn_hh_e.json') as fp:
             f = asyncio.Future()
