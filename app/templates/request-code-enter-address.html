@@ -12,7 +12,7 @@
 {%- from 'components/question/_macro.njk' import onsQuestion -%}
 {%- from 'components/button/_macro.njk' import onsButton -%}
 {%- from 'components/input/_macro.njk' import onsInput -%}
-{%- from "components/address-finder/_macro.njk" import onsAddressFinder -%}
+{%- from "components/address-input/_macro.njk" import onsAddressInput -%}
 {%- from "components/collapsible/_macro.njk" import onsCollapsible -%}
 
 {%- set form =  {
@@ -69,7 +69,7 @@
             'description': question_description
         }) -%}
 
-            {{ onsAddressFinder({
+            {{ onsAddressInput({
                 "id": "address",
                 "dontWrap": true,
                 "label": {
