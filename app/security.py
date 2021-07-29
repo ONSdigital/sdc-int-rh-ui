@@ -38,7 +38,8 @@ CSP = {
     'connect-src': [
         "'self'",
         'https://cdn.ons.gov.uk',
-        'https://www.google-analytics.com'
+        'https://www.google-analytics.com',
+        'https://whitelodge-eq-ai-api.census-gcp.onsdigital.uk'
     ],
     'frame-src': [
         'https://www.googletagmanager.com',

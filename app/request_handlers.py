@@ -41,7 +41,7 @@ class RequestEnterAddress(View):
         await forget(request)  # Removes identity in case user has existing auth session
 
         if display_region == 'cy':
-            page_title = 'Nodi cyfeiriad'
+            page_title = 'Enter address'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_cy + page_title
             locale = 'cy'
@@ -58,7 +58,9 @@ class RequestEnterAddress(View):
             'request_type': request_type,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
+            'jwt': request.app['ADDRESS_INDEX_SVC_JWT'],
+            'aims_domain': request.app['ADDRESS_INDEX_SVC_URL']
         }
 
     async def post(self, request):
@@ -71,42 +73,63 @@ class RequestEnterAddress(View):
 
         data = await request.post()
 
-        try:
-            postcode = ProcessPostcode.validate_postcode(data['form-enter-address-postcode'], display_region)
-            logger.info('valid postcode',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'],
-                        postcode_entered=postcode,
-                        region_of_site=display_region)
+        if data.get('form-enter-address-postcode') or data.get('form-enter-address-postcode') == '':
+            try:
+                postcode = ProcessPostcode.validate_postcode(data['form-enter-address-postcode'], display_region)
+                logger.info('valid postcode',
+                            client_ip=request['client_ip'],
+                            client_id=request['client_id'],
+                            trace=request['trace'],
+                            postcode_entered=postcode,
+                            region_of_site=display_region)
 
-        except (InvalidDataError, InvalidDataErrorWelsh) as exc:
-            logger.info('invalid postcode',
-                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            if exc.message_type == 'empty':
-                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
-                                                                    'error_postcode_empty')
-            else:
-                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
-                                                                    'error_postcode_invalid')
-            flash(request, flash_message)
+            except (InvalidDataError, InvalidDataErrorWelsh) as exc:
+                logger.info('invalid postcode',
+                            client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+                if exc.message_type == 'empty':
+                    flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
+                                                                        'error_postcode_empty')
+                else:
+                    flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
+                                                                        'error_postcode_invalid')
+                flash(request, flash_message)
+                raise HTTPFound(
+                    request.app.router['RequestEnterAddress:get'].url_for(
+                        display_region=display_region,
+                        user_journey=user_journey,
+                        request_type=request_type
+                    ))
+
+            fulfilment_attributes = {'postcode': postcode}
+            session['fulfilment_attributes'] = fulfilment_attributes
+            session.changed()
+
             raise HTTPFound(
-                request.app.router['RequestEnterAddress:get'].url_for(
+                request.app.router['RequestSelectAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
                     request_type=request_type
                 ))
 
-        fulfilment_attributes = {'postcode': postcode}
-        session['fulfilment_attributes'] = fulfilment_attributes
-        session.changed()
+        else:
+            uprn = data['address-uprn']
+            logger.info('UPRN of selected address: ' + data['address-uprn'])
+            fulfilment_attributes = {'uprn': uprn}
+            session['fulfilment_attributes'] = fulfilment_attributes
+            session.changed()
+            logger.info('session updated',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        uprn_selected=uprn,
+                        region_of_site=display_region)
 
-        raise HTTPFound(
-            request.app.router['RequestSelectAddress:get'].url_for(
-                display_region=display_region,
-                user_journey=user_journey,
-                request_type=request_type
-            ))
+            raise HTTPFound(
+                request.app.router['RequestConfirmAddress:get'].url_for(
+                    display_region=display_region,
+                    user_journey=user_journey,
+                    request_type=request_type
+                ))
 
 
 @request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +

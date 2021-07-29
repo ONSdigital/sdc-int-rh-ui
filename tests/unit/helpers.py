@@ -309,6 +309,30 @@ class TestHelpers(RHTestCase):
             self.assertIn(self.build_translation_link('select-address', display_region), contents)
             self.check_text_select_address(display_region, contents, check_error=False)
 
+    async def check_post_enter_address_finder(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.utils.RHService.get_case_by_uprn') as mocked_get_case_by_uprn:
+            if region == 'W':
+                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_w
+            else:
+                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestEnterAddress', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.common_address_finder_input)
+
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
+            self.assertLogEvent(cm, 'UPRN of selected address: ' + self.selected_uprn)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
+            self.assertLogEvent(cm, 'case matching uprn found in RHSvc')
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertIn(self.get_logo(display_region), contents)
+            self.assertIn(self.build_translation_link('confirm-address', display_region), contents)
+            self.check_text_confirm_address(display_region, contents, check_error=False)
+
     async def check_post_enter_address_input_returns_no_results(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
                 mock.patch('app.utils.AddressIndex.get_ai_postcode') as mocked_get_ai_postcode:

@@ -70,6 +70,10 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address_error_from_get_cases(display_region)
 
+    async def assert_get_request_access_code_enter_address_finder(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address_finder(display_region, region)
+
     async def assert_get_request_access_code_confirm_address_data_no(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -322,6 +326,18 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_get_request_access_code_confirm_address_get_cases_error_cy(self):
         await self.assert_get_request_access_code_confirm_address_get_cases_error('cy')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_enter_address_finder_ew_e(self):
+        await self.assert_get_request_access_code_enter_address_finder('en', 'E')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_enter_address_finder_ew_w(self):
+        await self.assert_get_request_access_code_enter_address_finder('en', 'W')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_enter_address_finder_cy(self):
+        await self.assert_get_request_access_code_enter_address_finder('cy', 'W')
 
     @unittest_run_loop
     async def test_get_request_individual_confirm_address_data_no_ew_e(self):

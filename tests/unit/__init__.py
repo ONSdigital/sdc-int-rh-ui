@@ -269,6 +269,15 @@ class RHTestCase(AioHTTPTestCase):
         self.postcode_empty = ''
         self.adlocation = '1234567890'
 
+        self.selected_uprn = '10023122451'
+
+        self.mobile_valid = '07012345678'
+        self.mobile_invalid_short = '07012'
+        self.mobile_invalid_long = '0701234567890123456'
+        self.mobile_invalid_character = '0701234567$'
+
+        self.field_empty = None
+
         self.common_form_data_empty = {}
 
         self.content_common_invalid_mobile_error_en = \
@@ -313,6 +322,10 @@ class RHTestCase(AioHTTPTestCase):
             'form-enter-address-postcode': self.postcode_empty, 'action[save_continue]': '',
         }
 
+        self.common_address_finder_input = {
+            'address-uprn': self.selected_uprn, 'action[save_continue]': '',
+        }
+
         with open('tests/test_data/address_index/postcode_no_results.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
@@ -339,8 +352,8 @@ class RHTestCase(AioHTTPTestCase):
             self.ai_uprn_result_wales = f
 
         # Content
-        self.ons_logo_en = '/img/ons-logo-pos-en.svg'
-        self.ons_logo_cy = '/img/ons-logo-pos-cy.svg'
+        self.ons_logo_en = '<title id="ons-logo-en-alt">'
+        self.ons_logo_cy = '<title id="ons-logo-cy-alt">'
 
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
@@ -672,15 +685,6 @@ class RHTestCase(AioHTTPTestCase):
         self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
         self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
 
-        self.selected_uprn = '10023122451'
-
-        self.mobile_valid = '07012345678'
-        self.mobile_invalid_short = '07012'
-        self.mobile_invalid_long = '0701234567890123456'
-        self.mobile_invalid_character = '0701234567$'
-
-        self.field_empty = None
-
         with open('tests/test_data/rhsvc/case_by_uprn_hh_e.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
@@ -829,9 +833,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_enter_address_title_en = 'What is your postcode?'
         self.content_request_access_code_enter_address_secondary_en = \
             'To request a new access code, we need your address'
-        self.content_request_enter_address_page_title_cy = '<title>Nodi cyfeiriad - ' + site_name_cy + '</title>'
+        self.content_request_enter_address_page_title_cy = '<title>Enter address - ' + site_name_cy + '</title>'
         self.content_request_enter_address_page_title_error_cy = \
-            '<title>Gwall: Nodi cyfeiriad - ' + site_name_cy + '</title>'
+            '<title>Gwall: Enter address - ' + site_name_cy + '</title>'
         self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
         self.content_request_access_code_enter_address_secondary_cy = \
             'To request a new access code, we need your address'
