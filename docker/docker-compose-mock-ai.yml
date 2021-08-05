@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  mock-ai:
+    container_name: mock-ai
+    image: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/mock-ai:Use_latest_common
+    ports:
+    - "8162:8162"
