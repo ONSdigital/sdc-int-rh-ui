@@ -3,7 +3,7 @@
 Respondent Home is part of ONS's Survey Data Collection platform. It allows users to validate their Unique Access Code (UAC) and forwards
 them to the [ONS eQ Survey Runner](https://github.com/ONSdigital/eq-survey-runner) upon successful validation. It also enables users to request new/replacement UACs.
 
-
+ 
 ![The ONS Survey Data Collection platform](/images/sdc_platform.png?raw=true)
 
 This repository contains the Python [AIOHTTP](http://docs.aiohttp.org/en/stable/) application that is the user interface for the Respondent Home product.
