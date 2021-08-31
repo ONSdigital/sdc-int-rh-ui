@@ -1,0 +1,11 @@
+#
+# This file is a placeholder for a docker compose file that will start the rh-ui.
+#
+
+version: "3.8"
+services:
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+    - "6379:6379"
