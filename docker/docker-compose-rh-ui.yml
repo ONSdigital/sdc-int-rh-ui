@@ -1,7 +1,3 @@
-#
-# This file is a placeholder for a docker compose file that will start the rh-ui.
-#
-
 version: '3.8'
 services:
   rh-ui:
@@ -9,6 +5,7 @@ services:
     image: rh-ui
     depends_on:
       - redis
+      - mock-ai
     environment:
       - REDIS_SERVER=redis
       - REDIS_PORT=6379

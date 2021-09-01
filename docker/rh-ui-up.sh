@@ -1,17 +1,15 @@
 #!/bin/sh
-set -e
 
 #
-# This scripts starts the services needed to run RH-ui locally.
+# This scripts starts the RH UI and its dependencies in docker.
 # It is intended to be used by developers who have a local RH-service and want to standup RH-ui for:
 #   - either local RH-service development
 #   - or, to run the RH Cucumber tests.
 #
-# Prerequisites:
-#   - RabbitMQ is running.
-#   - Rabbit queues have been created (see RH-service Readme.doc).
-#   - RH-service is running.
+# This script is compatible with the sdc-int-rh-service/docker/rh-service-up.sh script.
 #
+
+set -e
 
 MOCK_AI_VERSION="europe-west2-docker.pkg.dev/ons-ci-int/int-docker-release/mock-ai:latest"
 RH_UI_VERSION="europe-west2-docker.pkg.dev/ons-ci-int/int-docker-release/rh-ui:latest"

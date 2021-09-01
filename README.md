@@ -25,6 +25,10 @@ Then to run this application in development use, run 'run.py'
 
 and access using [http://localhost:9092/en/start/](http://localhost:9092/en/start/) or [http://localhost:9092/cy/start/](http://localhost:9092/cy/start/).
 
+You can also run RH UI and its dependencies in Docker.
+See the [Readme](docker/README.md) in the docker directory for details.
+
+
 ## Tests
 To run the unit tests for Respondent Home:
 
