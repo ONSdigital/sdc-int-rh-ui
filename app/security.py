@@ -11,10 +11,6 @@ from structlog import get_logger
 from .session import get_existing_session
 
 
-def get_aims_url(self):
-    return self.request.app['ADDRESS_INDEX_SVC_URL']
-
-
 CSP = {
     'default-src': [
         "'self'",
