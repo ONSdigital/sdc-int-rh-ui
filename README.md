@@ -23,7 +23,7 @@ First, run scripts/load_templates.sh to pull the current/correct version of the 
 
 Then to run this application in development use, run 'run.py'
 
-and access using [http://localhost:9092](http://localhost:9092).
+and access using [http://localhost:9092/en/start/](http://localhost:9092/en/start/) or [http://localhost:9092/cy/start/](http://localhost:9092/cy/start/).
 
 ## Tests
 To run the unit tests for Respondent Home:
