@@ -53,7 +53,7 @@ class TestCreateApp(AioHTTPTestCase):
             f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com",
+            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com http://localhost:9000",
             response.headers['Content-Security-Policy'])
         self.assertIn(
             "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",
@@ -73,7 +73,7 @@ class TestCreateApp(AioHTTPTestCase):
             f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com",
+            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com http://localhost:9000",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
             "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",
