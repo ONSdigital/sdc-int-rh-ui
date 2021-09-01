@@ -66,7 +66,7 @@ class BaseConfig:
 
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
-    ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL')
+    ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL', default='http://localhost:9000')
     ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='')
     ADDRESS_INDEX_EPOCH = env('ADDRESS_INDEX_EPOCH', default='')
 
