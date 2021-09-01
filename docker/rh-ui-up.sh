@@ -18,7 +18,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 
 echo "1/4 Checking environment variables"
-[ -z "$DOCKER_GCP_CREDENTIALS" ] && echo "Error: DOCKER_GCP_CREDENTIALS must be set" && exit 1;
 [ -z "$GOOGLE_CLOUD_PROJECT" ] && echo "Need to set GOOGLE_CLOUD_PROJECT" && exit 1;
 
 echo "2/4 Pulling images ..."
