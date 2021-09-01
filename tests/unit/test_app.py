@@ -39,7 +39,7 @@ class TestCreateApp(AioHTTPTestCase):
     @unittest_run_loop
     async def test_security_headers(self):
         from app import config
-        aims_url = config.ProductionConfig.ADDRESS_INDEX_SVC_URL
+        aims_url = config.TestingConfig.ADDRESS_INDEX_SVC_URL
 
         nonce = '123456'
         with mock.patch('app.security.get_random_string') as mocked_rando:
