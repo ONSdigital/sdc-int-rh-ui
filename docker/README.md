@@ -19,7 +19,7 @@ This can be started before or after the ui is started.
 
 ## Starting & Stopping RH UI
 
-To start and stop the rh-service and it's dependencies (mock-ai & Redis) you
+To start and stop the rh-ui and it's dependencies (mock-ai & Redis) you
 can run scripts within the docker directory.
 
 To bring up the services run the following. Note that the script will pull down
