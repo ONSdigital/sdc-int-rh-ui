@@ -11,12 +11,7 @@ If Docker pull commands fail with a permissions error run the following and re-a
 
     gcloud auth configure-docker europe-west2-docker.pkg.dev
 
-### 2. GCP project 
-
-The name of your GCP project must be set in an environment variable called $GOOGLE_CLOUD_PROJECT,
-eg 'sdc-rh-fredf'
-
-### 3. RH-Service is running
+### 2. RH-Service is running
 
 As you would expect rh-service needs to be running for Cucumber tests, etc.
 This can be started before or after the ui is started.
