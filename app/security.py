@@ -10,6 +10,7 @@ from structlog import get_logger
 
 from .session import get_existing_session
 
+
 CSP = {
     'default-src': [
         "'self'",
@@ -38,8 +39,7 @@ CSP = {
     'connect-src': [
         "'self'",
         'https://cdn.ons.gov.uk',
-        'https://www.google-analytics.com',
-        'https://whitelodge-eq-ai-api.census-gcp.onsdigital.uk'
+        'https://www.google-analytics.com'
     ],
     'frame-src': [
         'https://www.googletagmanager.com',
@@ -56,16 +56,8 @@ CSP = {
 }
 
 
-def _format_csp(csp_dict):
-    return ' '.join([
-        f"{section} {' '.join(content)};"
-        for section, content in csp_dict.items()
-    ])
-
-
 DEFAULT_RESPONSE_HEADERS = {
     'Strict-Transport-Security': 'max-age=31536000 includeSubDomains',
-    # 'Content-Security-Policy': _format_csp(CSP),
     'Content-Security-Policy': CSP,
     'X-Content-Security-Policy': CSP,
     'X-XSS-Protection': '1; mode=block',
@@ -76,6 +68,10 @@ DEFAULT_RESPONSE_HEADERS = {
 
 ADD_NONCE_SECTIONS = [
     'script-src',
+]
+
+ADD_AIMS_URL_SECTIONS = [
+    'connect-src',
 ]
 
 SESSION_KEY = 'identity'
@@ -103,6 +99,8 @@ async def on_prepare(request: web.BaseRequest, response: web.StreamResponse):
             value = '; '.join([
                 f"{section} {' '.join(content)} 'nonce-{request.csp_nonce}'"
                 if section in ADD_NONCE_SECTIONS else
+                f"{section} {' '.join(content)} {request.app['ADDRESS_INDEX_SVC_URL']}"
+                if section in ADD_AIMS_URL_SECTIONS else
                 f"{section} {' '.join(content)}"
                 for section, content in value.items()
             ])
