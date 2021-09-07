@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  mock-ai:
+    container_name: mock-ai
+    image: mock-ai
+    ports:
+    - "8162:8162"

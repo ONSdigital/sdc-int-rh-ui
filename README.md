@@ -3,7 +3,7 @@
 Respondent Home is part of ONS's Survey Data Collection platform. It allows users to validate their Unique Access Code (UAC) and forwards
 them to the [ONS eQ Survey Runner](https://github.com/ONSdigital/eq-survey-runner) upon successful validation. It also enables users to request new/replacement UACs.
 
-
+ 
 ![The ONS Survey Data Collection platform](/images/sdc_platform.png?raw=true)
 
 This repository contains the Python [AIOHTTP](http://docs.aiohttp.org/en/stable/) application that is the user interface for the Respondent Home product.
@@ -23,7 +23,11 @@ First, run scripts/load_templates.sh to pull the current/correct version of the 
 
 Then to run this application in development use, run 'run.py'
 
-and access using [http://localhost:9092](http://localhost:9092).
+and access using [http://localhost:9092/en/start/](http://localhost:9092/en/start/) or [http://localhost:9092/cy/start/](http://localhost:9092/cy/start/).
+
+You can also run RH UI and its dependencies in Docker.
+See the [Readme](docker/README.md) in the docker directory for details.
+
 
 ## Tests
 To run the unit tests for Respondent Home:
