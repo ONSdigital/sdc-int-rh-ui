@@ -40,6 +40,7 @@ After start RH UI you can confirm it looks healthy by checking its logs:
 
     docker logs rh-ui
 
+
 ## Running with specific releases
 
 If you want to run with a specific release or development build for mock-ai or rh-ui
@@ -53,3 +54,28 @@ The ordering for doing this should be:
 
 1. Run rh-ui-up.sh to bring up the new versions. The 'docker pull' command in the script
 will download the images if required.
+
+
+## Example commands to run everything locally
+
+If not using the RH Cucumber local profile, point at the emulator using environment variables:
+
+    export PUBSUB_EMULATOR_HOST="localhost:9808"
+    export PUBSUB_EMULATOR_USE="true"
+
+To run the services and Cucumber tests:
+
+    cd /Users/peterbochel/sdc/source
+    
+    ./sdc-int-rh-service/docker/rh-service-up.sh 
+    ./sdc-int-rh-ui/docker/rh-ui-up.sh 
+    docker ps
+    
+    cd sdc-int-rh-cucumber/
+    ./run.sh
+    cd ..
+    
+    ./sdc-int-rh-service/docker/rh-service-stop.sh 
+    ./sdc-int-rh-ui/docker/rh-ui-stop.sh 
+    docker ps
+
