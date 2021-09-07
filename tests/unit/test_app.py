@@ -38,6 +38,9 @@ class TestCreateApp(AioHTTPTestCase):
 
     @unittest_run_loop
     async def test_security_headers(self):
+        from app import config
+        aims_url = config.TestingConfig.ADDRESS_INDEX_SVC_URL
+
         nonce = '123456'
         with mock.patch('app.security.get_random_string') as mocked_rando:
             mocked_rando.return_value = nonce
@@ -53,7 +56,7 @@ class TestCreateApp(AioHTTPTestCase):
             f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com",
+            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com " + aims_url,
             response.headers['Content-Security-Policy'])
         self.assertIn(
             "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",
@@ -73,7 +76,7 @@ class TestCreateApp(AioHTTPTestCase):
             f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com",
+            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com " + aims_url,
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
             "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",

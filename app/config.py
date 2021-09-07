@@ -60,7 +60,7 @@ class BaseConfig:
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
-    REDIS_PORT = env('REDIS_PORT', default='7379')
+    REDIS_PORT = env('REDIS_PORT', default='6379')
     REDIS_POOL_MIN = env('REDIS_POOL_MIN', default='50')
     REDIS_POOL_MAX = env('REDIS_POOL_MAX', default='500')
 
@@ -109,7 +109,7 @@ class DevelopmentConfig:
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
-    REDIS_PORT = env('REDIS_PORT', default='7379')
+    REDIS_PORT = env('REDIS_PORT', default='6379')
     REDIS_POOL_MIN = env('REDIS_POOL_MIN', default='50')
     REDIS_POOL_MAX = env('REDIS_POOL_MAX', default='500')
 
