@@ -3,7 +3,7 @@
 Running the RH UI Service (and it's dependencies) in Docker saves any problems with 
 local builds and making sure that you are using the correct Python version.
 
-## Prerequisits
+## Prerequisites
 
 ### 1. Docker pull permissions
 
