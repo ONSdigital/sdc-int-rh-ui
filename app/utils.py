@@ -136,7 +136,7 @@ class View:
     @staticmethod
     def validate_case(case_json):
         if not case_json.get('active', False):
-            raise InactiveCaseError(case_json.get('caseType'))
+            raise InactiveCaseError()
         if not case_json.get('caseStatus', None) == 'OK':
             raise InvalidEqPayLoad('CaseStatus is not OK')
 
@@ -396,10 +396,10 @@ class RHService(View):
                                         return_json=True)
 
     @staticmethod
-    async def get_fulfilment(request, case_type, region,
+    async def get_fulfilment(request, region,
                              delivery_channel, product_group, individual):
         rhsvc_url = request.app['RHSVC_URL']
-        url = f'{rhsvc_url}/fulfilments?caseType={case_type}&region={region}&deliveryChannel={delivery_channel}' \
+        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
               f'&productGroup={product_group}&individual={individual}'
         return await View._make_request(request,
                                         'GET',

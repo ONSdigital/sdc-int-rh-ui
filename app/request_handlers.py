@@ -609,7 +609,7 @@ class RequestCodeConfirmSendByText(View):
 
             try:
                 available_fulfilments = await RHService.get_fulfilment(
-                    request, 'HH', region, 'SMS', 'UAC', fulfilment_individual)
+                    request, region, 'SMS', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
                         if fulfilment['language'] == fulfilment_language:
@@ -818,7 +818,6 @@ class RequestCommonConfirmSendByPost(View):
             try:
                 available_fulfilments = await RHService.get_fulfilment(
                     request,
-                    'HH',
                     region,
                     'POST',
                     'UAC',

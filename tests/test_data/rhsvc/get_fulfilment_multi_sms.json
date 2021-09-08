@@ -4,10 +4,6 @@
         "productGroup": "UAC",
         "description": "Household Unique Access Code for Wales (in English) via SMS",
         "language": "E",
-        "caseTypes": [
-            "HH",
-            "SPG"
-        ],
         "individual": false,
         "regions": [
             "W"
@@ -20,10 +16,6 @@
         "productGroup": "UAC",
         "description": "Household Unique Access Code for Wales (in Welsh) via SMS",
         "language": "W",
-        "caseTypes": [
-            "HH",
-            "SPG"
-        ],
         "individual": false,
         "regions": [
             "W"

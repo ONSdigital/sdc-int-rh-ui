@@ -4,10 +4,6 @@
         "productGroup": "UAC",
         "description": "Household Unique Access Code for England via paper",
         "language": "E",
-        "caseTypes": [
-            "HH",
-            "SPG"
-        ],
         "individual": false,
         "regions": [
             "E"
