@@ -1,6 +1,6 @@
 {%- extends 'base-' + display_region + '.html' -%}
 
-{% from "components/breadcrumb/_macro.njk" import onsBreadcrumb %}
+{% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
 {% from "components/panel/_macro.njk" import onsPanel %}
 
 {%- if display_region == 'cy' -%}
@@ -29,7 +29,7 @@
 
 {% block preMain %}
     {{
-        onsBreadcrumb({
+        onsBreadcrumbs({
             "ariaLabel": 'Breadcrumb',
             "itemsList": breadcrumb_items
         })

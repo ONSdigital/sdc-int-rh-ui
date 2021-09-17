@@ -61,10 +61,8 @@ class TestWebFormHandlers(TestHelpers):
                                                              include_request_type=False, include_page=False))
             self.assertEqual(get_response.status, 200)
             contents = str(await get_response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
-            if not display_region == 'ni':
-                self.assertIn(self.build_translation_link('web-form', display_region, include_request_type=False,
-                                                          include_page=False), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
             self.check_text_web_form(display_region, contents)
 
             post_response = await self.client.request('POST', post_url, data=form_data)
@@ -75,11 +73,8 @@ class TestWebFormHandlers(TestHelpers):
 
             self.assertEqual(post_response.status, 200)
             contents = str(await post_response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
-            if not display_region == 'ni':
-                self.assertIn(self.build_translation_link('success', display_region,
-                                                          include_request_type=False,
-                                                          include_page=True), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey, page='success')
             self.check_text_web_form_success(display_region, contents)
 
     async def form_submission_error(self, url, display_region, status):
@@ -96,7 +91,7 @@ class TestWebFormHandlers(TestHelpers):
 
             self.assertEqual(response.status, 500)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
+            self.assertSiteLogo(display_region, contents)
             self.check_text_error_500(display_region, contents)
 
     async def form_submission_error_429(self, url, display_region):
@@ -113,7 +108,7 @@ class TestWebFormHandlers(TestHelpers):
             self.assertLogEvent(cm, 'session invalidated')
             self.assertEqual(response.status, 429)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
+            self.assertSiteLogo(display_region, contents)
             if display_region == 'cy':
                 self.assertIn(self.content_web_form_error_429_title_cy, contents)
             else:
@@ -132,10 +127,8 @@ class TestWebFormHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
-            if not display_region == 'ni':
-                self.assertIn(self.build_translation_link('web-form', display_region, include_request_type=False,
-                                                          include_page=False), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
             self.check_text_web_form(display_region, contents, check_error=True)
             if missing_value == 'country':
                 if display_region == 'cy':
@@ -175,10 +168,8 @@ class TestWebFormHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
-            if not display_region == 'ni':
-                self.assertIn(self.build_translation_link('web-form', display_region, include_request_type=False,
-                                                          include_page=False), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
             self.check_text_web_form(display_region, contents, check_error=True)
             if display_region == 'cy':
                 self.assertMessagePanel(WEBFORM_MISSING_NAME_MSG_CY, contents)
@@ -197,10 +188,8 @@ class TestWebFormHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
-            if not display_region == 'ni':
-                self.assertIn(self.build_translation_link('web-form', display_region, include_request_type=False,
-                                                          include_page=False), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
             self.check_text_web_form(display_region, contents, check_error=True)
             if display_region == 'cy':
                 self.assertMessagePanel(WEBFORM_MISSING_EMAIL_INVALID_MSG_CY, contents)

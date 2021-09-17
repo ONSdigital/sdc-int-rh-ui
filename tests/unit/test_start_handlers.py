@@ -136,7 +136,7 @@ class TestStartHandlers(TestHelpers):
         # then error handler catches exception and renders error.html
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @build_eq_raises
@@ -166,7 +166,7 @@ class TestStartHandlers(TestHelpers):
         # then error handler catches exception and renders error.html
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @build_eq_raises
@@ -197,7 +197,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
         self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
 
     @unittest_run_loop
     async def test_post_start_invalid_blank_ew(self):
@@ -212,7 +212,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
@@ -229,7 +229,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG_CY, contents)
 
@@ -246,7 +246,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
@@ -263,7 +263,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
@@ -280,7 +280,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
@@ -297,7 +297,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
@@ -317,7 +317,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_uac_expired_en, contents)
 
     @unittest_run_loop
@@ -336,7 +336,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_uac_expired_en, contents)
 
     @unittest_run_loop
@@ -355,7 +355,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn(self.content_start_uac_expired_cy, contents)
 
     @unittest_run_loop
@@ -374,7 +374,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_uac_expired_en, contents)
 
     @unittest_run_loop
@@ -393,7 +393,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_uac_expired_en, contents)
 
     @unittest_run_loop
@@ -412,7 +412,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn(self.content_start_uac_expired_cy, contents)
 
     @unittest_run_loop
@@ -431,7 +431,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @unittest_run_loop
@@ -450,7 +450,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @unittest_run_loop
@@ -470,7 +470,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
         self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
 
     @unittest_run_loop
     async def test_post_start_get_uac_connection_error_ew(self):
@@ -488,7 +488,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @unittest_run_loop
@@ -508,7 +508,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
         self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
 
     async def should_use_default_error_handler(self, http_status):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -536,38 +536,27 @@ class TestStartHandlers(TestHelpers):
         for st in status_list:
             await self.should_use_default_error_handler(st)
 
-    @unittest_run_loop
-    async def test_post_start_get_uac_500_ew(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=500)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=500)
-            self.assertLogEvent(cm, 'response error')
-
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+    async def assert_post_start_get_uac_error(self, display_region):
+        await self.check_post_start_get_uac_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            display_region, 500)
+        await self.check_post_start_get_uac_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            display_region, 403)
+        await self.check_post_start_get_uac_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            display_region, 400)
+        await self.check_post_start_get_uac_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            display_region, 401)
 
     @unittest_run_loop
-    async def test_post_start_get_uac_500_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=500)
+    async def test_post_start_get_uac_error_ew(self):
+        await self.assert_post_start_get_uac_error('en')
 
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=500)
-
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+    @unittest_run_loop
+    async def test_post_start_get_uac_error_cy(self):
+        await self.assert_post_start_get_uac_error('cy')
 
     def mock503s(self, mocked, times):
         for i in range(times):
@@ -586,7 +575,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @unittest_run_loop
@@ -603,7 +592,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
         self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
 
     @unittest_run_loop
     async def test_post_start_get_uac_404_ew(self):
@@ -621,7 +610,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 401)
         self.assertLogEvent(cm, 'invalid access code entered')
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_page_title_error_en, contents)
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
@@ -642,106 +631,10 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 401)
         self.assertLogEvent(cm, 'invalid access code entered')
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
         self.assertIn(self.content_start_page_title_error_cy, contents)
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_403_ew(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=403)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=403)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_403_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=403)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=403)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_401_ew(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=401)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=401)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_401_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=401)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'error in response', status_code=401)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_400_ew(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=400)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_get_uac_400_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, status=400)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
 
     @skip_encrypt
     @unittest_run_loop
@@ -769,7 +662,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @skip_encrypt
@@ -798,7 +691,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
-        self.assertIn(self.ons_logo_en, contents)
+        self.assertSiteLogo('en', contents)
         self.assertIn(self.content_common_500_error_en, contents)
 
     @skip_encrypt
@@ -828,292 +721,37 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 500)
         contents = str(await response.content.read())
         self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertIn(self.ons_logo_cy, contents)
+        self.assertSiteLogo('cy', contents)
+
+    async def assert_post_start_confirm_address_get_survey_launched_error(self, display_region, region):
+        await self.check_post_start_confirm_address_get_survey_launched_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('StartConfirmAddress', 'post', display_region, request_type=self.request_type),
+            display_region, region, 401)
+        await self.check_post_start_confirm_address_get_survey_launched_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('StartConfirmAddress', 'post', display_region, request_type=self.request_type),
+            display_region, region, 404)
+        await self.check_post_start_confirm_address_get_survey_launched_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('StartConfirmAddress', 'post', display_region, request_type=self.request_type),
+            display_region, region, 500)
+        await self.check_post_start_confirm_address_get_survey_launched_error(
+            self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
+            self.get_url_from_class('StartConfirmAddress', 'post', display_region, request_type=self.request_type),
+            display_region, region, 429)
 
     @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_401_ew_e(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched, status=401)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=401)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
+    async def test_post_start_confirm_address_get_survey_launched_error_ew_e(self):
+        await self.assert_post_start_confirm_address_get_survey_launched_error('en', 'E')
 
     @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_401_ew_w(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=401)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=401)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
+    async def test_post_start_confirm_address_get_survey_launched_error_ew_w(self):
+        await self.assert_post_start_confirm_address_get_survey_launched_error('en', 'W')
 
     @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_401_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=401)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_cy,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_cy,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=401)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_address_confirmation_get_survey_launched_404_ew_e(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched, status=404)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            response = await self.client.request(
-                'POST',
-                self.post_start_confirm_address_en,
-                allow_redirects=False,
-                data=self.start_confirm_address_data_yes)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_address_confirmation_get_survey_launched_404_ew_w(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=404)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            response = await self.client.request(
-                'POST',
-                self.post_start_confirm_address_en,
-                allow_redirects=False,
-                data=self.start_confirm_address_data_yes)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_404_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=404)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_cy,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            response = await self.client.request(
-                'POST',
-                self.post_start_confirm_address_cy,
-                allow_redirects=False,
-                data=self.start_confirm_address_data_yes)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_500_ew_e(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched, status=500)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=500)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_500_ew_w(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=500)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=500)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_500_error_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_500_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=500)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_cy,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'ERROR') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_cy,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'error in response', status_code=500)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_500_error_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_429_ew_e(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched, status=429)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'too many requests', status_code=429)
-            self.assertLogEvent(cm, 'session invalidated')
-            self.assertEqual(response.status, 429)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_429_error_eq_launch_title_en, contents)
-            self.assertNotIn(self.content_start_exit_button_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_429_ew_w(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=429)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_en,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_en,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'too many requests', status_code=429)
-            self.assertLogEvent(cm, 'session invalidated')
-            self.assertEqual(response.status, 429)
-            contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
-            self.assertIn(self.content_common_429_error_eq_launch_title_en, contents)
-            self.assertNotIn(self.content_start_exit_button_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_confirm_address_get_survey_launched_429_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched, status=429)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_cy,
-                                                 data=self.start_data_valid)
-            self.assertEqual(response.status, 200)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request(
-                    'POST',
-                    self.post_start_confirm_address_cy,
-                    allow_redirects=False,
-                    data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'too many requests', status_code=429)
-            self.assertLogEvent(cm, 'session invalidated')
-            self.assertEqual(response.status, 429)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_common_429_error_eq_launch_title_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
-            self.assertNotIn(self.content_start_exit_button_cy, contents)
+    async def test_post_start_confirm_address_get_survey_launched_error_cy(self):
+        await self.assert_post_start_confirm_address_get_survey_launched_error('cy', 'W')
 
     def test_uac_hash(self):
         # Given some post data
@@ -1184,6 +822,7 @@ class TestStartHandlers(TestHelpers):
 
     @unittest_run_loop
     async def test_post_start_confirm_address_no_ew_e(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
@@ -1201,14 +840,15 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/incorrect-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
             self.assertIn(self.content_start_incorrect_address_title_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_no_ew_w(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1226,14 +866,15 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/incorrect-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
             self.assertIn(self.content_start_incorrect_address_title_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_no_cy(self):
+        display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1251,14 +892,15 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_cy, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/en/start/incorrect-address/" lang="en" >English</a>', contents)
-            self.assertIn(self.content_start_exit_button_cy, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_incorrect_address_page_title_cy, contents)
             self.assertIn(self.content_start_incorrect_address_title_cy, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_empty_ew_e(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
@@ -1276,15 +918,16 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_en, contents)
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_empty_ew_w(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1302,15 +945,16 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_en, contents)
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_empty_cy(self):
+        display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1328,15 +972,16 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_cy, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/en/start/confirm-address/" lang="en" >English</a>', contents)
-            self.assertIn(self.content_start_exit_button_cy, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_cy, contents)
             self.assertIn(self.content_start_confirm_address_title_cy, contents)
             self.assertIn(self.content_start_confirm_address_error_cy, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_invalid_ew_e(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
@@ -1354,15 +999,16 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_en, contents)
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_invalid_ew_w(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1380,15 +1026,16 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', contents)
-            self.assertIn(self.content_start_exit_button_en, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_en, contents)
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
     @unittest_run_loop
     async def test_post_start_confirm_address_invalid_cy(self):
+        display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
                 as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -1406,9 +1053,9 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.ons_logo_cy, contents)
+            self.assertSiteLogo(display_region, contents)
             self.assertIn('<a href="/en/start/confirm-address/" lang="en" >English</a>', contents)
-            self.assertIn(self.content_start_exit_button_cy, contents)
+            self.assertExitButton(display_region, contents)
             self.assertIn(self.content_start_confirm_address_page_title_error_cy, contents)
             self.assertIn(self.content_start_confirm_address_title_cy, contents)
             self.assertIn(self.content_start_confirm_address_error_cy, contents)
@@ -1423,7 +1070,7 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertIn(self.content_signed_out_page_title_en, contents)
             self.assertIn(self.content_signed_out_title_en, contents)
-            self.assertIn(self.ons_logo_en, contents)
+            self.assertSiteLogo('en', contents)
             self.assertIn('<a href="/cy/signed-out/" lang="cy" >Cymraeg</a>', contents)
 
     @unittest_run_loop
@@ -1436,12 +1083,13 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertIn(self.content_signed_out_page_title_cy, contents)
             self.assertIn(self.content_signed_out_title_cy, contents)
-            self.assertIn(self.ons_logo_cy, contents)
+            self.assertSiteLogo('cy', contents)
             self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
     @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_ew_e(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
             passthrough=[str(self.server._root)]) \
                 as mocked:
@@ -1454,7 +1102,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload['language_code'] = 'en'
             account_service_url = self.app['ACCOUNT_SERVICE_URL']
             url_path_prefix = self.app['URL_PATH_PREFIX']
-            url_display_region = '/en'
+            url_display_region = '/' + display_region
             eq_payload[
                 'account_service_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
@@ -1468,7 +1116,7 @@ class TestStartHandlers(TestHelpers):
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
             start_contents = str(await get_start_response.content.read())
-            self.assertIn(self.ons_logo_en, start_contents)
+            self.assertSiteLogo(display_region, start_contents)
             self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', start_contents)
             self.assertIn(self.content_start_title_en, start_contents)
             self.assertIn(self.content_start_uac_title_en, start_contents)
@@ -1485,9 +1133,9 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(200, post_start_response.status)
             confirm_address_content = str(await post_start_response.content.read())
-            self.assertIn(self.ons_logo_en, confirm_address_content)
+            self.assertSiteLogo(display_region, confirm_address_content)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', confirm_address_content)
-            self.assertIn(self.content_start_exit_button_en, confirm_address_content)
+            self.assertExitButton(display_region, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_page_title_en, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_title_en, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_option_yes_en, confirm_address_content)
@@ -1522,6 +1170,7 @@ class TestStartHandlers(TestHelpers):
     @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_ew_w(self):
+        display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
             passthrough=[str(self.server._root)]) \
                 as mocked:
@@ -1534,7 +1183,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload['language_code'] = 'en'
             account_service_url = self.app['ACCOUNT_SERVICE_URL']
             url_path_prefix = self.app['URL_PATH_PREFIX']
-            url_display_region = '/en'
+            url_display_region = '/' + display_region
             eq_payload[
                 'account_service_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
@@ -1548,7 +1197,7 @@ class TestStartHandlers(TestHelpers):
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
             start_contents = str(await get_start_response.content.read())
-            self.assertIn(self.ons_logo_en, start_contents)
+            self.assertSiteLogo(display_region, start_contents)
             self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', start_contents)
             self.assertIn(self.content_start_title_en, start_contents)
             self.assertIn(self.content_start_uac_title_en, start_contents)
@@ -1565,9 +1214,9 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(200, post_start_response.status)
             confirm_address_content = str(await post_start_response.content.read())
-            self.assertIn(self.ons_logo_en, confirm_address_content)
+            self.assertSiteLogo(display_region, confirm_address_content)
             self.assertIn('<a href="/cy/start/confirm-address/" lang="cy" >Cymraeg</a>', confirm_address_content)
-            self.assertIn(self.content_start_exit_button_en, confirm_address_content)
+            self.assertExitButton(display_region, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_page_title_en, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_title_en, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_option_yes_en, confirm_address_content)
@@ -1602,6 +1251,7 @@ class TestStartHandlers(TestHelpers):
     @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_cy(self):
+        display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
             passthrough=[str(self.server._root)]) \
                 as mocked:
@@ -1614,7 +1264,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload['language_code'] = 'cy'
             account_service_url = self.app['ACCOUNT_SERVICE_URL']
             url_path_prefix = self.app['URL_PATH_PREFIX']
-            url_display_region = '/cy'
+            url_display_region = '/' + display_region
             eq_payload[
                 'account_service_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
@@ -1628,7 +1278,7 @@ class TestStartHandlers(TestHelpers):
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'cy/start'")
             start_contents = str(await get_start_response.content.read())
-            self.assertIn(self.ons_logo_cy, start_contents)
+            self.assertSiteLogo(display_region, start_contents)
             self.assertIn('<a href="/en/start/" lang="en" >English</a>', start_contents)
             self.assertIn(self.content_start_title_cy, start_contents)
             self.assertIn(self.content_start_uac_title_cy, start_contents)
@@ -1645,9 +1295,9 @@ class TestStartHandlers(TestHelpers):
 
             self.assertEqual(200, post_start_response.status)
             confirm_address_content = str(await post_start_response.content.read())
-            self.assertIn(self.ons_logo_cy, confirm_address_content)
+            self.assertSiteLogo(display_region, confirm_address_content)
             self.assertIn('<a href="/en/start/confirm-address/" lang="en" >English</a>', confirm_address_content)
-            self.assertIn(self.content_start_exit_button_cy, confirm_address_content)
+            self.assertExitButton(display_region, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_page_title_cy, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_title_cy, confirm_address_content)
             self.assertIn(self.content_start_confirm_address_option_yes_cy, confirm_address_content)

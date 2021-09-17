@@ -5,7 +5,7 @@
 {%- from 'components/radios/_macro.njk' import onsRadios -%}
 {%- from 'components/textarea/_macro.njk' import onsTextarea -%}
 {%- from 'components/panel/_macro.njk' import onsPanel -%}
-{%- from "components/breadcrumb/_macro.njk" import onsBreadcrumb -%}
+{%- from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs -%}
 
 {%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
 {%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
@@ -112,7 +112,7 @@
 
 {% block preMain %}
     {{
-        onsBreadcrumb({
+        onsBreadcrumbs({
             "ariaLabel": 'Breadcrumb',
             "itemsList": [
                 {

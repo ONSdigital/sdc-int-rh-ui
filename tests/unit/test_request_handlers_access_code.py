@@ -504,7 +504,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.assert_request_access_code_confirm_send_by_text_request_fulfilment_error_429('en', 'E')
 
     @unittest_run_loop
-    async def test_request_access_code_confirm_send_by_texte_request_fulfilment_error_429_ew_w(self):
+    async def test_request_access_code_confirm_send_by_text_request_fulfilment_error_429_ew_w(self):
         await self.assert_request_access_code_confirm_send_by_text_request_fulfilment_error_429('en', 'W')
 
     @unittest_run_loop
