@@ -63,50 +63,65 @@ class TestHelpers(RHTestCase):
         self.assertIn(secondary_text, contents)
 
     def check_text_select_address(self, display_region, contents, check_error=False):
+        if display_region == 'cy':
+            title_tag = 'Dewis cyfeiriad'
+            h1_title = 'Dewiswch eich cyfeiriad'
+            option_text = '1 Gate Reach'
+            error_text_link = "Dewiswch gyfeiriad"
+            error_text = error_text_link
+        else:
+            title_tag = 'Select address'
+            h1_title = 'Select your address'
+            option_text = '1 Gate Reach'
+            error_text_link = 'Select an address'
+            error_text = error_text_link
+
         if self.user_journey == 'start':
             self.assertExitButton(display_region, contents)
         else:
             self.assertNotExitButton(display_region, contents)
-        if display_region == 'cy':
-            if check_error:
-                self.assertIn(self.content_common_select_address_error_cy, contents)
-                self.assertIn(self.content_common_select_address_page_title_error_cy, contents)
-            else:
-                self.assertIn(self.content_common_select_address_page_title_cy, contents)
-            self.assertIn(self.content_common_select_address_title_cy, contents)
-            self.assertIn(self.content_common_select_address_value_cy, contents)
+
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'error-no-address-selected',
+                                             error_text, contents)
         else:
-            if check_error:
-                self.assertIn(self.content_common_select_address_error_en, contents)
-                self.assertIn(self.content_common_select_address_page_title_error_en, contents)
-            else:
-                self.assertIn(self.content_common_select_address_page_title_en, contents)
-            self.assertIn(self.content_common_select_address_title_en, contents)
-            self.assertIn(self.content_common_select_address_value_en, contents)
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(option_text, contents)
 
     def check_text_confirm_address(self, display_region, contents, check_error=False):
+        if display_region == 'cy':
+            title_tag = 'Cadarnhau cyfeiriad'
+            h1_title = "Ai dyma\\\'r cyfeiriad cywir?"
+            option_yes_text = "Ie, dyma\\\'r cyfeiriad cywir"
+            option_no_text = "Na, rwyf am chwilio am fy nghyfeiriad eto"
+            error_text_link = "Dewiswch ateb"
+            error_text = error_text_link
+        else:
+            title_tag = 'Confirm address'
+            h1_title = 'Is this the correct address?'
+            option_yes_text = 'Yes, this is the correct address'
+            option_no_text = 'No, search for address again'
+            error_text_link = 'Select an answer'
+            error_text = error_text_link
+
         if self.user_journey == 'start':
             self.assertExitButton(display_region, contents)
         else:
             self.assertNotExitButton(display_region, contents)
-        if display_region == 'cy':
-            if check_error:
-                self.assertIn(self.content_common_confirm_address_error_cy, contents)
-                self.assertIn(self.content_common_confirm_address_page_title_error_cy, contents)
-            else:
-                self.assertIn(self.content_common_confirm_address_page_title_cy, contents)
-            self.assertIn(self.content_common_confirm_address_title_cy, contents)
-            self.assertIn(self.content_common_confirm_address_value_yes_cy, contents)
-            self.assertIn(self.content_common_confirm_address_value_no_cy, contents)
+
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
+                                             error_text, contents)
         else:
-            if check_error:
-                self.assertIn(self.content_common_confirm_address_error_en, contents)
-                self.assertIn(self.content_common_confirm_address_page_title_error_en, contents)
-            else:
-                self.assertIn(self.content_common_confirm_address_page_title_en, contents)
-            self.assertIn(self.content_common_confirm_address_title_en, contents)
-            self.assertIn(self.content_common_confirm_address_value_yes_en, contents)
-            self.assertIn(self.content_common_confirm_address_value_no_en, contents)
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(option_yes_text, contents)
+        self.assertIn(option_no_text, contents)
 
     def check_text_select_how_to_receive(self, display_region, contents, check_error=False):
         if self.user_journey == 'start':

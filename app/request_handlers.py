@@ -350,7 +350,10 @@ class RequestConfirmAddress(View):
         else:
             # catch all just in case, should never get here
             logger.info('address confirmation error', **tracking, user_selection=address_confirmation)
-            flash(request, NO_SELECTION_CHECK_MSG)
+            if display_region == 'cy':
+                flash(request, NO_SELECTION_CHECK_MSG_CY)
+            else:
+                flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
                 request.app.router['RequestConfirmAddress:get'].url_for(
                     display_region=display_region,

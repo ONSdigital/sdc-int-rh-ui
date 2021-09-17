@@ -469,37 +469,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
 
-        self.content_common_select_address_page_title_en = '<title>Select address - ' + site_name_en + '</title>'
-        self.content_common_select_address_page_title_error_en = \
-            '<title>Error: Select address - ' + site_name_en + '</title>'
-        self.content_common_select_address_title_en = 'Select your address'
-        self.content_common_select_address_error_en = 'Select an address'
-        self.content_common_select_address_value_en = '1 Gate Reach'
         self.content_common_select_address_no_results_en = 'Sorry, there was a problem processing your postcode'
-        self.content_common_select_address_page_title_cy = '<title>Dewis cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_select_address_page_title_error_cy = \
-            '<title>Gwall: Dewis cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_select_address_title_cy = 'Dewiswch eich cyfeiriad'
-        self.content_common_select_address_error_cy = 'Dewiswch gyfeiriad'
-        self.content_common_select_address_value_cy = '1 Gate Reach'
         self.content_common_select_address_no_results_cy = \
             "Mae\\\'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
-
-        self.content_common_confirm_address_page_title_en = '<title>Confirm address - ' + site_name_en + '</title>'
-        self.content_common_confirm_address_page_title_error_en = \
-            '<title>Error: Confirm address - ' + site_name_en + '</title>'
-        self.content_common_confirm_address_title_en = 'Is this the correct address?'
-        self.content_common_confirm_address_error_en = 'Select an answer'
-        self.content_common_confirm_address_value_yes_en = 'Yes, this is the correct address'
-        self.content_common_confirm_address_value_no_en = 'No, search for address again'
-        self.content_common_confirm_address_page_title_cy = \
-            '<title>Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_confirm_address_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_confirm_address_title_cy = "Ai dyma\\\'r cyfeiriad cywir?"
-        self.content_common_confirm_address_error_cy = "Dewiswch ateb"
-        self.content_common_confirm_address_value_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
-        self.content_common_confirm_address_value_no_cy = "Na, rwyf am chwilio am fy nghyfeiriad eto"
 
         self.content_common_contact_centre_title_en = 'You need to call the customer contact centre'
         self.content_common_contact_centre_title_cy = 'You need to call the customer contact centre'
