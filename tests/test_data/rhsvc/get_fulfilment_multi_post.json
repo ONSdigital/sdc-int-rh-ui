@@ -1,9 +1,14 @@
+  
 [
     {
         "fulfilmentCode": "P_OR_H2",
         "productGroup": "QUESTIONNAIRE",
         "description": "Household Questionnaire for Wales (in English)",
         "language": "E",
+        "caseTypes": [
+            "HH",
+            "SPG"
+        ],
         "individual": false,
         "regions": [
             "W"
@@ -16,6 +21,10 @@
         "productGroup": "QUESTIONNAIRE",
         "description": "Household Questionnaire for Wales (in Welsh)",
         "language": "W",
+        "caseTypes": [
+            "HH",
+            "SPG"
+        ],
         "individual": false,
         "regions": [
             "W"

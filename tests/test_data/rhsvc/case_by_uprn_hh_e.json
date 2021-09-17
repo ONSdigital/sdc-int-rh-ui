@@ -1,11 +1,15 @@
 {
    "caseId": "dc4477d1-dd3f-4c69-b181-7ff725dc9fa4",
    "caseRef": "10000000010",
+   "caseType": "HH",
+   "addressType": "HH",
+   "addressLevel": "E",
    "uprn": "123456",
    "addressLine1": "1 Main Street",
    "addressLine2": "Upper Upperingham",
    "addressLine3": "",
    "townName": "Upton",
    "postcode": "UP10 3UP",
-   "region": "E"
+   "region": "E",
+   "estabType": "HOUSEHOLD"
 }
