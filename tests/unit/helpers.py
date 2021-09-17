@@ -62,7 +62,7 @@ class TestHelpers(RHTestCase):
         self.assertCorrectQuestionText(h1_title, contents)
         self.assertIn(secondary_text, contents)
 
-    def check_text_select_address(self, display_region, contents, check_error=False):
+    def check_content_select_address(self, display_region, contents, check_error=False):
         if display_region == 'cy':
             title_tag = 'Dewis cyfeiriad'
             h1_title = 'Dewiswch eich cyfeiriad'
@@ -81,6 +81,10 @@ class TestHelpers(RHTestCase):
         else:
             self.assertNotExitButton(display_region, contents)
 
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'select-address')
+
         if check_error:
             self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
             self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'error-no-address-selected',
@@ -91,7 +95,7 @@ class TestHelpers(RHTestCase):
         self.assertCorrectQuestionText(h1_title, contents)
         self.assertIn(option_text, contents)
 
-    def check_text_confirm_address(self, display_region, contents, check_error=False):
+    def check_content_confirm_address(self, display_region, contents, check_error=False):
         if display_region == 'cy':
             title_tag = 'Cadarnhau cyfeiriad'
             h1_title = "Ai dyma\\\'r cyfeiriad cywir?"
@@ -112,6 +116,10 @@ class TestHelpers(RHTestCase):
         else:
             self.assertNotExitButton(display_region, contents)
 
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'confirm-address')
+
         if check_error:
             self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
             self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
@@ -123,65 +131,80 @@ class TestHelpers(RHTestCase):
         self.assertIn(option_yes_text, contents)
         self.assertIn(option_no_text, contents)
 
-    def check_text_select_how_to_receive(self, display_region, contents, check_error=False):
-        if self.user_journey == 'start':
-            self.assertExitButton(display_region, contents)
-        else:
-            self.assertNotExitButton(display_region, contents)
+    def check_content_select_how_to_receive(self, display_region, contents, check_error=False):
         if display_region == 'cy':
-            if check_error:
-                self.assertIn(self.content_request_code_select_how_to_receive_error_cy, contents)
-            if check_error:
-                self.assertIn(
-                    self.content_request_code_select_how_to_receive_page_title_error_cy, contents)
-            else:
-                self.assertIn(self.content_request_code_select_how_to_receive_page_title_cy, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_title_cy, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_secondary_cy, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_text_cy, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_post_cy, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_post_hint_cy, contents)
+            title_tag = 'Select how to receive access code'  # TODO Add Translation
+            h1_title = "How would you like to receive a new access code?"  # TODO Add Translation
+            secondary_text = "Dewiswch sut i anfon y cod mynediad"
+            option_text = "Neges destun"
+            option_post = "Post"
+            option_post_hint = "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
+            error_text_link = "Dewiswch ateb"
+            error_text = error_text_link
         else:
-            if check_error:
-                self.assertIn(self.content_request_code_select_how_to_receive_error_en, contents)
-            if check_error:
-                self.assertIn(
-                    self.content_request_code_select_how_to_receive_page_title_error_en, contents)
-            else:
-                self.assertIn(self.content_request_code_select_how_to_receive_page_title_en, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_title_en, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_secondary_en, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_text_en, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_post_en, contents)
-            self.assertIn(self.content_request_code_select_how_to_receive_option_post_hint_en, contents)
+            title_tag = 'Select how to receive access code'
+            h1_title = 'How would you like to receive a new access code?'
+            secondary_text = 'Select how to send access code'
+            option_text = 'Text message'
+            option_post = 'Post'
+            option_post_hint = 'We can only send access codes to the registered address'
+            error_text_link = 'Select an answer'
+            error_text = error_text_link
 
-    def check_text_enter_mobile(self, display_region, contents, check_empty=False, check_error=False):
-        if self.user_journey == 'start':
-            self.assertExitButton(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'select-how-to-receive')
+
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
+                                             error_text, contents)
         else:
-            self.assertNotExitButton(display_region, contents)
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(secondary_text, contents)
+        self.assertIn(option_text, contents)
+        self.assertIn(option_post, contents)
+        self.assertIn(option_post_hint, contents)
+
+    def check_content_enter_mobile(self, display_region, contents, check_empty=False, check_error=False):
         if display_region == 'cy':
-            if check_empty:
-                self.assertIn(self.content_request_code_enter_mobile_error_empty_cy, contents)
-            elif check_error:
-                self.assertIn(self.content_request_code_enter_mobile_error_invalid_cy, contents)
-            if check_empty or check_error:
-                self.assertIn(self.content_request_code_enter_mobile_page_title_error_cy, contents)
-            else:
-                self.assertIn(self.content_request_code_enter_mobile_page_title_cy, contents)
-            self.assertIn(self.content_request_code_enter_mobile_title_cy, contents)
-            self.assertIn(self.content_request_code_enter_mobile_secondary_cy, contents)
+            title_tag = 'Nodi rhif ff\\xc3\\xb4n symudol'
+            h1_title = "Beth yw eich rhif ff\\xc3\\xb4n symudol?"
+            secondary_text = "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
+            error_text_link = "Rhowch rif ff\\xc3\\xb4n symudol yn y Deyrnas Unedig mewn fformat dilys, " \
+                              "er enghraifft, 07700 900345 neu +44 7700 900345"
+            error_text = error_text_link
+            error_text_empty = "Rhowch eich rhif ff\\xc3\\xb4n symudol"
         else:
-            if check_empty:
-                self.assertIn(self.content_request_code_enter_mobile_error_empty_en, contents)
-            elif check_error:
-                self.assertIn(self.content_request_code_enter_mobile_error_invalid_en, contents)
-            if check_empty or check_error:
-                self.assertIn(self.content_request_code_enter_mobile_page_title_error_en, contents)
-            else:
-                self.assertIn(self.content_request_code_enter_mobile_page_title_en, contents)
-            self.assertIn(self.content_request_code_enter_mobile_title_en, contents)
-            self.assertIn(self.content_request_code_enter_mobile_secondary_en, contents)
+            title_tag = 'Enter mobile number'
+            h1_title = 'What is your mobile number?'
+            secondary_text = 'This will not be stored and only used once to send the access code'
+            error_text_link = 'Enter a UK mobile number in a valid format, for example, 07700 900345 or +44 7700 900345'
+            error_text = error_text_link
+            error_text_empty = 'Enter your mobile number'
+
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'enter-mobile')
+
+        if check_empty:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_empty, 'mobile_empty',
+                                             error_text_empty, contents)
+            self.assertIn(error_text_empty, contents)
+        elif check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'mobile_invalid',
+                                             error_text, contents)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(secondary_text, contents)
 
     def check_text_confirm_send_by_text(self, display_region, contents, check_error=False):
         if self.user_journey == 'start':
@@ -274,11 +297,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'GET'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'select-address')
-            self.check_text_select_address(display_region, contents, check_error=False)
+            self.check_content_select_address(display_region, str(await response.content.read()), check_error=False)
 
     async def check_post_enter_address_finder(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
@@ -299,11 +318,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
             self.assertLogEvent(cm, 'case matching uprn found in RHSvc')
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-address')
-            self.check_text_confirm_address(display_region, contents, check_error=False)
+            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
 
     async def check_post_enter_address_input_returns_no_results(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -381,11 +396,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, 'no address selected')
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'select-address')
-            self.check_text_select_address(display_region, contents, check_error=True)
+            self.check_content_select_address(display_region, str(await response.content.read()), check_error=True)
 
     async def check_post_select_address(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -409,11 +420,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, 'case matching uprn found in RHSvc')
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-address')
-            self.check_text_confirm_address(display_region, contents, check_error=False)
+            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
 
     async def check_post_select_address_no_case(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -500,11 +507,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.common_confirm_address_input_invalid)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, "address confirmation error")
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-address')
-            self.check_text_confirm_address(display_region, contents, check_error=True)
+            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=True)
 
     async def check_post_confirm_address_input_no_selection(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -520,11 +523,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.common_form_data_empty)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, "address confirmation error")
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-address')
-            self.check_text_confirm_address(display_region, contents, check_error=True)
+            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=True)
 
     async def check_post_confirm_address_input_no(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -554,12 +553,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.common_confirm_address_input_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'GET'))
-
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'select-how-to-receive')
-            self.check_text_select_how_to_receive(display_region, contents)
+            self.check_content_select_how_to_receive(display_region, str(await response.content.read()))
 
     async def check_post_select_how_to_receive_input_sms(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -570,11 +564,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_code_select_how_to_receive_data_sms)
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET'))
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'enter-mobile')
-            self.check_text_enter_mobile(display_region, contents)
+            self.check_content_enter_mobile(display_region, str(await response.content.read()))
 
     async def check_post_select_how_to_receive_input_post(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -606,11 +596,8 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_code_select_how_to_receive_data_invalid)
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'POST'))
             self.assertLogEvent(cm, "request method selection error")
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'select-how-to-receive')
-            self.check_text_select_how_to_receive(display_region, contents, check_error=True)
+            self.check_content_select_how_to_receive(display_region, str(await response.content.read()),
+                                                     check_error=True)
 
     async def check_post_select_how_to_receive_input_no_selection(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -621,11 +608,8 @@ class TestHelpers(RHTestCase):
                                                  data=self.common_form_data_empty)
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'POST'))
             self.assertLogEvent(cm, "request method selection error")
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'select-how-to-receive')
-            self.check_text_select_how_to_receive(display_region, contents, check_error=True)
+            self.check_content_select_how_to_receive(display_region, str(await response.content.read()),
+                                                     check_error=True)
 
     async def check_post_enter_mobile(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -653,11 +637,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'POST'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'enter-mobile')
-            self.check_text_enter_mobile(display_region, contents, check_error=True)
+            self.check_content_enter_mobile(display_region, str(await response.content.read()), check_error=True)
 
     async def check_post_enter_mobile_input_empty(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -670,11 +650,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'POST'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'enter-mobile')
-            self.check_text_enter_mobile(display_region, contents, check_empty=True)
+            self.check_content_enter_mobile(display_region, str(await response.content.read()), check_empty=True)
 
     async def check_post_confirm_send_by_text(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
@@ -741,11 +717,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'enter-mobile')
-            self.check_text_enter_mobile(display_region, contents)
+            self.check_content_enter_mobile(display_region, str(await response.content.read()))
 
     async def check_post_confirm_send_by_text_error_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -1049,11 +1021,8 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'enter-mobile')
-            self.check_text_enter_mobile(display_region, contents, check_empty=False, check_error=False)
+            self.check_content_enter_mobile(display_region, str(await response.content.read()),
+                                            check_empty=False, check_error=False)
 
     async def check_post_confirm_send_by_post_input_invalid_or_no_selection(self, display_region, data):
         with self.assertLogs('respondent-home', 'INFO') as cm:

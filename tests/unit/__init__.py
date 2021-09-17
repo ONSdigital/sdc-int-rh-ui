@@ -900,55 +900,6 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_code_select_how_to_receive_error_en = 'Select an answer'
-        self.content_request_code_select_how_to_receive_secondary_en = 'Select how to send access code'
-        self.content_request_code_select_how_to_receive_option_text_en = 'Text message'
-        self.content_request_code_select_how_to_receive_option_post_en = 'Post'
-        self.content_request_code_select_how_to_receive_option_post_hint_en = \
-            'We can only send access codes to the registered address'
-
-        self.content_request_code_select_how_to_receive_error_cy = "Dewiswch ateb"
-        self.content_request_code_select_how_to_receive_secondary_cy = "Dewiswch sut i anfon y cod mynediad"
-        self.content_request_code_select_how_to_receive_option_text_cy = "Neges destun"
-        self.content_request_code_select_how_to_receive_option_post_cy = "Post"
-        self.content_request_code_select_how_to_receive_option_post_hint_cy = \
-            "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
-
-        self.content_request_code_select_how_to_receive_page_title_en = \
-            '<title>Select how to receive access code - ' + site_name_en + '</title>'
-        self.content_request_code_select_how_to_receive_page_title_error_en = \
-            '<title>Error: Select how to receive access code - ' + site_name_en + '</title>'
-        self.content_request_code_select_how_to_receive_title_en = \
-            'How would you like to receive a new access code?'
-        self.content_request_code_select_how_to_receive_page_title_cy = \
-            '<title>Select how to receive access code - ' + site_name_cy + '</title>'
-        self.content_request_code_select_how_to_receive_page_title_error_cy = \
-            '<title>Gwall: Select how to receive access code - ' + site_name_cy + '</title>'
-        self.content_request_code_select_how_to_receive_title_cy = \
-            "How would you like to receive a new access code?"
-
-        self.content_request_code_enter_mobile_page_title_en = \
-            '<title>Enter mobile number - ' + site_name_en + '</title>'
-        self.content_request_code_enter_mobile_page_title_error_en = \
-            '<title>Error: Enter mobile number - ' + site_name_en + '</title>'
-        self.content_request_code_enter_mobile_title_en = 'What is your mobile number?'
-        self.content_request_code_enter_mobile_error_empty_en = 'Enter your mobile number'
-        self.content_request_code_enter_mobile_error_invalid_en = \
-            'Enter a UK mobile number in a valid format, for example, 07700 900345 or +44 7700 900345'
-        self.content_request_code_enter_mobile_secondary_en = \
-            'This will not be stored and only used once to send the access code'
-        self.content_request_code_enter_mobile_page_title_cy = \
-            '<title>Nodi rhif ff\\xc3\\xb4n symudol - ' + site_name_cy + '</title>'
-        self.content_request_code_enter_mobile_page_title_error_cy = \
-            '<title>Gwall: Nodi rhif ff\\xc3\\xb4n symudol - ' + site_name_cy + '</title>'
-        self.content_request_code_enter_mobile_title_cy = "Beth yw eich rhif ff\\xc3\\xb4n symudol?"
-        self.content_request_code_enter_mobile_error_empty_cy = "Rhowch eich rhif ff\\xc3\\xb4n symudol"
-        self.content_request_code_enter_mobile_error_invalid_cy = \
-            "Rhowch rif ff\\xc3\\xb4n symudol yn y Deyrnas Unedig mewn fformat dilys, er enghraifft, " \
-            "07700 900345 neu +44 7700 900345"
-        self.content_request_code_enter_mobile_secondary_cy = \
-            "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
-
         self.content_request_code_confirm_send_by_text_page_title_en = \
             '<title>Confirm to send access code by text - ' + site_name_en + '</title>'
         self.content_request_code_confirm_send_by_text_page_title_error_en = \
