@@ -524,14 +524,6 @@ class RHTestCase(AioHTTPTestCase):
         # Start Journey
 
         # Content
-        self.content_start_title_en = 'Start survey'
-        self.content_start_page_title_error_en = '<title>Error: Start survey - ' + site_name_en + '</title>'
-        self.content_start_uac_title_en = 'Enter your 16-character access code'
-        self.content_start_title_cy = "Start survey"
-        self.content_start_page_title_error_cy = \
-            '<title>Gwall: Start survey - ' + site_name_cy + '</title>'
-        self.content_start_uac_title_cy = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
-
         self.content_start_uac_expired_en = 'This access code has already been used'
         self.content_start_uac_expired_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 

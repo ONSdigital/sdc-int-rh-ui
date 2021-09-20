@@ -1065,24 +1065,42 @@ class TestHelpers(RHTestCase):
             else:
                 self.assertIn(self.content_common_429_error_uac_title_en, contents)
 
-    async def assert_start_page_correct(self, url, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', url)
-            self.assertLogEvent(cm, self.build_url_log_entry(self.request_type, display_region, 'GET',
-                                                             include_request_type=False,
-                                                             include_page=False))
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
-            if display_region == 'cy':
-                self.assertIn(self.content_start_title_cy, contents)
-                self.assertIn(self.content_start_uac_title_cy, contents)
-            else:
-                self.assertIn(self.content_start_title_en, contents)
-                self.assertIn(self.content_start_uac_title_en, contents)
-            self.assertEqual(contents.count('input--text'), 1)
-            self.assertIn('type="submit"', contents)
+    def check_content_start(self, display_region, contents, check_empty=False, check_error=False):
+        if display_region == 'cy':
+            title_tag = 'Start survey'  # TODO Add Translation
+            h1_title = 'Start study'
+            secondary_text = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
+            error_text_link = "Rhowch god mynediad dilys"
+            error_text = error_text_link
+            error_text_empty = 'Rhowch god mynediad'
+        else:
+            title_tag = 'Start survey'
+            h1_title = 'Start study'
+            secondary_text = 'Enter your 16-character access code'
+            error_text_link = 'Enter a valid access code'
+            error_text = error_text_link
+            error_text_empty = 'Enter an access code'
+
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
+
+        if check_empty:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'page', error_text_empty, 'uac_invalid',
+                                             error_text_empty, contents)
+            self.assertIn(error_text_empty, contents)
+        elif check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'page', error_text_link, 'uac_invalid',
+                                             error_text, contents)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertIn('<h1 class="u-fs-xxl u-mt-l">' + h1_title + '</h1>', contents)
+        self.assertIn(secondary_text, contents)
+        self.assertEqual(contents.count('input--text'), 1)
+        self.assertIn('type="submit"', contents)
 
     async def check_get_start(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -1090,17 +1108,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('', display_region, 'GET', include_request_type=False,
                                                              include_page=False))
             self.assertEqual(200, response.status)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
-            if display_region == 'cy':
-                self.assertIn(self.content_start_title_cy, contents)
-                self.assertIn(self.content_start_uac_title_cy, contents)
-            else:
-                self.assertIn(self.content_start_title_en, contents)
-                self.assertIn(self.content_start_uac_title_en, contents)
-            self.assertEqual(contents.count('input--text'), 1)
-            self.assertIn('type="submit"', contents)
+            self.check_content_start(display_region, str(await response.content.read()))
 
     async def check_post_start_confirm_address_get_survey_launched_error(
             self, post_start_url, post_confirm_url, display_region, region, status):

@@ -568,43 +568,27 @@ class TestStartHandlers(TestHelpers):
     async def test_post_start_get_uac_404_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, status=404)
-
             with self.assertLogs('respondent-home', 'WARN') as cm:
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm,
-                                'attempt to use an invalid access code',
-                                client_ip=None)
-
+            self.assertLogEvent(cm, 'attempt to use an invalid access code', client_ip=None)
         self.assertEqual(response.status, 401)
         self.assertLogEvent(cm, 'invalid access code entered')
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_page_title_error_en, contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-        self.assertMessagePanel(INVALID_CODE_MSG, contents)
+        self.check_content_start('en', str(await response.content.read()), check_error=True)
 
     @unittest_run_loop
     async def test_post_start_get_uac_404_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, status=404)
-
             with self.assertLogs('respondent-home', 'WARN') as cm:
                 response = await self.client.request('POST',
                                                      self.post_start_cy,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm,
-                                'attempt to use an invalid access code',
-                                client_ip=None)
-
+            self.assertLogEvent(cm, 'attempt to use an invalid access code', client_ip=None)
         self.assertEqual(response.status, 401)
         self.assertLogEvent(cm, 'invalid access code entered')
-        contents = str(await response.content.read())
-        self.assertSiteLogo('cy', contents)
-        self.assertIn(self.content_start_page_title_error_cy, contents)
-        self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
-        self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
+        self.check_content_start('cy', str(await response.content.read()), check_error=True)
 
     @skip_encrypt
     @unittest_run_loop
@@ -1076,13 +1060,7 @@ class TestStartHandlers(TestHelpers):
             get_start_response = await self.client.request('GET', self.get_start_en)
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
-            start_contents = str(await get_start_response.content.read())
-            self.assertSiteLogo(display_region, start_contents)
-            self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', start_contents)
-            self.assertIn(self.content_start_title_en, start_contents)
-            self.assertIn(self.content_start_uac_title_en, start_contents)
-            self.assertEqual(start_contents.count('input--text'), 1)
-            self.assertIn('type="submit"', start_contents)
+            self.check_content_start(display_region, str(await get_start_response.content.read()))
 
             post_start_response = await self.client.request('POST',
                                                             self.post_start_en,
@@ -1157,13 +1135,7 @@ class TestStartHandlers(TestHelpers):
             get_start_response = await self.client.request('GET', self.get_start_en)
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'en/start'")
-            start_contents = str(await get_start_response.content.read())
-            self.assertSiteLogo(display_region, start_contents)
-            self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', start_contents)
-            self.assertIn(self.content_start_title_en, start_contents)
-            self.assertIn(self.content_start_uac_title_en, start_contents)
-            self.assertEqual(start_contents.count('input--text'), 1)
-            self.assertIn('type="submit"', start_contents)
+            self.check_content_start(display_region, str(await get_start_response.content.read()))
 
             post_start_response = await self.client.request('POST',
                                                             self.post_start_en,
@@ -1238,13 +1210,7 @@ class TestStartHandlers(TestHelpers):
             get_start_response = await self.client.request('GET', self.get_start_cy)
             self.assertEqual(200, get_start_response.status)
             self.assertLogEvent(cm, "received GET on endpoint 'cy/start'")
-            start_contents = str(await get_start_response.content.read())
-            self.assertSiteLogo(display_region, start_contents)
-            self.assertIn('<a href="/en/start/" lang="en" >English</a>', start_contents)
-            self.assertIn(self.content_start_title_cy, start_contents)
-            self.assertIn(self.content_start_uac_title_cy, start_contents)
-            self.assertEqual(start_contents.count('input--text'), 1)
-            self.assertIn('type="submit"', start_contents)
+            self.check_content_start(display_region, str(await get_start_response.content.read()))
 
             post_start_response = await self.client.request('POST',
                                                             self.post_start_cy,
