@@ -60,8 +60,8 @@ def create_error_middleware(overrides):
             return await too_many_requests_web_form(request)
         except TooManyRequestsEQLaunch:
             return await too_many_requests_eq_launch(request)
-        except InactiveCaseError as ex:
-            return await inactive_case(request, ex.case_type)
+        except InactiveCaseError:
+            return await inactive_case(request)
         except ExerciseClosedError as ex:
             return await ce_closed(request, ex.collection_exercise_id)
         except InvalidEqPayLoad as ex:
@@ -80,13 +80,12 @@ def create_error_middleware(overrides):
     return middleware_handler
 
 
-async def inactive_case(request, case_type):
+async def inactive_case(request):
     logger.warn('attempt to use an inactive access code',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
                 trace=request['trace'])
     attributes = check_display_region(request)
-    attributes['case_type'] = case_type
     return jinja.render_template('start-expired.html', request, attributes)
 
 
