@@ -206,67 +206,67 @@ class TestHelpers(RHTestCase):
         self.assertCorrectQuestionText(h1_title, contents)
         self.assertIn(secondary_text, contents)
 
-    def check_text_confirm_send_by_text(self, display_region, contents, check_error=False):
-        if self.user_journey == 'start':
-            self.assertExitButton(display_region, contents)
-        else:
-            self.assertNotExitButton(display_region, contents)
+    def check_content_confirm_send_by_text(self, display_region, contents, check_error=False):
         if display_region == 'cy':
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_text_error_cy, contents)
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_text_page_title_error_cy,
-                              contents)
-            else:
-                self.assertIn(self.content_request_code_confirm_send_by_text_page_title_cy, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_text_title_cy, contents)
+            title_tag = 'Confirm to send access code by text'  # TODO Add Translation
+            h1_title = "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
+            option_yes_text = "Ydy, anfonwch y neges destun"
+            option_no_text = "Nac ydy, mae angen i mi ei newid"
+            error_text_link = "Dewiswch ateb"
+            error_text = error_text_link
         else:
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_text_error_en, contents)
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_text_page_title_error_en,
-                              contents)
-            else:
-                self.assertIn(self.content_request_code_confirm_send_by_text_page_title_en, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_text_title_en, contents)
+            title_tag = 'Confirm to send access code by text'
+            h1_title = 'Is this mobile number correct?'
+            option_yes_text = 'Yes, send the text'
+            option_no_text = 'No, I need to change it'
+            error_text_link = 'Select an answer'
+            error_text = error_text_link
 
-    def check_text_confirm_send_by_post(self, display_region, contents, check_error=False):
-        if self.user_journey == 'start':
-            self.assertExitButton(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'confirm-send-by-text')
+
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
+                                             error_text, contents)
         else:
-            self.assertNotExitButton(display_region, contents)
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(option_yes_text, contents)
+        self.assertIn(option_no_text, contents)
+
+    def check_content_confirm_send_by_post(self, display_region, contents, check_error=False):
         if display_region == 'cy':
-            if check_error:
-                self.assertIn(self.content_request_common_confirm_send_by_post_error_cy, contents)
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_post_page_title_error_cy,
-                              contents)
-            else:
-                self.assertIn(self.content_request_code_confirm_send_by_post_page_title_cy, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_post_title_cy, contents)
-
-            self.assertIn(self.content_request_code_confirm_send_by_post_option_yes_cy, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_post_option_no_cy, contents)
+            title_tag = 'Confirm to send access code by post'  # TODO Add Translation
+            h1_title = "Do you want to send a new access code to this address?"  # TODO Add Translation
+            option_yes_text = "Ydw, anfonwch y cod mynediad drwy\\\'r post"
+            option_no_text = "Nac ydw, anfonwch y cod mynediad drwy neges destun"
+            error_text_link = "Dewiswch ateb"
+            error_text = error_text_link
         else:
-            if check_error:
-                self.assertIn(self.content_request_common_confirm_send_by_post_error_en, contents)
-            if check_error:
-                self.assertIn(self.content_request_code_confirm_send_by_post_page_title_error_en,
-                              contents)
-            else:
-                self.assertIn(self.content_request_code_confirm_send_by_post_page_title_en, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_post_title_en, contents)
+            title_tag = 'Confirm to send access code by post'
+            h1_title = 'Do you want to send a new access code to this address?'
+            option_yes_text = 'Yes, send the access code by post'
+            option_no_text = 'No, send it by text message'
+            error_text_link = 'Select an answer'
+            error_text = error_text_link
 
-            self.assertIn(self.content_request_code_confirm_send_by_post_option_yes_en, contents)
-            self.assertIn(self.content_request_code_confirm_send_by_post_option_no_en, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'confirm-send-by-post')
 
-    def check_text_error_500(self, display_region, contents, check_exit=False):
-        if not check_exit:
-            self.assertNotExitButton(display_region, contents)
-        if display_region == 'cy':
-            self.assertIn(self.content_common_500_error_cy, contents)
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
+                                             error_text, contents)
         else:
-            self.assertIn(self.content_common_500_error_en, contents)
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(option_yes_text, contents)
+        self.assertIn(option_no_text, contents)
 
     async def check_get_enter_address(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -464,11 +464,7 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
             self.assertLogEvent(cm, 'error response from RHSvc')
             self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_select_address_address_not_found(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -620,11 +616,8 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_code_enter_mobile_form_data_valid)
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-text', display_region, 'GET'))
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-send-by-text')
-            self.check_text_confirm_send_by_text(display_region, contents, check_error=False)
+            self.check_content_confirm_send_by_text(display_region, str(await response.content.read()),
+                                                    check_error=False)
 
     async def check_post_enter_mobile_input_invalid(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -677,13 +670,17 @@ class TestHelpers(RHTestCase):
             self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
                                               self.request_type, 'code-sent-by-text')
             if display_region == 'cy':
-                self.assertIn(self.content_request_code_sent_by_text_title_cy, contents)
-                self.assertIn(self.content_request_code_sent_by_text_page_title_cy, contents)
-                self.assertIn(self.content_request_code_sent_by_text_secondary_cy, contents)
+                self.assertCorrectHeadTitleTag(display_region, 'Access code has been sent by text', contents,
+                                               error=False)  # TODO Add translation
+                self.assertCorrectPageTitle('Mae neges destun wedi cael ei hanfon i 07012345678 ', contents)
+                self.assertIn('The text message with a new access code should arrive soon for you to start your study',
+                              contents)  # TODO Add translation
             else:
-                self.assertIn(self.content_request_code_sent_by_text_title_en, contents)
-                self.assertIn(self.content_request_code_sent_by_text_page_title_en, contents)
-                self.assertIn(self.content_request_code_sent_by_text_secondary_en, contents)
+                self.assertCorrectHeadTitleTag(display_region, 'Access code has been sent by text', contents,
+                                               error=False)
+                self.assertCorrectPageTitle('A text has been sent to 07012345678 ', contents)
+                self.assertIn('The text message with a new access code should arrive soon for you to start your study',
+                              contents)
 
     async def check_post_confirm_send_by_text_error_from_get_fulfilment(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -700,11 +697,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_code_mobile_confirmation_data_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-text', display_region, 'POST'))
             self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_confirm_send_by_text_input_no(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -734,11 +727,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_code_mobile_confirmation_data_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-text', display_region, 'POST'))
             self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_confirm_send_by_text_error_429_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -775,11 +764,8 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-text', display_region, 'POST'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-send-by-text')
-            self.check_text_confirm_send_by_text(display_region, contents, check_error=True)
+            self.check_content_confirm_send_by_text(display_region, str(await response.content.read()),
+                                                    check_error=True)
 
     async def check_post_confirm_send_by_text_input_no_selection(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -791,11 +777,8 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-text', display_region, 'POST'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-send-by-text')
-            self.check_text_confirm_send_by_text(display_region, contents, check_error=True)
+            self.check_content_confirm_send_by_text(display_region, str(await response.content.read()),
+                                                    check_error=True)
 
     async def check_post_enter_address_error_from_ai(self, get_url, post_url, display_region, status):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -812,10 +795,7 @@ class TestHelpers(RHTestCase):
             else:
                 self.assertLogEvent(cm, 'error in response', status_code=status)
             self.assertLogEvent(cm, 'response error', status=status, method="get", url=url.replace(' ', '%20'))
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     def mock_ai_503s(self, mocked, times):
         for i in range(times):
@@ -829,11 +809,7 @@ class TestHelpers(RHTestCase):
 
             response = await self.client.request('POST', url, data=self.common_postcode_input_valid)
             self.assertLogEvent(cm, 'error in response', status_code=503)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_enter_address_connection_error_from_ai(self, url, display_region, epoch=None):
         with self.assertLogs('respondent-home', 'WARN') as cm, \
@@ -851,11 +827,7 @@ class TestHelpers(RHTestCase):
 
             self.assertLogEvent(cm, 'client failed to connect',
                                 url=self.addressindexsvc_url + self.postcode_valid + param)
-
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo(display_region, contents)
-        self.check_text_error_500(display_region, contents)
+        self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_get_timeout(self, url, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -893,11 +865,8 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-post', display_region, 'GET'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-send-by-post')
-            self.check_text_confirm_send_by_post(display_region, contents, check_error=False)
+            self.check_content_confirm_send_by_post(display_region, str(await response.content.read()),
+                                                    check_error=False)
 
     async def check_post_enter_name_inputs_error(self, display_region, data):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -1034,11 +1003,8 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-post', display_region, 'POST'))
 
             self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'confirm-send-by-post')
-            self.check_text_confirm_send_by_post(display_region, contents, check_error=True)
+            self.check_content_confirm_send_by_post(display_region, str(await response.content.read()),
+                                                    check_error=True)
 
     async def check_post_confirm_send_by_post_error_from_get_fulfilment(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -1055,11 +1021,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_common_confirm_send_by_post_data_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-post', display_region, 'POST'))
             self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_confirm_send_by_post_error_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -1076,11 +1038,7 @@ class TestHelpers(RHTestCase):
                                                  data=self.request_common_confirm_send_by_post_data_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-post', display_region, 'POST'))
             self.assertLogEvent(cm, 'bad request', status_code=400)
-
-            self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_confirm_send_by_post_error_429_from_request_fulfilment_uac(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -1175,7 +1133,7 @@ class TestHelpers(RHTestCase):
                 else:
                     self.assertIn(self.content_common_429_error_eq_launch_title_en, contents)
             else:
-                self.check_text_error_500(display_region, contents, check_exit=True)
+                self.assert500Error(response, display_region, contents, check_exit=True)
 
     async def check_post_start_get_uac_error(self, post_start_url, display_region, status):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -1188,8 +1146,4 @@ class TestHelpers(RHTestCase):
             else:
                 self.assertLogEvent(cm, 'error in response', status_code=status)
             self.assertLogEvent(cm, 'response error')
-
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo(display_region, contents)
-        self.check_text_error_500(display_region, contents, check_exit=True)
+        self.assert500Error(response, display_region, str(await response.content.read()), check_exit=True)

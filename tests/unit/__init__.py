@@ -292,6 +292,14 @@ class RHTestCase(AioHTTPTestCase):
         """
         self.assertIn('<h1 id="question-title" class="question__title">' + title + '</h1>', content)
 
+    def assertCorrectPageTitle(self, title, content):
+        """
+        Helper method for asserting that the question title is correct (h1 tag)
+        :param title: str
+        :param content: rendered HTML str
+        """
+        self.assertIn('<h1 class="u-mb-xs u-fs-l">' + title + '</h1>', content)
+
     def assertErrorMessageDisplayed(self, display_region, panel_label, list_error, field_name, field_error, content):
         """
         Helper method for asserting that the error panel and messages are displayed
@@ -345,6 +353,23 @@ class RHTestCase(AioHTTPTestCase):
                    '/" lang="' + lang + '" >' + link_text + '</a>'
 
         self.assertIn(link, content)
+
+    def assert500Error(self, response, display_region, content, check_exit=False):
+        """
+        Helper method for asserting that the correct site logo is presented (english or welsh)
+        :param response: obj
+        :param display_region: str: either 'en' or 'cy'
+        :param content: rendered HTML str
+        :param check_exit: Boolean
+        """
+        self.assertEqual(response.status, 500)
+        self.assertSiteLogo(display_region, content)
+        if not check_exit:
+            self.assertNotExitButton(display_region, content)
+        if display_region == 'cy':
+            self.assertIn("Mae\\'n flin gennym, aeth rhywbeth o\\'i le", content)
+        else:
+            self.assertIn('Sorry, something went wrong', content)
 
     def setUp(self):
         # This section gets ugly if YAPF reformats it
@@ -475,9 +500,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.content_common_contact_centre_title_en = 'You need to call the customer contact centre'
         self.content_common_contact_centre_title_cy = 'You need to call the customer contact centre'
-
-        self.content_common_500_error_en = 'Sorry, something went wrong'
-        self.content_common_500_error_cy = "Mae\\'n flin gennym, aeth rhywbeth o\\'i le"
 
         self.content_common_404_error_title_en = 'Page not found'
         self.content_common_404_error_secondary_en = 'If you entered a web address, check it is correct.'
@@ -900,31 +922,6 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_code_confirm_send_by_text_page_title_en = \
-            '<title>Confirm to send access code by text - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_text_page_title_error_en = \
-            '<title>Error: Confirm to send access code by text - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_text_title_en = 'Is this mobile number correct?'
-        self.content_request_code_confirm_send_by_text_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_text_page_title_cy = \
-            '<title>Confirm to send access code by text - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_text_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by text - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_text_title_cy = \
-            "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
-        self.content_request_code_confirm_send_by_text_error_cy = "Dewiswch ateb"
-
-        self.content_request_code_sent_by_text_page_title_en = \
-            '<title>Access code has been sent by text - ' + site_name_en + '</title>'
-        self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
-        self.content_request_code_sent_by_text_secondary_en = \
-            'The text message with a new access code should arrive soon for you to start your study'
-        self.content_request_code_sent_by_text_page_title_cy = \
-            '<title>Access code has been sent by text - ' + site_name_cy + '</title>'
-        self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
-        self.content_request_code_sent_by_text_secondary_cy = \
-            'The text message with a new access code should arrive soon for you to start your study'
-
         self.content_request_common_enter_name_page_title_en = \
             '<title>Enter name - ' + site_name_en + '</title>'
         self.content_request_common_enter_name_page_title_error_en = \
@@ -947,26 +944,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_common_enter_name_error_last_name_cy = "Rhowch eich cyfenw"
         self.content_request_common_enter_name_error_last_name_overlength_cy = \
             "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
-
-        self.content_request_code_confirm_send_by_post_page_title_en = \
-            '<title>Confirm to send access code by post - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_en = \
-            '<title>Error: Confirm to send access code by post - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_post_title_en = \
-            'Do you want to send a new access code to this address?'
-        self.content_request_common_confirm_send_by_post_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_post_option_yes_en = 'Yes, send the access code by post'
-        self.content_request_code_confirm_send_by_post_option_no_en = 'No, send it by text message'
-        self.content_request_code_confirm_send_by_post_page_title_cy = \
-            '<title>Confirm to send access code by post - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by post - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_post_title_cy = \
-            "Do you want to send a new access code to this address?"
-        self.content_request_common_confirm_send_by_post_error_cy = "Dewiswch ateb"
-        self.content_request_code_confirm_send_by_post_option_yes_cy = "Ydw, anfonwch y cod mynediad drwy\\\'r post"
-        self.content_request_code_confirm_send_by_post_option_no_cy = \
-            "Nac ydw, anfonwch y cod mynediad drwy neges destun"
 
         self.content_request_code_sent_by_post_page_title_en = \
             '<title>Access code will be sent by post - ' + site_name_en + '</title>'

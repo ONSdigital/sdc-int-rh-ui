@@ -134,10 +134,7 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
         # then error handler catches exception and renders error.html
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
     @unittest_run_loop
@@ -164,10 +161,7 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
         # then error handler catches exception and renders error.html
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
     @unittest_run_loop
@@ -194,10 +188,7 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
         # then error handler catches exception and renders error.html
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertSiteLogo('cy', contents)
+        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_invalid_blank_ew(self):
@@ -429,10 +420,7 @@ class TestStartHandlers(TestHelpers):
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_uac_case_status_not_found_ew_w(self):
@@ -448,10 +436,7 @@ class TestStartHandlers(TestHelpers):
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_uac_case_status_not_found_cy(self):
@@ -467,10 +452,7 @@ class TestStartHandlers(TestHelpers):
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'service failed to build eq payload')
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertSiteLogo('cy', contents)
+        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_get_uac_connection_error_ew(self):
@@ -486,10 +468,7 @@ class TestStartHandlers(TestHelpers):
                                 'client failed to connect',
                                 url=self.rhsvc_url)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_get_uac_connection_error_cy(self):
@@ -505,10 +484,7 @@ class TestStartHandlers(TestHelpers):
                                 'client failed to connect',
                                 url=self.rhsvc_url)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertSiteLogo('cy', contents)
+        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
     async def should_use_default_error_handler(self, http_status):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -573,10 +549,7 @@ class TestStartHandlers(TestHelpers):
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'error in response', status_code=503)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_get_uac_503_cy(self):
@@ -589,10 +562,7 @@ class TestStartHandlers(TestHelpers):
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'error in response', status_code=503)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertSiteLogo('cy', contents)
+        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
     @unittest_run_loop
     async def test_post_start_get_uac_404_ew(self):
@@ -660,10 +630,7 @@ class TestStartHandlers(TestHelpers):
                                 'client failed to connect',
                                 url=self.rhsvc_url_surveylaunched)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @skip_encrypt
     @unittest_run_loop
@@ -689,10 +656,7 @@ class TestStartHandlers(TestHelpers):
                                 'client failed to connect',
                                 url=self.rhsvc_url_surveylaunched)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_common_500_error_en, contents)
+        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @skip_encrypt
     @unittest_run_loop
@@ -718,10 +682,7 @@ class TestStartHandlers(TestHelpers):
                                 'client failed to connect',
                                 url=self.rhsvc_url_surveylaunched)
 
-        self.assertEqual(response.status, 500)
-        contents = str(await response.content.read())
-        self.assertIn(self.content_common_500_error_cy, contents)
-        self.assertSiteLogo('cy', contents)
+        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
     async def assert_post_start_confirm_address_get_survey_launched_error(self, display_region, region):
         await self.check_post_start_confirm_address_get_survey_launched_error(

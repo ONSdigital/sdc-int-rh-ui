@@ -649,7 +649,10 @@ class RequestCodeConfirmSendByText(View):
                         client_id=request['client_id'],
                         trace=request['trace'],
                         user_selection=mobile_confirmation)
-            flash(request, NO_SELECTION_CHECK_MSG)
+            if display_region == 'cy':
+                flash(request, NO_SELECTION_CHECK_MSG_CY)
+            else:
+                flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
                 request.app.router['RequestCodeConfirmSendByText:get'].url_for(
                     display_region=display_region,
@@ -876,15 +879,9 @@ class RequestCommonConfirmSendByPost(View):
                         region_of_site=display_region,
                         type_of_request=request_type)
             if display_region == 'cy':
-                flash(request, FlashMessage.generate_flash_message('Dewiswch ateb',
-                                                                   'ERROR',
-                                                                   'NAME_CONFIRMATION_ERROR',
-                                                                   'request-name-confirmation'))
+                flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
-                flash(request, FlashMessage.generate_flash_message('Select an answer',
-                                                                   'ERROR',
-                                                                   'NAME_CONFIRMATION_ERROR',
-                                                                   'request-name-confirmation'))
+                flash(request, NO_SELECTION_CHECK_MSG)
 
             raise HTTPFound(
                 request.app.router['RequestCommonConfirmSendByPost:get'].url_for(display_region=display_region,

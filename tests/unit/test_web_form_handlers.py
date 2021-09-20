@@ -90,9 +90,7 @@ class TestWebFormHandlers(TestHelpers):
             self.assertLogEvent(cm, 'bad request', status_code=status)
 
             self.assertEqual(response.status, 500)
-            contents = str(await response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.check_text_error_500(display_region, contents)
+            self.assert500Error(response, display_region, str(await response.content.read()), check_exit=True)
 
     async def form_submission_error_429(self, url, display_region):
         form_data = self.webform_form_data.copy()
