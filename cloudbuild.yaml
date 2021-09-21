@@ -18,7 +18,7 @@ steps:
       pipenv install --dev --deploy
       date
       echo "Run Tests"
-      pipenv run pytest tests/unit --ignore=node_modules -n 2
+      pipenv run pytest tests/unit --ignore=node_modules -n 4
 
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
