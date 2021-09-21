@@ -1,8 +1,7 @@
 class InactiveCaseError(Exception):
     """Raised when a user enters a used IAC code"""
-    def __init__(self, case_type):
+    def __init__(self):
         super().__init__()
-        self.case_type = case_type
 
 
 class InvalidEqPayLoad(Exception):

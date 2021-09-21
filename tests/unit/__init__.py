@@ -629,7 +629,6 @@ class RHTestCase(AioHTTPTestCase):
         self.uprn = self.uac_json_e['address']['uprn']
         self.response_id = '111000000092a445af12905967d'
         self.questionnaire_id = self.uac_json_e['questionnaireId']
-        self.case_type = self.uac_json_e['caseType']
         self.channel = 'rh'
         self.attributes_en = {
             'addressLine1': self.uac_json_e['address']['addressLine1'],
@@ -653,7 +652,6 @@ class RHTestCase(AioHTTPTestCase):
             'tx_id': self.jti,
             'iat': int(time.time()),
             'exp': int(time.time() + (5 * 60)),
-            'case_type': self.case_type,
             'collection_exercise_sid': self.collection_exercise_id,
             'region_code': 'GB-ENG',
             'ru_ref': self.uprn,

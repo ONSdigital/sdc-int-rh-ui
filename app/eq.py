@@ -53,11 +53,6 @@ class EqPayloadConstructor(object):
             raise InvalidEqPayLoad('No case id in supplied case JSON')
 
         try:
-            self._case_type = case['caseType']
-        except KeyError:
-            raise InvalidEqPayLoad('No case type in supplied case JSON')
-
-        try:
             self._collex_id = case['collectionExerciseId']
         except KeyError:
             raise InvalidEqPayLoad('No collection id in supplied case JSON')
@@ -103,7 +98,6 @@ class EqPayloadConstructor(object):
             'iat': int(time.time()),
             'exp': int(time.time() +
                        (5 * 60)),  # required by eQ for creating a new claim
-            'case_type': self._case_type,
             'collection_exercise_sid': self._collex_id,  # required by eQ
             'region_code': self.convert_region_code(self._region),
             'ru_ref': self._uprn,  # new payload requires uprn to be ru_ref
