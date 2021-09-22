@@ -1003,6 +1003,9 @@ class RHTestCase(AioHTTPTestCase):
         self.content_web_form_error_429_title_en = 'You have reached the maximum number web form submissions'
         self.content_web_form_error_429_title_cy = "Allwch chi ddim cyflwyno mwy o ffurflenni gwe"
 
+        # Start Register
+        self.get_register_en = self.app.router['Register:get'].url_for(display_region='en')
+
         # yapf: enable
 
     # URL functions

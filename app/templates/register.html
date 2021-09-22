@@ -1,0 +1,18 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- from 'components/button/_macro.njk' import onsButton -%}
+
+{%- block main -%}
+
+    <h1 class="u-mb-xs u-fs-l">Take part in a survey</h1>
+
+    {{
+        onsButton({
+            'type': 'button',
+            'text': _('How to register a child'),
+            'classes': 'u-mb-m u-mt-m',
+            'url': '#'
+        })
+    }}
+
+{%- endblock main -%}
