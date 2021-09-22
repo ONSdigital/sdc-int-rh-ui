@@ -6,7 +6,7 @@
 {% from 'components/button/_macro.njk' import onsButton %}
 {% from "components/input/_macro.njk" import onsInput %}
 
-{% from "components/breadcrumb/_macro.njk" import onsBreadcrumb %}
+{% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
 {% from "components/collapsible/_macro.njk" import onsCollapsible %}
 {% from "components/panel/_macro.njk" import onsPanel %}
 
@@ -48,7 +48,7 @@
 
 {% block preMain %}
     {{
-        onsBreadcrumb({
+        onsBreadcrumbs({
             "ariaLabel": 'Breadcrumb',
             "itemsList": breadcrumb_items
         })

@@ -32,10 +32,9 @@ class TestSessionHandling(TestHelpers):
         self.assertLogEvent(cm, 'session timed out')
         self.assertEqual(response.status, 403)
         contents = str(await response.content.read())
-        self.assertIn(self.get_logo(display_region if display_region else 'ni'), contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
         if display_region == 'cy':
-            self.assertNotIn(self.content_start_exit_button_cy, contents)
-
             if 'start' in url.path:
                 self.assertIn(self.content_start_timeout_title_cy, contents)
                 self.assertIn(self.content_start_timeout_bullet_one_cy, contents)
@@ -74,13 +73,12 @@ class TestSessionHandling(TestHelpers):
                             client_id='36be6b97-b4de-4718-8a74-8b27fb03ca8c', trace='0123456789')
         self.assertEqual(response.status, 403)
         contents = str(await response.content.read())
-        self.assertIn(self.get_logo(display_region if display_region else 'ni'), contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
         if display_region == 'cy':
-            self.assertNotIn(self.content_start_exit_button_cy, contents)
             self.assertIn(self.content_start_forbidden_title_cy, contents)
             self.assertIn(self.content_start_timeout_forbidden_link_text_cy, contents)
         else:
-            self.assertNotIn(self.content_start_exit_button_en, contents)
             self.assertIn(self.content_start_forbidden_title_en, contents)
             self.assertIn(self.content_start_timeout_forbidden_link_text_en, contents)
 
@@ -100,14 +98,12 @@ class TestSessionHandling(TestHelpers):
             self.assertLogEvent(cm, "received GET on endpoint '" + display_region + "/start/confirm-address'")
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertExitButton(display_region, contents)
             if display_region == 'cy':
-                self.assertIn(self.content_start_exit_button_cy, contents)
                 self.assertIn(self.content_start_confirm_address_page_title_cy, contents)
                 self.assertIn(self.content_start_confirm_address_title_cy, contents)
             else:
-                if display_region == 'en':
-                    self.assertIn(self.content_start_exit_button_en, contents)
                 self.assertIn(self.content_start_confirm_address_page_title_en, contents)
                 self.assertIn(self.content_start_confirm_address_title_en, contents)
 
@@ -120,19 +116,17 @@ class TestSessionHandling(TestHelpers):
 
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=False)
 
             response = await self.client.request('POST', confirm_url, data=self.start_confirm_address_data_yes)
             self.assertEqual(response.status, 403)
             contents = str(await response.content.read())
-            self.assertIn(self.get_logo(display_region), contents)
+            self.assertSiteLogo(display_region, contents)
+            self.assertNotExitButton(display_region, contents)
             if display_region == 'cy':
-                self.assertNotIn(self.content_start_exit_button_cy, contents)
                 self.assertIn(self.content_start_forbidden_title_cy, contents)
                 self.assertIn(self.content_start_timeout_forbidden_link_text_cy, contents)
             else:
-                self.assertNotIn(self.content_start_exit_button_en, contents)
                 self.assertIn(self.content_start_forbidden_title_en, contents)
                 self.assertIn(self.content_start_timeout_forbidden_link_text_en, contents)
 

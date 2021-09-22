@@ -232,6 +232,145 @@ class RHTestCase(AioHTTPTestCase):
         level = message['level'].lower()
         self.assertIn(f'panel--{level}', content)
 
+    def assertSiteLogo(self, display_region, content):
+        """
+        Helper method for asserting that the correct site logo is presented (english or welsh)
+        :param display_region: str: either 'en' or 'cy'
+        :param content: rendered HTML str
+        """
+        if display_region == 'cy':
+            self.assertIn('<title id="ons-logo-cy-alt">', content)
+        else:
+            self.assertIn('<title id="ons-logo-en-alt">', content)
+
+    def assertExitButton(self, display_region, content):
+        """
+        Helper method for asserting that the 'Exit' button is presented (english or welsh) on authenticated pages
+        :param display_region: str: either 'en' or 'cy'
+        :param content: rendered HTML str
+        """
+        if display_region == 'cy':
+            self.assertIn('href="/cy/start/exit/"', content)
+        else:
+            self.assertIn('href="/en/start/exit/"', content)
+
+    def assertNotExitButton(self, display_region, content):
+        """
+        Helper method for asserting that the 'Exit' button is presented (english or welsh) on authenticated pages
+        :param display_region: str: either 'en' or 'cy'
+        :param content: rendered HTML str
+        """
+        if display_region == 'cy':
+            self.assertNotIn('href="/cy/start/exit/"', content)
+        else:
+            self.assertNotIn('href="/en/start/exit/"', content)
+
+    def assertCorrectHeadTitleTag(self, display_region, title, content, error=False):
+        """
+        Helper method for asserting that the head title tag is correct and displays error prefix if required
+        :param display_region: str: either 'en' or 'cy'
+        :param title: str
+        :param content: rendered HTML str
+        :param error: Boolean
+        """
+        if display_region == 'cy':
+            site_name = self.app['SITE_NAME_CY']
+            error_prefix = 'Gwall'
+        else:
+            site_name = self.app['SITE_NAME_EN']
+            error_prefix = 'Error'
+        if error:
+            self.assertIn('<title>' + error_prefix + ': ' + title + ' - ' + site_name + '</title>', content)
+        else:
+            self.assertIn('<title>' + title + ' - ' + site_name + '</title>', content)
+
+    def assertCorrectQuestionText(self, title, content):
+        """
+        Helper method for asserting that the question title is correct (h1 tag)
+        :param title: str
+        :param content: rendered HTML str
+        """
+        self.assertIn('<h1 id="question-title" class="question__title">' + title + '</h1>', content)
+
+    def assertCorrectPageTitle(self, title, content):
+        """
+        Helper method for asserting that the question title is correct (h1 tag)
+        :param title: str
+        :param content: rendered HTML str
+        """
+        self.assertIn('<h1 class="u-mb-xs u-fs-l">' + title + '</h1>', content)
+
+    def assertErrorMessageDisplayed(self, display_region, panel_label, list_error, field_name, field_error, content):
+        """
+        Helper method for asserting that the error panel and messages are displayed
+        :param display_region: str: either 'en' or 'cy'
+        :param panel_label: str: either 'answer' or 'response'
+        :param list_error: str: text of error in red panel
+        :param field_name: str: field error is reported on
+        :param field_error: str: text of error on individual field
+        :param content: rendered HTML str
+        """
+        if display_region == 'cy':
+            if panel_label == 'answer':
+                panel_label_text = "Mae problem gyda\\\'ch ateb"
+            else:
+                panel_label_text = "Mae problem gyda\\\'r dudalen hon"
+        else:
+            if panel_label == 'answer':
+                panel_label_text = 'There is a problem with your answer'
+            else:
+                panel_label_text = 'There is a problem with this page'
+
+        self.assertIn('<h2 id="error-summary-title" data-qa="error-header" class="panel__title u-fs-r--b">'
+                      + panel_label_text + '</h2>', content)
+        self.assertIn('<a href="#' + field_name + '" class="list__link js-inpagelink">' + list_error + '</a>',
+                      content)
+        self.assertIn('<strong>' + field_error + '</strong>', content)
+
+    def assertCorrectTranslationLink(self, content, display_region, user_journey, request_type=None, page=None):
+        """
+        Helper method for asserting that the correct translation link is displayed
+        :param display_region: str: either 'en' or 'cy'
+        :param user_journey: str
+        :param content: rendered HTML str
+        :param request_type: str
+        :param page: str
+        """
+        if display_region == 'cy':
+            lang = 'en'
+            link_text = 'English'
+        else:
+            lang = 'cy'
+            link_text = 'Cymraeg'
+
+        if not page:
+            link = '<a href="/' + lang + '/' + user_journey + '/" lang="' + lang + '" >' + link_text + '</a>'
+        elif not request_type:
+            link = '<a href="/' + lang + '/' + user_journey + '/' + page + \
+                   '/" lang="' + lang + '" >' + link_text + '</a>'
+        else:
+            link = '<a href="/' + lang + '/' + user_journey + '/' + request_type + '/' + page + \
+                   '/" lang="' + lang + '" >' + link_text + '</a>'
+
+        self.assertIn(link, content)
+
+    def assert500Error(self, response, display_region, content, check_exit=False):
+        """
+        Helper method for asserting that the correct site logo is presented (english or welsh)
+        :param response: obj
+        :param display_region: str: either 'en' or 'cy'
+        :param content: rendered HTML str
+        :param check_exit: Boolean
+        """
+        self.assertEqual(response.status, 500)
+        self.assertSiteLogo(display_region, content)
+        if not check_exit:
+            self.assertNotExitButton(display_region, content)
+        if display_region == 'cy':
+            self.assertIn("Mae\\'n flin gennym, aeth rhywbeth o\\'i le", content)
+        else:
+            self.assertIn('Sorry, something went wrong', content)
+
     def setUp(self):
         # This section gets ugly if YAPF reformats it
         # yapf: disable
@@ -251,7 +390,7 @@ class RHTestCase(AioHTTPTestCase):
         rh_svc_url = self.app['RHSVC_URL']
         address_index_svc_url = self.app['ADDRESS_INDEX_SVC_URL']
         aims_epoch = self.app['ADDRESS_INDEX_EPOCH']
-        
+
         site_name_en = self.app['SITE_NAME_EN']
         site_name_cy = self.app['SITE_NAME_CY']
 
@@ -352,55 +491,15 @@ class RHTestCase(AioHTTPTestCase):
             self.ai_uprn_result_wales = f
 
         # Content
-        self.ons_logo_en = '<title id="ons-logo-en-alt">'
-        self.ons_logo_cy = '<title id="ons-logo-cy-alt">'
-
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
 
-        self.content_common_enter_address_error_en = 'Enter a valid UK postcode'
-        self.content_common_enter_address_error_cy = "Rhowch god post dilys yn y Deyrnas Unedig"
-
-        self.content_common_enter_address_error_empty_en = 'Enter a postcode'
-        self.content_common_enter_address_error_empty_cy = "Rhowch god post"
-
-        self.content_common_select_address_page_title_en = '<title>Select address - ' + site_name_en + '</title>'
-        self.content_common_select_address_page_title_error_en = \
-            '<title>Error: Select address - ' + site_name_en + '</title>'
-        self.content_common_select_address_title_en = 'Select your address'
-        self.content_common_select_address_error_en = 'Select an address'
-        self.content_common_select_address_value_en = '1 Gate Reach'
         self.content_common_select_address_no_results_en = 'Sorry, there was a problem processing your postcode'
-        self.content_common_select_address_page_title_cy = '<title>Dewis cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_select_address_page_title_error_cy = \
-            '<title>Gwall: Dewis cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_select_address_title_cy = 'Dewiswch eich cyfeiriad'
-        self.content_common_select_address_error_cy = 'Dewiswch gyfeiriad'
-        self.content_common_select_address_value_cy = '1 Gate Reach'
         self.content_common_select_address_no_results_cy = \
             "Mae\\\'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
 
-        self.content_common_confirm_address_page_title_en = '<title>Confirm address - ' + site_name_en + '</title>'
-        self.content_common_confirm_address_page_title_error_en = \
-            '<title>Error: Confirm address - ' + site_name_en + '</title>'
-        self.content_common_confirm_address_title_en = 'Is this the correct address?'
-        self.content_common_confirm_address_error_en = 'Select an answer'
-        self.content_common_confirm_address_value_yes_en = 'Yes, this is the correct address'
-        self.content_common_confirm_address_value_no_en = 'No, search for address again'
-        self.content_common_confirm_address_page_title_cy = \
-            '<title>Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_confirm_address_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_common_confirm_address_title_cy = "Ai dyma\\\'r cyfeiriad cywir?"
-        self.content_common_confirm_address_error_cy = "Dewiswch ateb"
-        self.content_common_confirm_address_value_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
-        self.content_common_confirm_address_value_no_cy = "Na, rwyf am chwilio am fy nghyfeiriad eto"
-
         self.content_common_contact_centre_title_en = 'You need to call the customer contact centre'
         self.content_common_contact_centre_title_cy = 'You need to call the customer contact centre'
-
-        self.content_common_500_error_en = 'Sorry, something went wrong'
-        self.content_common_500_error_cy = "Mae\\'n flin gennym, aeth rhywbeth o\\'i le"
 
         self.content_common_404_error_title_en = 'Page not found'
         self.content_common_404_error_secondary_en = 'If you entered a web address, check it is correct.'
@@ -425,18 +524,6 @@ class RHTestCase(AioHTTPTestCase):
         # Start Journey
 
         # Content
-
-        self.content_start_exit_button_en = 'href="/en/start/exit/"'
-        self.content_start_exit_button_cy = 'href="/cy/start/exit/"'
-
-        self.content_start_title_en = 'Start survey'
-        self.content_start_page_title_error_en = '<title>Error: Start survey - ' + site_name_en + '</title>'
-        self.content_start_uac_title_en = 'Enter your 16-character access code'
-        self.content_start_title_cy = "Start survey"
-        self.content_start_page_title_error_cy = \
-            '<title>Gwall: Start survey - ' + site_name_cy + '</title>'
-        self.content_start_uac_title_cy = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
-
         self.content_start_uac_expired_en = 'This access code has already been used'
         self.content_start_uac_expired_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
@@ -825,93 +912,6 @@ class RHTestCase(AioHTTPTestCase):
             'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
         }
 
-        self.content_request_enter_address_page_title_en = '<title>Enter address - ' + site_name_en + '</title>'
-        self.content_request_enter_address_page_title_error_en = \
-            '<title>Error: Enter address - ' + site_name_en + '</title>'
-        self.content_request_enter_address_title_en = 'What is your postcode?'
-        self.content_request_access_code_enter_address_secondary_en = \
-            'To request a new access code, we need your address'
-        self.content_request_enter_address_page_title_cy = '<title>Enter address - ' + site_name_cy + '</title>'
-        self.content_request_enter_address_page_title_error_cy = \
-            '<title>Gwall: Enter address - ' + site_name_cy + '</title>'
-        self.content_request_enter_address_title_cy = 'Beth yw eich cod post?'
-        self.content_request_access_code_enter_address_secondary_cy = \
-            'To request a new access code, we need your address'
-
-        self.content_request_code_select_how_to_receive_error_en = 'Select an answer'
-        self.content_request_code_select_how_to_receive_secondary_en = 'Select how to send access code'
-        self.content_request_code_select_how_to_receive_option_text_en = 'Text message'
-        self.content_request_code_select_how_to_receive_option_post_en = 'Post'
-        self.content_request_code_select_how_to_receive_option_post_hint_en = \
-            'We can only send access codes to the registered address'
-
-        self.content_request_code_select_how_to_receive_error_cy = "Dewiswch ateb"
-        self.content_request_code_select_how_to_receive_secondary_cy = "Dewiswch sut i anfon y cod mynediad"
-        self.content_request_code_select_how_to_receive_option_text_cy = "Neges destun"
-        self.content_request_code_select_how_to_receive_option_post_cy = "Post"
-        self.content_request_code_select_how_to_receive_option_post_hint_cy = \
-            "Dim ond i\\\'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
-
-        self.content_request_code_select_how_to_receive_page_title_en = \
-            '<title>Select how to receive access code - ' + site_name_en + '</title>'
-        self.content_request_code_select_how_to_receive_page_title_error_en = \
-            '<title>Error: Select how to receive access code - ' + site_name_en + '</title>'
-        self.content_request_code_select_how_to_receive_title_en = \
-            'How would you like to receive a new access code?'
-        self.content_request_code_select_how_to_receive_page_title_cy = \
-            '<title>Select how to receive access code - ' + site_name_cy + '</title>'
-        self.content_request_code_select_how_to_receive_page_title_error_cy = \
-            '<title>Gwall: Select how to receive access code - ' + site_name_cy + '</title>'
-        self.content_request_code_select_how_to_receive_title_cy = \
-            "How would you like to receive a new access code?"
-
-        self.content_request_code_enter_mobile_page_title_en = \
-            '<title>Enter mobile number - ' + site_name_en + '</title>'
-        self.content_request_code_enter_mobile_page_title_error_en = \
-            '<title>Error: Enter mobile number - ' + site_name_en + '</title>'
-        self.content_request_code_enter_mobile_title_en = 'What is your mobile number?'
-        self.content_request_code_enter_mobile_error_empty_en = 'Enter your mobile number'
-        self.content_request_code_enter_mobile_error_invalid_en = \
-            'Enter a UK mobile number in a valid format, for example, 07700 900345 or +44 7700 900345'
-        self.content_request_code_enter_mobile_secondary_en = \
-            'This will not be stored and only used once to send the access code'
-        self.content_request_code_enter_mobile_page_title_cy = \
-            '<title>Nodi rhif ff\\xc3\\xb4n symudol - ' + site_name_cy + '</title>'
-        self.content_request_code_enter_mobile_page_title_error_cy = \
-            '<title>Gwall: Nodi rhif ff\\xc3\\xb4n symudol - ' + site_name_cy + '</title>'
-        self.content_request_code_enter_mobile_title_cy = "Beth yw eich rhif ff\\xc3\\xb4n symudol?"
-        self.content_request_code_enter_mobile_error_empty_cy = "Rhowch eich rhif ff\\xc3\\xb4n symudol"
-        self.content_request_code_enter_mobile_error_invalid_cy = \
-            "Rhowch rif ff\\xc3\\xb4n symudol yn y Deyrnas Unedig mewn fformat dilys, er enghraifft, " \
-            "07700 900345 neu +44 7700 900345"
-        self.content_request_code_enter_mobile_secondary_cy = \
-            "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
-
-        self.content_request_code_confirm_send_by_text_page_title_en = \
-            '<title>Confirm to send access code by text - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_text_page_title_error_en = \
-            '<title>Error: Confirm to send access code by text - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_text_title_en = 'Is this mobile number correct?'
-        self.content_request_code_confirm_send_by_text_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_text_page_title_cy = \
-            '<title>Confirm to send access code by text - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_text_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by text - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_text_title_cy = \
-            "Ydy\\xe2\\x80\\x99r rhif ff\\xc3\\xb4n symudol hwn yn gywir?"
-        self.content_request_code_confirm_send_by_text_error_cy = "Dewiswch ateb"
-
-        self.content_request_code_sent_by_text_page_title_en = \
-            '<title>Access code has been sent by text - ' + site_name_en + '</title>'
-        self.content_request_code_sent_by_text_title_en = 'A text has been sent to '
-        self.content_request_code_sent_by_text_secondary_en = \
-            'The text message with a new access code should arrive soon for you to start your study'
-        self.content_request_code_sent_by_text_page_title_cy = \
-            '<title>Access code has been sent by text - ' + site_name_cy + '</title>'
-        self.content_request_code_sent_by_text_title_cy = 'Mae neges destun wedi cael ei hanfon i '
-        self.content_request_code_sent_by_text_secondary_cy = \
-            'The text message with a new access code should arrive soon for you to start your study'
-
         self.content_request_common_enter_name_page_title_en = \
             '<title>Enter name - ' + site_name_en + '</title>'
         self.content_request_common_enter_name_page_title_error_en = \
@@ -934,26 +934,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_common_enter_name_error_last_name_cy = "Rhowch eich cyfenw"
         self.content_request_common_enter_name_error_last_name_overlength_cy = \
             "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
-
-        self.content_request_code_confirm_send_by_post_page_title_en = \
-            '<title>Confirm to send access code by post - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_en = \
-            '<title>Error: Confirm to send access code by post - ' + site_name_en + '</title>'
-        self.content_request_code_confirm_send_by_post_title_en = \
-            'Do you want to send a new access code to this address?'
-        self.content_request_common_confirm_send_by_post_error_en = 'Select an answer'
-        self.content_request_code_confirm_send_by_post_option_yes_en = 'Yes, send the access code by post'
-        self.content_request_code_confirm_send_by_post_option_no_en = 'No, send it by text message'
-        self.content_request_code_confirm_send_by_post_page_title_cy = \
-            '<title>Confirm to send access code by post - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_post_page_title_error_cy = \
-            '<title>Gwall: Confirm to send access code by post - ' + site_name_cy + '</title>'
-        self.content_request_code_confirm_send_by_post_title_cy = \
-            "Do you want to send a new access code to this address?"
-        self.content_request_common_confirm_send_by_post_error_cy = "Dewiswch ateb"
-        self.content_request_code_confirm_send_by_post_option_yes_cy = "Ydw, anfonwch y cod mynediad drwy\\\'r post"
-        self.content_request_code_confirm_send_by_post_option_no_cy = \
-            "Nac ydw, anfonwch y cod mynediad drwy neges destun"
 
         self.content_request_code_sent_by_post_page_title_en = \
             '<title>Access code will be sent by post - ' + site_name_en + '</title>'
