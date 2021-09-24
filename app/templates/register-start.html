@@ -2,16 +2,22 @@
 
 {%- from 'components/button/_macro.njk' import onsButton -%}
 
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': ''
+    }
+} -%}
+
 {%- block main -%}
 
-    <h1 class="u-mb-xs u-fs-l">{{ _('Take part in a survey') }}</h1>
+    <h1 class="u-mb-xs u-fs-l">{{ _('Register a child') }}</h1>
 
     {{
         onsButton({
-            'type': 'button',
-            'text': _('How to register a child'),
+            'type': 'input',
+            'text': _('Start'),
             'classes': 'u-mb-m u-mt-m',
-            'url': url('RegisterStart:get', display_region=display_region, request_type=request_type)
         })
     }}
 

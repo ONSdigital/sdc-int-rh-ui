@@ -1,0 +1,64 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from "components/lists/_macro.njk" import onsList -%}
+
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': ''
+    }
+} -%}
+
+{%- block main -%}
+
+    <h1 class="u-mb-xs u-fs-l">{{ _('Confirm consent') }}</h1>
+
+    {{
+        onsList({
+            'element': 'ol',
+            'itemsList': [
+                {
+                    'text': _('I confirm that I have read and understand the Information Sheet.')
+                },
+                {
+                    'text': _('I understand that my child’s participation is voluntary. I am free to withdraw my child from the study at any time without giving a reason and without my child’s care or education being affected.')
+                },
+                {
+                    'text': _('I have explained to my child what is involved in the study and my child is happy to participate.')
+                },
+                {
+                    'text': _('I understand that the results of the antibody test will/ won’t be reported back to me.')
+                },
+                {
+                    'text': _('I understand that information about other children and adults in my household will be collected in the questionnaire. and I have discussed this with my family.')
+                },
+                {
+                    'text': _('I understand that my information I provide will be shared within the study team which will include the Office for National Statistics (ONS), Public Health England (PHE), the London School of Hygiene and Tropical Medicine (LSHTM) and Department for Education (DfE).')
+                }
+            ]
+        })
+    }}
+
+    <div class="ons-btn-group">
+        {{
+            onsButton({
+                'type': 'input',
+                'text': _('I accept'),
+                'classes': 'btn-group__btn',
+                'value': 'accept',
+                'name': 'button-accept'
+            })
+        }}
+        {{
+            onsButton({
+                'type': 'input',
+                'text': _('I decline'),
+                'classes': 'btn-group__btn',
+                'value': 'decline',
+                'name': 'button-decline'
+            })
+        }}
+    </div>
+
+{%- endblock main -%}
