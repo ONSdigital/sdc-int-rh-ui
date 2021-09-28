@@ -26,8 +26,6 @@ class Register(View):
     async def get(self, request):
         display_region = 'en'
         page_title = 'Take part in a survey'
-        if request.get('flash'):
-            page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
         self.log_entry(request, display_region + '/' + user_journey)
 
@@ -46,12 +44,10 @@ class RegisterStart(View):
     @aiohttp_jinja2.template('register-start.html')
     async def get(self, request):
         display_region = 'en'
+        request_type = request.match_info['request_type']
         page_title = 'Start registration'
-        if request.get('flash'):
-            page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
-        self.log_entry(request, display_region + '/' + user_journey + '/' +
-                       valid_registration_types + '/start')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/start')
 
         return {
             'display_region': display_region,
@@ -84,8 +80,6 @@ class RegisterConsent(View):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
         page_title = 'Confirm consent'
-        if request.get('flash'):
-            page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
 
@@ -133,8 +127,6 @@ class RegisterConsentDeclined(View):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
         page_title = 'You have been removed from this study'
-        if request.get('flash'):
-            page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent-declined')
 
@@ -174,10 +166,7 @@ class RegisterEnterMobile(View):
     async def post(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        if display_region == 'cy':
-            locale = 'cy'
-        else:
-            locale = 'en'
+        locale = 'en'
 
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-mobile')
 
@@ -227,7 +216,7 @@ class RegisterConfirmRegistration(View):
         session = await get_existing_session(request, user_journey, request_type)
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
-        page_title = 'Confirm to send access code by text'
+        page_title = 'Confirm your registration'
         if request.get('flash'):
             page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
@@ -244,7 +233,7 @@ class RegisterConfirmRegistration(View):
     async def post(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-text')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-registration')
 
         session = await get_existing_session(request, user_journey, request_type)
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
@@ -255,10 +244,7 @@ class RegisterConfirmRegistration(View):
         except KeyError:
             logger.info('mobile confirmation error',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            if display_region == 'cy':
-                flash(request, NO_SELECTION_CHECK_MSG_CY)
-            else:
-                flash(request, NO_SELECTION_CHECK_MSG)
+            flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
                 request.app.router['RegisterConfirmRegistration:get'].url_for(
                     display_region=display_region, request_type=request_type
@@ -286,10 +272,7 @@ class RegisterConfirmRegistration(View):
                         client_id=request['client_id'],
                         trace=request['trace'],
                         user_selection=mobile_confirmation)
-            if display_region == 'cy':
-                flash(request, NO_SELECTION_CHECK_MSG_CY)
-            else:
-                flash(request, NO_SELECTION_CHECK_MSG)
+            flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
                 request.app.router['RegisterConfirmRegistration:get'].url_for(display_region=display_region,
                                                                               request_type=request_type))
@@ -308,7 +291,7 @@ class RegisterComplete(View):
         session = await get_existing_session(request, user_journey, request_type)
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
-        page_title = 'Access code has been sent by text'
+        page_title = 'Registration complete'
         locale = 'en'
 
         await invalidate(request)
