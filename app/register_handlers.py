@@ -4,14 +4,14 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
-from . import (NO_SELECTION_CHECK_MSG,
-               NO_SELECTION_CHECK_MSG_CY)
+from . import (NO_SELECTION_CHECK_MSG)
 
 from .flash import flash
 from .exceptions import TooManyRequestsRegister
 from .security import invalidate
 from .session import get_existing_session, get_session_value
-from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, FlashMessage, RHService
+from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
+    FlashMessage, ProcessName, RHService
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -64,12 +64,17 @@ class RegisterStart(View):
 
         session = await get_existing_session(request, user_journey, request_type)
 
-        fulfilment_attributes = {'survey': 'sis2'}
+        fulfilment_attributes = {
+            'survey': 'sis2',
+            'first_name': '',
+            'middle_names': '',
+            'last_name': ''
+        }
         session['fulfilment_attributes'] = fulfilment_attributes
         session.changed()
         raise HTTPFound(
-            request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
-                                                              request_type=request_type))
+            request.app.router['RegisterEnterName:get'].url_for(display_region=display_region,
+                                                                request_type=request_type))
 
 
 @register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' +
@@ -305,3 +310,112 @@ class RegisterComplete(View):
             'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
                                                          'submitted_mobile_number', user_journey, request_type)
         }
+
+
+@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
+                      '/enter-name/')
+class RegisterEnterName(View):
+    @aiohttp_jinja2.template('register-enter-name.html')
+    async def get(self, request):
+
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        page_title = "Enter name"
+        if request.get('flash'):
+            page_title = View.page_title_error_prefix_en + page_title
+        locale = 'en'
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'first_name': get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, fulfilment_attributes,
+                                              'middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
+        }
+
+    async def post(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        data = await request.post()
+
+        form_valid = ProcessName.validate_name(request, data, display_region)
+
+        if not form_valid:
+            logger.info('form submission error',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        region_of_site=display_region,
+                        type_of_request=request_type)
+            raise HTTPFound(
+                request.app.router['RegisterEnterName:get'].url_for(
+                    display_region=display_region,
+                    request_type=request_type
+                ))
+
+        name_first_name = data['name_first_name'].strip()
+        name_middle_names = data['name_middle_names'].strip()
+        name_last_name = data['name_last_name'].strip()
+
+        fulfilment_attributes['first_name'] = name_first_name
+        fulfilment_attributes['middle_names'] = name_middle_names
+        fulfilment_attributes['last_name'] = name_last_name
+        session.changed()
+
+        raise HTTPFound(
+            request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
+                                                                    request_type=request_type))
+
+
+@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
+                      '/person-summary/')
+class RegisterPersonSummary(View):
+    @aiohttp_jinja2.template('register-person-summary.html')
+    async def get(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/person-summary')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        page_title = 'Person summary'
+        locale = 'en'
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'first_name': get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, fulfilment_attributes,
+                                              'middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
+        }
+
+    async def post(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/person-summary')
+
+        raise HTTPFound(
+            request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
+                                                              request_type=request_type))
