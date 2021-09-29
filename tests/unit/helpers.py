@@ -1097,7 +1097,7 @@ class TestHelpers(RHTestCase):
         else:
             self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
 
-        self.assertIn('<h1 class="u-fs-xxl u-mt-l">' + h1_title + '</h1>', contents)
+        self.assertIn('<h1 class="ons-u-fs-xxl ons-u-mt-l">' + h1_title + '</h1>', contents)
         self.assertIn(secondary_text, contents)
         self.assertEqual(contents.count('input--text'), 1)
         self.assertIn('type="submit"', contents)

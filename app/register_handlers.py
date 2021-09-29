@@ -64,13 +64,14 @@ class RegisterStart(View):
 
         session = await get_existing_session(request, user_journey, request_type)
 
-        fulfilment_attributes = {
+        register_attributes = {
             'survey': 'sis2',
             'first_name': '',
             'middle_names': '',
-            'last_name': ''
+            'last_name': '',
+            'school_name': ''
         }
-        session['fulfilment_attributes'] = fulfilment_attributes
+        session['register_attributes'] = register_attributes
         session.changed()
         raise HTTPFound(
             request.app.router['RegisterEnterName:get'].url_for(display_region=display_region,
@@ -103,7 +104,7 @@ class RegisterConsent(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         data = await request.post()
         logger.info(data)
@@ -113,7 +114,7 @@ class RegisterConsent(View):
                 request.app.router['RegisterConsentDeclined:get'].url_for(display_region=display_region,
                                                                           request_type=request_type))
         elif data.get('button-accept') == 'accept':
-            fulfilment_attributes['consent'] = 'accept'
+            register_attributes['consent'] = 'accept'
             session.changed()
             raise HTTPFound(
                 request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
@@ -176,7 +177,7 @@ class RegisterEnterMobile(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-mobile')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         data = await request.post()
 
@@ -187,8 +188,8 @@ class RegisterEnterMobile(View):
             logger.info('valid mobile number',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
 
-            fulfilment_attributes['mobile_number'] = mobile_number
-            fulfilment_attributes['submitted_mobile_number'] = data['request-mobile-number']
+            register_attributes['mobile_number'] = mobile_number
+            register_attributes['submitted_mobile_number'] = data['request-mobile-number']
             session.changed()
 
             raise HTTPFound(
@@ -219,7 +220,7 @@ class RegisterConfirmRegistration(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-registration')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         page_title = 'Confirm your registration'
         if request.get('flash'):
@@ -231,7 +232,7 @@ class RegisterConfirmRegistration(View):
             'display_region': display_region,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
+            'submitted_mobile_number': get_session_value(request, register_attributes,
                                                          'submitted_mobile_number', user_journey)
         }
 
@@ -241,7 +242,7 @@ class RegisterConfirmRegistration(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-registration')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         data = await request.post()
         try:
@@ -256,7 +257,7 @@ class RegisterConfirmRegistration(View):
                 ))
 
         if mobile_confirmation == 'yes':
-            mobile_number = get_session_value(request, fulfilment_attributes, 'mobile_number',
+            mobile_number = get_session_value(request, register_attributes, 'mobile_number',
                                               user_journey, request_type)
 
             # TODO RHSvc Register Person call
@@ -294,7 +295,7 @@ class RegisterComplete(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/complete')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         page_title = 'Registration complete'
         locale = 'en'
@@ -307,7 +308,7 @@ class RegisterComplete(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
+            'submitted_mobile_number': get_session_value(request, register_attributes,
                                                          'submitted_mobile_number', user_journey, request_type)
         }
 
@@ -329,7 +330,7 @@ class RegisterEnterName(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         return {
             'page_title': page_title,
@@ -337,10 +338,10 @@ class RegisterEnterName(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type),
-            'middle_names': get_session_value(request, fulfilment_attributes,
+            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, register_attributes,
                                               'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
+            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type)
         }
 
     async def post(self, request):
@@ -350,7 +351,13 @@ class RegisterEnterName(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+
+        if (get_session_value(request, register_attributes, 'first_name', user_journey, request_type) == '' and
+                get_session_value(request, register_attributes, 'last_name', user_journey, request_type) == ''):
+            journey = 'new'
+        else:
+            journey = 'change'
 
         data = await request.post()
 
@@ -373,14 +380,82 @@ class RegisterEnterName(View):
         name_middle_names = data['name_middle_names'].strip()
         name_last_name = data['name_last_name'].strip()
 
-        fulfilment_attributes['first_name'] = name_first_name
-        fulfilment_attributes['middle_names'] = name_middle_names
-        fulfilment_attributes['last_name'] = name_last_name
+        register_attributes['first_name'] = name_first_name
+        register_attributes['middle_names'] = name_middle_names
+        register_attributes['last_name'] = name_last_name
         session.changed()
 
-        raise HTTPFound(
-            request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
-                                                                    request_type=request_type))
+        if journey == 'new':
+            raise HTTPFound(
+                request.app.router['RegisterSelectSchool:get'].url_for(display_region=display_region,
+                                                                       request_type=request_type))
+        else:
+            raise HTTPFound(
+                request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
+                                                                        request_type=request_type))
+
+
+@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' +
+                      valid_registration_types + '/select-school/')
+class RegisterSelectSchool(View):
+    @aiohttp_jinja2.template('register-select-school.html')
+    async def get(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        page_title = 'Select school'
+        if request.get('flash'):
+            page_title = View.page_title_error_prefix_en + page_title
+        locale = 'en'
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/select-school')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+        
+        return {
+            'display_region': display_region,
+            'page_title': page_title,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'request_type': request_type,
+            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, register_attributes,
+                                              'middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+            'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type)
+        }
+
+    async def post(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/select-school')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+
+        if get_session_value(request, register_attributes, 'school_name', user_journey, request_type) == '':
+            journey = 'new'
+        else:
+            journey = 'change'
+
+        data = await request.post()
+
+        if data.get('school-selection') and data.get('school-selection') != '':
+            register_attributes['school_name'] = data.get('school-selection')
+            session.changed()
+            if journey == 'new':
+                raise HTTPFound(
+                    request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
+                                                                            request_type=request_type))
+            else:
+                raise HTTPFound(
+                    request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
+                                                                            request_type=request_type))
+        else:
+            flash(request, {'text': 'Enter a value', 'level': 'ERROR', 'type': 'SCHOOL_ENTER_ERROR',
+                            'field': 'error_selection'})
+            raise HTTPFound(
+                request.app.router['RegisterSelectSchool:get'].url_for(display_region=display_region,
+                                                                       request_type=request_type))
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
@@ -394,7 +469,7 @@ class RegisterPersonSummary(View):
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/person-summary')
 
         session = await get_existing_session(request, user_journey, request_type)
-        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         page_title = 'Person summary'
         locale = 'en'
@@ -405,10 +480,11 @@ class RegisterPersonSummary(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type),
-            'middle_names': get_session_value(request, fulfilment_attributes,
+            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, register_attributes,
                                               'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
+            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+            'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type)
         }
 
     async def post(self, request):

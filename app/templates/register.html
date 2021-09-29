@@ -4,13 +4,13 @@
 
 {%- block main -%}
 
-    <h1 class="u-mb-xs u-fs-l">{{ _('Take part in a survey') }}</h1>
+    <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Take part in a survey') }}</h1>
 
     {{
         onsButton({
             'type': 'button',
             'text': _('How to register a child'),
-            'classes': 'u-mb-m u-mt-m',
+            'classes': 'ons-u-mb-m ons-u-mt-m',
             'url': url('RegisterStart:get', display_region=display_region, request_type=request_type)
         })
     }}

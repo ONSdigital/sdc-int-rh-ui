@@ -15,9 +15,9 @@
 } %}
 
 {%- if total_matches == 1: -%}
-    {%- set question_description = _('<p class="u-fs-r--b">%(total)s address found for postcode %(pcode)s</p>', total=total_matches|string, pcode=postcode) -%}
+    {%- set question_description = _('<p class="ons-u-fs-r--b">%(total)s address found for postcode %(pcode)s</p>', total=total_matches|string, pcode=postcode) -%}
 {%- else: -%}
-    {%- set question_description = _('<p class="u-fs-r--b">%(total)s addresses found for postcode %(pcode)s</p>', total=total_matches|string, pcode=postcode) -%}
+    {%- set question_description = _('<p class="ons-u-fs-r--b">%(total)s addresses found for postcode %(pcode)s</p>', total=total_matches|string, pcode=postcode) -%}
 {%- endif -%}
 
 {%- if 'error-no-address-selected' in field_messages_dict -%}
@@ -53,7 +53,7 @@
                     'or': _('Or'),
                     'radios': addresses,
                     'legend': _('Select your address'),
-                    'legendClasses': 'u-vh',
+                    'legendClasses': 'ons-u-vh',
                     'error': error_select_address
                 })
             }}
@@ -63,7 +63,7 @@
         {{
             onsButton({
                 'text': _('Continue'),
-                'classes': 'u-mt-l',
+                'classes': 'ons-u-mt-l',
                 'submitType': 'loader'
             })
         }}

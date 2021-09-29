@@ -1,0 +1,67 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
+{%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
+
+{%- from 'components/question/_macro.njk' import onsQuestion -%}
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from "components/autosuggest/_macro.njk" import onsAutosuggest -%}
+
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': ''
+    }
+} -%}
+
+{%- if 'error_selection' in field_messages_dict -%}
+    {%- set error_selection = {'id': 'error_selection', 'text': _('Enter a value')} -%}
+{%- endif -%}
+
+{%- set child_name = first_name + ' ' + middle_names + ' ' + last_name -%}
+
+{%- block main -%}
+
+    {%- if messages_dict -%}
+        {%- include 'partials/messages.html' with context -%}
+    {%- endif -%}
+
+    {%- call onsQuestion({
+        'title': _('What school does %(name)s attend?', name='%s' % child_name),
+    }) -%}
+
+        {{ onsAutosuggest({
+            "id": "school-name",
+            "label": {
+                "text": "School name",
+                "description": "Select from suggestions",
+                "id": "school-name-label"
+            },
+            "autocomplete": "off",
+            "instructions": "Use up and down keys to navigate suggestions once you\'ve typed more than two characters. Use the enter key to select a suggestion. Touch device users, explore by touch or with swipe gestures.",
+            "ariaYouHaveSelected": "You have selected",
+            "ariaMinChars": "Enter 3 or more characters for suggestions.",
+            "ariaResultsLabel": "Country suggestions",
+            "ariaOneResult": "There is one suggestion available.",
+            "ariaNResults": "There are {n} suggestions available.",
+            "ariaLimitedResults": "Results have been limited to 10 suggestions. Type more characters to improve your search",
+            "moreResults": "Continue entering to improve suggestions",
+            "resultsTitle": "Suggestions",
+            "autosuggestData": url('SchoolsData:get'),
+            "noResults": "No suggestions found. You can enter your own answer",
+            "typeMore": "Continue entering to get suggestions",
+            "name": "school-selection",
+            "value": school_name,
+            "error": error_selection
+        }) }}
+
+    {%- endcall -%}
+
+    {{
+        onsButton({
+            'text': _('Continue'),
+            'classes': 'ons-u-mt-l'
+        })
+    }}
+
+{%- endblock -%}

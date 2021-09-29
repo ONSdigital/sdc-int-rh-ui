@@ -4,7 +4,7 @@ from .helpers import TestHelpers
 
 
 # noinspection PyTypeChecker
-class TestWebFormHandlers(TestHelpers):
+class TestRegisterHandlers(TestHelpers):
     user_journey = 'register'
     request_type = 'person'
 
@@ -48,18 +48,37 @@ class TestWebFormHandlers(TestHelpers):
             self.assertIn('value="Olivia"', contents)
             self.assertIn('value="Bobbington"', contents)
 
-    def check_content_register_person_summary(self, display_region, contents, change=False):
+    def check_content_register_select_school(self, display_region, contents, error=False, change=False):
+        if error:
+            error_text = 'Enter a value'
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text, 'error_selection',
+                                             error_text, contents)
+            self.assertCorrectHeadTitleTag(display_region, 'Select school', contents, error=True)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, 'Select school', contents, error=False)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertCorrectQuestionText('What school does Belinda Olivia Bobbington attend?', contents)
+        if change:
+            self.assertIn('Titchfield Primary School, Hampshire', contents)
+        self.assertIn('Select from suggestions', contents)
+
+    def check_content_register_person_summary(self, display_region, contents, change=None):
         self.assertCorrectHeadTitleTag(display_region, 'Person summary', contents, error=False)
         self.assertSiteLogo(display_region, contents)
         self.assertNotExitButton(display_region, contents)
         self.assertCorrectPageTitle('Check answers', contents)
-        if change:
-            self.assertIn('<h2 class="summary__title u-mb-m">Beverly Ophelia Bobbington</h2>', contents)
+        if change == 'name':
+            self.assertIn('<h2 class="ons-summary__title ons-u-mb-m">Beverly Ophelia Bobbington</h2>', contents)
         else:
-            self.assertIn('<h2 class="summary__title u-mb-m">Belinda Olivia Bobbington</h2>', contents)
-        self.assertIn('<h3 class="summary__group-title">Personal details</h3>', contents)
-        self.assertIn('<h3 class="summary__group-title">School details</h3>', contents)
-        self.assertIn('<h3 class="summary__group-title">Contact details</h3>', contents)
+            self.assertIn('<h2 class="ons-summary__title ons-u-mb-m">Belinda Olivia Bobbington</h2>', contents)
+        if change == 'school':
+            self.assertIn('Four Marks Church of England Primary School, Hampshire', contents)
+        else:
+            self.assertIn('Titchfield Primary School, Hampshire', contents)
+        self.assertIn('<h3 class="ons-summary__group-title">Personal details</h3>', contents)
+        self.assertIn('<h3 class="ons-summary__group-title">School details</h3>', contents)
+        self.assertIn('<h3 class="ons-summary__group-title">Contact details</h3>', contents)
 
     def check_content_register_consent(self, display_region, contents):
         self.assertCorrectHeadTitleTag(display_region, 'Confirm consent', contents, error=False)
@@ -158,10 +177,10 @@ class TestWebFormHandlers(TestHelpers):
             get_response = await self.client.request('POST', url_post, data=data)
             self.assertLogEvent(cm, self.build_url_log_entry('enter-name', display_region, 'POST',
                                                              include_request_type=True, include_page=True))
-            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
             self.assertEqual(get_response.status, 200)
-            self.check_content_register_person_summary(display_region, str(await get_response.content.read()))
+            self.check_content_register_select_school(display_region, str(await get_response.content.read()))
 
     async def post_register_enter_name_invalid_first(self, display_region):
         url_post = self.get_url_from_class('RegisterEnterName', 'post',
@@ -214,7 +233,57 @@ class TestWebFormHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertEqual(get_response.status, 200)
             self.check_content_register_person_summary(display_region, str(await post_response.content.read()),
-                                                       change=True)
+                                                       change='name')
+
+    async def post_register_select_school(self, display_region):
+        url_post = self.get_url_from_class('RegisterSelectSchool', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'school-selection': 'Titchfield Primary School, Hampshire', 'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(get_response.status, 200)
+            self.check_content_register_person_summary(display_region, str(await get_response.content.read()))
+
+    async def post_register_select_school_empty(self, display_region):
+        url_post = self.get_url_from_class('RegisterSelectSchool', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'school-selection': '', 'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            post_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(post_response.status, 200)
+            self.check_content_register_select_school(display_region, str(await post_response.content.read()),
+                                                      error=True)
+
+    async def process_register_school_change(self, display_region):
+        url_get = self.get_url_from_class('RegisterSelectSchool', 'get',
+                                          display_region=display_region, request_type='person')
+        url_post = self.get_url_from_class('RegisterSelectSchool', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'school-selection': 'Four Marks Church of England Primary School, Hampshire',
+                'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('GET', url_get)
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(get_response.status, 200)
+            self.check_content_register_select_school(display_region, str(await get_response.content.read()),
+                                                      change=True)
+            post_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(get_response.status, 200)
+            self.check_content_register_person_summary(display_region, str(await post_response.content.read()),
+                                                       change='school')
 
     async def post_register_person_summary(self, display_region):
         url_post = self.get_url_from_class('RegisterPersonSummary', 'post',
@@ -370,6 +439,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -381,6 +451,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.process_register_name_change(display_region)
 
@@ -399,11 +470,30 @@ class TestWebFormHandlers(TestHelpers):
         await self.post_register_enter_name_invalid_last(display_region)
 
     @unittest_run_loop
+    async def test_register_school_empty_en(self):
+        display_region = 'en'
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school_empty(display_region)
+
+    @unittest_run_loop
+    async def test_register_school_change_en(self):
+        display_region = 'en'
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
+        await self.post_register_person_summary(display_region)
+        await self.process_register_school_change(display_region)
+
+    @unittest_run_loop
     async def test_register_consent_declined_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_declined(display_region)
 
@@ -413,6 +503,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_invalid(display_region)
 
@@ -422,6 +513,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_empty(display_region)
@@ -432,6 +524,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_invalid(display_region)
@@ -442,6 +535,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -453,6 +547,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -464,6 +559,7 @@ class TestWebFormHandlers(TestHelpers):
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)

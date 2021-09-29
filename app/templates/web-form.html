@@ -130,7 +130,7 @@
         {%- include 'partials/messages.html' with context -%}
     {%- endif -%}
 
-    <h1 class="u-fs-xxl u-mt-l">{{_('Web form')}}</h1>
+    <h1 class="ons-u-fs-xxl ons-u-mt-l">{{_('Web form')}}</h1>
 
     {{
         onsRadios({
@@ -173,7 +173,7 @@
         })
     }}
 
-    <h2 class="u-mt-m">{{ _('Your contact details') }}</h2>
+    <h2 class="ons-u-mt-m">{{ _('Your contact details') }}</h2>
 
     {{
         onsInput({
@@ -209,14 +209,14 @@
     {{
         onsButton({
             'text': _('Send message'),
-            'classes': 'btn-group__btn u-mb-m u-mt-m',
+            'classes': 'btn-group__btn ons-u-mb-m ons-u-mt-m',
             'submitType': 'loader'
         })
 
     }}
 
     {%- autoescape false -%}
-        <p class="u-fs-s">{{ _('Information about what we do with your personal data is available in our %(open)sprivacy and data protection statement%(close)s.', open='<a href="%s">' % privacy_link, close='</a>')|safe }}</p>
+        <p class="ons-u-fs-s">{{ _('Information about what we do with your personal data is available in our %(open)sprivacy and data protection statement%(close)s.', open='<a href="%s">' % privacy_link, close='</a>')|safe }}</p>
     {%- endautoescape -%}
 
 {%- endblock -%}

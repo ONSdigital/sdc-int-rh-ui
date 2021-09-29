@@ -290,7 +290,7 @@ class RHTestCase(AioHTTPTestCase):
         :param title: str
         :param content: rendered HTML str
         """
-        self.assertIn('<h1 id="question-title" class="question__title">' + title + '</h1>', content)
+        self.assertIn('<h1 id="question-title" class="ons-question__title">' + title + '</h1>', content)
 
     def assertCorrectPageTitle(self, title, content):
         """
@@ -298,7 +298,7 @@ class RHTestCase(AioHTTPTestCase):
         :param title: str
         :param content: rendered HTML str
         """
-        self.assertIn('<h1 class="u-mb-xs u-fs-l">' + title + '</h1>', content)
+        self.assertIn('<h1 class="ons-u-mb-xs ons-u-fs-l">' + title + '</h1>', content)
 
     def assertErrorMessageDisplayed(self, display_region, panel_label, list_error, field_name, field_error, content):
         """
@@ -321,9 +321,9 @@ class RHTestCase(AioHTTPTestCase):
             else:
                 panel_label_text = 'There is a problem with this page'
 
-        self.assertIn('<h2 id="error-summary-title" data-qa="error-header" class="panel__title u-fs-r--b">'
+        self.assertIn('<h2 id="error-summary-title" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">'
                       + panel_label_text + '</h2>', content)
-        self.assertIn('<a href="#' + field_name + '" class="list__link js-inpagelink">' + list_error + '</a>',
+        self.assertIn('<a href="#' + field_name + '" class="ons-list__link  js-inpagelink">' + list_error + '</a>',
                       content)
         self.assertIn('<strong>' + field_error + '</strong>', content)
 

@@ -41,7 +41,7 @@
 {%- block main -%}
 
     {%- set panel_content -%}
-        <h1 class="u-fs-xxl">{{ _('Thank you for contacting us') }}</h1>
+        <h1 class="ons-u-fs-xxl">{{ _('Thank you for contacting us') }}</h1>
         <p>{{ _('Your message has been sent') }}</p>
     {%- endset -%}
 
@@ -51,7 +51,7 @@
             'id': 'success-id',
             'icon': 'check',
             'body': panel_content|safe,
-            'classes': 'u-mb-m'
+            'classes': 'ons-u-mb-m'
         })
     }}
 

@@ -12,7 +12,7 @@
 
 {%- block main -%}
 
-    <h1 class="u-mb-xs u-fs-l">{{ _('Check answers') }}</h1>
+    <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Check answers') }}</h1>
 
 {{
     onsSummary({
@@ -61,12 +61,19 @@
                         "groupTitle": "School details",
                         "rows": [
                             {
-                                "rowTitle": "What is your country of birth?",
+                                "rowTitle": "What school does the child attend?",
                                 "rowItems": [
                                     {
                                         "valueList": [
                                             {
-                                                "text": "England"
+                                                "text": school_name
+                                            }
+                                        ],
+                                        "actions": [
+                                            {
+                                                "text": "Change",
+                                                "ariaLabel": "Change answer",
+                                                "url": url('RegisterSelectSchool:get', display_region=display_region, request_type=request_type)
                                             }
                                         ]
                                     }
@@ -125,7 +132,7 @@
     {{
         onsButton({
             'text': _('Save and continue'),
-            'classes': 'u-mt-l'
+            'classes': 'ons-u-mt-l'
         })
     }}
 
