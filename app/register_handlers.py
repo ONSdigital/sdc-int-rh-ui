@@ -11,7 +11,7 @@ from .exceptions import TooManyRequestsRegister
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, RHService
+    FlashMessage, ProcessName, ProcessDOB, RHService
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -69,7 +69,10 @@ class RegisterStart(View):
             'first_name': '',
             'middle_names': '',
             'last_name': '',
-            'school_name': ''
+            'school_name': '',
+            'child_dob_day': '',
+            'child_dob_month': '',
+            'child_dob_year': ''
         }
         session['register_attributes'] = register_attributes
         session.changed()
@@ -444,8 +447,8 @@ class RegisterSelectSchool(View):
             session.changed()
             if journey == 'new':
                 raise HTTPFound(
-                    request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
-                                                                            request_type=request_type))
+                    request.app.router['RegisterChildDOB:get'].url_for(display_region=display_region,
+                                                                       request_type=request_type))
             else:
                 raise HTTPFound(
                     request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
@@ -456,6 +459,78 @@ class RegisterSelectSchool(View):
             raise HTTPFound(
                 request.app.router['RegisterSelectSchool:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
+
+
+@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
+                      '/child-dob/')
+class RegisterChildDOB(View):
+    @aiohttp_jinja2.template('register-child-dob.html')
+    async def get(self, request):
+
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        page_title = "Enter date of birth"
+        if request.get('flash'):
+            page_title = View.page_title_error_prefix_en + page_title
+        locale = 'en'
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/child-dob')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'middle_names': get_session_value(request, register_attributes,
+                                              'middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+            'day': get_session_value(request, register_attributes, 'child_dob_day', user_journey, request_type),
+            'month': get_session_value(request, register_attributes, 'child_dob_month', user_journey, request_type),
+            'year': get_session_value(request, register_attributes, 'child_dob_year', user_journey, request_type)
+        }
+
+    async def post(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/child-dob')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+
+        data = await request.post()
+
+        try:
+            date = ProcessDOB.validate_dob(data)
+
+            logger.info('valid dob',
+                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            logger.info(date)
+
+            register_attributes['child_dob_day'] = data.get('day')
+            register_attributes['child_dob_month'] = data.get('month')
+            register_attributes['child_dob_year'] = data.get('year')
+            register_attributes['child_dob'] = str(date)
+            session.changed()
+
+            raise HTTPFound(
+                request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
+                                                                        request_type=request_type))
+
+        except InvalidDataError as exc:
+            logger.info(exc, client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            flash_message = FlashMessage.generate_flash_message('Enter a valid date', 'ERROR', 'CHILD_DOB_ERROR',
+                                                                'dob_invalid')
+            flash(request, flash_message)
+            raise HTTPFound(
+                request.app.router['RegisterChildDOB:get'].url_for(display_region=display_region,
+                                                                   request_type=request_type))
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
@@ -484,7 +559,9 @@ class RegisterPersonSummary(View):
             'middle_names': get_session_value(request, register_attributes,
                                               'middle_names', user_journey, request_type),
             'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
-            'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type)
+            'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type),
+            'child_dob': ProcessDOB.format_dob(get_session_value(request, register_attributes, 'child_dob',
+                                                                 user_journey, request_type))
         }
 
     async def post(self, request):

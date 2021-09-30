@@ -1,0 +1,81 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
+{%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
+
+{%- from 'components/question/_macro.njk' import onsQuestion -%}
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from "components/date-input/_macro.njk" import onsDateInput -%}
+
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': ''
+    }
+} -%}
+
+{%- if 'dob_invalid' in field_messages_dict -%}
+    {%- set error = {'id': 'dob_invalid', 'text': _('Enter a valid date')} -%}
+{%- endif -%}
+
+{%- set child_name = first_name + ' ' + middle_names + ' ' + last_name -%}
+
+{%- block main -%}
+
+    {%- if messages_dict -%}
+        {%- include 'partials/messages.html' with context -%}
+    {%- endif -%}
+
+    {%- call onsQuestion({
+        'title': _('What is the date of birth of %(name)s?', name='%s' % child_name),
+    }) -%}
+
+        {{
+            onsDateInput({
+                "id": "date",
+                "legendOrLabel": "Date of birth",
+                "description": "For example, 31 3 1980",
+                "day": {
+                    "label": {
+                        "text": "Day"
+                    },
+                    "name": "day",
+                    "attributes": {
+                        "autocomplete": "bday-day"
+                    },
+                    "value": day
+                },
+                "month": {
+                    "label": {
+                        "text": "Month"
+                    },
+                    "name": "month",
+                    "attributes": {
+                        "autocomplete": "bday-month"
+                    },
+                    "value": month
+                },
+                "year": {
+                    "label": {
+                        "text": "Year"
+                    },
+                    "name": "year",
+                    "attributes": {
+                        "autocomplete": "bday-year"
+                    },
+                    "value": year
+                },
+                "error": error
+            })
+        }}
+
+    {%- endcall -%}
+
+    {{
+        onsButton({
+            'text': _('Continue'),
+            'classes': 'ons-u-mt-l'
+        })
+    }}
+
+{%- endblock -%}

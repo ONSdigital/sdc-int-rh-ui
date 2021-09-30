@@ -49,17 +49,19 @@
                                     {
                                         "valueList": [
                                             {
-                                                "text": "1 January 1981"
+                                                "text": child_dob
+                                            }
+                                        ],
+                                        "actions": [
+                                            {
+                                                "text": "Change",
+                                                "ariaLabel": "Change answer",
+                                                "url": url('RegisterChildDOB:get', display_region=display_region, request_type=request_type)
                                             }
                                         ]
-                                    }
+                                    },
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "groupTitle": "School details",
-                        "rows": [
+                            },
                             {
                                 "rowTitle": "What school does the child attend?",
                                 "rowItems": [
@@ -74,47 +76,6 @@
                                                 "text": "Change",
                                                 "ariaLabel": "Change answer",
                                                 "url": url('RegisterSelectSchool:get', display_region=display_region, request_type=request_type)
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "rowTitle": "What passports do you hold?",
-                                "rowItems": [
-                                    {
-                                        "valueList": [
-                                            {
-                                                "text": "United Kingdom"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "groupTitle": "Contact details",
-                        "rows": [
-                            {
-                                "rowTitle": "Have you completed an apprenticeship?",
-                                "rowItems": [
-                                    {
-                                        "valueList": [
-                                            {
-                                                "text": "Yes"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "rowTitle": "Have you achieved a GCSE or equivalent qualification?",
-                                "rowItems": [
-                                    {
-                                        "valueList": [
-                                            {
-                                                "text": "5 GCSEs grades A* to C or 9 to 4"
                                             }
                                         ]
                                     }

@@ -63,6 +63,23 @@ class TestRegisterHandlers(TestHelpers):
             self.assertIn('Titchfield Primary School, Hampshire', contents)
         self.assertIn('Select from suggestions', contents)
 
+    def check_content_register_child_dob(self, display_region, contents, error=False, change=False):
+        if error:
+            error_text = 'Enter a valid date'
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text, 'dob_invalid',
+                                             error_text, contents)
+            self.assertCorrectHeadTitleTag(display_region, 'Enter date of birth', contents, error=True)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, 'Enter date of birth', contents, error=False)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertCorrectQuestionText('What is the date of birth of Belinda Olivia Bobbington?', contents)
+        if change:
+            self.assertIn('value="9"', contents)
+            self.assertIn('value="10"', contents)
+            self.assertIn('value="2011"', contents)
+        self.assertIn('For example, 31 3 1980', contents)
+
     def check_content_register_person_summary(self, display_region, contents, change=None):
         self.assertCorrectHeadTitleTag(display_region, 'Person summary', contents, error=False)
         self.assertSiteLogo(display_region, contents)
@@ -76,9 +93,11 @@ class TestRegisterHandlers(TestHelpers):
             self.assertIn('Four Marks Church of England Primary School, Hampshire', contents)
         else:
             self.assertIn('Titchfield Primary School, Hampshire', contents)
+        if change == 'dob':
+            self.assertIn('11 December 2013', contents)
+        else:
+            self.assertIn('9 October 2011', contents)
         self.assertIn('<h3 class="ons-summary__group-title">Personal details</h3>', contents)
-        self.assertIn('<h3 class="ons-summary__group-title">School details</h3>', contents)
-        self.assertIn('<h3 class="ons-summary__group-title">Contact details</h3>', contents)
 
     def check_content_register_consent(self, display_region, contents):
         self.assertCorrectHeadTitleTag(display_region, 'Confirm consent', contents, error=False)
@@ -144,7 +163,7 @@ class TestRegisterHandlers(TestHelpers):
             get_response = await self.client.request('GET', url_get)
             self.assertLogEvent(cm, self.build_url_log_entry('', display_region, 'GET',
                                                              include_request_type=False, include_page=False))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register(display_region, str(await get_response.content.read()))
 
     async def get_register_start(self, display_region):
@@ -153,7 +172,7 @@ class TestRegisterHandlers(TestHelpers):
             get_response = await self.client.request('GET', url_get)
             self.assertLogEvent(cm, self.build_url_log_entry('start', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_start(display_region, str(await get_response.content.read()))
 
     async def post_register_start(self, display_region):
@@ -165,7 +184,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-name', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_name(display_region, str(await get_response.content.read()))
 
     async def post_register_enter_name_valid(self, display_region):
@@ -179,7 +198,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_select_school(display_region, str(await get_response.content.read()))
 
     async def post_register_enter_name_invalid_first(self, display_region):
@@ -193,7 +212,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-name', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_name(display_region, str(await get_response.content.read()),
                                                    error='first_name')
 
@@ -208,7 +227,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-name', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_name(display_region, str(await get_response.content.read()),
                                                    error='last_name')
 
@@ -223,7 +242,7 @@ class TestRegisterHandlers(TestHelpers):
             get_response = await self.client.request('GET', url_get)
             self.assertLogEvent(cm, self.build_url_log_entry('enter-name', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_name(display_region, str(await get_response.content.read()),
                                                    change=True)
             post_response = await self.client.request('POST', url_post, data=data)
@@ -231,7 +250,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, post_response.status)
             self.check_content_register_person_summary(display_region, str(await post_response.content.read()),
                                                        change='name')
 
@@ -243,10 +262,10 @@ class TestRegisterHandlers(TestHelpers):
             get_response = await self.client.request('POST', url_post, data=data)
             self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'POST',
                                                              include_request_type=True, include_page=True))
-            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
-            self.check_content_register_person_summary(display_region, str(await get_response.content.read()))
+            self.assertEqual(200, get_response.status)
+            self.check_content_register_child_dob(display_region, str(await get_response.content.read()))
 
     async def post_register_select_school_empty(self, display_region):
         url_post = self.get_url_from_class('RegisterSelectSchool', 'post',
@@ -258,7 +277,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(post_response.status, 200)
+            self.assertEqual(200, post_response.status)
             self.check_content_register_select_school(display_region, str(await post_response.content.read()),
                                                       error=True)
 
@@ -273,7 +292,7 @@ class TestRegisterHandlers(TestHelpers):
             get_response = await self.client.request('GET', url_get)
             self.assertLogEvent(cm, self.build_url_log_entry('select-school', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_select_school(display_region, str(await get_response.content.read()),
                                                       change=True)
             post_response = await self.client.request('POST', url_post, data=data)
@@ -281,9 +300,58 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, post_response.status)
             self.check_content_register_person_summary(display_region, str(await post_response.content.read()),
                                                        change='school')
+
+    async def post_register_child_dob(self, display_region):
+        url_post = self.get_url_from_class('RegisterChildDOB', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'day': '9', 'month': '10', 'year': '2011', 'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(200, get_response.status)
+            self.check_content_register_person_summary(display_region, str(await get_response.content.read()))
+
+    async def post_register_child_dob_empty(self, display_region):
+        url_post = self.get_url_from_class('RegisterChildDOB', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'day': '', 'month': '', 'year': '', 'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            post_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(200, post_response.status)
+            self.check_content_register_child_dob(display_region, str(await post_response.content.read()),
+                                                  error=True)
+
+    async def process_register_child_dob_change(self, display_region):
+        url_get = self.get_url_from_class('RegisterChildDOB', 'get',
+                                          display_region=display_region, request_type='person')
+        url_post = self.get_url_from_class('RegisterChildDOB', 'post',
+                                           display_region=display_region, request_type='person')
+        data = {'day': '11', 'month': '12', 'year': '2013', 'action[save_continue]': ''}
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('GET', url_get)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(200, get_response.status)
+            self.check_content_register_child_dob(display_region, str(await get_response.content.read()),
+                                                  change=True)
+            post_response = await self.client.request('POST', url_post, data=data)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-dob', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, self.build_url_log_entry('person-summary', display_region, 'GET',
+                                                             include_request_type=True, include_page=True))
+            self.assertEqual(200, post_response.status)
+            self.check_content_register_person_summary(display_region, str(await post_response.content.read()),
+                                                       change='dob')
 
     async def post_register_person_summary(self, display_region):
         url_post = self.get_url_from_class('RegisterPersonSummary', 'post',
@@ -294,7 +362,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('consent', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_consent(display_region, str(await get_response.content.read()))
 
     async def post_register_consent_accept(self, display_region):
@@ -307,7 +375,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_mobile(display_region, str(await get_response.content.read()))
 
     async def post_register_consent_declined(self, display_region):
@@ -320,7 +388,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('consent-declined', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_consent_declined(display_region, str(await get_response.content.read()))
 
     async def post_register_consent_invalid(self, display_region):
@@ -333,7 +401,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('consent', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_consent(display_region, str(await get_response.content.read()))
 
     async def post_register_enter_mobile_valid(self, display_region):
@@ -347,7 +415,7 @@ class TestRegisterHandlers(TestHelpers):
             self.assertLogEvent(cm, 'valid mobile number')
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-registration', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_confirm_registration(display_region, str(await get_response.content.read()))
 
     async def post_register_enter_mobile_empty(self, display_region):
@@ -360,7 +428,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_mobile(display_region, str(await get_response.content.read()),
                                                      error='empty')
 
@@ -374,7 +442,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_mobile(display_region, str(await get_response.content.read()),
                                                      error='invalid')
 
@@ -388,7 +456,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('complete', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_complete(display_region, str(await get_response.content.read()))
 
     async def post_register_confirm_registration_no(self, display_region):
@@ -401,7 +469,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('enter-mobile', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_enter_mobile(display_region, str(await get_response.content.read()))
 
     async def post_register_confirm_registration_missing(self, display_region):
@@ -414,7 +482,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-registration', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_confirm_registration(display_region, str(await get_response.content.read()),
                                                              error='empty')
 
@@ -428,7 +496,7 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-registration', display_region, 'GET',
                                                              include_request_type=True, include_page=True))
-            self.assertEqual(get_response.status, 200)
+            self.assertEqual(200, get_response.status)
             self.check_content_register_confirm_registration(display_region, str(await get_response.content.read()),
                                                              error='invalid')
 
@@ -440,6 +508,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -452,6 +521,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.process_register_name_change(display_region)
 
@@ -484,8 +554,29 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.process_register_school_change(display_region)
+
+    @unittest_run_loop
+    async def test_register_child_dob_empty_en(self):
+        display_region = 'en'
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
+        await self.post_register_child_dob_empty(display_region)
+
+    @unittest_run_loop
+    async def test_register_child_dob_change_en(self):
+        display_region = 'en'
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
+        await self.post_register_person_summary(display_region)
+        await self.process_register_child_dob_change(display_region)
 
     @unittest_run_loop
     async def test_register_consent_declined_en(self):
@@ -494,6 +585,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_declined(display_region)
 
@@ -504,6 +596,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_invalid(display_region)
 
@@ -514,6 +607,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_empty(display_region)
@@ -525,6 +619,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_invalid(display_region)
@@ -536,6 +631,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -548,6 +644,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
@@ -560,6 +657,7 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_start(display_region)
         await self.post_register_enter_name_valid(display_region)
         await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
         await self.post_register_consent_accept(display_region)
         await self.post_register_enter_mobile_valid(display_region)
