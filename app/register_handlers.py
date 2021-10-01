@@ -65,10 +65,9 @@ class RegisterStart(View):
         session = await get_existing_session(request, user_journey, request_type)
 
         register_attributes = {
-            'survey': 'sis2',
-            'first_name': '',
-            'middle_names': '',
-            'last_name': '',
+            'child_first_name': '',
+            'child_middle_names': '',
+            'child_last_name': '',
             'school_name': '',
             'child_dob_day': '',
             'child_dob_month': '',
@@ -81,72 +80,71 @@ class RegisterStart(View):
                                                                 request_type=request_type))
 
 
-@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' +
-                      valid_registration_types + '/consent/')
-class RegisterConsent(View):
-    @aiohttp_jinja2.template('register-consent.html')
+@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
+                      '/enter-name/')
+class RegisterEnterName(View):
+    @aiohttp_jinja2.template('register-enter-name.html')
     async def get(self, request):
-        display_region = request.match_info['display_region']
+
         request_type = request.match_info['request_type']
-        page_title = 'Confirm consent'
+        display_region = request.match_info['display_region']
+
+        page_title = "Enter name"
+        if request.get('flash'):
+            page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         return {
-            'display_region': display_region,
             'page_title': page_title,
+            'display_region': display_region,
             'locale': locale,
-            'page_url': View.gen_page_url(request),
-            'request_type': request_type
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request)
         }
 
-    @aiohttp_jinja2.template('register-consent.html')
     async def post(self, request):
-        display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
         data = await request.post()
-        logger.info(data)
 
-        if data.get('button-decline') == 'decline':
+        form_valid = ProcessName.validate_name(request, data, display_region)
+
+        if not form_valid:
+            logger.info('form submission error',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        region_of_site=display_region,
+                        type_of_request=request_type)
             raise HTTPFound(
-                request.app.router['RegisterConsentDeclined:get'].url_for(display_region=display_region,
-                                                                          request_type=request_type))
-        elif data.get('button-accept') == 'accept':
-            register_attributes['consent'] = 'accept'
-            session.changed()
-            raise HTTPFound(
-                request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
-                                                                      request_type=request_type))
-        else:
-            raise HTTPFound(
-                request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
+                request.app.router['RegisterEnterName:get'].url_for(
+                    display_region=display_region,
+                    request_type=request_type
+                ))
+
+        name_first_name = data['name_first_name'].strip()
+        name_middle_names = data['name_middle_names'].strip()
+        name_last_name = data['name_last_name'].strip()
+
+        register_attributes['parent_first_name'] = name_first_name
+        register_attributes['parent_middle_names'] = name_middle_names
+        register_attributes['parent_last_name'] = name_last_name
+        session.changed()
+
+        raise HTTPFound(
+            request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
                                                                   request_type=request_type))
-
-
-@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' + valid_registration_types +
-                      '/consent-declined/')
-class RegisterConsentDeclined(View):
-    @aiohttp_jinja2.template('register-consent-declined.html')
-    async def get(self, request):
-        display_region = request.match_info['display_region']
-        request_type = request.match_info['request_type']
-        page_title = 'You have been removed from this study'
-        locale = 'en'
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent-declined')
-
-        await invalidate(request)
-
-        return {
-            'display_region': display_region,
-            'page_title': page_title,
-            'locale': locale,
-            'page_url': View.gen_page_url(request),
-        }
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
@@ -196,8 +194,8 @@ class RegisterEnterMobile(View):
             session.changed()
 
             raise HTTPFound(
-                request.app.router['RegisterConfirmRegistration:get'].url_for(display_region=display_region,
-                                                                              request_type=request_type))
+                request.app.router['RegisterConfirmMobile:get'].url_for(display_region=display_region,
+                                                                        request_type=request_type))
 
         except (InvalidDataError, InvalidDataErrorWelsh) as exc:
             logger.info(exc, client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -214,18 +212,18 @@ class RegisterEnterMobile(View):
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
-                      '/confirm-registration/')
-class RegisterConfirmRegistration(View):
-    @aiohttp_jinja2.template('register-confirm-registration.html')
+                      '/confirm-mobile/')
+class RegisterConfirmMobile(View):
+    @aiohttp_jinja2.template('register-confirm-mobile.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-registration')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-mobile')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
-        page_title = 'Confirm your registration'
+        page_title = 'Confirm your mobile'
         if request.get('flash'):
             page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
@@ -242,10 +240,9 @@ class RegisterConfirmRegistration(View):
     async def post(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-registration')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-mobile')
 
-        session = await get_existing_session(request, user_journey, request_type)
-        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+        await get_existing_session(request, user_journey, request_type)
 
         data = await request.post()
         try:
@@ -255,19 +252,14 @@ class RegisterConfirmRegistration(View):
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
             flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
-                request.app.router['RegisterConfirmRegistration:get'].url_for(
+                request.app.router['RegisterConfirmMobile:get'].url_for(
                     display_region=display_region, request_type=request_type
                 ))
 
         if mobile_confirmation == 'yes':
-            mobile_number = get_session_value(request, register_attributes, 'mobile_number',
-                                              user_journey, request_type)
-
-            # TODO RHSvc Register Person call
-
             raise HTTPFound(
-                request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
-                                                                   request_type=request_type))
+                request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
+                                                                  request_type=request_type))
 
         elif mobile_confirmation == 'no':
             raise HTTPFound(
@@ -283,54 +275,93 @@ class RegisterConfirmRegistration(View):
                         user_selection=mobile_confirmation)
             flash(request, NO_SELECTION_CHECK_MSG)
             raise HTTPFound(
-                request.app.router['RegisterConfirmRegistration:get'].url_for(display_region=display_region,
-                                                                              request_type=request_type))
+                request.app.router['RegisterConfirmMobile:get'].url_for(display_region=display_region,
+                                                                        request_type=request_type))
 
 
-@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
-                      '/complete/')
-class RegisterComplete(View):
-    @aiohttp_jinja2.template('register-complete.html')
+@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' +
+                      valid_registration_types + '/consent/')
+class RegisterConsent(View):
+    @aiohttp_jinja2.template('register-consent.html')
     async def get(self, request):
-        request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        page_title = 'Confirm consent'
+        locale = 'en'
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
 
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/complete')
+        return {
+            'display_region': display_region,
+            'page_title': page_title,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'request_type': request_type
+        }
+
+    @aiohttp_jinja2.template('register-consent.html')
+    async def post(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
-        page_title = 'Registration complete'
+        data = await request.post()
+        logger.info(data)
+
+        if data.get('button-decline') == 'decline':
+            raise HTTPFound(
+                request.app.router['RegisterConsentDeclined:get'].url_for(display_region=display_region,
+                                                                          request_type=request_type))
+        elif data.get('button-accept') == 'accept':
+            register_attributes['consent'] = 'accept'
+            session.changed()
+            raise HTTPFound(
+                request.app.router['RegisterEnterChildName:get'].url_for(display_region=display_region,
+                                                                         request_type=request_type))
+        else:
+            raise HTTPFound(
+                request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
+                                                                  request_type=request_type))
+
+
+@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' + valid_registration_types +
+                      '/consent-declined/')
+class RegisterConsentDeclined(View):
+    @aiohttp_jinja2.template('register-consent-declined.html')
+    async def get(self, request):
+        display_region = request.match_info['display_region']
+        request_type = request.match_info['request_type']
+        page_title = 'You have been removed from this study'
         locale = 'en'
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent-declined')
 
         await invalidate(request)
 
         return {
-            'page_title': page_title,
             'display_region': display_region,
+            'page_title': page_title,
             'locale': locale,
-            'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'submitted_mobile_number': get_session_value(request, register_attributes,
-                                                         'submitted_mobile_number', user_journey, request_type)
         }
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
-                      '/enter-name/')
-class RegisterEnterName(View):
-    @aiohttp_jinja2.template('register-enter-name.html')
+                      '/enter-child-name/')
+class RegisterEnterChildName(View):
+    @aiohttp_jinja2.template('register-enter-child-name.html')
     async def get(self, request):
 
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        page_title = "Enter name"
+        page_title = "Enter child name"
         if request.get('flash'):
             page_title = View.page_title_error_prefix_en + page_title
         locale = 'en'
 
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-child-name')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
@@ -341,30 +372,32 @@ class RegisterEnterName(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'first_name': get_session_value(request, register_attributes, 
+                                            'child_first_name', user_journey, request_type),
             'middle_names': get_session_value(request, register_attributes,
-                                              'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type)
+                                              'child_middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 
+                                           'child_last_name', user_journey, request_type)
         }
 
     async def post(self, request):
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-child-name')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
-        if (get_session_value(request, register_attributes, 'first_name', user_journey, request_type) == '' and
-                get_session_value(request, register_attributes, 'last_name', user_journey, request_type) == ''):
+        if (get_session_value(request, register_attributes, 'child_first_name', user_journey, request_type) == '' and
+                get_session_value(request, register_attributes, 'child_last_name', user_journey, request_type) == ''):
             journey = 'new'
         else:
             journey = 'change'
 
         data = await request.post()
 
-        form_valid = ProcessName.validate_name(request, data, display_region)
+        form_valid = ProcessName.validate_name(request, data, display_region, child=True)
 
         if not form_valid:
             logger.info('form submission error',
@@ -374,7 +407,7 @@ class RegisterEnterName(View):
                         region_of_site=display_region,
                         type_of_request=request_type)
             raise HTTPFound(
-                request.app.router['RegisterEnterName:get'].url_for(
+                request.app.router['RegisterEnterChildName:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
                 ))
@@ -383,9 +416,9 @@ class RegisterEnterName(View):
         name_middle_names = data['name_middle_names'].strip()
         name_last_name = data['name_last_name'].strip()
 
-        register_attributes['first_name'] = name_first_name
-        register_attributes['middle_names'] = name_middle_names
-        register_attributes['last_name'] = name_last_name
+        register_attributes['child_first_name'] = name_first_name
+        register_attributes['child_middle_names'] = name_middle_names
+        register_attributes['child_last_name'] = name_last_name
         session.changed()
 
         if journey == 'new':
@@ -394,8 +427,8 @@ class RegisterEnterName(View):
                                                                        request_type=request_type))
         else:
             raise HTTPFound(
-                request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
-                                                                        request_type=request_type))
+                request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
+                                                                       request_type=request_type))
 
 
 @register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/' +
@@ -420,10 +453,11 @@ class RegisterSelectSchool(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'request_type': request_type,
-            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'first_name': get_session_value(request, register_attributes,
+                                            'child_first_name', user_journey, request_type),
             'middle_names': get_session_value(request, register_attributes,
-                                              'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+                                              'child_middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 'child_last_name', user_journey, request_type),
             'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type)
         }
 
@@ -451,8 +485,8 @@ class RegisterSelectSchool(View):
                                                                        request_type=request_type))
             else:
                 raise HTTPFound(
-                    request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
-                                                                            request_type=request_type))
+                    request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
+                                                                           request_type=request_type))
         else:
             flash(request, {'text': 'Enter a value', 'level': 'ERROR', 'type': 'SCHOOL_ENTER_ERROR',
                             'field': 'error_selection'})
@@ -486,10 +520,11 @@ class RegisterChildDOB(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'first_name': get_session_value(request, register_attributes,
+                                            'child_first_name', user_journey, request_type),
             'middle_names': get_session_value(request, register_attributes,
-                                              'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+                                              'child_middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 'child_last_name', user_journey, request_type),
             'day': get_session_value(request, register_attributes, 'child_dob_day', user_journey, request_type),
             'month': get_session_value(request, register_attributes, 'child_dob_month', user_journey, request_type),
             'year': get_session_value(request, register_attributes, 'child_dob_year', user_journey, request_type)
@@ -520,8 +555,8 @@ class RegisterChildDOB(View):
             session.changed()
 
             raise HTTPFound(
-                request.app.router['RegisterPersonSummary:get'].url_for(display_region=display_region,
-                                                                        request_type=request_type))
+                request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
+                                                                       request_type=request_type))
 
         except InvalidDataError as exc:
             logger.info(exc, client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -534,19 +569,19 @@ class RegisterChildDOB(View):
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
-                      '/person-summary/')
-class RegisterPersonSummary(View):
-    @aiohttp_jinja2.template('register-person-summary.html')
+                      '/child-summary/')
+class RegisterChildSummary(View):
+    @aiohttp_jinja2.template('register-child-summary.html')
     async def get(self, request):
         request_type = request.match_info['request_type']
         display_region = request.match_info['display_region']
 
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/person-summary')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/child-summary')
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
-        page_title = 'Person summary'
+        page_title = 'Child summary'
         locale = 'en'
 
         return {
@@ -555,10 +590,11 @@ class RegisterPersonSummary(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, register_attributes, 'first_name', user_journey, request_type),
+            'first_name': get_session_value(request, register_attributes,
+                                            'child_first_name', user_journey, request_type),
             'middle_names': get_session_value(request, register_attributes,
-                                              'middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, register_attributes, 'last_name', user_journey, request_type),
+                                              'child_middle_names', user_journey, request_type),
+            'last_name': get_session_value(request, register_attributes, 'child_last_name', user_journey, request_type),
             'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type),
             'child_dob': ProcessDOB.format_dob(get_session_value(request, register_attributes, 'child_dob',
                                                                  user_journey, request_type))
@@ -567,8 +603,39 @@ class RegisterPersonSummary(View):
     async def post(self, request):
         display_region = request.match_info['display_region']
         request_type = request.match_info['request_type']
-        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/person-summary')
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/child-summary')
+
+        # TODO Trigger RHSvc endpoint
 
         raise HTTPFound(
-            request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
-                                                              request_type=request_type))
+            request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
+                                                               request_type=request_type))
+
+
+@register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
+                      '/complete/')
+class RegisterComplete(View):
+    @aiohttp_jinja2.template('register-complete.html')
+    async def get(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/complete')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+
+        page_title = 'Registration complete'
+        locale = 'en'
+
+        await invalidate(request)
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'submitted_mobile_number': get_session_value(request, register_attributes,
+                                                         'submitted_mobile_number', user_journey, request_type)
+        }
