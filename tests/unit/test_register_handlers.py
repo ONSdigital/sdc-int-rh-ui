@@ -13,7 +13,22 @@ class TestRegisterHandlers(TestHelpers):
         self.assertSiteLogo(display_region, contents)
         self.assertNotExitButton(display_region, contents)
         self.assertCorrectPageTitle('Take part in a survey', contents)
-        self.assertIn('How to register a child', contents)
+        self.assertIn('COVID-19 Schools Infection Survey (SIS)', contents)
+
+    def check_content_register_sis2(self, display_region, contents):
+        self.assertCorrectHeadTitleTag(display_region, 'COVID-19 Schools Infection Survey (SIS)', contents, error=False)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertCorrectPageTitle('COVID-19 Schools Infection Survey (SIS)', contents)
+        self.assertIn('How to take part', contents)
+
+    def check_content_register_school_list(self, display_region, contents):
+        self.assertCorrectHeadTitleTag(display_region, 'SIS school list', contents, error=False)
+        self.assertSiteLogo(display_region, contents)
+        self.assertNotExitButton(display_region, contents)
+        self.assertCorrectPageTitle('Schools taking part in SIS', contents)
+        self.assertIn("The following schools are taking part in the survey. If your child\\\'s school is not listed, "
+                      "they will not be able to take part.", contents)
 
     def check_content_register_start(self, display_region, contents):
         self.assertCorrectHeadTitleTag(display_region, 'Start registration', contents, error=False)
@@ -187,6 +202,24 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=False, include_page=False))
             self.assertEqual(200, get_response.status)
             self.check_content_register(display_region, str(await get_response.content.read()))
+
+    async def get_register_sis2(self, display_region):
+        url_get = self.get_url_from_class('RegisterSIS', 'get', display_region=display_region)
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('GET', url_get)
+            self.assertLogEvent(cm, self.build_url_log_entry('sis', display_region, 'GET',
+                                                             include_request_type=False, include_page=True))
+            self.assertEqual(200, get_response.status)
+            self.check_content_register_sis2(display_region, str(await get_response.content.read()))
+
+    async def get_register_school_list(self, display_region):
+        url_get = self.get_url_from_class('RegisterSchoolList', 'get', display_region=display_region)
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            get_response = await self.client.request('GET', url_get)
+            self.assertLogEvent(cm, self.build_url_log_entry('school-list', display_region, 'GET',
+                                                             include_request_type=False, include_page=True))
+            self.assertEqual(200, get_response.status)
+            self.check_content_register_school_list(display_region, str(await get_response.content.read()))
 
     async def get_register_start(self, display_region):
         url_get = self.get_url_from_class('RegisterStart', 'get', display_region=display_region, request_type='person')
@@ -570,6 +603,8 @@ class TestRegisterHandlers(TestHelpers):
     async def test_register_basic_happy_path_en(self):
         display_region = 'en'
         await self.get_register(display_region)
+        await self.get_register_sis2(display_region)
+        await self.get_register_school_list(display_region)
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_parent_enter_name_valid(display_region)

@@ -1,5 +1,6 @@
 {%- extends 'base-' + display_region + '-register.html' -%}
 
+{%- from "components/lists/_macro.njk" import onsList -%}
 {%- from 'components/button/_macro.njk' import onsButton -%}
 
 {%- set form =  {
@@ -13,10 +14,34 @@
 
     <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Register a child') }}</h1>
 
+    <p>To register for the survey, you will need to provide the following information:</p>
+
+    {{
+        onsList({
+            "itemsList": [
+                {
+                    "text": "parent or guardian's name"
+                },
+                {
+                    "text": "parent or guardian's mobile phone number"
+                },
+                {
+                    "text": "child's name"
+                },
+                {
+                    "text": "child's school"
+                },
+                {
+                    "text": "child's date of birth"
+                }
+            ]
+        })
+    }}
+
     {{
         onsButton({
             'type': 'input',
-            'text': _('Start'),
+            'text': _('Register now'),
             'classes': 'ons-u-mb-m ons-u-mt-m',
         })
     }}

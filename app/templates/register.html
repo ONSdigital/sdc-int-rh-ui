@@ -1,18 +1,23 @@
 {%- extends 'base-' + display_region + '-register.html' -%}
 
-{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from "components/card/_macro.njk" import onsCard -%}
 
 {%- block main -%}
 
     <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Take part in a survey') }}</h1>
 
-    {{
-        onsButton({
-            'type': 'button',
-            'text': _('How to register a child'),
-            'classes': 'ons-u-mb-m ons-u-mt-m',
-            'url': url('RegisterStart:get', display_region=display_region, request_type=request_type)
-        })
-    }}
+    <div>
+        <div class="grid grid--column@xxs@s">
+            <div class="grid__col col-4@m">
+                {{ onsCard({
+                    "id": 'title1',
+                    "textId": 'text1',
+                    "title": 'COVID-19 Schools Infection Survey (SIS)',
+                    "url": url('RegisterSIS:get', display_region=display_region),
+                    "text": 'This survey assesses the role of schools in the coronavirus (COVID-19) transmission and how transmission within and from school settings can be minimised.'
+                }) }}
+            </div>
+        </div>
+    </div>
 
 {%- endblock main -%}

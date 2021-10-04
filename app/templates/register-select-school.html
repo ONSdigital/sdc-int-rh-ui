@@ -6,6 +6,7 @@
 {%- from 'components/question/_macro.njk' import onsQuestion -%}
 {%- from 'components/button/_macro.njk' import onsButton -%}
 {%- from "components/autosuggest/_macro.njk" import onsAutosuggest -%}
+{%- from "components/panel/_macro.njk" import onsPanel -%}
 
 {%- set form =  {
     'method': 'POST',
@@ -56,6 +57,16 @@
         }) }}
 
     {%- endcall -%}
+
+    {%- call onsPanel({
+            "type": 'warn',
+            "classes": "ons-u-mt-xl"
+        })
+    -%}
+        <p>Not all schools are taking part. To see if your child's school is participating you can check on the <a href="{{ url('RegisterSchoolList:get', display_region=display_region, request_type='person') }}">list of schools taking part in SIS</a>.</p>
+    {%- endcall -%}
+
+
 
     {{
         onsButton({

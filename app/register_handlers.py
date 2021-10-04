@@ -1,4 +1,5 @@
 import aiohttp_jinja2
+import json
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import HTTPFound, RouteTableDef
@@ -35,6 +36,51 @@ class Register(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'request_type': 'person'
+        }
+
+
+@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/sis/')
+class RegisterSIS(View):
+    @aiohttp_jinja2.template('register-sis2.html')
+    async def get(self, request):
+        display_region = 'en'
+        page_title = 'COVID-19 Schools Infection Survey (SIS)'
+        locale = 'en'
+        self.log_entry(request, display_region + '/' + user_journey + '/sis')
+
+        return {
+            'display_region': display_region,
+            'page_title': page_title,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'request_type': 'person'
+        }
+
+
+@register_routes.view(r'/' + View.valid_display_regions_en_only + '/' + user_journey + '/school-list/')
+class RegisterSchoolList(View):
+    @aiohttp_jinja2.template('register-school-list.html')
+    async def get(self, request):
+        display_region = 'en'
+        page_title = 'SIS school list'
+        locale = 'en'
+        self.log_entry(request, display_region + '/' + user_journey + '/school-list')
+
+        school_list = []
+        with open('app/data/schools.json') as file:
+            data = json.load(file)
+            for school in data:
+                school_list.append({
+                    'text': school['en']
+                })
+
+        return {
+            'display_region': display_region,
+            'page_title': page_title,
+            'locale': locale,
+            'page_url': View.gen_page_url(request),
+            'request_type': 'person',
+            'school_list': school_list
         }
 
 
@@ -96,8 +142,7 @@ class RegisterEnterName(View):
 
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/enter-name')
 
-        session = await get_existing_session(request, user_journey, request_type)
-        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
+        await get_existing_session(request, user_journey, request_type)
 
         return {
             'page_title': page_title,
