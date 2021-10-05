@@ -335,6 +335,8 @@ class RegisterConsent(View):
         locale = 'en'
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/consent')
 
+        await get_existing_session(request, user_journey, request_type)
+
         return {
             'display_region': display_region,
             'page_title': page_title,
