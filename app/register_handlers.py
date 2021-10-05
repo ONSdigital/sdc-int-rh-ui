@@ -1,18 +1,16 @@
 import aiohttp_jinja2
 import json
 
-from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
 from . import (NO_SELECTION_CHECK_MSG)
 
 from .flash import flash
-from .exceptions import TooManyRequestsRegister
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB, RHService
+    FlashMessage, ProcessName, ProcessDOB
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -419,11 +417,11 @@ class RegisterEnterChildName(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'first_name': get_session_value(request, register_attributes, 
+            'first_name': get_session_value(request, register_attributes,
                                             'child_first_name', user_journey, request_type),
             'middle_names': get_session_value(request, register_attributes,
                                               'child_middle_names', user_journey, request_type),
-            'last_name': get_session_value(request, register_attributes, 
+            'last_name': get_session_value(request, register_attributes,
                                            'child_last_name', user_journey, request_type)
         }
 
@@ -493,7 +491,7 @@ class RegisterSelectSchool(View):
 
         session = await get_existing_session(request, user_journey, request_type)
         register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
-        
+
         return {
             'display_region': display_region,
             'page_title': page_title,
