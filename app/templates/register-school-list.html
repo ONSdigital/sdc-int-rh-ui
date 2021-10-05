@@ -1,0 +1,17 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- from "components/lists/_macro.njk" import onsList -%}
+
+{%- block main -%}
+
+    <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Schools taking part in SIS') }}</h1>
+
+    <p>The following schools are taking part in the survey. If your child's school is not listed, they will not be able to take part.</p>
+
+    {{
+        onsList({
+            "itemsList": school_list
+        })
+    }}
+
+{%- endblock main -%}

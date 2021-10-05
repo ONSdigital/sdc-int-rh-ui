@@ -1,4 +1,4 @@
-{%- extends 'base-' + display_region + '.html' -%}
+{%- extends 'base-' + display_region + '-register.html' -%}
 
 {%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
 {%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
@@ -10,7 +10,7 @@
 {%- set form =  {
     'method': 'POST',
     'attributes': {
-        'action': url('RequestCodeEnterMobile:post', request_type=request_type, display_region=display_region)
+        'action': ''
     }
 } -%}
 
@@ -38,7 +38,7 @@
                 'width': '15',
                 'label': {
                     'text': _('UK mobile number'),
-                    'description': _('This will not be stored and only used once to send the access code')
+                    'description': _('This will be stored and used to send study access codes')
                 },
                 'name': 'request-mobile-number',
                 'error': error_mobile

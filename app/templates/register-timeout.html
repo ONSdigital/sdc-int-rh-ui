@@ -1,0 +1,19 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- set register_url = url('Register:get', display_region=display_region) -%}
+{%- from 'components/panel/_macro.njk' import onsPanel -%}
+
+{%- block main -%}
+    <h1>{{ _('Sorry, you need to start again') }}</h1>
+
+    <p>{{ _('This is because you’ve either:') }}</p>
+    <ul>
+        <li>{{ _('been inactive for 45 minutes and your session has timed out to protect your information') }}</li>
+        <li>{{ _('followed a link to the middle of a registration request') }}</li>
+    </ul>
+
+    {% autoescape false %}
+        <p>{{ _('You need to start again to %(open)sregister%(close)s.', open='<a href="%s">' % register_url, close='</a>')|safe }}</p>
+    {% endautoescape %}
+
+{%- endblock -%}

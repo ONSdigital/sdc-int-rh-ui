@@ -8,7 +8,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
 from .exceptions import (ExerciseClosedError, InactiveCaseError,
                          InvalidEqPayLoad, InvalidAccessCode,
                          SessionTimeout,
-                         TooManyRequests, TooManyRequestsWebForm, TooManyRequestsEQLaunch)
+                         TooManyRequests, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
 from structlog import get_logger
 
 from .utils import View
@@ -60,6 +60,8 @@ def create_error_middleware(overrides):
             return await too_many_requests_web_form(request)
         except TooManyRequestsEQLaunch:
             return await too_many_requests_eq_launch(request)
+        except TooManyRequestsRegister:
+            return await too_many_requests_register(request)
         except InactiveCaseError:
             return await inactive_case(request)
         except ExerciseClosedError as ex:
@@ -199,11 +201,20 @@ async def too_many_requests_eq_launch(request):
     return jinja.render_template('start-too-many-requests.html', request, attributes, status=429)
 
 
+async def too_many_requests_register(request):
+    attributes = check_display_region(request)
+    await invalidate(request)
+    attributes['timeout'] = 'true'
+    return jinja.render_template('register-too-many-requests.html', request, attributes, status=429)
+
+
 async def session_timeout(request, user_journey: str, request_type: str):
     attributes = check_display_region(request)
     attributes['timeout'] = 'true'
     if user_journey == 'start':
         return jinja.render_template('start-timeout.html', request, attributes, status=403)
+    elif user_journey == 'register':
+        return jinja.render_template('register-timeout.html', request, attributes, status=403)
     else:
         attributes['user_journey'] = user_journey
         attributes['request_type'] = request_type

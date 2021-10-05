@@ -1,0 +1,37 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- from "components/panel/_macro.njk" import onsPanel -%}
+
+{%- block main -%}
+
+    {%-
+        call onsPanel({
+            'type': 'success',
+            'id': 'success-id',
+            'icon': 'check',
+            'iconSize': 'l',
+            'classes': 'ons-u-mt-xl ons-u-mb-m'
+        })
+    -%}
+
+        {%- autoescape false -%}
+            <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('Your children have been registered for the survey') }}</h1>
+        {%- endautoescape -%}
+
+        <p>{{ _('A text message confirming your registration should arrive soon') }}</p>
+
+    {%- endcall -%}
+
+    {%-
+        call onsPanel({
+            'type': 'bare',
+            'icon': 'lock',
+            'classes': 'ons-u-mb-l'
+        })
+    -%}
+
+        <p>{{ _('The text will be sent from <strong>ONS</strong>') }}</p>
+
+    {%- endcall -%}
+
+{%- endblock -%}

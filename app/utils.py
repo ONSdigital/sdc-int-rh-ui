@@ -32,6 +32,7 @@ uk_zone = timezone('Europe/London')
 
 class View:
     valid_display_regions = r'{display_region:\ben|cy\b}'
+    valid_display_regions_en_only = r'{display_region:\ben\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
@@ -273,21 +274,26 @@ class ProcessMobileNumber:
 class ProcessName:
 
     @staticmethod
-    def validate_name(request, data, display_region):
+    def validate_name(request, data, display_region, child=False):
 
         name_valid = True
         form_first_name = data.get('name_first_name')
         form_last_name = data.get('name_last_name')
 
         if (not form_first_name) or (len(form_first_name.strip()) == 0):
-            if display_region == 'cy':
-                flash(request, {'text': "Rhowch eich enw cyntaf", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+            if child:
+                flash(request, {'text': "Enter your child's first name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
                                 'field': 'error_first_name', 'value_first_name': form_first_name,
                                 'value_last_name': form_last_name})
             else:
-                flash(request, {'text': "Enter your first name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
-                                'field': 'error_first_name', 'value_first_name': form_first_name,
-                                'value_last_name': form_last_name})
+                if display_region == 'cy':
+                    flash(request, {'text': "Rhowch eich enw cyntaf", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+                                    'field': 'error_first_name', 'value_first_name': form_first_name,
+                                    'value_last_name': form_last_name})
+                else:
+                    flash(request, {'text': "Enter your first name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+                                    'field': 'error_first_name', 'value_first_name': form_first_name,
+                                    'value_last_name': form_last_name})
             name_valid = False
 
         elif len(form_first_name) > 35:
@@ -302,14 +308,19 @@ class ProcessName:
             name_valid = False
 
         if (not form_last_name) or (len(form_last_name.strip()) == 0):
-            if display_region == 'cy':
-                flash(request, {'text': "Rhowch eich cyfenw", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+            if child:
+                flash(request, {'text': "Enter your child's last name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
                                 'field': 'error_last_name', 'value_first_name': form_first_name,
                                 'value_last_name': form_last_name})
             else:
-                flash(request, {'text': "Enter your last name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
-                                'field': 'error_last_name', 'value_first_name': form_first_name,
-                                'value_last_name': form_last_name})
+                if display_region == 'cy':
+                    flash(request, {'text': "Rhowch eich cyfenw", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+                                    'field': 'error_last_name', 'value_first_name': form_first_name,
+                                    'value_last_name': form_last_name})
+                else:
+                    flash(request, {'text': "Enter your last name", 'level': 'ERROR', 'type': 'NAME_ENTER_ERROR',
+                                    'field': 'error_last_name', 'value_first_name': form_first_name,
+                                    'value_last_name': form_last_name})
             name_valid = False
 
         elif len(form_last_name) > 35:
@@ -324,6 +335,26 @@ class ProcessName:
             name_valid = False
 
         return name_valid
+
+
+class ProcessDOB:
+    @staticmethod
+    def validate_dob(data):
+        form_day = data.get('day')
+        form_month = data.get('month')
+        form_year = data.get('year')
+
+        try:
+            date = datetime(int(form_year), int(form_month), int(form_day)).date()
+            return date
+        except ValueError:
+            raise InvalidDataError('invalid dob', message_type='invalid')
+
+    @staticmethod
+    def format_dob(date_value):
+        unformatted_date = datetime.strptime(date_value, '%Y-%m-%d')
+        formatted_date = unformatted_date.strftime('%d %B %Y')
+        return formatted_date
 
 
 class FlashMessage:

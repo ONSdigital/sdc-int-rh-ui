@@ -61,7 +61,7 @@
         {% include 'partials/messages.html' with context %}
     {% endif %}
 
-    <h1 class="u-fs-xxl u-mt-l">{{_('Start study')}}</h1>
+    <h1 class="ons-u-fs-xxl ons-u-mt-l">{{_('Start study')}}</h1>
 
     {{
         onsUACInput({
@@ -80,7 +80,7 @@
 
     {{ onsButton({
         'text': _('Access survey'),
-        'classes': 'u-mb-xl',
+        'classes': 'ons-u-mb-xl',
         'name': 'action[save_continue]',
         'submitType': 'loader'
     }) }}

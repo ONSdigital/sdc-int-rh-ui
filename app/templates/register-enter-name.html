@@ -1,18 +1,18 @@
-{% extends 'base-' + display_region + '.html' %}
+{%- extends 'base-' + display_region + '-register.html' -%}
 
-{% set messages_dict=dict(get_flashed_messages()|groupby('level')) %}
-{% set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) %}
+{%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
+{%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
 
-{% from 'components/question/_macro.njk' import onsQuestion %}
-{% from 'components/button/_macro.njk' import onsButton %}
-{% from 'components/input/_macro.njk' import onsInput %}
+{%- from 'components/question/_macro.njk' import onsQuestion -%}
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from 'components/input/_macro.njk' import onsInput -%}
 
-{% set form =  {
+{%- set form =  {
     'method': 'POST',
     'attributes': {
-        'action': url('RequestCommonEnterName:post', request_type=request_type, display_region=display_region)
+        'action': ''
     }
-} %}
+} -%}
 
 {%- if 'error_first_name_len' in field_messages_dict -%}
     {%- set error_first_name = {'id': 'error_first_name_len', 'text': _('You have entered too many characters. Enter up to 35 characters')} -%}
@@ -25,8 +25,6 @@
     {%- set error_last_name = {'id': 'error_last_name', 'text': _('Enter your last name')} -%}
 {%- endif -%}
 
-{%- set question_description = _('<p>This is who the letter will be addressed to</p>') -%}
-
 {% block main %}
 
     {% if messages_dict %}
@@ -34,8 +32,7 @@
     {% endif %}
 
     {% call onsQuestion({
-        'title': _('What is your name?'),
-        'description': question_description
+        'title': _("What is the parent/guardian's name?"),
     }) %}
 
 {%- if ('error_last_name' in field_messages_dict) or ('error_last_name_len' in field_messages_dict) -%}
@@ -89,6 +86,18 @@
         }}
 
 {%- endif -%}
+
+        {{
+            onsInput({
+                'id': 'name_middle_names',
+                'type': 'text',
+                'label': {
+                    'text': _('Middle name(s)')
+                },
+                'value': middle_names,
+                'name': 'name_middle_names'
+            })
+        }}
 
 {%- if ('error_first_name' in field_messages_dict) or ('error_first_name_len' in field_messages_dict) -%}
     {%- if 'error_first_name_len' in field_messages_dict -%}

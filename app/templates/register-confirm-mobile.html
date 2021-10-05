@@ -1,4 +1,4 @@
-{%- extends 'base-' + display_region + '.html' -%}
+{%- extends 'base-' + display_region + '-register.html' -%}
 
 {%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
 {%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
@@ -10,7 +10,7 @@
 {%- set form =  {
     'method': 'POST',
     'attributes': {
-        'action': url('RequestCodeConfirmSendByText:post', request_type=request_type, display_region=display_region)
+        'action': ''
     }
 } -%}
 
@@ -18,7 +18,7 @@
                 {
                     'id': 'yes',
                     'label': {
-                        'text': _('Yes, send the text')
+                        'text': _('Yes, my mobile number is correct')
                     },
                     'value': 'yes'
                 },

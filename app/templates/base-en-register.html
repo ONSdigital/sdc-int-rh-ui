@@ -1,0 +1,86 @@
+{%- extends 'layout/_template.njk' -%}
+
+{%- if page_title -%}
+    {%- set page_title_value = page_title + ' - ' + site_name_en -%}
+{%- else -%}
+    {%- set page_title_value = site_name_en -%}
+{%- endif -%}
+
+{%- set footer_content = {
+        'crest': true,
+        'rows': [
+            {
+                'itemsList': [
+                    {
+                        'text': 'Contact us',
+                        'url': domain_url_en + '/contact-us/'
+                    }
+                ]
+            }
+        ],
+        'legal': [
+            {
+                'itemsList': [
+                    {
+                        'text': 'Cookies',
+                        'url': domain_url_en + '/cookies/'
+                    },
+                    {
+                        'text': 'Accessibility statement',
+                        'url': domain_url_en + '/accessibility-statement/'
+                    },
+                    {
+                        'text': 'Privacy and data protection',
+                        'url': domain_url_en + '/privacy-and-data-protection/'
+                    },
+                    {
+                        'text': 'Terms and conditions',
+                        'url': domain_url_en + '/terms-and-conditions/'
+                    }
+                ]
+            }
+        ]
+    }
+-%}
+
+{%- set pageConfig = {
+    'title': page_title_value,
+    'header': {
+        'logoHref': 'https://www.ons.gov.uk/',
+        'title': site_name_en
+    },
+    'signoutButton': signout_button_value,
+    'footer': footer_content,
+    'cspNonce': cspNonce
+} -%}
+
+{%- block head -%}
+
+    <!-- Google Analytics -->
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm.html' with context -%}
+    {%- endif -%}
+    <!-- End Google Analytics -->
+
+{%- endblock -%}
+
+{%- block bodyStart -%}
+
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm-no-script.html' with context -%}
+    {%- endif -%}
+
+{%- endblock -%}
+
+{%- block preHeader -%}
+
+    {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
+    {{
+        onsCookiesBanner({
+            "statementTitle": 'Tell us whether you accept cookies',
+            "statementText": 'We use <a href="' + domain_url_en + '/cookies' + '">cookies to collect information</a> about how you use surveys.ons.gov.uk. We use this information to make the website work as well as possible and improve our services.',
+            "confirmationText": 'You’ve accepted all cookies. You can <a href="' + domain_url_en + '/cookies' + '">change your cookie preferences</a> at any time.',
+            "secondaryButtonUrl": domain_url_en + '/cookies'
+        })
+    }}
+{%- endblock -%}

@@ -1,0 +1,40 @@
+{%- extends 'base-' + display_region + '-register.html' -%}
+
+{%- from "components/content-pagination/_macro.njk" import onsContentPagination -%}
+
+{%- block main -%}
+
+    <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('COVID-19 Schools Infection Survey (SIS)') }}</h1>
+
+    <h2>How to take part</h2>
+
+    <p>To take part, you will need to complete an online consent and an enrolment questionnaire. Once this is submitted, you (student 16 years or over or school staff) or your child will be enrolled into the study.</p>
+
+    <p>Not all schools are taking part. To see if your child's school is participating you can check on the <a href="{{ url('RegisterSchoolList:get', display_region=display_region, request_type='person') }}">list of schools taking part in SIS</a>.</p>
+
+    <h2>About the study</h2>
+
+    <p>The coronavirus (COVID-19) pandemic is having a major impact across the UK.</p>
+
+    <p>We are inviting a sample of schools in England to take part in testing for coronavirus (COVID-19).</p>
+
+    <p>We need to assess the role of schools in coronavirus (COVID-19) transmission and how transmission within and from school settings can be minimised.</p>
+
+    <p>This study will find out how many school pupils and staff have had the COVID-19 infection, how many have already developed antibodies against the virus and how this changes over the course of the school year. The information we collect will help inform policies to protect school pupils and staff.</p>
+
+    <p>It is possible that some pupils and staff might be infected with the virus and not develop any symptoms.</p>
+
+    {{-
+      onsContentPagination({
+        "contentPaginationItems": [
+          {
+            "rel": 'next',
+            "text": 'Next',
+            "url": url('RegisterStart:get', display_region=display_region, request_type='person'),
+            "label": 'Register for the survey'
+          }
+        ]
+      })
+    }}
+
+{%- endblock main -%}
