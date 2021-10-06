@@ -579,11 +579,11 @@ class RHTestCase(AioHTTPTestCase):
             "wedi bod yn anweithgar am 45 munud a bod eich sesiwn wedi cyrraedd y terfyn " \
             "amser er mwyn diogelu eich gwybodaeth, neu"
         self.content_start_timeout_bullet_two_en = \
-            'followed a link to the middle of a census questionnaire'
+            'followed a link to the middle of a study questionnaire'
         self.content_start_timeout_bullet_two_cy = \
-            "wedi dilyn dolen i ganol holiadur y cyfrifiad"
+            "followed a link to the middle of a study questionnaire"
         self.content_start_timeout_link_text_en = 'enter your 16-character access code'
-        self.content_start_timeout_link_text_cy = "roi eich cod mynediad 16 nod"
+        self.content_start_timeout_link_text_cy = "enter your 16-character access code"
 
         self.content_request_timeout_title_en = 'Sorry, you need to start again'
         self.content_request_timeout_title_cy = "Mae\\\'n ddrwg gennym, mae angen i chi ddechrau eto"

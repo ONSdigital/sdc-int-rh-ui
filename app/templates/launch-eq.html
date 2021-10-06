@@ -14,7 +14,7 @@
 
     <h1>{{ _('Launch EQ') }}</h1>
 
-    <p>{{ _('Press the below button to launch census EQ') }}</p>
+    <p>{{ _('Press the below button to launch EQ') }}</p>
 
     {% if token %}
         {{
@@ -28,7 +28,7 @@
     {% endif %}
 
     {{ onsButton({
-        'text': _('Launch census'),
+        'text': _('Launch EQ'),
         'classes': 'ons-u-mb-xl',
         'name': 'action[save_continue]',
         'submitType': 'loader'

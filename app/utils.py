@@ -96,7 +96,7 @@ class View:
 
         link = '/'
 
-        if requested_link == 'census-home':
+        if requested_link == 'surveys-home':
             if display_region == 'cy':
                 link = base_cy
             else:
