@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-09 12:57+0100\n"
+"POT-Creation-Date: 2021-10-06 12:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.1\n"
 
-#: app/templates/404.html:11
+#: app/templates/404.html:5
 msgid "Page not found"
 msgstr ""
 
-#: app/templates/404.html:13
+#: app/templates/404.html:7
 msgid "If you entered a web address, check it is correct."
 msgstr ""
 
-#: app/templates/404.html:14
+#: app/templates/404.html:8
 msgid "If you pasted the web address, check you copied the whole address."
 msgstr ""
 
-#: app/templates/404.html:16
+#: app/templates/404.html:10
 #, python-format
 msgid ""
 "If the web address is correct or you selected a link or button, "
 "%(open)scontact us%(close)s for more help."
 msgstr ""
 
-#: app/templates/closed.html:10
+#: app/templates/closed.html:6
 msgid "This survey has closed"
 msgstr ""
 
-#: app/templates/closed.html:13
+#: app/templates/closed.html:9
 msgid "Your access code is for a survey that has now closed."
 msgstr ""
 
-#: app/templates/closed.html:15
+#: app/templates/closed.html:11
 msgid "Thank you for your help."
 msgstr ""
 
@@ -59,31 +59,364 @@ msgid ""
 "code%(close)s."
 msgstr ""
 
-#: app/templates/error.html:12
+#: app/templates/error.html:6
 msgid "Sorry, something went wrong"
 msgstr ""
 
-#: app/templates/error.html:15
+#: app/templates/error.html:9
 msgid "We are experiencing some technical problems."
 msgstr ""
 
-#: app/templates/error.html:18
+#: app/templates/error.html:12
 #, python-format
 msgid ""
 "Please try again later, or %(open)scontact us%(close)s if the problem "
 "continues."
 msgstr ""
 
-#: app/templates/launch-eq.html:15
+#: app/templates/launch-eq.html:15 app/templates/launch-eq.html:31
 msgid "Launch EQ"
 msgstr ""
 
 #: app/templates/launch-eq.html:17
-msgid "Press the below button to launch census EQ"
+msgid "Press the below button to launch EQ"
 msgstr ""
 
-#: app/templates/launch-eq.html:31
-msgid "Launch census"
+#: app/templates/register-child-dob.html:18
+msgid "Enter a valid date"
+msgstr ""
+
+#: app/templates/register-child-dob.html:30
+#, python-format
+msgid "What is the date of birth of %(name)s?"
+msgstr ""
+
+#: app/templates/register-child-dob.html:76
+#: app/templates/register-confirm-mobile.html:64
+#: app/templates/register-enter-mobile.html:52
+#: app/templates/register-enter-name.html:161
+#: app/templates/register-select-school.html:73
+#: app/templates/request-code-confirm-address.html:71
+#: app/templates/request-code-confirm-send-by-post.html:79
+#: app/templates/request-code-confirm-send-by-text.html:64
+#: app/templates/request-code-enter-address.html:57
+#: app/templates/request-code-enter-address.html:112
+#: app/templates/request-code-enter-mobile.html:52
+#: app/templates/request-code-enter-name.html:152
+#: app/templates/request-code-select-address.html:65
+#: app/templates/request-code-select-how-to-receive.html:68
+#: app/templates/start-confirm-address.html:71
+msgid "Continue"
+msgstr ""
+
+#: app/templates/register-child-summary.html:15
+msgid "Check answers"
+msgstr ""
+
+#: app/templates/register-child-summary.html:95
+#: app/templates/register-enter-child-name.html:161
+msgid "Save and continue"
+msgstr ""
+
+#: app/templates/register-complete.html:18
+msgid "Your children have been registered for the survey"
+msgstr ""
+
+#: app/templates/register-complete.html:21
+msgid "A text message confirming your registration should arrive soon"
+msgstr ""
+
+#: app/templates/register-complete.html:33
+#: app/templates/request-code-sent-by-text.html:37
+msgid "The text will be sent from <strong>ONS</strong>"
+msgstr ""
+
+#: app/templates/register-confirm-mobile.html:21
+msgid "Yes, my mobile number is correct"
+msgstr ""
+
+#: app/templates/register-confirm-mobile.html:28
+#: app/templates/request-code-confirm-send-by-text.html:28
+msgid "No, I need to change it"
+msgstr ""
+
+#: app/templates/register-confirm-mobile.html:36
+#: app/templates/request-code-confirm-address.html:36
+#: app/templates/request-code-confirm-send-by-post.html:23
+#: app/templates/request-code-confirm-send-by-text.html:36
+#: app/templates/request-code-select-how-to-receive.html:18
+#: app/templates/start-confirm-address.html:36
+msgid "Select an answer"
+msgstr ""
+
+#: app/templates/register-confirm-mobile.html:46
+#: app/templates/register-confirm-mobile.html:54
+#: app/templates/request-code-confirm-send-by-text.html:46
+#: app/templates/request-code-confirm-send-by-text.html:54
+msgid "Is this mobile number correct?"
+msgstr ""
+
+#: app/templates/register-consent-declined.html:5
+msgid "You have been removed from this study"
+msgstr ""
+
+#: app/templates/register-consent.html:15
+msgid "Confirm consent"
+msgstr ""
+
+#: app/templates/register-consent.html:22
+msgid "I confirm that I have read and understand the Information Sheet."
+msgstr ""
+
+#: app/templates/register-consent.html:25
+msgid ""
+"I understand that my child’s participation is voluntary. I am free to "
+"withdraw my child from the study at any time without giving a reason and "
+"without my child’s care or education being affected."
+msgstr ""
+
+#: app/templates/register-consent.html:28
+msgid ""
+"I have explained to my child what is involved in the study and my child "
+"is happy to participate."
+msgstr ""
+
+#: app/templates/register-consent.html:31
+msgid ""
+"I understand that the results of the antibody test will/ won’t be "
+"reported back to me."
+msgstr ""
+
+#: app/templates/register-consent.html:34
+msgid ""
+"I understand that information about other children and adults in my "
+"household will be collected in the questionnaire. and I have discussed "
+"this with my family."
+msgstr ""
+
+#: app/templates/register-consent.html:37
+msgid ""
+"I understand that my information I provide will be shared within the "
+"study team which will include the Office for National Statistics (ONS), "
+"Public Health England (PHE), the London School of Hygiene and Tropical "
+"Medicine (LSHTM) and Department for Education (DfE)."
+msgstr ""
+
+#: app/templates/register-consent.html:47
+msgid "I accept"
+msgstr ""
+
+#: app/templates/register-consent.html:56
+msgid "I decline"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:18
+#: app/templates/register-enter-child-name.html:23
+#: app/templates/register-enter-name.html:18
+#: app/templates/register-enter-name.html:23
+#: app/templates/request-code-enter-name.html:18
+#: app/templates/request-code-enter-name.html:23
+msgid "You have entered too many characters. Enter up to 35 characters"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:20
+msgid "Enter your child's first name"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:25
+msgid "Enter your child's last name"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:35
+msgid "Who would you like to register?"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:50
+#: app/templates/register-enter-child-name.html:73
+#: app/templates/register-enter-name.html:50
+#: app/templates/register-enter-name.html:73
+#: app/templates/request-code-enter-name.html:53
+#: app/templates/request-code-enter-name.html:76
+msgid "First name"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:57
+#: app/templates/register-enter-child-name.html:80
+#: app/templates/register-enter-child-name.html:121
+#: app/templates/register-enter-child-name.html:144
+#: app/templates/register-enter-name.html:57
+#: app/templates/register-enter-name.html:80
+#: app/templates/register-enter-name.html:121
+#: app/templates/register-enter-name.html:144
+#: app/templates/request-code-enter-name.html:60
+#: app/templates/request-code-enter-name.html:83
+#: app/templates/request-code-enter-name.html:112
+#: app/templates/request-code-enter-name.html:135
+msgid "{x} character too many"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:58
+#: app/templates/register-enter-child-name.html:81
+#: app/templates/register-enter-child-name.html:122
+#: app/templates/register-enter-child-name.html:145
+#: app/templates/register-enter-name.html:58
+#: app/templates/register-enter-name.html:81
+#: app/templates/register-enter-name.html:122
+#: app/templates/register-enter-name.html:145
+#: app/templates/request-code-enter-name.html:61
+#: app/templates/request-code-enter-name.html:84
+#: app/templates/request-code-enter-name.html:113
+#: app/templates/request-code-enter-name.html:136
+msgid "{x} characters too many"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:59
+#: app/templates/register-enter-child-name.html:82
+#: app/templates/register-enter-child-name.html:123
+#: app/templates/register-enter-child-name.html:146
+#: app/templates/register-enter-name.html:59
+#: app/templates/register-enter-name.html:82
+#: app/templates/register-enter-name.html:123
+#: app/templates/register-enter-name.html:146
+#: app/templates/request-code-enter-name.html:62
+#: app/templates/request-code-enter-name.html:85
+#: app/templates/request-code-enter-name.html:114
+#: app/templates/request-code-enter-name.html:137
+#: app/templates/web-form.html:168
+msgid "You have {x} character remaining"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:60
+#: app/templates/register-enter-child-name.html:83
+#: app/templates/register-enter-child-name.html:124
+#: app/templates/register-enter-child-name.html:147
+#: app/templates/register-enter-name.html:60
+#: app/templates/register-enter-name.html:83
+#: app/templates/register-enter-name.html:124
+#: app/templates/register-enter-name.html:147
+#: app/templates/request-code-enter-name.html:63
+#: app/templates/request-code-enter-name.html:86
+#: app/templates/request-code-enter-name.html:115
+#: app/templates/request-code-enter-name.html:138
+#: app/templates/web-form.html:169
+msgid "You have {x} characters remaining"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:95
+#: app/templates/register-enter-name.html:95
+msgid "Middle name(s)"
+msgstr ""
+
+#: app/templates/register-enter-child-name.html:114
+#: app/templates/register-enter-child-name.html:137
+#: app/templates/register-enter-name.html:114
+#: app/templates/register-enter-name.html:137
+#: app/templates/request-code-enter-name.html:105
+#: app/templates/request-code-enter-name.html:128
+msgid "Last name"
+msgstr ""
+
+#: app/templates/register-enter-mobile.html:18
+#: app/templates/request-code-enter-mobile.html:18
+msgid "Enter your mobile number"
+msgstr ""
+
+#: app/templates/register-enter-mobile.html:20
+#: app/templates/request-code-enter-mobile.html:20
+msgid ""
+"Enter a UK mobile number in a valid format, for example, 07700 900345 or "
+"+44 7700 900345"
+msgstr ""
+
+#: app/templates/register-enter-mobile.html:30
+#: app/templates/request-code-enter-mobile.html:30
+msgid "What is your mobile number?"
+msgstr ""
+
+#: app/templates/register-enter-mobile.html:40
+#: app/templates/request-code-enter-mobile.html:40
+msgid "UK mobile number"
+msgstr ""
+
+#: app/templates/register-enter-mobile.html:41
+msgid "This will be stored and used to send study access codes"
+msgstr ""
+
+#: app/templates/register-enter-name.html:20
+#: app/templates/request-code-enter-name.html:20
+msgid "Enter your first name"
+msgstr ""
+
+#: app/templates/register-enter-name.html:25
+#: app/templates/request-code-enter-name.html:25
+msgid "Enter your last name"
+msgstr ""
+
+#: app/templates/register-enter-name.html:35
+msgid "What is the parent/guardian's name?"
+msgstr ""
+
+#: app/templates/register-school-list.html:7
+msgid "Schools taking part in SIS"
+msgstr ""
+
+#: app/templates/register-select-school.html:19
+msgid "Enter a value"
+msgstr ""
+
+#: app/templates/register-select-school.html:31
+#, python-format
+msgid "What school does %(name)s attend?"
+msgstr ""
+
+#: app/templates/register-sis2.html:7
+msgid "COVID-19 Schools Infection Survey (SIS)"
+msgstr ""
+
+#: app/templates/register-start.html:15
+msgid "Register a child"
+msgstr ""
+
+#: app/templates/register-start.html:44
+msgid "Register now"
+msgstr ""
+
+#: app/templates/register-timeout.html:7 app/templates/request-timeout.html:8
+msgid "Sorry, you need to start again"
+msgstr ""
+
+#: app/templates/register-timeout.html:9 app/templates/request-timeout.html:10
+#: app/templates/start-timeout.html:9
+msgid "This is because you’ve either:"
+msgstr ""
+
+#: app/templates/register-timeout.html:11 app/templates/request-timeout.html:12
+#: app/templates/start-timeout.html:11
+msgid ""
+"been inactive for 45 minutes and your session has timed out to protect "
+"your information"
+msgstr ""
+
+#: app/templates/register-timeout.html:12
+msgid "followed a link to the middle of a registration request"
+msgstr ""
+
+#: app/templates/register-timeout.html:16
+#, python-format
+msgid "You need to start again to %(open)sregister%(close)s."
+msgstr ""
+
+#: app/templates/register-too-many-requests.html:7
+msgid "You have reached the maximum number of registrations you can make online"
+msgstr ""
+
+#: app/templates/register-too-many-requests.html:9
+#, python-format
+msgid "If you need to register, please %(open)scontact us%(close)s"
+msgstr ""
+
+#: app/templates/register.html:7
+msgid "Take part in a survey"
 msgstr ""
 
 #: app/templates/request-code-confirm-address.html:21
@@ -95,31 +428,11 @@ msgstr ""
 msgid "No, search for address again"
 msgstr ""
 
-#: app/templates/request-code-confirm-address.html:36
-#: app/templates/request-code-confirm-send-by-post.html:23
-#: app/templates/request-code-confirm-send-by-text.html:36
-#: app/templates/request-code-select-how-to-receive.html:18
-#: app/templates/start-confirm-address.html:36
-msgid "Select an answer"
-msgstr ""
-
 #: app/templates/request-code-confirm-address.html:46
 #: app/templates/request-code-confirm-address.html:61
 #: app/templates/start-confirm-address.html:45
 #: app/templates/start-confirm-address.html:61
 msgid "Is this the correct address?"
-msgstr ""
-
-#: app/templates/request-code-confirm-address.html:71
-#: app/templates/request-code-confirm-send-by-post.html:79
-#: app/templates/request-code-confirm-send-by-text.html:64
-#: app/templates/request-code-enter-address.html:76
-#: app/templates/request-code-enter-mobile.html:52
-#: app/templates/request-code-enter-name.html:152
-#: app/templates/request-code-select-address.html:65
-#: app/templates/request-code-select-how-to-receive.html:68
-#: app/templates/start-confirm-address.html:71
-msgid "Continue"
 msgstr ""
 
 #: app/templates/request-code-confirm-send-by-post.html:30
@@ -142,15 +455,6 @@ msgstr ""
 msgid "Yes, send the text"
 msgstr ""
 
-#: app/templates/request-code-confirm-send-by-text.html:28
-msgid "No, I need to change it"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-text.html:46
-#: app/templates/request-code-confirm-send-by-text.html:54
-msgid "Is this mobile number correct?"
-msgstr ""
-
 #: app/templates/request-code-enter-address.html:7
 msgid "Enter a postcode"
 msgstr ""
@@ -159,66 +463,24 @@ msgstr ""
 msgid "Enter a valid UK postcode"
 msgstr ""
 
-#: app/templates/request-code-enter-address.html:24
+#: app/templates/request-code-enter-address.html:25
+msgid "What is your address?"
+msgstr ""
+
+#: app/templates/request-code-enter-address.html:26
 msgid "What is your postcode?"
 msgstr ""
 
-#: app/templates/request-code-enter-address.html:25
+#: app/templates/request-code-enter-address.html:27
 msgid "<p>To request a new access code, we need your address</p>"
 msgstr ""
 
-#: app/templates/request-code-enter-address.html:45
+#: app/templates/request-code-enter-address.html:48
 msgid "UK postcode"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:56
-#, python-format
-msgid ""
-"If you live somewhere that is mobile, such as a canal boat or motorhome, "
-"%(open)scontact us to request an access code%(close)s."
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:62
-msgid "I don’t live at a fixed address"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:66
-msgid "Hide this"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:18
-msgid "Enter your mobile number"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:20
-msgid ""
-"Enter a UK mobile number in a valid format, for example, 07700 900345 or "
-"+44 7700 900345"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:30
-msgid "What is your mobile number?"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:40
-msgid "UK mobile number"
 msgstr ""
 
 #: app/templates/request-code-enter-mobile.html:41
 msgid "This will not be stored and only used once to send the access code"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:18
-#: app/templates/request-code-enter-name.html:23
-msgid "You have entered too many characters. Enter up to 35 characters"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:20
-msgid "Enter your first name"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:25
-msgid "Enter your last name"
 msgstr ""
 
 #: app/templates/request-code-enter-name.html:28
@@ -229,55 +491,17 @@ msgstr ""
 msgid "What is your name?"
 msgstr ""
 
-#: app/templates/request-code-enter-name.html:53
-#: app/templates/request-code-enter-name.html:76
-msgid "First name"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:60
-#: app/templates/request-code-enter-name.html:83
-#: app/templates/request-code-enter-name.html:112
-#: app/templates/request-code-enter-name.html:135
-msgid "{x} character too many"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:61
-#: app/templates/request-code-enter-name.html:84
-#: app/templates/request-code-enter-name.html:113
-#: app/templates/request-code-enter-name.html:136
-msgid "{x} characters too many"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:62
-#: app/templates/request-code-enter-name.html:85
-#: app/templates/request-code-enter-name.html:114
-#: app/templates/request-code-enter-name.html:137
-#: app/templates/web-form.html:168
-msgid "You have {x} character remaining"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:63
-#: app/templates/request-code-enter-name.html:86
-#: app/templates/request-code-enter-name.html:115
-#: app/templates/request-code-enter-name.html:138
-#: app/templates/web-form.html:169
-msgid "You have {x} characters remaining"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:105
-#: app/templates/request-code-enter-name.html:128
-msgid "Last name"
-msgstr ""
-
 #: app/templates/request-code-select-address.html:18
 #, python-format
-msgid "<p class=\"u-fs-r--b\">%(total)s address found for postcode %(pcode)s</p>"
+msgid ""
+"<p class=\"ons-u-fs-r--b\">%(total)s address found for postcode "
+"%(pcode)s</p>"
 msgstr ""
 
 #: app/templates/request-code-select-address.html:20
 #, python-format
 msgid ""
-"<p class=\"u-fs-r--b\">%(total)s addresses found for postcode "
+"<p class=\"ons-u-fs-r--b\">%(total)s addresses found for postcode "
 "%(pcode)s</p>"
 msgstr ""
 
@@ -340,7 +564,7 @@ msgstr ""
 #: app/templates/request-code-select-how-to-receive.html:74
 #, python-format
 msgid ""
-"To request a census in a different format or for further help, please "
+"To request a study in a different format or for further help, please "
 "%(open)scontact us%(close)s."
 msgstr ""
 
@@ -351,7 +575,7 @@ msgstr ""
 
 #: app/templates/request-code-sent-by-post.html:31
 msgid ""
-"The letter with a new access code for you to start the survey should "
+"The letter with a new access code for you to start the study should "
 "arrive within 5 working days"
 msgstr ""
 
@@ -367,11 +591,7 @@ msgstr ""
 #: app/templates/request-code-sent-by-text.html:25
 msgid ""
 "The text message with a new access code should arrive soon for you to "
-"start your survey"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:37
-msgid "The text will be sent from <strong>Census2021</strong>"
+"start your study"
 msgstr ""
 
 #: app/templates/request-code-sent-by-text.html:41
@@ -386,38 +606,22 @@ msgid ""
 msgstr ""
 
 #: app/templates/request-code-sent-by-text.html:47
-msgid "Ready to start your survey?"
+msgid "Ready to start your study?"
 msgstr ""
 
 #: app/templates/request-code-sent-by-text.html:52 app/templates/start.html:64
-msgid "Start survey"
+msgid "Start study"
 msgstr ""
 
-#: app/templates/request-contact-centre.html:11
-#: app/templates/start-contact-centre.html:11
+#: app/templates/request-contact-centre.html:5
 msgid "You need to call the customer contact centre"
 msgstr ""
 
-#: app/templates/request-contact-centre.html:20
-#: app/templates/start-contact-centre.html:16
+#: app/templates/request-contact-centre.html:14
 #, python-format
 msgid ""
 "You can call us free on %(telephone_number)s or %(open)schoose another "
 "way to contact us%(close)s."
-msgstr ""
-
-#: app/templates/request-timeout.html:8
-msgid "Sorry, you need to start again"
-msgstr ""
-
-#: app/templates/request-timeout.html:10 app/templates/start-timeout.html:9
-msgid "This is because you’ve either:"
-msgstr ""
-
-#: app/templates/request-timeout.html:12 app/templates/start-timeout.html:11
-msgid ""
-"been inactive for 45 minutes and your session has timed out to protect "
-"your information"
 msgstr ""
 
 #: app/templates/request-timeout.html:13
@@ -429,11 +633,11 @@ msgstr ""
 msgid "You need to start again to %(open)srequest a new access code%(close)s."
 msgstr ""
 
-#: app/templates/request-too-many-requests.html:40
+#: app/templates/request-too-many-requests.html:34
 msgid "You have reached the maximum number of access codes you can request online"
 msgstr ""
 
-#: app/templates/request-too-many-requests.html:42
+#: app/templates/request-too-many-requests.html:36
 #, python-format
 msgid "If you need a new access code, please %(open)scontact us%(close)s"
 msgstr ""
@@ -446,7 +650,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Keep your 16-character access code safe. You will need to enter it again "
-"to %(open)saccess your census%(close)s."
+"to %(open)saccess your study%(close)s."
 msgstr ""
 
 #: app/templates/start-confirm-address.html:28
@@ -458,14 +662,18 @@ msgid "This access code has already been used"
 msgstr ""
 
 #: app/templates/start-expired.html:9
-msgid "Someone has already submitted a census using this access code."
+msgid "Someone has already submitted a study using this access code."
 msgstr ""
 
 #: app/templates/start-expired.html:12
 #, python-format
 msgid ""
-"If you need to start your census again, you can %(open)srequest a new "
+"If you need to start your study again, you can %(open)srequest a new "
 "access code%(close)s."
+msgstr ""
+
+#: app/templates/start-incorrect-address.html:5
+msgid "You do not need to take part in this study"
 msgstr ""
 
 #: app/templates/start-timeout.html:7
@@ -473,49 +681,30 @@ msgid "Sorry, you need to enter your access code"
 msgstr ""
 
 #: app/templates/start-timeout.html:12
-msgid "followed a link to the middle of a census questionnaire"
+msgid "followed a link to the middle of a study questionnaire"
 msgstr ""
 
 #: app/templates/start-timeout.html:16
 #, python-format
 msgid ""
 "You need to %(open)senter your 16-character access code%(close)s to "
-"access your census."
+"access your study."
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:41
+#: app/templates/start-too-many-requests.html:36
 msgid ""
 "We are currently experiencing very high demand, thank you for your "
 "patience"
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:43
+#: app/templates/start-too-many-requests.html:38
 msgid "Please try again later."
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:50
+#: app/templates/start-too-many-requests.html:45
 msgid ""
 "Keep your 16-character access code safe. You will need it every time you "
-"access your census."
-msgstr ""
-
-#: app/templates/start-too-many-requests.html:56
-msgid "Why it's important you take part in the census"
-msgstr ""
-
-#: app/templates/start-too-many-requests.html:58
-msgid ""
-"Taking part in the census is your chance to help make sure you and your "
-"community get the services you need for the next 10 years and beyond."
-msgstr ""
-
-#: app/templates/start-too-many-requests.html:60
-msgid "You must complete the census by law or you could be fined up to £1,000."
-msgstr ""
-
-#: app/templates/start-too-many-requests.html:63
-#, python-format
-msgid "%(open)sFind out more about the census%(close)s"
+"access your study."
 msgstr ""
 
 #: app/templates/start.html:24
@@ -537,7 +726,7 @@ msgstr ""
 #: app/templates/start.html:74
 msgid ""
 "Keep this code safe. You will need to enter it every time you access your"
-" survey"
+" study"
 msgstr ""
 
 #: app/templates/start.html:76
@@ -557,7 +746,7 @@ msgstr ""
 #: app/templates/start.html:90
 #, python-format
 msgid ""
-"You can %(open)srequest a new access code%(close)s to start a new survey "
+"You can %(open)srequest a new access code%(close)s to start a new study "
 "if you have lost or not received an access code. This can be sent to you "
 "by text or post."
 msgstr ""
@@ -574,11 +763,11 @@ msgstr ""
 msgid "We will respond to you within 4 working days"
 msgstr ""
 
-#: app/templates/web-form-too-many-requests.html:40
+#: app/templates/web-form-too-many-requests.html:34
 msgid "You have reached the maximum number web form submissions"
 msgstr ""
 
-#: app/templates/web-form-too-many-requests.html:42
+#: app/templates/web-form-too-many-requests.html:36
 #, python-format
 msgid "If you need further assistance, please %(open)scontact us%(close)s"
 msgstr ""
@@ -596,7 +785,7 @@ msgid "Northern Ireland"
 msgstr ""
 
 #: app/templates/web-form.html:51
-msgid "I don’t have everything I need to complete my census"
+msgid "I don’t have everything I need to complete my study"
 msgstr ""
 
 #: app/templates/web-form.html:58
@@ -604,7 +793,7 @@ msgid "I am having technical difficulties"
 msgstr ""
 
 #: app/templates/web-form.html:65
-msgid "I need help with my census form"
+msgid "I need help with my study form"
 msgstr ""
 
 #: app/templates/web-form.html:72
@@ -684,17 +873,6 @@ msgstr ""
 msgid ""
 "Information about what we do with your personal data is available in our "
 "%(open)sprivacy and data protection statement%(close)s."
-msgstr ""
-
-#: app/templates/partials/closing-warning.html:6
-msgid "The census rehearsal is coming to an end."
-msgstr ""
-
-#: app/templates/partials/closing-warning.html:7
-msgid ""
-"Fill in your online questionnaire by <strong>15 November (3pm)</strong>. "
-"<br>\n"
-"    Post any paper questionnaires by <strong>22 November</strong>."
 msgstr ""
 
 #: app/templates/partials/messages.html:8

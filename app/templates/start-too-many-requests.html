@@ -1,40 +1,35 @@
 {%- extends 'base-' + display_region + '.html' -%}
 
-{% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
-{% from "components/panel/_macro.njk" import onsPanel %}
+{%- from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs -%}
+
+{%- from "components/panel/_macro.njk" import onsPanel -%}
 
 {%- if display_region == 'cy' -%}
-    {%- set about_the_census_link = domain_url_cy + '/ynglyn-ar-cyfrifiad/' -%}
-{%- else -%}
-    {%- set about_the_census_link = domain_url_en + '/about-the-census/' -%}
-{%- endif -%}
-
-{% if display_region == 'cy' %}
-    {% set breadcrumb_items = [
+    {%- set breadcrumb_items = [
                 {
                     "url": domain_url_cy,
                     "text": 'Hafan'
                 }
             ]
-    %}
-{% else %}
-    {% set breadcrumb_items = [
+    -%}
+{%- else -%}
+    {%- set breadcrumb_items = [
                 {
                     "url": domain_url_en,
                     "text": 'Home'
                 }
             ]
-    %}
-{% endif %}
+    -%}
+{%- endif -%}
 
-{% block preMain %}
+{%- block preMain -%}
     {{
         onsBreadcrumbs({
             "ariaLabel": 'Breadcrumb',
             "itemsList": breadcrumb_items
         })
     }}
-{% endblock %}
+{%- endblock -%}
 
 {%- block main -%}
 
@@ -47,20 +42,8 @@
         })
     -%}
 
-        <p>{{ _('Keep your 16-character access code safe. You will need it every time you access your census.') }}</p>
+        <p>{{ _('Keep your 16-character access code safe. You will need it every time you access your study.') }}</p>
 
     {%- endcall -%}
-
-    <hr>
-
-    <h2 class="ons-u-fs-m ons-u-mt-l">{{_("Why it's important you take part in the census")}}</h2>
-
-    <p>{{ _('Taking part in the census is your chance to help make sure you and your community get the services you need for the next 10 years and beyond.') }}</p>
-
-    <p>{{ _('You must complete the census by law or you could be fined up to £1,000.') }}</p>
-
-     {% autoescape false %}
-        <p>{{ _('%(open)sFind out more about the census%(close)s', open='<a href="%s">' % about_the_census_link, close='</a>')|safe }}</p>
-     {% endautoescape %}
 
 {%- endblock -%}

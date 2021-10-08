@@ -950,7 +950,7 @@ class RequestCodeSentByPost(View):
                 'locale': locale,
                 'request_type': request_type,
                 'page_url': View.gen_page_url(request),
-                'census_home_link': View.get_campaign_site_link(request, display_region, 'census-home'),
+                'home_link': View.get_campaign_site_link(request, display_region, 'surveys-home'),
                 'first_name': get_session_value(request, fulfilment_attributes, 'first_name',
                                                 user_journey, request_type),
                 'last_name': get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type),
