@@ -1,6 +1,7 @@
 import aiohttp_jinja2
 import json
 
+from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
@@ -10,7 +11,7 @@ from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB
+    FlashMessage, ProcessName, ProcessDOB, RHService
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -650,11 +651,35 @@ class RegisterChildSummary(View):
         request_type = request.match_info['request_type']
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/child-summary')
 
-        # TODO Trigger RHSvc endpoint
+        session = await get_existing_session(request, user_journey, request_type)
+        register_attributes = get_session_value(request, session, 'register_attributes', user_journey, request_type)
 
-        raise HTTPFound(
-            request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
-                                                               request_type=request_type))
+        submission_data = {
+            'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type),
+            'parent_first_name': get_session_value(request, register_attributes,
+                                                   'parent_first_name', user_journey, request_type),
+            'parent_last_name': get_session_value(request, register_attributes,
+                                                  'parent_last_name', user_journey, request_type),
+            'child_first_name': get_session_value(request, register_attributes,
+                                                  'child_first_name', user_journey, request_type),
+            'child_middle_names': get_session_value(request, register_attributes,
+                                                    'child_middle_names', user_journey, request_type),
+            'child_last_name': get_session_value(request, register_attributes,
+                                                 'child_last_name', user_journey, request_type),
+            'child_dob': get_session_value(request, register_attributes, 'child_dob', user_journey, request_type),
+            'mobile_number': get_session_value(request, register_attributes,
+                                               'mobile_number', user_journey, request_type),
+        }
+
+        try:
+            await RHService.register_new_case(request, submission_data)
+            raise HTTPFound(
+                request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
+                                                                   request_type=request_type))
+        except (KeyError, ClientResponseError) as ex:
+            raise ex
+
+
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +

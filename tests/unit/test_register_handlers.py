@@ -1,5 +1,6 @@
 from aiohttp.test_utils import unittest_run_loop
-
+from unittest import mock
+from aioresponses import aioresponses
 from .helpers import TestHelpers
 
 
@@ -191,7 +192,7 @@ class TestRegisterHandlers(TestHelpers):
         self.assertCorrectHeadTitleTag(display_region, 'Registration complete', contents, error=False)
         self.assertSiteLogo(display_region, contents)
         self.assertNotExitButton(display_region, contents)
-        self.assertCorrectPageTitle('Your children have been registered for the survey', contents)
+        self.assertCorrectPageTitle('Your child has been registered for the survey', contents)
         self.assertIn('A text message confirming your registration should arrive soon', contents)
 
     async def get_register(self, display_region):
@@ -455,7 +456,11 @@ class TestRegisterHandlers(TestHelpers):
     async def post_register_person_summary(self, display_region):
         url_post = self.get_url_from_class('RegisterChildSummary', 'post',
                                            display_region=display_region, request_type='person')
-        with self.assertLogs('respondent-home', 'INFO') as cm:
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+            'app.utils.RHService.register_new_case'
+        ) as mocked_register_new_case:
+            mocked_register_new_case.return_value = self.rhsvc_register_new_case
+
             get_response = await self.client.request('POST', url_post)
             self.assertLogEvent(cm, self.build_url_log_entry('child-summary', display_region, 'POST',
                                                              include_request_type=True, include_page=True))
@@ -463,6 +468,19 @@ class TestRegisterHandlers(TestHelpers):
                                                              include_request_type=True, include_page=True))
             self.assertEqual(200, get_response.status)
             self.check_content_register_complete(display_region, str(await get_response.content.read()))
+
+    async def post_register_person_summary_error(self, display_region):
+        url_post = self.get_url_from_class('RegisterChildSummary', 'post',
+                                           display_region=display_region, request_type='person')
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+            mocked_aioresponses.post(self.rhsvc_new_case_url, status=400)
+
+            get_response = await self.client.request('POST', url_post)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-summary', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, 'bad request', status_code=400)
+            self.assert500Error(get_response, display_region, str(await get_response.content.read()))
 
     async def post_register_consent_accept(self, display_region):
         url_post = self.get_url_from_class('RegisterConsent', 'post',
@@ -615,6 +633,23 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_select_school(display_region)
         await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
+
+    @unittest_run_loop
+    async def test_register_rhsvc_submission_error_400_en(self):
+        display_region = 'en'
+        await self.get_register(display_region)
+        await self.get_register_sis2(display_region)
+        await self.get_register_school_list(display_region)
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_parent_enter_name_valid(display_region)
+        await self.post_register_enter_mobile_valid(display_region)
+        await self.post_register_confirm_mobile_yes(display_region)
+        await self.post_register_consent_accept(display_region)
+        await self.post_register_child_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
+        await self.post_register_person_summary_error(display_region)
 
     @unittest_run_loop
     async def test_register_parent_enter_name_invalid_first_name_en(self):

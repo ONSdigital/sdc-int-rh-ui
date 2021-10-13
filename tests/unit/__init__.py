@@ -714,6 +714,10 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/cases/'
         )
 
+        self.rhsvc_new_case_url = (
+            f'{rh_svc_url}/cases/new'
+        )
+
         self.rhsvc_url_link_uac = (
             f'{rh_svc_url}/uacs/{self.uacHash}/link'
         )
@@ -814,6 +818,11 @@ class RHTestCase(AioHTTPTestCase):
             f = asyncio.Future()
             f.set_result(json.load(fp))
             self.rhsvc_request_fulfilment_post = f
+
+        with open('tests/test_data/rhsvc/register_new_case.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_register_new_case = f
 
         self.request_code_select_how_to_receive_data_sms = {
             'form-select-method': 'sms', 'action[save_continue]': ''
