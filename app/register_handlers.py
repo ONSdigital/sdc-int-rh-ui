@@ -680,8 +680,6 @@ class RegisterChildSummary(View):
             raise ex
 
 
-
-
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
                       '/complete/')
 class RegisterComplete(View):

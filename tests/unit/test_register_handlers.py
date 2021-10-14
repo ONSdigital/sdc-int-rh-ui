@@ -456,10 +456,9 @@ class TestRegisterHandlers(TestHelpers):
     async def post_register_person_summary(self, display_region):
         url_post = self.get_url_from_class('RegisterChildSummary', 'post',
                                            display_region=display_region, request_type='person')
-        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
-            'app.utils.RHService.register_new_case'
-        ) as mocked_register_new_case:
-            mocked_register_new_case.return_value = self.rhsvc_register_new_case
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+            mocked_aioresponses.post(self.rhsvc_new_case_url, status=200)
 
             get_response = await self.client.request('POST', url_post)
             self.assertLogEvent(cm, self.build_url_log_entry('child-summary', display_region, 'POST',
