@@ -714,6 +714,10 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/cases/'
         )
 
+        self.rhsvc_new_case_url = (
+            f'{rh_svc_url}/cases/new'
+        )
+
         self.rhsvc_url_link_uac = (
             f'{rh_svc_url}/uacs/{self.uacHash}/link'
         )

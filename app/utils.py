@@ -522,3 +522,32 @@ class RHService(View):
                                         f'{rhsvc_url}/webform',
                                         auth=request.app['RHSVC_AUTH'],
                                         request_json=form_json)
+
+    @staticmethod
+    async def register_new_case(request, data):
+        if data['child_middle_names'] == '':
+            child_middle_names = 'Empty'
+        else:
+            child_middle_names = data['child_middle_names']
+        new_case_json = {
+            'collectionExerciseId': '03f58cb5-9af4-4d40-9d60-c124c5bddf09',  # Dummy value
+            'schoolId': '1',  # Dummy value
+            'schoolName': data['school_name'],
+            'consentGivenTest': True,  # Fixed value
+            'consentGivenSurvey': True,  # Fixed value
+            'firstName': data['parent_first_name'],
+            # Unable to submit parent_middle_names
+            'lastName': data['parent_last_name'],
+            'childFirstName': data['child_first_name'],
+            'childMiddleNames': child_middle_names,
+            'childLastName': data['child_last_name'],
+            'childDob': data['child_dob'],
+            'parentMobileNumber': data['mobile_number'],
+            'parentEmailAddress': 'a.b@c.com'  # Dummy value
+        }
+        rhsvc_url = request.app['RHSVC_URL']
+        return await View._make_request(request,
+                                        'POST',
+                                        f'{rhsvc_url}/cases/new',
+                                        auth=request.app['RHSVC_AUTH'],
+                                        request_json=new_case_json)
