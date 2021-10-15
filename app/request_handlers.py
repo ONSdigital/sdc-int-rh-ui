@@ -261,14 +261,14 @@ class RequestConfirmAddress(View):
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
                         trace=request['trace'])
-            fulfilment_attributes['addressLine1'] = rhsvc_uprn_return['addressLine1']
-            fulfilment_attributes['addressLine2'] = rhsvc_uprn_return['addressLine2']
-            fulfilment_attributes['addressLine3'] = rhsvc_uprn_return['addressLine3']
-            fulfilment_attributes['townName'] = rhsvc_uprn_return['townName']
-            fulfilment_attributes['postcode'] = rhsvc_uprn_return['postcode']
-            fulfilment_attributes['uprn'] = rhsvc_uprn_return['uprn']
+            fulfilment_attributes['addressLine1'] = rhsvc_uprn_return['address']['addressLine1']
+            fulfilment_attributes['addressLine2'] = rhsvc_uprn_return['address']['addressLine2']
+            fulfilment_attributes['addressLine3'] = rhsvc_uprn_return['address']['addressLine3']
+            fulfilment_attributes['townName'] = rhsvc_uprn_return['address']['townName']
+            fulfilment_attributes['postcode'] = rhsvc_uprn_return['address']['postcode']
+            fulfilment_attributes['uprn'] = rhsvc_uprn_return['address']['uprn']
             fulfilment_attributes['case_id'] = rhsvc_uprn_return['caseId']
-            fulfilment_attributes['region'] = rhsvc_uprn_return['region']
+            fulfilment_attributes['region'] = rhsvc_uprn_return['address']['region']
 
             session.changed()
 
