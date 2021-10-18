@@ -381,9 +381,6 @@ class RHTestCase(AioHTTPTestCase):
         with open('tests/test_data/rhsvc/uac-w.json') as fp:
             self.uac_json_w = json.load(fp)
 
-        with open('tests/test_data/rhsvc/uac-n.json') as fp:
-            self.uac_json_n = json.load(fp)
-
         # URLs used in later statements
         url_path_prefix = self.app['URL_PATH_PREFIX']
         account_svc_url = self.app['ACCOUNT_SERVICE_URL']
@@ -783,11 +780,6 @@ class RHTestCase(AioHTTPTestCase):
             f = asyncio.Future()
             f.set_result(json.load(fp))
             self.rhsvc_case_by_uprn_hh_w = f
-
-        with open('tests/test_data/rhsvc/case_by_uprn_hh_n.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_hh_n = f
 
         with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
             f = asyncio.Future()
