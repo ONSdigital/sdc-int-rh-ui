@@ -625,7 +625,7 @@ class RHTestCase(AioHTTPTestCase):
         self.uacHash = self.uac_json_e['uacHash']
         self.uprn = self.uac_json_e['address']['uprn']
         self.response_id = '111000000092a445af12905967d'
-        self.questionnaire_id = self.uac_json_e['questionnaireId']
+        self.questionnaire_id = self.uac_json_e['qid']
         self.channel = 'rh'
         self.attributes_en = {
             'addressLine1': self.uac_json_e['address']['addressLine1'],

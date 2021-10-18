@@ -58,7 +58,7 @@ class EqPayloadConstructor(object):
             raise InvalidEqPayLoad('No collection id in supplied case JSON')
 
         try:
-            self._questionnaire_id = case['questionnaireId']
+            self._questionnaire_id = case['qid']
         except KeyError:
             raise InvalidEqPayLoad('No questionnaireId in supplied case JSON')
 

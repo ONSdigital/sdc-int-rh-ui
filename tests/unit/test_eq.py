@@ -31,11 +31,11 @@ class TestEq(RHTestCase):
 
     def test_create_eq_constructor_missing_questionnaire_id(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['questionnaireId']
+        del uac_json['qid']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
             EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
-            self.assertIn(f'No questionnaireId in supplied case JSON',
+            self.assertIn(f'No qid in supplied case JSON',
                           ex.exception.message)
 
     def test_create_eq_constructor_missing_uprn(self):
