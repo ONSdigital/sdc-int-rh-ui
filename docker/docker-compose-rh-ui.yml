@@ -5,7 +5,7 @@ services:
     image: rh-ui
     depends_on:
       - redis
-      - mock-ai
+      - mock-service
     environment:
       - REDIS_SERVER=redis
       - REDIS_PORT=6379
