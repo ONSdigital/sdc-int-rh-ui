@@ -615,7 +615,7 @@ class RHTestCase(AioHTTPTestCase):
         self.collection_exercise_id = self.uac_json_e['collectionExerciseId']
         self.eq_id = 'census'
         self.survey = 'CENSUS'
-        self.form_type = self.uac_json_e['formType']
+        self.form_type = 'H'
         self.jti = str(uuid.uuid4())
         self.uac_code = ''.join([str(n) for n in range(13)])
         self.uac1, self.uac2, self.uac3, self.uac4 = \
