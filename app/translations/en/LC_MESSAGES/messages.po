@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-10-06 12:09+0100\n"
+"POT-Creation-Date: 2021-11-02 17:39+0000\n"
 "PO-Revision-Date: 2019-08-30 11:45+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.1\n"
+"Generated-By: Babel 2.9.1\n"
 
 #: app/templates/404.html:5
 msgid "Page not found"
@@ -38,11 +38,11 @@ msgid ""
 msgstr ""
 
 #: app/templates/closed.html:6
-msgid "This survey has closed"
+msgid "This study has closed"
 msgstr ""
 
 #: app/templates/closed.html:9
-msgid "Your access code is for a survey that has now closed."
+msgid "Your access code is for a study that has now closed."
 msgstr ""
 
 #: app/templates/closed.html:11
@@ -120,7 +120,7 @@ msgid "Save and continue"
 msgstr ""
 
 #: app/templates/register-complete.html:18
-msgid "Your children have been registered for the survey"
+msgid "Your child has been registered for the survey"
 msgstr ""
 
 #: app/templates/register-complete.html:21
@@ -663,7 +663,7 @@ msgid "This access code has already been used"
 msgstr ""
 
 #: app/templates/start-expired.html:9
-msgid "Someone has already submitted a study using this access code."
+msgid "Someone has already submitted a response using this access code."
 msgstr ""
 
 #: app/templates/start-expired.html:12
@@ -893,4 +893,16 @@ msgstr ""
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
 msgstr ""
+
+#~ msgid "This survey has closed"
+#~ msgstr ""
+
+#~ msgid "Your access code is for a survey that has now closed."
+#~ msgstr ""
+
+#~ msgid "Your children have been registered for the survey"
+#~ msgstr ""
+
+#~ msgid "Someone has already submitted a study using this access code."
+#~ msgstr ""
 
