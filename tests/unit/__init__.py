@@ -564,6 +564,8 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_forbidden_title_cy = "Mae\\\'n ddrwg gennym, mae problem wedi codi"
         self.content_start_timeout_forbidden_link_text_cy = "eich cod mynediad 16 nod"
 
+        self.content_start_closed_study = "Your access code is for a study that has now closed."
+
         # End Start Journey
 
         # Session Timeout
