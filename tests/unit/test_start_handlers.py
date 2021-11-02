@@ -294,7 +294,7 @@ class TestStartHandlers(TestHelpers):
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_inactive_ew_e(self):
+    async def test_post_start_uac_closed_ew_e(self):
         uac_json = self.uac_json_e.copy()
         uac_json['active'] = False
 
@@ -305,15 +305,15 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
+        self.assertSiteLogo('en', contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_inactive_ew_w(self):
+    async def test_post_start_uac_clsoed_ew_w(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
 
@@ -324,15 +324,15 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_inactive_cy(self):
+    async def test_post_start_uac_closed_cy(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
 
@@ -343,12 +343,12 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_cy,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('cy', contents)
-        self.assertIn(self.content_start_uac_expired_cy, contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
     async def test_post_start_uac_case_status_not_found_ew_e(self):
@@ -1212,11 +1212,11 @@ class TestStartHandlers(TestHelpers):
                                                  self.post_start_en,
                                                  data=self.start_data_valid)
 
-            self.assertLogEvent(cm, "attempt to access a survey that has already ended")
+            self.assertLogEvent(cm, "attempt to use an inactive access code")
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertSiteLogo('en', contents)
-            self.assertIn(self.content_start_closed_study, contents)
+            self.assertIn(self.content_start_uac_expired_en, contents)
 
     @unittest_run_loop
     async def test_post_start_for_receiptReceived_true_cy(self):
@@ -1230,8 +1230,8 @@ class TestStartHandlers(TestHelpers):
                                                  self.post_start_cy,
                                                  data=self.start_data_valid)
 
-            self.assertLogEvent(cm, "attempt to access a survey that has already ended")
+            self.assertLogEvent(cm, "attempt to use an inactive access code")
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertSiteLogo('cy', contents)
-            self.assertIn(self.content_start_closed_study, contents)
+            self.assertIn(self.content_start_uac_expired_cy, contents)
