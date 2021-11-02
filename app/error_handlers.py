@@ -64,8 +64,8 @@ def create_error_middleware(overrides):
             return await too_many_requests_register(request)
         except InactiveCaseError:
             return await inactive_case(request)
-        except ExerciseClosedError as ex:
-            return await ce_closed(request, ex.collection_exercise_id)
+        except ExerciseClosedError:
+            return await survey_closed(request)
         except InvalidEqPayLoad as ex:
             return await eq_error(request, ex.message)
         except ClientConnectionError as ex:
@@ -88,17 +88,16 @@ async def inactive_case(request):
                 client_id=request['client_id'],
                 trace=request['trace'])
     attributes = check_display_region(request)
-    return jinja.render_template('start-expired.html', request, attributes)
+    return jinja.render_template('start-uac-already-used.html', request, attributes)
 
 
-async def ce_closed(request, collex_id):
-    logger.warn('attempt to access collection exercise that has already ended',
+async def survey_closed(request):
+    logger.warn('attempt to access a survey that has already ended',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
-                trace=request['trace'],
-                collex_id=collex_id)
+                trace=request['trace'])
     attributes = check_display_region(request)
-    return jinja.render_template('closed.html', request, attributes)
+    return jinja.render_template('start-closed.html', request, attributes)
 
 
 async def eq_error(request, message: str):

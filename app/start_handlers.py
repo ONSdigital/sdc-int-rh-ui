@@ -12,7 +12,7 @@ from . import (BAD_CODE_MSG, INVALID_CODE_MSG, NO_SELECTION_CHECK_MSG,
 
 from .flash import flash
 
-from .exceptions import InvalidEqPayLoad, InvalidAccessCode
+from .exceptions import InvalidEqPayLoad, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
 from .session import get_session_value
 
@@ -123,9 +123,13 @@ class Start(StartCommon):
                              client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                 raise ex
 
-        await remember(uac_json['caseId'], request)
-
-        self.validate_case(uac_json)
+        if uac_json['receiptReceived']:
+            raise ExerciseClosedError
+        elif not uac_json['receiptReceived'] and not uac_json['active']:
+            raise InactiveCaseError
+        else:
+            await remember(uac_json['caseId'], request)
+            self.validate_case(uac_json)
 
         try:
             auth_attributes = uac_json['address']
