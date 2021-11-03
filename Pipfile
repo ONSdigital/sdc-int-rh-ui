@@ -21,6 +21,7 @@ sdc-cryptography = "~=0.4.0"
 structlog = "~=20.1.0"
 tenacity = "~=6.2.0"
 jinja2 = "~=2.11.2"
+importlib-metadata = "~=4.8.1"
 
 [dev-packages]
 aiohttp-devtools = "~=0.13.1"
