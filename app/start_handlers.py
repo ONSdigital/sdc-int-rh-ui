@@ -125,8 +125,9 @@ class Start(StartCommon):
 
         if uac_json['receiptReceived']:
             raise InactiveCaseError
-        elif not uac_json['receiptReceived'] and not uac_json['active']:
-            raise ExerciseClosedError
+        elif not uac_json['active']:
+            collection_id = uac_json['collectionExerciseId']
+            raise ExerciseClosedError(collection_id)
         else:
             await remember(uac_json['caseId'], request)
             self.validate_case(uac_json)

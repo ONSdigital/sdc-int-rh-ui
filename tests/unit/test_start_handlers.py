@@ -8,7 +8,7 @@ from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
                  BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.exceptions import InactiveCaseError, InvalidEqPayLoad, ExerciseClosedError
+from app.exceptions import InactiveCaseError, InvalidEqPayLoad
 from app.start_handlers import Start
 
 from . import build_eq_raises, skip_encrypt
@@ -305,7 +305,7 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
@@ -313,7 +313,7 @@ class TestStartHandlers(TestHelpers):
         self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_clsoed_ew_w(self):
+    async def test_post_start_uac_closed_ew_w(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
 
@@ -324,7 +324,7 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
@@ -343,7 +343,7 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_cy,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to access a survey that has already ended')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
@@ -1216,7 +1216,7 @@ class TestStartHandlers(TestHelpers):
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertSiteLogo('en', contents)
-            self.assertIn(self.content_start_uac_expired_en, contents)
+            self.assertIn(self.content_start_uac_already_used_en, contents)
 
     @unittest_run_loop
     async def test_post_start_for_receiptReceived_true_cy(self):
@@ -1234,4 +1234,4 @@ class TestStartHandlers(TestHelpers):
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertSiteLogo('cy', contents)
-            self.assertIn(self.content_start_uac_expired_cy, contents)
+            self.assertIn(self.content_start_uac_already_used_cy, contents)
