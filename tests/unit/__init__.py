@@ -521,8 +521,8 @@ class RHTestCase(AioHTTPTestCase):
         # Start Journey
 
         # Content
-        self.content_start_uac_expired_en = 'This access code has already been used'
-        self.content_start_uac_expired_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
+        self.content_start_uac_already_used_en = 'This access code has already been used'
+        self.content_start_uac_already_used_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
         self.content_start_confirm_address_page_title_en = '<title>Confirm address - ' + site_name_en + '</title>'
         self.content_start_confirm_address_page_title_error_en = \
@@ -563,6 +563,8 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_timeout_forbidden_link_text_en = 'enter your 16-character access code'
         self.content_start_forbidden_title_cy = "Mae\\\'n ddrwg gennym, mae problem wedi codi"
         self.content_start_timeout_forbidden_link_text_cy = "eich cod mynediad 16 nod"
+
+        self.content_start_closed_study = "Your access code is for a study that has now closed."
 
         # End Start Journey
 

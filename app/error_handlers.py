@@ -88,7 +88,7 @@ async def inactive_case(request):
                 client_id=request['client_id'],
                 trace=request['trace'])
     attributes = check_display_region(request)
-    return jinja.render_template('start-expired.html', request, attributes)
+    return jinja.render_template('start-uac-already-used.html', request, attributes)
 
 
 async def ce_closed(request, collex_id):
@@ -98,7 +98,7 @@ async def ce_closed(request, collex_id):
                 trace=request['trace'],
                 collex_id=collex_id)
     attributes = check_display_region(request)
-    return jinja.render_template('closed.html', request, attributes)
+    return jinja.render_template('start-closed.html', request, attributes)
 
 
 async def eq_error(request, message: str):
