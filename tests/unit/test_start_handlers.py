@@ -113,6 +113,7 @@ class TestStartHandlers(TestHelpers):
     @unittest_run_loop
     async def test_post_start_build_raises_InvalidEqPayLoad_ew_e(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
             mocked.post(self.rhsvc_url_surveylaunched)
 
@@ -293,64 +294,7 @@ class TestStartHandlers(TestHelpers):
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_active_missing_ew_e(self):
-        uac_json = self.uac_json_e.copy()
-        del uac_json['active']
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
-
-        self.assertEqual(response.status, 200)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_uac_active_missing_ew_w(self):
-        uac_json = self.uac_json_w.copy()
-        del uac_json['active']
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
-
-        self.assertEqual(response.status, 200)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
-
-    @unittest_run_loop
-    async def test_post_start_uac_active_missing_cy(self):
-        uac_json = self.uac_json_w.copy()
-        del uac_json['active']
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
-
-        self.assertEqual(response.status, 200)
-        contents = str(await response.content.read())
-        self.assertSiteLogo('cy', contents)
-        self.assertIn(self.content_start_uac_expired_cy, contents)
-
-    @unittest_run_loop
-    async def test_post_start_uac_inactive_ew_e(self):
+    async def test_post_start_uac_closed_ew_e(self):
         uac_json = self.uac_json_e.copy()
         uac_json['active'] = False
 
@@ -361,15 +305,15 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_inactive_ew_w(self):
+    async def test_post_start_uac_closed_ew_w(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
 
@@ -380,15 +324,15 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn(self.content_start_uac_expired_en, contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_inactive_cy(self):
+    async def test_post_start_uac_closed_cy(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
 
@@ -399,12 +343,12 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_cy,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an inactive access code')
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('cy', contents)
-        self.assertIn(self.content_start_uac_expired_cy, contents)
+        self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
     async def test_post_start_uac_case_status_not_found_ew_e(self):
@@ -1255,3 +1199,39 @@ class TestStartHandlers(TestHelpers):
                 continue
             # outputs failed key as msg
             self.assertEqual(eq_payload[key], token[key], key)
+
+    @unittest_run_loop
+    async def test_post_start_for_receiptReceived_true_ew_e(self):
+        uac_json = self.uac_json_e.copy()
+        uac_json['receiptReceived'] = True
+        with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
+                passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.rhsvc_url, payload=uac_json)
+
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=self.start_data_valid)
+
+            self.assertLogEvent(cm, "attempt to use an inactive access code")
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo('en', contents)
+            self.assertIn(self.content_start_uac_already_used_en, contents)
+
+    @unittest_run_loop
+    async def test_post_start_for_receiptReceived_true_cy(self):
+        uac_json = self.uac_json_w.copy()
+        uac_json['receiptReceived'] = True
+        with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
+                passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.rhsvc_url, payload=uac_json)
+
+            response = await self.client.request('POST',
+                                                 self.post_start_cy,
+                                                 data=self.start_data_valid)
+
+            self.assertLogEvent(cm, "attempt to use an inactive access code")
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo('cy', contents)
+            self.assertIn(self.content_start_uac_already_used_cy, contents)
