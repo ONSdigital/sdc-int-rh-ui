@@ -113,7 +113,7 @@ class WebForm(View):
                         client_id=request['client_id'],
                         trace=request['trace'],
                         region_of_site=display_region)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['WebForm:get'].url_for(display_region=display_region))
 
         else:
@@ -143,7 +143,7 @@ class WebForm(View):
                 else:
                     raise ex
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['WebFormSuccess:get'].url_for(display_region=display_region))
 
 

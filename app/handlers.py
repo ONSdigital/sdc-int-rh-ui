@@ -58,7 +58,7 @@ class LaunchEQ(View):
                     trace=request['trace'],
                     region_of_site=display_region)
         eq_url = request.app['EQ_URL']
-        raise HTTPFound(f'{eq_url}/session?token={token}')
+        return HTTPFound(f'{eq_url}/session?token={token}')
 
 
 @static_routes.view(r'/' + View.valid_display_regions + '/signed-out/')

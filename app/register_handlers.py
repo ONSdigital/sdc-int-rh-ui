@@ -120,7 +120,7 @@ class RegisterStart(View):
         }
         session['register_attributes'] = register_attributes
         session.changed()
-        raise HTTPFound(
+        return HTTPFound(
             request.app.router['RegisterEnterName:get'].url_for(display_region=display_region,
                                                                 request_type=request_type))
 
@@ -171,7 +171,7 @@ class RegisterEnterName(View):
                         trace=request['trace'],
                         region_of_site=display_region,
                         type_of_request=request_type)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterEnterName:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -186,7 +186,7 @@ class RegisterEnterName(View):
         register_attributes['parent_last_name'] = name_last_name
         session.changed()
 
-        raise HTTPFound(
+        return HTTPFound(
             request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
                                                                   request_type=request_type))
 
@@ -237,7 +237,7 @@ class RegisterEnterMobile(View):
             register_attributes['submitted_mobile_number'] = data['request-mobile-number']
             session.changed()
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConfirmMobile:get'].url_for(display_region=display_region,
                                                                         request_type=request_type))
 
@@ -250,7 +250,7 @@ class RegisterEnterMobile(View):
                 flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'MOBILE_ENTER_ERROR',
                                                                     'mobile_invalid')
             flash(request, flash_message)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
                                                                       request_type=request_type))
 
@@ -295,18 +295,18 @@ class RegisterConfirmMobile(View):
             logger.info('mobile confirmation error',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
             flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConfirmMobile:get'].url_for(
                     display_region=display_region, request_type=request_type
                 ))
 
         if mobile_confirmation == 'yes':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
                                                                   request_type=request_type))
 
         elif mobile_confirmation == 'no':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterEnterMobile:get'].url_for(display_region=display_region,
                                                                       request_type=request_type))
 
@@ -318,7 +318,7 @@ class RegisterConfirmMobile(View):
                         trace=request['trace'],
                         user_selection=mobile_confirmation)
             flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConfirmMobile:get'].url_for(display_region=display_region,
                                                                         request_type=request_type))
 
@@ -357,17 +357,17 @@ class RegisterConsent(View):
         logger.info(data)
 
         if data.get('button-decline') == 'decline':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConsentDeclined:get'].url_for(display_region=display_region,
                                                                           request_type=request_type))
         elif data.get('button-accept') == 'accept':
             register_attributes['consent'] = 'accept'
             session.changed()
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterEnterChildName:get'].url_for(display_region=display_region,
                                                                          request_type=request_type))
         else:
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterConsent:get'].url_for(display_region=display_region,
                                                                   request_type=request_type))
 
@@ -452,7 +452,7 @@ class RegisterEnterChildName(View):
                         trace=request['trace'],
                         region_of_site=display_region,
                         type_of_request=request_type)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterEnterChildName:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -468,11 +468,11 @@ class RegisterEnterChildName(View):
         session.changed()
 
         if journey == 'new':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterSelectSchool:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
         else:
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
 
@@ -526,17 +526,17 @@ class RegisterSelectSchool(View):
             register_attributes['school_name'] = data.get('school-selection')
             session.changed()
             if journey == 'new':
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RegisterChildDOB:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
             else:
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
                                                                            request_type=request_type))
         else:
             flash(request, {'text': 'Enter a value', 'level': 'ERROR', 'type': 'SCHOOL_ENTER_ERROR',
                             'field': 'error_selection'})
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterSelectSchool:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
 
@@ -600,7 +600,7 @@ class RegisterChildDOB(View):
             register_attributes['child_dob'] = str(date)
             session.changed()
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterChildSummary:get'].url_for(display_region=display_region,
                                                                        request_type=request_type))
 
@@ -609,7 +609,7 @@ class RegisterChildDOB(View):
             flash_message = FlashMessage.generate_flash_message('Enter a valid date', 'ERROR', 'CHILD_DOB_ERROR',
                                                                 'dob_invalid')
             flash(request, flash_message)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterChildDOB:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
 
@@ -673,7 +673,7 @@ class RegisterChildSummary(View):
 
         try:
             await RHService.register_new_case(request, submission_data)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
         except (KeyError, ClientResponseError) as ex:

@@ -93,7 +93,7 @@ class RequestEnterAddress(View):
                     flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'POSTCODE_ENTER_ERROR',
                                                                         'error_postcode_invalid')
                 flash(request, flash_message)
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RequestEnterAddress:get'].url_for(
                         display_region=display_region,
                         user_journey=user_journey,
@@ -104,7 +104,7 @@ class RequestEnterAddress(View):
             session['fulfilment_attributes'] = fulfilment_attributes
             session.changed()
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestSelectAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -124,7 +124,7 @@ class RequestEnterAddress(View):
                         uprn_selected=uprn,
                         region_of_site=display_region)
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestConfirmAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -196,7 +196,7 @@ class RequestSelectAddress(View):
                 flash(request, ADDRESS_SELECT_CHECK_MSG_CY)
             else:
                 flash(request, ADDRESS_SELECT_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestSelectAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -204,7 +204,7 @@ class RequestSelectAddress(View):
                 ))
 
         if selected_uprn == 'xxxx':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestContactCentre:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -221,7 +221,7 @@ class RequestSelectAddress(View):
                         uprn_selected=selected_uprn,
                         region_of_site=display_region)
 
-        raise HTTPFound(
+        return HTTPFound(
             request.app.router['RequestConfirmAddress:get'].url_for(
                 display_region=display_region,
                 user_journey=user_journey,
@@ -278,7 +278,7 @@ class RequestConfirmAddress(View):
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
                             trace=request['trace'])
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RequestContactCentre:get'].url_for(
                         display_region=display_region,
                         user_journey=user_journey,
@@ -329,7 +329,7 @@ class RequestConfirmAddress(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestConfirmAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -337,12 +337,12 @@ class RequestConfirmAddress(View):
                 ))
 
         if address_confirmation == 'yes':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
                     request_type=request_type, display_region=display_region))
 
         elif address_confirmation == 'no':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestEnterAddress:get'].url_for(display_region=display_region,
                                                                       user_journey=user_journey,
                                                                       request_type=request_type))
@@ -354,7 +354,7 @@ class RequestConfirmAddress(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestConfirmAddress:get'].url_for(
                     display_region=display_region,
                     user_journey=user_journey,
@@ -414,19 +414,19 @@ class RequestCodeSelectHowToReceive(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
                 ))
 
         if request_method == 'sms':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeEnterMobile:get'].url_for(request_type=request_type,
                                                                          display_region=display_region))
 
         elif request_method == 'post':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCommonEnterName:get'].url_for(request_type=request_type,
                                                                          display_region=display_region))
 
@@ -441,7 +441,7 @@ class RequestCodeSelectHowToReceive(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -506,7 +506,7 @@ class RequestCodeEnterMobile(View):
             fulfilment_attributes['submitted_mobile_number'] = data['request-mobile-number']
             session.changed()
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeConfirmSendByText:get'].url_for(request_type=request_type,
                                                                                display_region=display_region))
 
@@ -519,7 +519,7 @@ class RequestCodeEnterMobile(View):
                 flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'MOBILE_ENTER_ERROR',
                                                                     'mobile_invalid')
             flash(request, flash_message)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeEnterMobile:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -581,7 +581,7 @@ class RequestCodeConfirmSendByText(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeConfirmSendByText:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -631,14 +631,14 @@ class RequestCodeConfirmSendByText(View):
                     else:
                         raise ex
 
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RequestCodeSentByText:get'].url_for(request_type=request_type,
                                                                             display_region=display_region))
             except ClientResponseError as ex:
                 raise ex
 
         elif mobile_confirmation == 'no':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeEnterMobile:get'].url_for(request_type=request_type,
                                                                          display_region=display_region))
 
@@ -653,7 +653,7 @@ class RequestCodeConfirmSendByText(View):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeConfirmSendByText:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -712,7 +712,7 @@ class RequestCommonEnterName(View):
                         trace=request['trace'],
                         region_of_site=display_region,
                         type_of_request=request_type)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCommonEnterName:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
@@ -725,7 +725,7 @@ class RequestCommonEnterName(View):
         fulfilment_attributes['last_name'] = name_last_name
         session.changed()
 
-        raise HTTPFound(
+        return HTTPFound(
             request.app.router['RequestCommonConfirmSendByPost:get'].url_for(display_region=display_region,
                                                                              request_type=request_type))
 
@@ -801,7 +801,7 @@ class RequestCommonConfirmSendByPost(View):
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCommonConfirmSendByPost:get'].url_for(display_region=display_region,
                                                                                  request_type=request_type))
 
@@ -856,7 +856,7 @@ class RequestCommonConfirmSendByPost(View):
                     else:
                         raise ex
 
-                raise HTTPFound(
+                return HTTPFound(
                     request.app.router['RequestCodeSentByPost:get'].url_for(display_region=display_region,
                                                                             request_type=request_type))
 
@@ -864,7 +864,7 @@ class RequestCommonConfirmSendByPost(View):
                 raise ex
 
         elif name_address_confirmation == 'no':
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCodeEnterMobile:get'].url_for(display_region=display_region,
                                                                          request_type=request_type))
 
@@ -882,7 +882,7 @@ class RequestCommonConfirmSendByPost(View):
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['RequestCommonConfirmSendByPost:get'].url_for(display_region=display_region,
                                                                                  request_type=request_type))
 
