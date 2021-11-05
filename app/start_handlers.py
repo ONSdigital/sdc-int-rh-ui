@@ -24,19 +24,6 @@ user_journey = 'start'
 
 
 class StartCommon(View):
-    def setup_uac_hash(self, request, uac, lang):
-        try:
-            request['uac_hash'] = self.uac_hash(uac)
-        except TypeError:
-            logger.warn('attempt to use a malformed access code',
-                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-            message = {
-                'en': INVALID_CODE_MSG,
-                'cy': INVALID_CODE_MSG_CY
-            }[lang]
-            flash(request, message)
-            raise HTTPFound(request.app.router['Start:get'].url_for(display_region=lang))
-
     @staticmethod
     def uac_hash(uac, expected_length=16):
         if uac:
@@ -103,9 +90,19 @@ class Start(StartCommon):
                 flash(request, BAD_CODE_MSG_CY)
             else:
                 flash(request, BAD_CODE_MSG)
-            raise HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
+            return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-        self.setup_uac_hash(request, data.get('uac'), lang=display_region)
+        try:
+            request['uac_hash'] = self.uac_hash(data.get('uac'))
+        except TypeError:
+            logger.warn('attempt to use a malformed access code',
+                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            message = {
+                'en': INVALID_CODE_MSG,
+                'cy': INVALID_CODE_MSG_CY
+            }[display_region]
+            flash(request, message)
+            return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
         try:
             uac_json = await RHService.get_uac_details(request)
@@ -143,7 +140,7 @@ class Start(StartCommon):
         session['auth_attributes'] = auth_attributes
         session['case'] = uac_json
 
-        raise HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
+        return HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/confirm-address/')
@@ -214,7 +211,7 @@ class StartConfirmAddress(StartCommon):
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
 
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
         if address_confirmation == 'Yes':
@@ -225,7 +222,7 @@ class StartConfirmAddress(StartCommon):
                                           session.get('adlocation'))
 
         elif address_confirmation == 'No':
-            raise HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))
+            return HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))
 
         else:
             # catch all just in case, should never get here
@@ -240,7 +237,7 @@ class StartConfirmAddress(StartCommon):
                 flash(request, NO_SELECTION_CHECK_MSG_CY)
             else:
                 flash(request, NO_SELECTION_CHECK_MSG)
-            raise HTTPFound(
+            return HTTPFound(
                 request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
 
@@ -250,7 +247,7 @@ class StartExit(StartCommon):
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/' + user_journey + '/exit')
         await invalidate(request)
-        raise HTTPFound(
+        return HTTPFound(
             request.app.router['Start:get'].url_for(display_region=display_region)
         )
 
