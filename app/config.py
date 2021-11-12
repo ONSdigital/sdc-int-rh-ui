@@ -67,8 +67,9 @@ class BaseConfig:
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
     ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL')
-    ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='')
     ADDRESS_INDEX_EPOCH = env('ADDRESS_INDEX_EPOCH', default='')
+    ADDRESS_INDEX_SVC_EXTERNAL_URL = env('ADDRESS_INDEX_SVC_EXTERNAL_URL')
+    ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='')
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
@@ -116,8 +117,9 @@ class DevelopmentConfig:
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
     ADDRESS_INDEX_SVC_URL = env.str('ADDRESS_INDEX_SVC_URL', default='http://localhost:9000')
-    ADDRESS_INDEX_SVC_JWT = env('ADDRESS_INDEX_SVC_JWT', default='secret')
     ADDRESS_INDEX_EPOCH = env.str('ADDRESS_INDEX_EPOCH', default='')
+    ADDRESS_INDEX_SVC_EXTERNAL_URL = env('ADDRESS_INDEX_SVC_EXTERNAL_URL', default='http://localhost:9000')
+    ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='secret')
 
     EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
 
@@ -156,8 +158,9 @@ class TestingConfig:
     SESSION_AGE = ''
 
     ADDRESS_INDEX_SVC_URL = 'http://localhost:9000'
-    ADDRESS_INDEX_SVC_JWT = 'secret'
     ADDRESS_INDEX_EPOCH = ''
+    ADDRESS_INDEX_SVC_EXTERNAL_URL = 'http://localhost:9000'
+    ADDRESS_INDEX_SVC_KEY = 'c2VjcmV0' # Value must be base64 encoded
 
     EQ_SALT = 's3cr3tS4lt'
 

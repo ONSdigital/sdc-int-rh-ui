@@ -1,5 +1,7 @@
 import string
 import re
+import jwt
+import base64
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
@@ -368,6 +370,13 @@ class FlashMessage:
 class AddressIndex(View):
 
     @staticmethod
+    def generate_jwt(request):
+        key = request.app['ADDRESS_INDEX_SVC_KEY']
+        decoded_key = base64.b64decode(key.encode("utf-8"))
+        token = jwt.encode({}, decoded_key, algorithm="HS256")
+        return token
+
+    @staticmethod
     async def get_postcode_return(request, postcode, display_region):
         postcode_return = await AddressIndex.get_ai_postcode(request, postcode)
 
@@ -407,8 +416,9 @@ class AddressIndex(View):
     async def get_ai_postcode(request, postcode):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
+        token = AddressIndex.generate_jwt(request)
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
-        headers = {'Authorization': 'Bearer ' + request.app['ADDRESS_INDEX_SVC_JWT']}
+        headers = {'Authorization': 'Bearer ' + token}
         return await View._make_request(request,
                                         'GET',
                                         url,
