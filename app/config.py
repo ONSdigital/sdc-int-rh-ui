@@ -160,7 +160,7 @@ class TestingConfig:
     ADDRESS_INDEX_SVC_URL = 'http://localhost:9000'
     ADDRESS_INDEX_EPOCH = ''
     ADDRESS_INDEX_SVC_EXTERNAL_URL = 'http://localhost:9000'
-    ADDRESS_INDEX_SVC_KEY = 'c2VjcmV0'  # Value must be base64 encoded
+    ADDRESS_INDEX_SVC_KEY = 'c2VjcmV0PT0='  # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     EQ_SALT = 's3cr3tS4lt'
 
