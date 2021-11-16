@@ -372,8 +372,8 @@ class AddressIndex(View):
     @staticmethod
     def generate_jwt(request):
         key = request.app['ADDRESS_INDEX_SVC_KEY']
-        decoded_key = base64.b64decode(key.encode("utf-8"))
-        token = jwt.encode({}, decoded_key, algorithm="HS256")
+        # decoded_key = base64.b64decode(key.encode("utf-8"))
+        token = jwt.encode({}, key, algorithm="HS256")
         return token
 
     @staticmethod
