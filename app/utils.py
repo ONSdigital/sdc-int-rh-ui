@@ -1,7 +1,6 @@
 import string
 import re
 import jwt
-import base64
 
 from aiohttp.client_exceptions import (ClientResponseError)
 from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
@@ -372,7 +371,6 @@ class AddressIndex(View):
     @staticmethod
     def generate_jwt(request):
         key = request.app['ADDRESS_INDEX_SVC_KEY']
-        # decoded_key = base64.b64decode(key.encode("utf-8"))
         token = jwt.encode({}, key, algorithm="HS256")
         return token
 
