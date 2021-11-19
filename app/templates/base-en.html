@@ -9,7 +9,8 @@
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'Exit',
-            'buttonStyle': 'exit',
+            'iconType': 'exit',
+            'iconPosition': 'after',
             'url': url('StartExit:get', display_region='en')
         }
     -%}
