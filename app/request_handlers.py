@@ -432,7 +432,7 @@ class RequestCodeSelectHowToReceive(View):
         elif request_method == 'email':
             return HTTPFound(
                 request.app.router['RequestCodeEnterEmail:get'].url_for(request_type=request_type,
-                                                                          display_region=display_region))
+                                                                        display_region=display_region))
 
         else:
             # catch all just in case, should never get here
@@ -834,9 +834,9 @@ class RequestCodeConfirmSendByEmail(View):
 
                 try:
                     await RHService.request_fulfilment_email(request,
-                                                           case_id,
-                                                           email,
-                                                           fulfilment_code_array)
+                                                             case_id,
+                                                             email,
+                                                             fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
