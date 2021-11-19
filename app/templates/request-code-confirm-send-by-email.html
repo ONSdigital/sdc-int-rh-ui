@@ -1,0 +1,69 @@
+{%- extends 'base-' + display_region + '.html' -%}
+
+{%- set messages_dict=dict(get_flashed_messages()|groupby('level')) -%}
+{%- set field_messages_dict=dict(messages_dict['ERROR']|groupby('field')) -%}
+
+{%- from 'components/question/_macro.njk' import onsQuestion -%}
+{%- from 'components/button/_macro.njk' import onsButton -%}
+{%- from 'components/radios/_macro.njk' import onsRadios -%}
+
+{%- set form =  {
+    'method': 'POST',
+    'attributes': {
+        'action': url('RequestCodeConfirmSendByEmail:post', request_type=request_type, display_region=display_region)
+    }
+} -%}
+
+{%- set form_options = [
+                {
+                    'id': 'yes',
+                    'label': {
+                        'text': _('Yes, send the email')
+                    },
+                    'value': 'yes'
+                },
+                {
+                    'id': 'no',
+                    'label': {
+                        'text': _('No, I need to change it')
+                    },
+                    'value': 'no'
+                }
+            ]
+-%}
+
+{%- if 'no-selection' in field_messages_dict -%}
+    {%- set error_email_confirmation = {'id': 'no-selection', 'text': _('Select an answer')} -%}
+{%- endif -%}
+
+{%- block main -%}
+
+    {%- if messages_dict -%}
+        {%- include 'partials/messages.html' with context -%}
+    {%- endif -%}
+
+    {%- call onsQuestion({
+        'title': _('Is the email address %(email)s correct?', email=email)|safe
+    }) -%}
+
+        {{
+            onsRadios({
+                'name': 'request-email-confirmation',
+                'radios': form_options,
+                'legend': _('Is this email address correct?'),
+                'legendClasses': 'ons-u-vh',
+                'error': error_email_confirmation
+            })
+        }}
+
+    {%- endcall -%}
+
+    {{
+        onsButton({
+            'text': _('Continue'),
+            'classes': 'ons-u-mt-l',
+            'submitType': 'loader'
+        })
+    }}
+
+{%- endblock -%}

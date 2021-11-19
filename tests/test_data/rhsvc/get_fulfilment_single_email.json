@@ -1,0 +1,18 @@
+[
+    {
+        "fulfilmentCode": "UACHHT1",
+        "productGroup": "UAC",
+        "description": "Household Unique Access Code for England via email",
+        "language": "E",
+        "caseTypes": [
+            "HH",
+            "SPG"
+        ],
+        "individual": false,
+        "regions": [
+            "E"
+        ],
+        "deliveryChannel": "EMAIL",
+        "handler": "NOTIFY"
+    }
+]

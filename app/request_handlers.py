@@ -15,7 +15,8 @@ from .security import forget
 from .exceptions import TooManyRequests
 from .security import invalidate
 
-from .utils import View, ProcessPostcode, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
+from .utils import View, ProcessPostcode, ProcessMobileNumber, ProcessEmailAddress, \
+    InvalidDataError, InvalidDataErrorWelsh, \
     FlashMessage, AddressIndex, RHService, ProcessName
 from .session import get_existing_session, get_session_value
 
@@ -424,11 +425,14 @@ class RequestCodeSelectHowToReceive(View):
             return HTTPFound(
                 request.app.router['RequestCodeEnterMobile:get'].url_for(request_type=request_type,
                                                                          display_region=display_region))
-
         elif request_method == 'post':
             return HTTPFound(
                 request.app.router['RequestCommonEnterName:get'].url_for(request_type=request_type,
                                                                          display_region=display_region))
+        elif request_method == 'email':
+            return HTTPFound(
+                request.app.router['RequestCodeEnterEmail:get'].url_for(request_type=request_type,
+                                                                          display_region=display_region))
 
         else:
             # catch all just in case, should never get here
@@ -655,6 +659,214 @@ class RequestCodeConfirmSendByText(View):
                 flash(request, NO_SELECTION_CHECK_MSG)
             return HTTPFound(
                 request.app.router['RequestCodeConfirmSendByText:get'].url_for(
+                    display_region=display_region,
+                    request_type=request_type
+                ))
+
+
+@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
+                     '/enter-email/')
+class RequestCodeEnterEmail(View):
+    @aiohttp_jinja2.template('request-code-enter-email.html')
+    async def get(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        if display_region == 'cy':
+            page_title = 'Enter email address'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_cy + page_title
+            locale = 'cy'
+        else:
+            page_title = 'Enter email address'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_en + page_title
+            locale = 'en'
+
+        self.log_entry(request, display_region + '/request/' + request_type + '/enter-email')
+
+        await get_existing_session(request, user_journey, request_type)
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request)
+        }
+
+    async def post(self, request):
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        if display_region == 'cy':
+            locale = 'cy'
+        else:
+            locale = 'en'
+
+        self.log_entry(request, display_region + '/request/' + request_type + '/enter-email')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        data = await request.post()
+
+        try:
+            email = ProcessEmailAddress.validate_email(data['request-email'], locale)
+
+            logger.info('valid email address',
+                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+
+            fulfilment_attributes['email'] = email
+            session.changed()
+
+            return HTTPFound(
+                request.app.router['RequestCodeConfirmSendByEmail:get'].url_for(request_type=request_type,
+                                                                                display_region=display_region))
+
+        except (InvalidDataError, InvalidDataErrorWelsh) as exc:
+            logger.info(exc, client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            if exc.message_type == 'empty':
+                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'EMAIL_ENTER_ERROR',
+                                                                    'email_empty')
+            else:
+                flash_message = FlashMessage.generate_flash_message(str(exc), 'ERROR', 'EMAIL_ENTER_ERROR',
+                                                                    'email_invalid')
+            flash(request, flash_message)
+            return HTTPFound(
+                request.app.router['RequestCodeEnterEmail:get'].url_for(
+                    display_region=display_region,
+                    request_type=request_type
+                ))
+
+
+@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
+                     '/confirm-send-by-email/')
+class RequestCodeConfirmSendByEmail(View):
+    @aiohttp_jinja2.template('request-code-confirm-send-by-email.html')
+    async def get(self, request):
+
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-send-by-email')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        if display_region == 'cy':
+            page_title = 'Confirm to send access code by email'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_cy + page_title
+            locale = 'cy'
+        else:
+            page_title = 'Confirm to send access code by email'
+            if request.get('flash'):
+                page_title = View.page_title_error_prefix_en + page_title
+            locale = 'en'
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'email': get_session_value(request, fulfilment_attributes, 'email', user_journey)
+        }
+
+    async def post(self, request):
+
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/request/' + request_type + '/confirm-send-by-email')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        data = await request.post()
+        try:
+            email_confirmation = data['request-email-confirmation']
+        except KeyError:
+            logger.info('email confirmation error',
+                        client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+            if display_region == 'cy':
+                flash(request, NO_SELECTION_CHECK_MSG_CY)
+            else:
+                flash(request, NO_SELECTION_CHECK_MSG)
+            return HTTPFound(
+                request.app.router['RequestCodeConfirmSendByEmail:get'].url_for(
+                    display_region=display_region,
+                    request_type=request_type
+                ))
+
+        if email_confirmation == 'yes':
+            region = get_session_value(request, fulfilment_attributes, 'region', user_journey, request_type)
+            postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
+            case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            email = get_session_value(request, fulfilment_attributes, 'email', user_journey, request_type)
+
+            fulfilment_individual = 'false'
+
+            if display_region == 'cy':
+                fulfilment_language = 'W'
+            else:
+                fulfilment_language = 'E'
+
+            logger.info(f"fulfilment query: region={region}, "
+                        f"individual={fulfilment_individual}",
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        postcode=postcode)
+
+            fulfilment_code_array = []
+
+            try:
+                available_fulfilments = await RHService.get_fulfilment(
+                    request, region, 'EMAIL', 'UAC', fulfilment_individual)
+                if len(available_fulfilments) > 1:
+                    for fulfilment in available_fulfilments:
+                        if fulfilment['language'] == fulfilment_language:
+                            fulfilment_code_array.append(fulfilment['fulfilmentCode'])
+                else:
+                    fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
+
+                try:
+                    await RHService.request_fulfilment_email(request,
+                                                           case_id,
+                                                           email,
+                                                           fulfilment_code_array)
+                except (KeyError, ClientResponseError) as ex:
+                    if ex.status == 429:
+                        raise TooManyRequests(request_type)
+                    else:
+                        raise ex
+
+                return HTTPFound(
+                    request.app.router['RequestCodeSentByEmail:get'].url_for(request_type=request_type,
+                                                                             display_region=display_region))
+            except ClientResponseError as ex:
+                raise ex
+
+        elif email_confirmation == 'no':
+            return HTTPFound(
+                request.app.router['RequestCodeEnterEmail:get'].url_for(request_type=request_type,
+                                                                        display_region=display_region))
+
+        else:
+            # catch all just in case, should never get here
+            logger.info('email confirmation error',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'],
+                        user_selection=email_confirmation)
+            if display_region == 'cy':
+                flash(request, NO_SELECTION_CHECK_MSG_CY)
+            else:
+                flash(request, NO_SELECTION_CHECK_MSG)
+            return HTTPFound(
+                request.app.router['RequestCodeConfirmSendByEmail:get'].url_for(
                     display_region=display_region,
                     request_type=request_type
                 ))
@@ -918,6 +1130,39 @@ class RequestCodeSentByText(View):
             'page_url': View.gen_page_url(request),
             'submitted_mobile_number': get_session_value(request, fulfilment_attributes,
                                                          'submitted_mobile_number', user_journey)
+        }
+
+
+@request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
+                     '/code-sent-by-email/')
+class RequestCodeSentByEmail(View):
+    @aiohttp_jinja2.template('request-code-sent-by-email.html')
+    async def get(self, request):
+
+        request_type = request.match_info['request_type']
+        display_region = request.match_info['display_region']
+
+        self.log_entry(request, display_region + '/request/' + request_type + '/code-sent-by-email')
+
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+
+        if display_region == 'cy':
+            page_title = "Access code has been sent by email"
+            locale = 'cy'
+        else:
+            page_title = 'Access code has been sent by email'
+            locale = 'en'
+
+        await invalidate(request)
+
+        return {
+            'page_title': page_title,
+            'display_region': display_region,
+            'locale': locale,
+            'request_type': request_type,
+            'page_url': View.gen_page_url(request),
+            'email': get_session_value(request, fulfilment_attributes, 'email', user_journey)
         }
 
 
