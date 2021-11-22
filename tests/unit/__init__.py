@@ -613,8 +613,8 @@ class RHTestCase(AioHTTPTestCase):
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
 
-        self.case_id = self.uac_json_e['caseId']
-        self.collection_exercise_id = self.uac_json_e['collectionExerciseId']
+        self.case_id = self.uac_json_e['caseDTO']['caseId']
+        self.collection_exercise_id = self.uac_json_e['collectionExerciseDTO']['collectionExerciseId']
         self.eq_id = 'census'
         self.survey = 'CENSUS'
         self.form_type = 'H'
@@ -625,17 +625,17 @@ class RHTestCase(AioHTTPTestCase):
         self.period_id = '2021'
         self.uac = 'w4nwwpphjjptp7fn'
         self.uacHash = self.uac_json_e['uacHash']
-        self.uprn = self.uac_json_e['address']['uprn']
+        self.uprn = self.uac_json_e['caseDTO']['address']['uprn']
         self.response_id = '111000000092a445af12905967d'
         self.questionnaire_id = self.uac_json_e['qid']
         self.channel = 'rh'
         self.attributes_en = {
-            'addressLine1': self.uac_json_e['address']['addressLine1'],
-            'addressLine2': self.uac_json_e['address']['addressLine2'],
-            'addressLine3': self.uac_json_e['address']['addressLine3'],
-            'townName': self.uac_json_e['address']['townName'],
-            'postcode': self.uac_json_e['address']['postcode'],
-            'uprn': self.uac_json_e['address']['uprn'],
+            'addressLine1': self.uac_json_e['caseDTO']['address']['addressLine1'],
+            'addressLine2': self.uac_json_e['caseDTO']['address']['addressLine2'],
+            'addressLine3': self.uac_json_e['caseDTO']['address']['addressLine3'],
+            'townName': self.uac_json_e['caseDTO']['address']['townName'],
+            'postcode': self.uac_json_e['caseDTO']['address']['postcode'],
+            'uprn': self.uac_json_e['caseDTO']['address']['uprn'],
             'language': 'en',
             'display_region': 'en'
         }
@@ -657,7 +657,7 @@ class RHTestCase(AioHTTPTestCase):
             'case_id': self.case_id,
             'language_code': 'en',
             'display_address':
-                self.uac_json_e['address']['addressLine1'] + ', ' + self.uac_json_e['address']['addressLine2'],
+                self.uac_json_e['caseDTO']['address']['addressLine1'] + ', ' + self.uac_json_e['caseDTO']['address']['addressLine2'],
             'response_id': self.response_id,
             'account_service_url': f'{account_svc_url}{url_path_prefix}/start/',
             'account_service_log_out_url': f'{account_svc_url}{url_path_prefix}/signed-out/',
@@ -757,11 +757,11 @@ class RHTestCase(AioHTTPTestCase):
         self.start_modify_address_data = {
             'caseId': self.case_id,
             'uprn': self.uprn,
-            'addressLine1': self.uac_json_e['address']['addressLine1'],
-            'addressLine2': self.uac_json_e['address']['addressLine2'],
-            'addressLine3': self.uac_json_e['address']['addressLine3'],
-            'townName': self.uac_json_e['address']['townName'],
-            'postcode': self.uac_json_e['address']['postcode']
+            'addressLine1': self.uac_json_e['caseDTO']['address']['addressLine1'],
+            'addressLine2': self.uac_json_e['caseDTO']['address']['addressLine2'],
+            'addressLine3': self.uac_json_e['caseDTO']['address']['addressLine3'],
+            'townName': self.uac_json_e['caseDTO']['address']['townName'],
+            'postcode': self.uac_json_e['caseDTO']['address']['postcode']
             }
 
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'

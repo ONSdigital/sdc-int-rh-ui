@@ -123,7 +123,7 @@ class Start(StartCommon):
         if uac_json['receiptReceived']:
             raise InactiveCaseError
         elif not uac_json['active']:
-            collection_id = uac_json['collectionExerciseId']
+            collection_id = uac_json['collectionExerciseDTO']['collectionExerciseId']
             raise ExerciseClosedError(collection_id)
         else:
             await remember(uac_json['caseDTO']['caseId'], request)

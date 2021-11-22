@@ -14,7 +14,7 @@ class TestEq(RHTestCase):
 
     def test_create_eq_constructor_missing_case_id(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['caseId']
+        del uac_json['caseDTO']['caseId']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
             EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
@@ -22,7 +22,7 @@ class TestEq(RHTestCase):
 
     def test_create_eq_constructor_missing_ce_id(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['collectionExerciseId']
+        del uac_json['collectionExerciseDTO']['collectionExerciseId']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
             EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
@@ -40,7 +40,7 @@ class TestEq(RHTestCase):
 
     def test_create_eq_constructor_missing_uprn(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['address']['uprn']
+        del uac_json['caseDTO']['address']['uprn']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
             EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
@@ -201,7 +201,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.build_display_address(
-            self.uac_json_e['address'])
+            self.uac_json_e['caseDTO']['address'])
         self.assertEqual(result, eq_payload['display_address'])
 
     def test_build_display_address_cy(self):
@@ -210,7 +210,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.build_display_address(
-            self.uac_json_e['address'])
+            self.uac_json_e['caseDTO']['address'])
         self.assertEqual(result, eq_payload['display_address'])
 
     def test_convert_region_code_e(self):
@@ -219,7 +219,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.convert_region_code(
-            self.uac_json_e['region'])
+            self.uac_json_e['caseDTO']['address']['region'])
         self.assertEqual(result, eq_payload['region_code'])
 
     def test_convert_region_code_w(self):
@@ -228,7 +228,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.convert_region_code(
-            self.uac_json_w['region'])
+            self.uac_json_w['caseDTO']['address']['region'])
         self.assertEqual(result, eq_payload['region_code'])
 
     def test_build_display_address_raises(self):

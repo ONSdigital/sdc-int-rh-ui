@@ -3,7 +3,7 @@ import re
 import jwt
 
 from aiohttp.client_exceptions import (ClientResponseError)
-from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
+from .exceptions import InactiveCaseError, InvalidDataError, InvalidDataErrorWelsh, \
     TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from datetime import datetime
