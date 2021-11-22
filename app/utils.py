@@ -139,8 +139,6 @@ class View:
     def validate_case(case_json):
         if not case_json.get('active', False):
             raise InactiveCaseError()
-        if not case_json.get('caseStatus', None) == 'OK':
-            raise InvalidEqPayLoad('CaseStatus is not OK')
 
     @staticmethod
     async def call_questionnaire(request, case, attributes, app, adlocation):
@@ -502,7 +500,7 @@ class RHService(View):
             adlocation = ''
         launch_json = {
             'questionnaireId': case['qid'],
-            'caseId': case['caseId'],
+            'caseId': case['caseDTO']['caseId'],
             'agentId': adlocation,
             'clientIP': View.single_client_ip(request)
         }

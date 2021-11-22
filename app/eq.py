@@ -48,12 +48,12 @@ class EqPayloadConstructor(object):
             self._user_id = ''
 
         try:
-            self._case_id = case['caseId']
+            self._case_id = case['caseDTO']['caseId']
         except KeyError:
             raise InvalidEqPayLoad('No case id in supplied case JSON')
 
         try:
-            self._collex_id = case['collectionExerciseId']
+            self._collex_id = case['collectionExerciseDTO']['collectionExerciseId']
         except KeyError:
             raise InvalidEqPayLoad('No collection id in supplied case JSON')
 
@@ -65,12 +65,12 @@ class EqPayloadConstructor(object):
         self._response_id = self.hash_qid(self._questionnaire_id, salt)
 
         try:
-            self._uprn = case['address']['uprn']
+            self._uprn = case['caseDTO']['address']['uprn']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address uprn from case JSON')
 
         try:
-            self._region = case['region'][0]
+            self._region = case['caseDTO']['address']['region'][0]
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve region from case JSON')
 

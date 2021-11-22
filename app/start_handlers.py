@@ -126,11 +126,11 @@ class Start(StartCommon):
             collection_id = uac_json['collectionExerciseId']
             raise ExerciseClosedError(collection_id)
         else:
-            await remember(uac_json['caseId'], request)
+            await remember(uac_json['caseDTO']['caseId'], request)
             self.validate_case(uac_json)
 
         try:
-            auth_attributes = uac_json['address']
+            auth_attributes = uac_json['caseDTO']['address']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address details')
 
