@@ -747,13 +747,6 @@ class TestRequestHandlersAccessCode(TestHelpers):
     async def test_request_access_code_post_confirm_send_by_post_request_fulfilment_error_429_cy(self):
         await self.assert_request_access_code_post_confirm_send_by_post_request_fulfilment_error_429('cy', 'W')
 
-
-
-
-
-
-
-
     @unittest_run_loop
     async def test_request_access_code_email_happy_path_ew_e(self):
         await self.assert_request_access_code_email_happy_path('en', 'E')
