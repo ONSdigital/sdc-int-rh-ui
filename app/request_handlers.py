@@ -281,6 +281,10 @@ class RequestConfirmAddress(View):
 
                 aims_uprn_return = await AddressIndex.get_ai_uprn(request, uprn)
 
+                # Ensure no session data from previous RM case used later
+                if 'case_id' in fulfilment_attributes:
+                    del fulfilment_attributes['case_id']
+                    session.changed()
                 fulfilment_attributes['addressLine1'] = aims_uprn_return['response']['address']['addressLine1']
                 fulfilment_attributes['addressLine2'] = aims_uprn_return['response']['address']['addressLine2']
                 fulfilment_attributes['addressLine3'] = aims_uprn_return['response']['address']['addressLine3']
