@@ -358,6 +358,32 @@ class ProcessDOB:
         return formatted_date
 
 
+class ProcessEmailAddress:
+    email_validation_pattern = re.compile(
+        r'(^[^@\s]+@[^@\s]+\.[^@\s]+$)'
+    )
+
+    @staticmethod
+    def validate_email(email, locale):
+        if len(email.strip()) == 0:
+            if locale == 'cy':
+                raise InvalidDataErrorWelsh("Enter an email address", message_type='empty')
+            else:
+                raise InvalidDataError('Enter an email address', message_type='empty')
+        else:
+            if ProcessEmailAddress.email_validation_pattern.fullmatch(email):
+                return email
+            else:
+                if locale == 'cy':
+                    raise InvalidDataErrorWelsh(
+                        "Enter an email address in a valid format, for example, name@example.com",
+                        message_type='invalid')
+                else:
+                    raise InvalidDataError(
+                        'Enter an email address in a valid format, for example, name@example.com',
+                        message_type='invalid')
+
+
 class FlashMessage:
 
     @staticmethod
@@ -487,6 +513,23 @@ class RHService(View):
             'clientIP': View.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/post'
+        return await View._make_request(request,
+                                        'POST',
+                                        url,
+                                        auth=request.app['RHSVC_AUTH'],
+                                        request_json=fulfilment_json)
+
+    @staticmethod
+    async def request_fulfilment_email(request, case_id, email, fulfilment_code_array):
+        rhsvc_url = request.app['RHSVC_URL']
+        fulfilment_json = {
+            'caseId': case_id,
+            'email': email,
+            'fulfilmentCodes': fulfilment_code_array,
+            'dateTime': datetime.now(utc).isoformat(),
+            'clientIP': View.single_client_ip(request)
+        }
+        url = f'{rhsvc_url}/cases/{case_id}/fulfilments/email'
         return await View._make_request(request,
                                         'POST',
                                         url,

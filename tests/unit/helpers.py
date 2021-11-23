@@ -268,6 +268,73 @@ class TestHelpers(RHTestCase):
         self.assertIn(option_yes_text, contents)
         self.assertIn(option_no_text, contents)
 
+    def check_content_enter_email(self, display_region, contents, check_empty=False, check_error=False):
+        if display_region == 'cy':
+            title_tag = 'Enter email address'
+            h1_title = "What is your email address?"
+            secondary_text = "Ni chaiff y rhif ei storio a dim ond unwaith i anfon y cod mynediad y caiff ei ddefnyddio"
+            error_text_link = "Enter an email address in a valid format, for example, name@example.com"
+            error_text = error_text_link
+            error_text_empty = "Enter an email address"
+        else:
+            title_tag = 'Enter email address'
+            h1_title = 'What is your email address?'
+            secondary_text = 'This will not be stored and only used once to send the access code'
+            error_text_link = 'Enter an email address in a valid format, for example, name@example.com'
+            error_text = error_text_link
+            error_text_empty = 'Enter an email address'
+
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'enter-email')
+
+        if check_empty:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_empty, 'email_empty',
+                                             error_text_empty, contents)
+            self.assertIn(error_text_empty, contents)
+        elif check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'email_invalid',
+                                             error_text, contents)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(secondary_text, contents)
+
+    def check_content_confirm_send_by_email(self, display_region, contents, check_error=False):
+        if display_region == 'cy':
+            title_tag = 'Confirm to send access code by email'  # TODO Add Translation
+            h1_title = "Is the email address test@testing.com correct?"  # TODO Add Translation
+            option_yes_text = "Yes, send the email"  # TODO Add Translation
+            option_no_text = "Nac ydy, mae angen i mi ei newid"
+            error_text_link = "Dewiswch ateb"
+            error_text = error_text_link
+        else:
+            title_tag = 'Confirm to send access code by email'
+            h1_title = 'Is the email address test@testing.com correct?'
+            option_yes_text = 'Yes, send the email'
+            option_no_text = 'No, I need to change it'
+            error_text_link = 'Select an answer'
+            error_text = error_text_link
+
+        self.assertNotExitButton(display_region, contents)
+        self.assertSiteLogo(display_region, contents)
+        self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                          self.request_type, 'confirm-send-by-email')
+
+        if check_error:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed(display_region, 'answer', error_text_link, 'no-selection',
+                                             error_text, contents)
+        else:
+            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+        self.assertCorrectQuestionText(h1_title, contents)
+        self.assertIn(option_yes_text, contents)
+        self.assertIn(option_no_text, contents)
+
     async def check_get_enter_address(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('GET', self.get_url_from_class('RequestEnterAddress', 'get',
@@ -597,6 +664,17 @@ class TestHelpers(RHTestCase):
                 self.assertIn(self.content_request_common_enter_name_page_title_en, contents)
                 self.assertIn(self.content_request_common_enter_name_title_en, contents)
 
+    async def check_post_select_how_to_receive_input_email(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeSelectHowToReceive', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_select_how_to_receive_data_email)
+            self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-email', display_region, 'GET'))
+            self.check_content_enter_email(display_region, str(await response.content.read()))
+
     async def check_post_select_how_to_receive_input_invalid(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('POST',
@@ -658,6 +736,44 @@ class TestHelpers(RHTestCase):
 
             self.assertEqual(response.status, 200)
             self.check_content_enter_mobile(display_region, str(await response.content.read()), check_empty=True)
+
+    async def check_post_enter_email(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeEnterEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_enter_email_form_data_valid)
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-email', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'GET'))
+            self.check_content_confirm_send_by_email(display_region, str(await response.content.read()),
+                                                     check_error=False)
+
+    async def check_post_enter_email_input_invalid(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeEnterEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_enter_email_form_data_invalid)
+
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-email', display_region, 'POST'))
+
+            self.assertEqual(response.status, 200)
+            self.check_content_enter_email(display_region, str(await response.content.read()), check_error=True)
+
+    async def check_post_enter_email_input_empty(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeEnterEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_enter_email_form_data_empty)
+
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-email', display_region, 'POST'))
+
+            self.assertEqual(response.status, 200)
+            self.check_content_enter_email(display_region, str(await response.content.read()), check_empty=True)
 
     async def check_post_confirm_send_by_text(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
@@ -793,6 +909,141 @@ class TestHelpers(RHTestCase):
             self.assertEqual(response.status, 200)
             self.check_content_confirm_send_by_text(display_region, str(await response.content.read()),
                                                     check_error=True)
+
+    async def check_post_confirm_send_by_email(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.utils.RHService.get_fulfilment'
+        ) as mocked_get_fulfilment, mock.patch(
+            'app.utils.RHService.request_fulfilment_email'
+        ) as mocked_request_fulfilment_email:
+
+            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_multi_email
+            mocked_request_fulfilment_email.return_value = self.rhsvc_request_fulfilment_email
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+            self.assertLogEvent(cm, "fulfilment query: region=" + region + ", individual=false")
+            self.assertLogEvent(cm, self.build_url_log_entry('code-sent-by-email', display_region, 'GET'))
+
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                              self.request_type, 'code-sent-by-email')
+            if display_region == 'cy':
+                self.assertCorrectHeadTitleTag(display_region, 'Access code has been sent by email', contents,
+                                               error=False)  # TODO Add translation
+                self.assertCorrectPageTitle('An email has been sent to test@testing.com ', contents)
+                self.assertIn('The email message with a new access code should arrive soon for you to start your study',
+                              contents)  # TODO Add translation
+            else:
+                self.assertCorrectHeadTitleTag(display_region, 'Access code has been sent by email', contents,
+                                               error=False)
+                self.assertCorrectPageTitle('An email has been sent to test@testing.com ', contents)
+                self.assertIn('The email message with a new access code should arrive soon for you to start your study',
+                              contents)
+
+    async def check_post_confirm_send_by_email_error_from_get_fulfilment(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
+                passthrough=[str(self.server._root)]
+        ) as mocked_aioresponses:
+            mocked_aioresponses.get(self.rhsvc_url_fulfilments +
+                                    '?caseType=HH&region=' + region +
+                                    '&deliveryChannel=EMAIL&productGroup=UAC&individual=false', status=400)
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+            self.assertLogEvent(cm, 'bad request', status_code=400)
+            self.assert500Error(response, display_region, str(await response.content.read()))
+
+    async def check_post_confirm_send_by_email_input_no(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_no)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+            self.assertLogEvent(cm, self.build_url_log_entry('enter-email', display_region, 'GET'))
+
+            self.assertEqual(response.status, 200)
+            self.check_content_enter_email(display_region, str(await response.content.read()))
+
+    async def check_post_confirm_send_by_email_error_from_request_fulfilment(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.utils.RHService.get_fulfilment') as mocked_get_fulfilment, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_email
+            mocked_aioresponses.post(self.rhsvc_cases_url +
+                                     'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/email', status=400)
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+            self.assertLogEvent(cm, 'bad request', status_code=400)
+            self.assert500Error(response, display_region, str(await response.content.read()))
+
+    async def check_post_confirm_send_by_email_error_429_from_request_fulfilment(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.utils.RHService.get_fulfilment') as mocked_get_fulfilment, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+
+            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_email
+            mocked_aioresponses.post(self.rhsvc_cases_url +
+                                     'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/email', status=429)
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+            self.assertLogEvent(cm, 'too many requests', status_code=429)
+            self.assertLogEvent(cm, 'session invalidated')
+            self.assertEqual(response.status, 429)
+            contents = str(await response.content.read())
+            self.assertSiteLogo(display_region, contents)
+            if display_region == 'cy':
+                self.assertIn(self.content_common_429_error_uac_title_cy, contents)
+            else:
+                self.assertIn(self.content_common_429_error_uac_title_en, contents)
+
+    async def check_post_confirm_send_by_email_input_invalid(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_invalid)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+
+            self.assertEqual(response.status, 200)
+            self.check_content_confirm_send_by_email(display_region, str(await response.content.read()),
+                                                     check_error=True)
+
+    async def check_post_confirm_send_by_email_input_no_selection(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestCodeConfirmSendByEmail', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.request_code_email_confirmation_data_empty)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-send-by-email', display_region, 'POST'))
+
+            self.assertEqual(response.status, 200)
+            self.check_content_confirm_send_by_email(display_region, str(await response.content.read()),
+                                                     check_error=True)
 
     async def check_post_enter_address_error_from_ai(self, get_url, post_url, display_region, status):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
