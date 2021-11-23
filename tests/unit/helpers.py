@@ -449,7 +449,7 @@ class TestHelpers(RHTestCase):
                                                          self.get_url_from_class(
                                                              'RequestConfirmAddress', 'post',
                                                              display_region, request_type=self.request_type),
-                                                             data=self.common_confirm_address_input_yes)
+                                                         data=self.common_confirm_address_input_yes)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, 'no case matching uprn in RHSvc - return customer contact centre page')
             self.assertLogEvent(cm, self.build_url_log_entry('address-not-required', display_region, 'GET'))
