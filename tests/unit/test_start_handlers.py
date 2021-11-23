@@ -298,8 +298,6 @@ class TestStartHandlers(TestHelpers):
         uac_json = self.uac_json_e.copy()
         uac_json['active'] = False
 
-        print(uac_json)
-
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=uac_json)
 
