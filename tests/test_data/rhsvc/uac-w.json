@@ -16,13 +16,13 @@
 	    "invalid": false,
 	    "refusalReceived": "HARD_REFUSAL",
 	    "address": {
-		    "addressLine1": "ONS",
-		    "addressLine2": "Segensworth Road",
-		    "addressLine3": "Titchfield",
-		    "townName": "Fareham",
-		    "postcode": "PO15 5RR",
-		    "uprn": "xxxxxxxxxxx",
-		    "region": "W"
+            "addressLine1": "ONS",
+            "addressLine2": "Segensworth Road",
+            "addressLine3": "Titchfield",
+            "townName": "Fareham",
+            "postcode": "PO15 5RR",
+            "uprn": "xxxxxxxxxxx",
+            "region": "W"
 	    }
 	},
 	"collectionExercise": {
