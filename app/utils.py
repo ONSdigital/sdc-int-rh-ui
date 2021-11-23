@@ -500,7 +500,7 @@ class RHService(View):
             adlocation = ''
         launch_json = {
             'questionnaireId': case['qid'],
-            'caseId': case['caseDTO']['caseId'],
+            'caseId': case['collectionCase']['caseId'],
             'agentId': adlocation,
             'clientIP': View.single_client_ip(request)
         }
