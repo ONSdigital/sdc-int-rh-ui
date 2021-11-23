@@ -412,6 +412,9 @@ class RHTestCase(AioHTTPTestCase):
         self.mobile_invalid_long = '0701234567890123456'
         self.mobile_invalid_character = '0701234567$'
 
+        self.email_valid = 'test@testing.com'
+        self.email_invalid = 'cheese.scone'
+
         self.field_empty = None
 
         self.common_form_data_empty = {}
@@ -803,6 +806,16 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.rhsvc_get_fulfilment_single_post = f
 
+        with open('tests/test_data/rhsvc/get_fulfilment_multi_email.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_get_fulfilment_multi_email = f
+
+        with open('tests/test_data/rhsvc/get_fulfilment_single_email.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_get_fulfilment_single_email = f
+
         with open('tests/test_data/rhsvc/request_fulfilment_sms.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
@@ -813,12 +826,21 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.rhsvc_request_fulfilment_post = f
 
+        with open('tests/test_data/rhsvc/request_fulfilment_email.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_request_fulfilment_email = f
+
         self.request_code_select_how_to_receive_data_sms = {
             'form-select-method': 'sms', 'action[save_continue]': ''
         }
 
         self.request_code_select_how_to_receive_data_post = {
             'form-select-method': 'post', 'action[save_continue]': ''
+        }
+
+        self.request_code_select_how_to_receive_data_email = {
+            'form-select-method': 'email', 'action[save_continue]': ''
         }
 
         self.request_code_select_how_to_receive_data_invalid = {
@@ -837,6 +859,18 @@ class RHTestCase(AioHTTPTestCase):
             'request-mobile-number': '', 'action[save_continue]': '',
         }
 
+        self.request_code_enter_email_form_data_valid = {
+            'request-email': self.email_valid, 'action[save_continue]': '',
+        }
+
+        self.request_code_enter_email_form_data_invalid = {
+            'request-email': self.email_invalid, 'action[save_continue]': '',
+        }
+
+        self.request_code_enter_email_form_data_empty = {
+            'request-email': '', 'action[save_continue]': '',
+        }
+
         self.request_code_mobile_confirmation_data_yes = {
             'request-mobile-confirmation': 'yes', 'action[save_continue]': ''
         }
@@ -850,6 +884,20 @@ class RHTestCase(AioHTTPTestCase):
         }
 
         self.request_code_mobile_confirmation_data_empty = {}
+
+        self.request_code_email_confirmation_data_yes = {
+            'request-email-confirmation': 'yes', 'action[save_continue]': ''
+        }
+
+        self.request_code_email_confirmation_data_no = {
+            'request-email-confirmation': 'no', 'action[save_continue]': ''
+        }
+
+        self.request_code_email_confirmation_data_invalid = {
+            'request-email-confirmation': 'invalid', 'action[save_continue]': ''
+        }
+
+        self.request_code_email_confirmation_data_empty = {}
 
         self.request_common_enter_name_form_data_valid = {
             'name_first_name': 'Bob', 'name_last_name': 'Bobbington', 'action[save_continue]': '',
