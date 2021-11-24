@@ -50,7 +50,7 @@ class TestEq(RHTestCase):
     @unittest_run_loop
     async def test_build_en(self):
         eq_payload = self.eq_payload.copy()
-        eq_payload['region_code'] = 'GB-ENG'
+        eq_payload['region_code'] = 'E'
         eq_payload['language_code'] = 'en'
         account_service_url = self.app['ACCOUNT_SERVICE_URL']
         url_path_prefix = self.app['URL_PATH_PREFIX']
@@ -118,9 +118,9 @@ class TestEq(RHTestCase):
     @unittest_run_loop
     async def test_build_assisted_digital_en(self):
         eq_payload = self.eq_payload.copy()
-        eq_payload['channel'] = 'ad'
-        eq_payload['user_id'] = '1000007'
-        eq_payload['region_code'] = 'GB-ENG'
+        eq_payload['channel'] = 'RH'
+        eq_payload['user_id'] = ''
+        eq_payload['region_code'] = 'E'
         eq_payload['language_code'] = 'en'
         account_service_url = self.app['ACCOUNT_SERVICE_URL']
         url_path_prefix = self.app['URL_PATH_PREFIX']
@@ -215,7 +215,7 @@ class TestEq(RHTestCase):
 
     def test_convert_region_code_e(self):
         eq_payload = self.eq_payload.copy()
-        eq_payload['region_code'] = 'GB-ENG'
+        eq_payload['region_code'] = 'E'
         from app import eq
 
         result = eq.EqPayloadConstructor.convert_region_code(

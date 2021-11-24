@@ -929,7 +929,7 @@ class TestStartHandlers(TestHelpers):
 
             mocked.post(self.rhsvc_url_surveylaunched)
             eq_payload = self.eq_payload.copy()
-            eq_payload['region_code'] = 'GB-ENG'
+            eq_payload['region_code'] = 'E'
             eq_payload['language_code'] = 'en'
             account_service_url = self.app['ACCOUNT_SERVICE_URL']
             url_path_prefix = self.app['URL_PATH_PREFIX']
@@ -940,7 +940,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1015,7 +1015,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1090,7 +1090,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_cy)
