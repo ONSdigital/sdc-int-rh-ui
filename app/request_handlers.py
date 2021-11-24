@@ -12,13 +12,14 @@ from . import (ADDRESS_SELECT_CHECK_MSG,
 from .flash import flash
 from .security import forget
 
-from .exceptions import TooManyRequests
+from .exceptions import TooManyRequests, GetFulfilmentsError
 from .security import invalidate
 
 from .utils import View, ProcessPostcode, ProcessMobileNumber, ProcessEmailAddress, \
     InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, AddressIndex, RHService, ProcessName
+    FlashMessage, AddressIndex, ProcessName
 from .session import get_existing_session, get_session_value
+from app.comms.rhsvc import Cases, Fulfilments, Surveys
 
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()
@@ -257,7 +258,7 @@ class RequestConfirmAddress(View):
         uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
         try:
-            rhsvc_uprn_return = await RHService.get_case_by_uprn(request, uprn)
+            rhsvc_uprn_return = await Cases.get_cases_by_uprn(request, uprn)
             logger.info('case matching uprn found in RHSvc',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -270,6 +271,7 @@ class RequestConfirmAddress(View):
             fulfilment_attributes['uprn'] = rhsvc_uprn_return['address']['uprn']
             fulfilment_attributes['case_id'] = rhsvc_uprn_return['caseId']
             fulfilment_attributes['region'] = rhsvc_uprn_return['address']['region']
+            fulfilment_attributes['survey_id'] = rhsvc_uprn_return['surveyId']
 
             session.changed()
 
@@ -374,18 +376,73 @@ class RequestCodeSelectHowToReceive(View):
 
         self.log_entry(request, display_region + '/request/' + request_type + '/select-how-to-receive')
 
-        await get_existing_session(request, user_journey, request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
 
         if display_region == 'cy':
             page_title = 'Select how to receive access code'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_cy + page_title
+            label_text_sms = 'Neges destun'
+            label_description_sms = 'We will need your mobile number for this'
+            label_text_print = 'Post'
+            label_description_print = "Dim ond i'r cyfeiriad cofrestredig y gallwn anfon codau mynediad"
+            label_text_email = 'Email'
+            label_description_email = 'We will need your email address for this'
             locale = 'cy'
         else:
             page_title = 'Select how to receive access code'
             if request.get('flash'):
                 page_title = View.page_title_error_prefix_en + page_title
+            label_text_sms = 'Text message'
+            label_description_sms = 'We will need your mobile number for this'
+            label_text_print = 'Post'
+            label_description_print = 'We can only send access codes to the registered address'
+            label_text_email = 'Email'
+            label_description_email = 'We will need your email address for this'
             locale = 'en'
+
+        survey_id = get_session_value(request, fulfilment_attributes, 'survey_id', user_journey, request_type)
+        survey_data = await Surveys.get_survey_details(request, survey_id)
+
+        form_option_set = []
+
+        if survey_data['allowedSmsFulfilments']:
+            form_option_set.append({
+                'id': 'sms',
+                'label': {
+                    'text': label_text_sms,
+                    'description': label_description_sms
+                },
+                'value': 'sms'
+            })
+        if survey_data['allowedPrintFulfilments']:
+            form_option_set.append({
+                'id': 'post',
+                'label': {
+                    'text': label_text_print,
+                    'description': label_description_print
+                },
+                'value': 'post'
+            })
+        if survey_data['allowedEmailFulfilments']:
+            form_option_set.append({
+                'id': 'email',
+                'label': {
+                    'text': label_text_email,
+                    'description': label_description_email
+                },
+                'value': 'email'
+            })
+
+        if (not survey_data['allowedSmsFulfilments']) and \
+                (not survey_data['allowedPrintFulfilments']) and \
+                (not survey_data['allowedEmailFulfilments']):
+            logger.info('no valid fulfilments available',
+                        client_ip=request['client_ip'],
+                        client_id=request['client_id'],
+                        trace=request['trace'])
+            raise GetFulfilmentsError
 
         return {
             'page_title': page_title,
@@ -393,7 +450,8 @@ class RequestCodeSelectHowToReceive(View):
             'locale': locale,
             'request_type': request_type,
             'page_url': View.gen_page_url(request),
-            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us')
+            'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
+            'form_option_set': form_option_set
         }
 
     async def post(self, request):
@@ -615,7 +673,7 @@ class RequestCodeConfirmSendByText(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await Fulfilments.get_fulfilment(
                     request, region, 'SMS', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
@@ -625,10 +683,10 @@ class RequestCodeConfirmSendByText(View):
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
                 try:
-                    await RHService.request_fulfilment_sms(request,
-                                                           case_id,
-                                                           mobile_number,
-                                                           fulfilment_code_array)
+                    await Fulfilments.request_fulfilment_sms(request,
+                                                             case_id,
+                                                             mobile_number,
+                                                             fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -823,7 +881,7 @@ class RequestCodeConfirmSendByEmail(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await Fulfilments.get_fulfilment(
                     request, region, 'EMAIL', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
@@ -833,10 +891,10 @@ class RequestCodeConfirmSendByEmail(View):
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
                 try:
-                    await RHService.request_fulfilment_email(request,
-                                                             case_id,
-                                                             email,
-                                                             fulfilment_code_array)
+                    await Fulfilments.request_fulfilment_email(request,
+                                                               case_id,
+                                                               email,
+                                                               fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -1034,7 +1092,7 @@ class RequestCommonConfirmSendByPost(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await Fulfilments.get_fulfilment(
                     request,
                     region,
                     'POST',
@@ -1056,12 +1114,12 @@ class RequestCommonConfirmSendByPost(View):
                     postcode=postcode)
 
                 try:
-                    await RHService.request_fulfilment_post(request,
-                                                            case_id,
-                                                            first_name,
-                                                            last_name,
-                                                            fulfilment_code_array,
-                                                            None)
+                    await Fulfilments.request_fulfilment_post(request,
+                                                              case_id,
+                                                              first_name,
+                                                              last_name,
+                                                              fulfilment_code_array,
+                                                              None)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)

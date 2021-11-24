@@ -7,13 +7,14 @@ from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, I
     TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from datetime import datetime
-from pytz import timezone, utc
+from pytz import timezone
 from unicodedata import normalize
+
+from app.comms import MakeRequest
 
 from sdc.crypto.encrypter import encrypt
 from .eq import EqPayloadConstructor
 from .flash import flash
-from .request import RetryRequest
 from structlog import get_logger
 
 logger = get_logger('respondent-home')
@@ -114,26 +115,6 @@ class View:
                 link = base_en + '/privacy-and-data-protection/'
 
         return link
-
-    @staticmethod
-    async def _make_request(request,
-                            method,
-                            url,
-                            auth=None,
-                            headers=None,
-                            request_json=None,
-                            return_json=False):
-        """
-        :param request: The AIOHTTP user request, used for logging and app access
-        :param method: The HTTP verb
-        :param url: The target URL
-        :param auth: Authorization
-        :param headers: Any needed headers as a python dictionary
-        :param request_json: JSON payload to pass as request data
-        :param return_json: If True, the response JSON will be returned
-        """
-        retry_request = RetryRequest(request, method, url, auth, headers, request_json, return_json)
-        return await retry_request.make_request()
 
     @staticmethod
     def validate_case(case_json):
@@ -443,102 +424,14 @@ class AddressIndex(View):
         token = AddressIndex.generate_jwt(request)
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
         headers = {'Authorization': 'Bearer ' + token}
-        return await View._make_request(request,
-                                        'GET',
-                                        url,
-                                        headers=headers,
-                                        return_json=True)
+        return await MakeRequest.make_request(request,
+                                              'GET',
+                                              url,
+                                              headers=headers,
+                                              return_json=True)
 
 
 class RHService(View):
-
-    @staticmethod
-    async def get_case_by_uprn(request, uprn):
-        rhsvc_url = request.app['RHSVC_URL']
-        return await View._make_request(request,
-                                        'GET',
-                                        f'{rhsvc_url}/cases/uprn/{uprn}',
-                                        return_json=True)
-
-    @staticmethod
-    async def get_fulfilment(request, region,
-                             delivery_channel, product_group, individual):
-        rhsvc_url = request.app['RHSVC_URL']
-        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
-              f'&productGroup={product_group}&individual={individual}'
-        return await View._make_request(request,
-                                        'GET',
-                                        url,
-                                        return_json=True)
-
-    @staticmethod
-    async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
-        rhsvc_url = request.app['RHSVC_URL']
-        fulfilment_json = {
-            'caseId': case_id,
-            'telNo': tel_no,
-            'fulfilmentCodes': fulfilment_code_array,
-            'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
-        }
-        url = f'{rhsvc_url}/cases/{case_id}/fulfilments/sms'
-        return await View._make_request(request,
-                                        'POST',
-                                        url,
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=fulfilment_json)
-
-    @staticmethod
-    async def request_fulfilment_post(request, case_id, first_name, last_name, fulfilment_code_array, title=None):
-        rhsvc_url = request.app['RHSVC_URL']
-        fulfilment_json = {
-            'caseId': case_id,
-            'title': title,
-            'forename': first_name,
-            'surname': last_name,
-            'fulfilmentCodes': fulfilment_code_array,
-            'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
-        }
-        url = f'{rhsvc_url}/cases/{case_id}/fulfilments/post'
-        return await View._make_request(request,
-                                        'POST',
-                                        url,
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=fulfilment_json)
-
-    @staticmethod
-    async def request_fulfilment_email(request, case_id, email, fulfilment_code_array):
-        rhsvc_url = request.app['RHSVC_URL']
-        fulfilment_json = {
-            'caseId': case_id,
-            'email': email,
-            'fulfilmentCodes': fulfilment_code_array,
-            'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
-        }
-        url = f'{rhsvc_url}/cases/{case_id}/fulfilments/email'
-        return await View._make_request(request,
-                                        'POST',
-                                        url,
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=fulfilment_json)
-
-    @staticmethod
-    async def get_uac_details(request):
-        uac_hash = request['uac_hash']
-        logger.info('making get request for uac',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    uac_hash=uac_hash)
-        rhsvc_url = request.app['RHSVC_URL']
-        return await View._make_request(request,
-                                        'GET',
-                                        f'{rhsvc_url}/uacs/{uac_hash}',
-                                        auth=request.app['RHSVC_AUTH'],
-                                        return_json=True)
-
     @staticmethod
     async def post_surveylaunched(request, case, adlocation):
         if not adlocation:
@@ -550,11 +443,11 @@ class RHService(View):
             'clientIP': View.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await View._make_request(request,
-                                        'POST',
-                                        f'{rhsvc_url}/surveyLaunched',
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=launch_json)
+        return await MakeRequest.make_request(request,
+                                              'POST',
+                                              f'{rhsvc_url}/surveyLaunched',
+                                              auth=request.app['RHSVC_AUTH'],
+                                              request_json=launch_json)
 
     @staticmethod
     async def post_webform(request, form_data):
@@ -568,32 +461,8 @@ class RHService(View):
             'clientIP': View.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await View._make_request(request,
-                                        'POST',
-                                        f'{rhsvc_url}/webform',
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=form_json)
-
-    @staticmethod
-    async def register_new_case(request, data):
-        new_case_json = {
-            'schoolId': '1',  # Dummy value - no way to source currently
-            'schoolName': data['school_name'],
-            'consentGivenTest': 'true',  # Fixed value
-            'consentGivenSurvey': 'true',  # Fixed value
-            'firstName': data['parent_first_name'],
-            # Unable to submit parent_middle_names
-            'lastName': data['parent_last_name'],
-            'childFirstName': data['child_first_name'],
-            'childMiddleNames': data['child_middle_names'],
-            'childLastName': data['child_last_name'],
-            'childDob': data['child_dob'],
-            'mobileNumber': data['mobile_number'],
-            'emailAddress': 'a.b@c.com'  # Dummy value - not required to be captured currently
-        }
-        rhsvc_url = request.app['RHSVC_URL']
-        return await View._make_request(request,
-                                        'POST',
-                                        f'{rhsvc_url}/cases/new',
-                                        auth=request.app['RHSVC_AUTH'],
-                                        request_json=new_case_json)
+        return await MakeRequest.make_request(request,
+                                              'POST',
+                                              f'{rhsvc_url}/webform',
+                                              auth=request.app['RHSVC_AUTH'],
+                                              request_json=form_json)

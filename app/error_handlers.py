@@ -7,7 +7,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
 
 from .exceptions import (ExerciseClosedError, InactiveCaseError,
                          InvalidEqPayLoad, InvalidAccessCode,
-                         SessionTimeout,
+                         SessionTimeout, GetFulfilmentsError,
                          TooManyRequests, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
 from structlog import get_logger
 
@@ -68,6 +68,8 @@ def create_error_middleware(overrides):
             return await ce_closed(request, ex.collection_exercise_id)
         except InvalidEqPayLoad as ex:
             return await eq_error(request, ex.message)
+        except GetFulfilmentsError:
+            return await no_fulfilments(request)
         except ClientConnectionError as ex:
             return await connection_error(request, ex.args[0])
         except ClientConnectorError as ex:
@@ -127,6 +129,15 @@ async def payload_error(request, url: str):
                  client_id=request['client_id'],
                  trace=request['trace'],
                  url=url)
+    attributes = check_display_region(request)
+    return jinja.render_template('error.html', request, attributes, status=500)
+
+
+async def no_fulfilments(request):
+    logger.error('survey query returned no appropriate fulfilments',
+                 client_ip=request['client_ip'],
+                 client_id=request['client_id'],
+                 trace=request['trace'])
     attributes = check_display_region(request)
     return jinja.render_template('error.html', request, attributes, status=500)
 

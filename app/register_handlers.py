@@ -11,7 +11,8 @@ from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB, RHService
+    FlashMessage, ProcessName, ProcessDOB
+from .comms.rhsvc import RegisterCase
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -672,7 +673,7 @@ class RegisterChildSummary(View):
         }
 
         try:
-            await RHService.register_new_case(request, submission_data)
+            await RegisterCase.register_new_case(request, submission_data)
             return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
