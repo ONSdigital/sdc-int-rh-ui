@@ -1,0 +1,34 @@
+[
+    {
+        "fulfilmentCode": "UACHHT2",
+        "productGroup": "UAC",
+        "description": "Household Unique Access Code for Wales (in English) via email",
+        "language": "E",
+        "caseTypes": [
+            "HH",
+            "SPG"
+        ],
+        "individual": false,
+        "regions": [
+            "W"
+        ],
+        "deliveryChannel": "EMAIL",
+        "handler": "NOTIFY"
+    },
+    {
+        "fulfilmentCode": "UACHHT2W",
+        "productGroup": "UAC",
+        "description": "Household Unique Access Code for Wales (in Welsh) via email",
+        "language": "W",
+        "caseTypes": [
+            "HH",
+            "SPG"
+        ],
+        "individual": false,
+        "regions": [
+            "W"
+        ],
+        "deliveryChannel": "EMAIL",
+        "handler": "NOTIFY"
+    }
+]

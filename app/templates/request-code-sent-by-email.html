@@ -19,10 +19,10 @@
     -%}
 
         {%- autoescape false -%}
-            <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('A text has been sent to %(number)s', number=submitted_mobile_number|replace(" ", "&nbsp;"))|safe }} </h1>
+            <h1 class="ons-u-mb-xs ons-u-fs-l">{{ _('An email has been sent to %(email)s', email=email)|safe }} </h1>
         {%- endautoescape -%}
 
-        <p>{{ _('The text message with a new access code should arrive soon for you to start your study') }}</p>
+        <p>{{ _('The email message with a new access code should arrive soon for you to start your study') }}</p>
 
     {%- endcall -%}
 
@@ -34,14 +34,14 @@
         })
     -%}
 
-        <p>{{ _('The text will be sent from <strong>ONS</strong>') }}</p>
+        <p>{{ _('The email will be sent from <strong>@ons.gov.uk</strong>') }}</p>
 
     {%- endcall -%}
 
-    <h2 class="ons-u-fs-m ons-u-mb-xs">{{ _("Didn’t receive a text?") }}</h2>
+    <h2 class="ons-u-fs-m ons-u-mb-xs">{{ _("Didn’t receive an email?") }}</h2>
 
     {%- autoescape false -%}
-        <p class="ons-u-mb-l">{{ _("It can take a few minutes for the text to arrive. If it doesn’t arrive, you can %(open)srequest a new access code%(close)s.", open='<a href="%s">' % request_code_link, close='</a>')|safe }}</p>
+        <p class="ons-u-mb-l">{{ _("It can take a few minutes for the email to arrive. If it doesn’t arrive, you can %(open)srequest a new access code%(close)s.", open='<a href="%s">' % request_code_link, close='</a>')|safe }}</p>
     {%- endautoescape -%}
 
     <h2 class="ons-u-mb-s ons-u-fs-m">{{ _("Ready to start your study?") }}</h2>

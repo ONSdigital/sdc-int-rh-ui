@@ -17,6 +17,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text(display_region, region)
 
+    async def assert_request_access_code_email_happy_path(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email(display_region, region)
+
     async def assert_post_request_access_code_enter_address_no_results(self, display_region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address_input_returns_no_results(display_region)
@@ -124,6 +133,14 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile_input_invalid(display_region)
 
+    async def assert_post_request_access_code_enter_email_invalid(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email_input_invalid(display_region)
+
     async def assert_post_request_access_code_enter_mobile_empty(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -131,6 +148,14 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_confirm_address_input_yes_code(display_region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile_input_empty(display_region)
+
+    async def assert_post_request_access_code_enter_email_empty(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email_input_empty(display_region)
 
     async def assert_request_access_code_confirm_send_by_text_no(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -141,6 +166,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_no(display_region)
 
+    async def assert_request_access_code_confirm_send_by_email_no(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_input_no(display_region)
+
     async def assert_request_access_code_confirm_send_by_text_no_selection(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -149,6 +183,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_no_selection(display_region)
+
+    async def assert_request_access_code_confirm_send_by_email_no_selection(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_input_no_selection(display_region)
 
     async def assert_request_access_code_confirm_send_by_text_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -159,6 +202,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_invalid(display_region)
 
+    async def assert_request_access_code_confirm_send_by_email_invalid(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_input_invalid(display_region)
+
     async def assert_request_access_code_confirm_send_by_text_get_fulfilment_error(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -167,6 +219,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_from_get_fulfilment(display_region, region)
+
+    async def assert_request_access_code_confirm_send_by_email_get_fulfilment_error(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_error_from_get_fulfilment(display_region, region)
 
     async def assert_request_access_code_confirm_send_by_text_request_fulfilment_error(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -177,6 +238,15 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_from_request_fulfilment(display_region)
 
+    async def assert_request_access_code_confirm_send_by_email_request_fulfilment_error(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_error_from_request_fulfilment(display_region)
+
     async def assert_request_access_code_confirm_send_by_text_request_fulfilment_error_429(
             self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -186,6 +256,16 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_429_from_request_fulfilment(display_region)
+
+    async def assert_request_access_code_confirm_send_by_email_request_fulfilment_error_429(
+            self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_select_how_to_receive_input_email(display_region)
+        await self.check_post_enter_email(display_region)
+        await self.check_post_confirm_send_by_email_error_429_from_request_fulfilment(display_region)
 
     async def assert_request_access_code_post_enter_name_error(self, display_region, region, error):
         if error == 'only_spaces':
@@ -666,3 +746,111 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_request_access_code_post_confirm_send_by_post_request_fulfilment_error_429_cy(self):
         await self.assert_request_access_code_post_confirm_send_by_post_request_fulfilment_error_429('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_email_happy_path_ew_e(self):
+        await self.assert_request_access_code_email_happy_path('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_email_happy_path_ew_w(self):
+        await self.assert_request_access_code_email_happy_path('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_email_happy_path_cy(self):
+        await self.assert_request_access_code_email_happy_path('cy', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_invalid_ew_e(self):
+        await self.assert_post_request_access_code_enter_email_invalid('en', 'E')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_invalid_ew_w(self):
+        await self.assert_post_request_access_code_enter_email_invalid('en', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_invalid_cy(self):
+        await self.assert_post_request_access_code_enter_email_invalid('cy', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_empty_ew_e(self):
+        await self.assert_post_request_access_code_enter_email_empty('en', 'E')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_empty_ew_w(self):
+        await self.assert_post_request_access_code_enter_email_empty('en', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_enter_email_empty_cy(self):
+        await self.assert_post_request_access_code_enter_email_empty('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_no_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_no('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_no_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_no('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_no_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_no('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_empty_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_no_selection('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_empty_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_no_selection('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_empty_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_no_selection('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_invalid_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_invalid('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_invalid_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_invalid('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_invalid_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_invalid('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_get_fulfilment_error_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_get_fulfilment_error('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_get_fulfilment_error_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_get_fulfilment_error('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_get_fulfilment_error_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_get_fulfilment_error('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error('cy', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_429_ew_e(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error_429('en', 'E')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_429_ew_w(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error_429('en', 'W')
+
+    @unittest_run_loop
+    async def test_request_access_code_confirm_send_by_email_request_fulfilment_error_429_cy(self):
+        await self.assert_request_access_code_confirm_send_by_email_request_fulfilment_error_429('cy', 'W')
