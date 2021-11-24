@@ -615,8 +615,7 @@ class RHTestCase(AioHTTPTestCase):
 
         self.case_id = self.uac_json_e['collectionCase']['caseId']
         self.collection_exercise_id = self.uac_json_e['collectionExercise']['collectionExerciseId']
-        self.eq_id = 'census'
-        self.survey = 'CENSUS'
+        self.eq_id = '9999'
         self.form_type = 'zzz'
         self.jti = str(uuid.uuid4())
         self.uac_code = ''.join([str(n) for n in range(13)])
@@ -628,7 +627,7 @@ class RHTestCase(AioHTTPTestCase):
         self.uprn = self.uac_json_e['collectionCase']['address']['uprn']
         self.response_id = '111000000092a445af12905967d'
         self.questionnaire_id = self.uac_json_e['qid']
-        self.channel = 'RH'
+        self.channel = 'rh'
         self.attributes_en = {
             'addressLine1': self.uac_json_e['collectionCase']['address']['addressLine1'],
             'addressLine2': self.uac_json_e['collectionCase']['address']['addressLine2'],
@@ -667,7 +666,6 @@ class RHTestCase(AioHTTPTestCase):
             'eq_id': self.eq_id,
             'period_id': self.collection_exercise_id,
             'form_type': self.form_type,
-            'survey': self.survey,
             'case_ref': '123abc',
             'period_str': 'velit',
             'schema_name': 'zzz_9999',

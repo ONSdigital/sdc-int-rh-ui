@@ -929,7 +929,7 @@ class TestStartHandlers(TestHelpers):
 
             mocked.post(self.rhsvc_url_surveylaunched)
             eq_payload = self.eq_payload.copy()
-            eq_payload['region_code'] = 'E'
+            eq_payload['region_code'] = 'GB-ENG'
             eq_payload['language_code'] = 'en'
             account_service_url = self.app['ACCOUNT_SERVICE_URL']
             url_path_prefix = self.app['URL_PATH_PREFIX']
