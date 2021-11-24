@@ -118,8 +118,8 @@ class TestEq(RHTestCase):
     @unittest_run_loop
     async def test_build_assisted_digital_en(self):
         eq_payload = self.eq_payload.copy()
-        eq_payload['channel'] = 'rh'
-        eq_payload['user_id'] = ''
+        eq_payload['channel'] = 'ad'
+        eq_payload['user_id'] = '1000007'
         eq_payload['region_code'] = 'GB-ENG'
         eq_payload['language_code'] = 'en'
         account_service_url = self.app['ACCOUNT_SERVICE_URL']
