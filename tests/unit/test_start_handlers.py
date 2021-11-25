@@ -8,7 +8,7 @@ from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
                  BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.exceptions import InactiveCaseError, InvalidEqPayLoad
+from app.exceptions import InactiveCaseError
 from app.start_handlers import Start
 
 from . import build_eq_raises, skip_encrypt
