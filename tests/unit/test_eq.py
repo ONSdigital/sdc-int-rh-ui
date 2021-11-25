@@ -9,15 +9,14 @@ from . import RHTestCase
 class TestEq(RHTestCase):
     def test_create_eq_constructor(self):
         self.assertIsInstance(
-            EqPayloadConstructor(self.uac_json_e, self.attributes_en, self.app,
-                                 None), EqPayloadConstructor)
+            EqPayloadConstructor(self.uac_json_e, self.attributes_en, self.app), EqPayloadConstructor)
 
     def test_create_eq_constructor_missing_case_id(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['collectionCase']['caseId']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
         self.assertIn('No case id in supplied case JSON', ex.exception.message)
 
     def test_create_eq_constructor_missing_ce_id(self):
@@ -25,7 +24,7 @@ class TestEq(RHTestCase):
         del uac_json['collectionExercise']['collectionExerciseId']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
         self.assertIn(f'No collection id in supplied case JSON',
                       ex.exception.message)
 
@@ -34,7 +33,7 @@ class TestEq(RHTestCase):
         del uac_json['qid']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
             self.assertIn(f'No qid in supplied case JSON',
                           ex.exception.message)
 
@@ -43,7 +42,7 @@ class TestEq(RHTestCase):
         del uac_json['collectionCase']['address']['uprn']
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app, None)
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
             self.assertIn(f'Could not retrieve address uprn from case JSON',
                           ex.exception.message)
 
@@ -71,7 +70,7 @@ class TestEq(RHTestCase):
             with self.assertLogs('respondent-home', 'DEBUG') as cm:
                 payload = await EqPayloadConstructor(self.uac_json_e,
                                                      self.attributes_en,
-                                                     self.app, None).build()
+                                                     self.app).build()
             self.assertLogEvent(cm,
                                 'creating payload for jwt',
                                 case_id=self.case_id,
@@ -105,77 +104,7 @@ class TestEq(RHTestCase):
             with self.assertLogs('respondent-home', 'DEBUG') as cm:
                 payload = await EqPayloadConstructor(self.uac_json_w,
                                                      self.attributes_cy,
-                                                     self.app, None).build()
-            self.assertLogEvent(cm,
-                                'creating payload for jwt',
-                                case_id=self.case_id,
-                                tx_id=self.jti)
-
-        mocked_uuid4.assert_called()
-        mocked_time.assert_called()
-        self.assertEqual(payload, eq_payload)
-
-    @unittest_run_loop
-    async def test_build_assisted_digital_en(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['channel'] = 'ad'
-        eq_payload['user_id'] = '1000007'
-        eq_payload['region_code'] = 'GB-ENG'
-        eq_payload['language_code'] = 'en'
-        account_service_url = self.app['ACCOUNT_SERVICE_URL']
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        url_display_region = '/en'
-        eq_payload[
-            'account_service_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
-        eq_payload[
-            'account_service_log_out_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-        with mock.patch('app.eq.uuid4') as mocked_uuid4, mock.patch(
-                'app.eq.time.time') as mocked_time:
-            # NB: has to be mocked after setup but before import
-            mocked_time.return_value = self.eq_payload['iat']
-            mocked_uuid4.return_value = self.jti
-
-            with self.assertLogs('respondent-home', 'DEBUG') as cm:
-                payload = await EqPayloadConstructor(
-                    self.uac_json_e, self.attributes_en, self.app,
-                    eq_payload['user_id']).build()
-            self.assertLogEvent(cm,
-                                'creating payload for jwt',
-                                case_id=self.case_id,
-                                tx_id=self.jti)
-
-        mocked_uuid4.assert_called()
-        mocked_time.assert_called()
-        self.assertEqual(payload, eq_payload)
-
-    @unittest_run_loop
-    async def test_build_assisted_digital_cy(self):
-        eq_payload = self.eq_payload.copy()
-        eq_payload['channel'] = 'ad'
-        eq_payload['user_id'] = '1000007'
-        eq_payload['region_code'] = 'GB-WLS'
-        eq_payload['language_code'] = 'cy'
-        account_service_url = self.app['ACCOUNT_SERVICE_URL']
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        url_display_region = '/cy'
-        eq_payload[
-            'account_service_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_url}'
-        eq_payload[
-            'account_service_log_out_url'] = \
-            f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-        with mock.patch('app.eq.uuid4') as mocked_uuid4, mock.patch(
-                'app.eq.time.time') as mocked_time:
-            # NB: has to be mocked after setup but before import
-            mocked_time.return_value = self.eq_payload['iat']
-            mocked_uuid4.return_value = self.jti
-
-            with self.assertLogs('respondent-home', 'DEBUG') as cm:
-                payload = await EqPayloadConstructor(
-                    self.uac_json_w, self.attributes_cy, self.app,
-                    eq_payload['user_id']).build()
+                                                     self.app).build()
             self.assertLogEvent(cm,
                                 'creating payload for jwt',
                                 case_id=self.case_id,
@@ -191,8 +120,7 @@ class TestEq(RHTestCase):
         from app import eq  # NB: local import to avoid overwriting the patched version for some tests
 
         with self.assertRaises(InvalidEqPayLoad) as ex:
-            await eq.EqPayloadConstructor(self.uac_json_e, None, self.app,
-                                          None).build()
+            await eq.EqPayloadConstructor(self.uac_json_e, None, self.app).build()
         self.assertIn('Attributes is empty', ex.exception.message)
 
     def test_build_display_address_en(self):

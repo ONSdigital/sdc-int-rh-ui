@@ -13,8 +13,7 @@ Request = namedtuple('Request', ['method', 'path', 'auth', 'func'])
 
 
 class EqPayloadConstructor(object):
-    def __init__(self, case: dict, attributes: dict, app: Application,
-                 adlocation: str):
+    def __init__(self, case: dict, attributes: dict, app: Application):
         """
         Creates the payload needed to communicate with EQ, built from the RH service
         """
@@ -40,12 +39,7 @@ class EqPayloadConstructor(object):
         self._account_service_log_out_url = \
             f'{domain_url_protocol}{domain_url}{url_path_prefix}{url_display_region}{save_and_exit_url}'
 
-        if adlocation:
-            self._channel = 'ad'
-            self._user_id = adlocation
-        else:
-            self._channel = 'rh'
-            self._user_id = ''
+        self._channel = 'rh'
 
         try:
             self._case_id = case['collectionCase']['caseId']
@@ -113,7 +107,6 @@ class EqPayloadConstructor(object):
             'account_service_url': self._account_service_url,
             'account_service_log_out_url': self._account_service_log_out_url,
             'channel': self._channel,
-            'user_id': self._user_id,
             'questionnaire_id': self._questionnaire_id,
             'eq_id': '9999',  # originally 'census' changed for SOCINT-258
             # 'period_id': '2021',

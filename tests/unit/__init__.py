@@ -664,7 +664,6 @@ class RHTestCase(AioHTTPTestCase):
             'account_service_url': f'{account_svc_url}{url_path_prefix}/start/',
             'account_service_log_out_url': f'{account_svc_url}{url_path_prefix}/signed-out/',
             'channel': self.channel,
-            'user_id': '',
             'questionnaire_id': self.questionnaire_id,
             'eq_id': self.eq_id,
             'period_id': self.collection_exercise_id,
