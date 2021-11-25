@@ -142,8 +142,7 @@ class View:
 
     @staticmethod
     async def call_questionnaire(request, case, attributes, app, adlocation):
-        eq_payload = await EqPayloadConstructor(case, attributes, app,
-                                                adlocation).build()
+        eq_payload = await EqPayloadConstructor(case, attributes, app).build()
 
         token = encrypt(eq_payload,
                         key_store=app['key_store'],

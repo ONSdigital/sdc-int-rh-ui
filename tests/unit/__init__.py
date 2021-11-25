@@ -618,9 +618,8 @@ class RHTestCase(AioHTTPTestCase):
 
         self.case_id = self.uac_json_e['collectionCase']['caseId']
         self.collection_exercise_id = self.uac_json_e['collectionExercise']['collectionExerciseId']
-        self.eq_id = 'census'
-        self.survey = 'CENSUS'
-        self.form_type = 'H'
+        self.eq_id = '9999'
+        self.form_type = 'zzz'
         self.jti = str(uuid.uuid4())
         self.uac_code = ''.join([str(n) for n in range(13)])
         self.uac1, self.uac2, self.uac3, self.uac4 = \
@@ -656,7 +655,7 @@ class RHTestCase(AioHTTPTestCase):
             'exp': int(time.time() + (5 * 60)),
             'collection_exercise_sid': self.collection_exercise_id,
             'region_code': 'GB-ENG',
-            'ru_ref': self.uprn,
+            'ru_ref': self.questionnaire_id,
             'case_id': self.case_id,
             'language_code': 'en',
             'display_address':
@@ -665,12 +664,15 @@ class RHTestCase(AioHTTPTestCase):
             'account_service_url': f'{account_svc_url}{url_path_prefix}/start/',
             'account_service_log_out_url': f'{account_svc_url}{url_path_prefix}/signed-out/',
             'channel': self.channel,
-            'user_id': '',
             'questionnaire_id': self.questionnaire_id,
             'eq_id': self.eq_id,
-            'period_id': self.period_id,
+            'period_id': self.collection_exercise_id,
             'form_type': self.form_type,
-            'survey': self.survey
+            'case_ref': '123abc',
+            'period_str': 'velit',
+            'schema_name': 'zzz_9999',
+            'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
+                          '/test_schemas/en/zzz_9999.json'
         }
 
         self.account_service_url = '/start/'

@@ -8,7 +8,7 @@ from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
                  BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.exceptions import InactiveCaseError, InvalidEqPayLoad
+from app.exceptions import InactiveCaseError
 from app.start_handlers import Start
 
 from . import build_eq_raises, skip_encrypt
@@ -940,7 +940,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1015,7 +1015,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1090,7 +1090,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_cy)
