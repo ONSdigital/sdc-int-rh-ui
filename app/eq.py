@@ -79,6 +79,11 @@ class EqPayloadConstructor(object):
         except KeyError:
             raise InvalidEqPayLoad('No caseRef supplied in case JSON')
 
+        try:
+            self._survey_url = case['collectionInstrumentUrl']
+        except KeyError:
+            raise InvalidEqPayLoad('No collectionInstrumentUrl in case JSON')
+
     async def build(self):
         """__init__ is not a coroutine function, so I/O needs to go here"""
 
@@ -115,8 +120,7 @@ class EqPayloadConstructor(object):
             # The following are put in as part of SOCINT-258 - temporary for use with POC
             'schema_name': 'zzz_9999',
             'period_str': self._collex_name,
-            'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
-                          '/test_schemas/en/zzz_9999.json',
+            'survey_url': self._survey_url,
             'case_ref': self._case_ref
         }
         return self._payload
