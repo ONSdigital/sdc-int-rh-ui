@@ -656,6 +656,7 @@ class RHTestCase(AioHTTPTestCase):
             'collection_exercise_sid': self.collection_exercise_id,
             'region_code': 'GB-ENG',
             'ru_ref': self.questionnaire_id,
+            'user_id': '1234567890',
             'case_id': self.case_id,
             'language_code': 'en',
             'display_address':
