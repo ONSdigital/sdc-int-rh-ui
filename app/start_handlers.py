@@ -17,7 +17,7 @@ from .security import remember, get_permitted_session, get_sha256_hash, invalida
 from .session import get_session_value
 from .comms.rhsvc import Authentication
 
-from .utils import View
+from .utils import View, LaunchEQ
 
 logger = get_logger('respondent-home')
 start_routes = RouteTableDef()
@@ -218,7 +218,7 @@ class StartConfirmAddress(StartCommon):
         if address_confirmation == 'Yes':
             auth_attributes['language'] = locale
             auth_attributes['display_region'] = display_region
-            await self.call_questionnaire(request, case, auth_attributes,
+            await LaunchEQ.call_questionnaire(request, case, auth_attributes,
                                           request.app,
                                           session.get('adlocation'))
 

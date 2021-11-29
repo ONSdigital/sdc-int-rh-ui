@@ -9,7 +9,7 @@ from datetime import datetime
 from pytz import timezone
 from unicodedata import normalize
 
-from app.comms import MakeRequest
+from app.comms.rhsvc import EQLaunch
 
 from sdc.crypto.encrypter import encrypt
 from .eq import EqPayloadConstructor
@@ -37,31 +37,6 @@ class View:
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     page_title_error_prefix_en = 'Error: '
     page_title_error_prefix_cy = 'Gwall: '
-
-    @staticmethod
-    def single_client_ip(request):
-        if request['client_ip']:
-            client_ip = request['client_ip']
-            single_ip_validation_pattern = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
-            if client_ip.count(',') > 1:
-                single_ip_value = client_ip.split(', ', -1)[-3]
-                if single_ip_validation_pattern.fullmatch(single_ip_value):
-                    single_ip = single_ip_value
-                else:
-                    logger.warn('clientIP failed validation. Provided IP - ' + client_ip,
-                                client_id=request['client_id'],
-                                trace=request['trace'])
-                    single_ip = ''
-            else:
-                logger.warn('clientIP failed validation. Provided IP - ' + client_ip,
-                            client_id=request['client_id'],
-                            trace=request['trace'])
-                single_ip = ''
-        elif request.headers.get('Origin', None) and 'localhost' in request.headers.get('Origin', None):
-            single_ip = '127.0.0.1'
-        else:
-            single_ip = ''
-        return single_ip
 
     @staticmethod
     def log_entry(request, endpoint):
@@ -122,6 +97,8 @@ class View:
         if not case_json.get('caseStatus', None) == 'OK':
             raise InvalidEqPayLoad('CaseStatus is not OK')
 
+
+class LaunchEQ:
     @staticmethod
     async def call_questionnaire(request, case, attributes, app, adlocation):
         eq_payload = await EqPayloadConstructor(case, attributes, app,
@@ -132,7 +109,7 @@ class View:
                         key_purpose='authentication')
 
         try:
-            await RHService.post_surveylaunched(request, case, adlocation)
+            await EQLaunch.post_surveylaunched(request, case, adlocation)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()
@@ -370,22 +347,3 @@ class FlashMessage:
     def generate_flash_message(text, level, message_type, field):
         json_return = {'text': text, 'level': level, 'type': message_type, 'field': field}
         return json_return
-
-
-class RHService(View):
-    @staticmethod
-    async def post_surveylaunched(request, case, adlocation):
-        if not adlocation:
-            adlocation = ''
-        launch_json = {
-            'questionnaireId': case['qid'],
-            'caseId': case['caseId'],
-            'agentId': adlocation,
-            'clientIP': View.single_client_ip(request)
-        }
-        rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              f'{rhsvc_url}/surveyLaunched',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=launch_json)

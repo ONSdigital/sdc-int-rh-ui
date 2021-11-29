@@ -1,6 +1,5 @@
 from structlog import get_logger
-from app.comms import MakeRequest
-from app.utils import View
+from app.comms import MakeRequest, SingleClientIP
 from datetime import datetime
 from pytz import utc
 
@@ -34,6 +33,25 @@ class Cases:
                                               return_json=True)
 
 
+class EQLaunch:
+    @staticmethod
+    async def post_surveylaunched(request, case, adlocation):
+        if not adlocation:
+            adlocation = ''
+        launch_json = {
+            'questionnaireId': case['qid'],
+            'caseId': case['caseId'],
+            'agentId': adlocation,
+            'clientIP': SingleClientIP.single_client_ip(request)
+        }
+        rhsvc_url = request.app['RHSVC_URL']
+        return await MakeRequest.make_request(request,
+                                              'POST',
+                                              f'{rhsvc_url}/surveyLaunched',
+                                              auth=request.app['RHSVC_AUTH'],
+                                              request_json=launch_json)
+
+
 class Fulfilments:
     @staticmethod
     async def get_fulfilment(request, region, delivery_channel, product_group, individual):
@@ -53,7 +71,7 @@ class Fulfilments:
             'telNo': tel_no,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
+            'clientIP': SingleClientIP.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/sms'
         return await MakeRequest.make_request(request,
@@ -72,7 +90,7 @@ class Fulfilments:
             'surname': last_name,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
+            'clientIP': SingleClientIP.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/post'
         return await MakeRequest.make_request(request,
@@ -89,7 +107,7 @@ class Fulfilments:
             'email': email,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': View.single_client_ip(request)
+            'clientIP': SingleClientIP.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/email'
         return await MakeRequest.make_request(request,
@@ -151,7 +169,7 @@ class RHSvcWebForm:
             'name': form_data['name'],
             'description': form_data['description'],
             'email': form_data['email'],
-            'clientIP': View.single_client_ip(request)
+            'clientIP': SingleClientIP.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
         return await MakeRequest.make_request(request,
