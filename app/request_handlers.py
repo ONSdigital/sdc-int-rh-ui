@@ -17,9 +17,10 @@ from .security import invalidate
 
 from .utils import View, ProcessPostcode, ProcessMobileNumber, ProcessEmailAddress, \
     InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, AddressIndex, ProcessName
+    FlashMessage, ProcessName
 from .session import get_existing_session, get_session_value
 from app.comms.rhsvc import Cases, Fulfilments, Surveys
+from app.comms.aims import Postcode, JWT
 
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()
@@ -61,7 +62,7 @@ class RequestEnterAddress(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
-            'jwt': AddressIndex.generate_jwt(request),
+            'jwt': JWT.generate_jwt(request),
             'aims_domain': request.app['ADDRESS_INDEX_SVC_EXTERNAL_URL']
         }
 
@@ -161,7 +162,7 @@ class RequestSelectAddress(View):
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
-        address_content = await AddressIndex.get_postcode_return(request, postcode, display_region)
+        address_content = await Postcode.get_postcode_return(request, postcode, display_region)
         address_content['page_title'] = page_title
         address_content['display_region'] = display_region
         address_content['user_journey'] = user_journey

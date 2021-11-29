@@ -139,3 +139,23 @@ class Surveys:
                                               f'{rhsvc_url}/surveys/{survey_id}',
                                               auth=request.app['RHSVC_AUTH'],
                                               return_json=True)
+
+
+class RHSvcWebForm:
+    @staticmethod
+    async def post_webform(request, form_data):
+        form_json = {
+            'category': form_data['category'],
+            'region': form_data['region'],
+            'language': form_data['language'],
+            'name': form_data['name'],
+            'description': form_data['description'],
+            'email': form_data['email'],
+            'clientIP': View.single_client_ip(request)
+        }
+        rhsvc_url = request.app['RHSVC_URL']
+        return await MakeRequest.make_request(request,
+                                              'POST',
+                                              f'{rhsvc_url}/webform',
+                                              auth=request.app['RHSVC_AUTH'],
+                                              request_json=form_json)
