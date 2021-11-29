@@ -673,7 +673,9 @@ class RHTestCase(AioHTTPTestCase):
             'period_str': 'velit',
             'schema_name': 'zzz_9999',
             'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
-                          '/test_schemas/en/zzz_9999.json'
+                          '/test_schemas/en/zzz_9999.json',
+            # ru_name is a temp harcoded value for a show and tell. It will likely be removed or reference another field
+            'ru_name': 'Hercule Poirot'
         }
 
         self.account_service_url = '/start/'
