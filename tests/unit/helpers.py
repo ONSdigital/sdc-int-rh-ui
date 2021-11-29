@@ -608,7 +608,10 @@ class TestHelpers(RHTestCase):
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=False)
 
     async def check_post_confirm_address_input_yes_code(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.comms.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details:
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
+
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
                                                      'RequestConfirmAddress', 'post',
@@ -662,7 +665,10 @@ class TestHelpers(RHTestCase):
             self.check_content_enter_email(display_region, str(await response.content.read()))
 
     async def check_post_select_how_to_receive_input_invalid(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.comms.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details:
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
+
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
                                                      'RequestCodeSelectHowToReceive', 'post',
@@ -674,7 +680,10 @@ class TestHelpers(RHTestCase):
                                                      check_error=True)
 
     async def check_post_select_how_to_receive_input_no_selection(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.comms.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details:
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
+
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
                                                      'RequestCodeSelectHowToReceive', 'post',

@@ -786,6 +786,11 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.rhsvc_case_by_uprn_hh_w = f
 
+        with open('tests/test_data/rhsvc/get_surveys.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_get_surveys = f
+
         with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
