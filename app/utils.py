@@ -2,8 +2,7 @@ import string
 import re
 
 from aiohttp.client_exceptions import (ClientResponseError)
-from .exceptions import InactiveCaseError, InvalidDataError, InvalidDataErrorWelsh, \
-    TooManyRequestsEQLaunch
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh, TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from datetime import datetime
 from pytz import timezone
@@ -89,11 +88,6 @@ class View:
                 link = base_en + '/privacy-and-data-protection/'
 
         return link
-
-    @staticmethod
-    def validate_case(case_json):
-        if not case_json.get('active', False):
-            raise InactiveCaseError()
 
 
 class LaunchEQ:

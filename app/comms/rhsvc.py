@@ -40,7 +40,7 @@ class EQLaunch:
             adlocation = ''
         launch_json = {
             'questionnaireId': case['qid'],
-            'caseId': case['caseId'],
+            'caseId': case['collectionCase']['caseId'],
             'agentId': adlocation,
             'clientIP': SingleClientIP.single_client_ip(request)
         }

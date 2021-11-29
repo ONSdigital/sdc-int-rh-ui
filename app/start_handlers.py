@@ -39,6 +39,11 @@ class StartCommon(View):
 
         return get_sha256_hash(combined)
 
+    @staticmethod
+    def validate_case(case_json):
+        if not case_json.get('active', False):
+            raise InactiveCaseError()
+
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/')
 class Start(StartCommon):
@@ -219,8 +224,8 @@ class StartConfirmAddress(StartCommon):
             auth_attributes['language'] = locale
             auth_attributes['display_region'] = display_region
             await LaunchEQ.call_questionnaire(request, case, auth_attributes,
-                                          request.app,
-                                          session.get('adlocation'))
+                                              request.app,
+                                              session.get('adlocation'))
 
         elif address_confirmation == 'No':
             return HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))
