@@ -124,14 +124,14 @@ class Start(StartCommon):
         if uac_json['receiptReceived']:
             raise InactiveCaseError
         elif not uac_json['active']:
-            collection_id = uac_json['collectionExerciseId']
+            collection_id = uac_json['collectionExercise']['collectionExerciseId']
             raise ExerciseClosedError(collection_id)
         else:
-            await remember(uac_json['caseId'], request)
+            await remember(uac_json['collectionCase']['caseId'], request)
             self.validate_case(uac_json)
 
         try:
-            auth_attributes = uac_json['address']
+            auth_attributes = uac_json['collectionCase']['address']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address details')
 
