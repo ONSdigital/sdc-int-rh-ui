@@ -116,7 +116,9 @@ class EqPayloadConstructor(object):
             'period_str': self._collex_name,
             'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
                           '/test_schemas/en/zzz_9999.json',
-            'case_ref': self._case_ref
+            'case_ref': self._case_ref,
+            # ru_name is a temp harcoded value for a show and tell. It will likely be removed or reference another field
+            'ru_name': 'Hercule Poirot'
         }
         return payload
 
