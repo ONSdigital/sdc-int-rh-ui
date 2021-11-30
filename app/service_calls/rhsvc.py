@@ -163,7 +163,6 @@ class Surveys:
         return pack_code
 
 
-
 class RHSvcWebForm:
     @staticmethod
     async def post_webform(request, form_data):
