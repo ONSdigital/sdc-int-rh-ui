@@ -153,6 +153,26 @@ class Surveys:
                                               auth=request.app['RHSVC_AUTH'],
                                               return_json=True)
 
+    @staticmethod
+    async def survey_fulfilments_by_type(request, method, survey_id, language):
+        survey_data = await Surveys.get_survey_details(request, survey_id)
+        method_data = {}
+        pack_code = ''
+        if method == 'sms':
+            method_data = survey_data['allowedSmsFulfilments']
+        elif method == 'post':
+            method_data = survey_data['allowedPrintFulfilments']
+        elif method == 'email':
+            method_data = survey_data['allowedEmailFulfilments']
+
+        for fulfilment in method_data:
+            for region in fulfilment['metadata']['suitableRegions']:
+                if region == language:
+                    pack_code = fulfilment['packCode']
+
+        return pack_code
+
+
 
 class RHSvcWebForm:
     @staticmethod

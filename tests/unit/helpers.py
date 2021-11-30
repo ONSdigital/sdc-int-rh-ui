@@ -807,13 +807,11 @@ class TestHelpers(RHTestCase):
                 self.assertIn('The text message with a new access code should arrive soon for you to start your study',
                               contents)
 
-    async def check_post_confirm_send_by_text_error_from_get_fulfilment(self, display_region, region):
+    async def check_post_confirm_send_by_text_error_from_get_survey_details(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
                 passthrough=[str(self.server._root)]
         ) as mocked_aioresponses:
-            mocked_aioresponses.get(self.rhsvc_url_fulfilments +
-                                    '?caseType=HH&region=' + region +
-                                    '&deliveryChannel=SMS&productGroup=UAC&individual=false', status=400)
+            mocked_aioresponses.get(self.rhsvc_url_surveys + '/4a6c6e0a-6384-4da8-8c3c-7c56a801f792', status=400)
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -839,9 +837,9 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_text_error_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_sms
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/sms', status=400)
 
@@ -856,10 +854,10 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_text_error_429_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
 
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_sms
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/sms', status=429)
 
@@ -907,12 +905,12 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_email(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
-                'app.service_calls.rhsvc.Fulfilments.get_fulfilment'
-        ) as mocked_get_fulfilment, mock.patch(
+                'app.service_calls.rhsvc.Surveys.get_survey_details'
+        ) as mocked_get_survey_details, mock.patch(
             'app.service_calls.rhsvc.Fulfilments.request_fulfilment_email'
         ) as mocked_request_fulfilment_email:
 
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_multi_email
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_request_fulfilment_email.return_value = self.rhsvc_request_fulfilment_email
 
             response = await self.client.request('POST',
@@ -942,13 +940,10 @@ class TestHelpers(RHTestCase):
                 self.assertIn('The email message with a new access code should arrive soon for you to start your study',
                               contents)
 
-    async def check_post_confirm_send_by_email_error_from_get_fulfilment(self, display_region, region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
-                passthrough=[str(self.server._root)]
-        ) as mocked_aioresponses:
-            mocked_aioresponses.get(self.rhsvc_url_fulfilments +
-                                    '?caseType=HH&region=' + region +
-                                    '&deliveryChannel=EMAIL&productGroup=UAC&individual=false', status=400)
+    async def check_post_confirm_send_by_email_error_from_get_survey_details(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+            mocked_aioresponses.get(self.rhsvc_url_surveys + '/4a6c6e0a-6384-4da8-8c3c-7c56a801f792', status=400)
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -974,9 +969,9 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_email_error_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_email
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/email', status=400)
 
@@ -991,10 +986,10 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_email_error_429_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
 
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_email
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/email', status=429)
 
@@ -1203,13 +1198,11 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_post_input_yes(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.request_fulfilment_post') as mocked_request_fulfilment_post:
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
+                mock.patch('app.service_calls.rhsvc.Fulfilments.request_fulfilment_post'
+                           ) as mocked_request_fulfilment_post:
 
-            if display_region == 'cy':
-                mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_multi_post
-            else:
-                mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_post
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_request_fulfilment_post.return_value = self.rhsvc_request_fulfilment_post
 
             data = self.request_common_confirm_send_by_post_data_yes
@@ -1266,13 +1259,11 @@ class TestHelpers(RHTestCase):
             self.check_content_confirm_send_by_post(display_region, str(await response.content.read()),
                                                     check_error=True)
 
-    async def check_post_confirm_send_by_post_error_from_get_fulfilment(self, display_region, region):
+    async def check_post_confirm_send_by_post_error_from_get_survey_details(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
                 passthrough=[str(self.server._root)]
         ) as mocked_aioresponses:
-            mocked_aioresponses.get(self.rhsvc_url_fulfilments +
-                                    '?caseType=HH&region=' + region +
-                                    '&deliveryChannel=POST&productGroup=UAC&individual=false', status=400)
+            mocked_aioresponses.get(self.rhsvc_url_surveys + '/4a6c6e0a-6384-4da8-8c3c-7c56a801f792', status=400)
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -1285,9 +1276,9 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_post_error_from_request_fulfilment(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_post
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/post', status=400)
 
@@ -1302,10 +1293,10 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_send_by_post_error_429_from_request_fulfilment_uac(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.rhsvc.Fulfilments.get_fulfilment') as mocked_get_fulfilment, \
+                mock.patch('app.service_calls.rhsvc.Surveys.get_survey_details') as mocked_get_survey_details, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
 
-            mocked_get_fulfilment.return_value = self.rhsvc_get_fulfilment_single_post
+            mocked_get_survey_details.return_value = self.rhsvc_get_surveys
             mocked_aioresponses.post(self.rhsvc_cases_url +
                                      'dc4477d1-dd3f-4c69-b181-7ff725dc9fa4/fulfilments/post', status=429)
 

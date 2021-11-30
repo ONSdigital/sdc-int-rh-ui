@@ -657,6 +657,7 @@ class RequestCodeConfirmSendByText(View):
             region = get_session_value(request, fulfilment_attributes, 'region', user_journey, request_type)
             postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
             case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            survey_id = get_session_value(request, fulfilment_attributes, 'survey_id', user_journey, request_type)
             mobile_number = get_session_value(request, fulfilment_attributes,
                                               'mobile_number', user_journey, request_type)
 
@@ -677,14 +678,10 @@ class RequestCodeConfirmSendByText(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await Fulfilments.get_fulfilment(
-                    request, region, 'SMS', 'UAC', fulfilment_individual)
-                if len(available_fulfilments) > 1:
-                    for fulfilment in available_fulfilments:
-                        if fulfilment['language'] == fulfilment_language:
-                            fulfilment_code_array.append(fulfilment['fulfilmentCode'])
-                else:
-                    fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
+                available_fulfilments = \
+                    await Surveys.survey_fulfilments_by_type(request, 'sms', survey_id, fulfilment_language)
+
+                fulfilment_code_array.append(available_fulfilments)
 
                 try:
                     await Fulfilments.request_fulfilment_sms(request,
@@ -866,6 +863,7 @@ class RequestCodeConfirmSendByEmail(View):
             region = get_session_value(request, fulfilment_attributes, 'region', user_journey, request_type)
             postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
             case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            survey_id = get_session_value(request, fulfilment_attributes, 'survey_id', user_journey, request_type)
             email = get_session_value(request, fulfilment_attributes, 'email', user_journey, request_type)
 
             fulfilment_individual = 'false'
@@ -885,14 +883,10 @@ class RequestCodeConfirmSendByEmail(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await Fulfilments.get_fulfilment(
-                    request, region, 'EMAIL', 'UAC', fulfilment_individual)
-                if len(available_fulfilments) > 1:
-                    for fulfilment in available_fulfilments:
-                        if fulfilment['language'] == fulfilment_language:
-                            fulfilment_code_array.append(fulfilment['fulfilmentCode'])
-                else:
-                    fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
+                available_fulfilments = \
+                    await Surveys.survey_fulfilments_by_type(request, 'email', survey_id, fulfilment_language)
+
+                fulfilment_code_array.append(available_fulfilments)
 
                 try:
                     await Fulfilments.request_fulfilment_email(request,
@@ -1084,6 +1078,7 @@ class RequestCommonConfirmSendByPost(View):
             first_name = get_session_value(request, fulfilment_attributes, 'first_name', user_journey, request_type)
             last_name = get_session_value(request, fulfilment_attributes, 'last_name', user_journey, request_type)
             case_id = get_session_value(request, fulfilment_attributes, 'case_id', user_journey, request_type)
+            survey_id = get_session_value(request, fulfilment_attributes, 'survey_id', user_journey, request_type)
             postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
             fulfilment_individual = 'false'
@@ -1096,19 +1091,10 @@ class RequestCommonConfirmSendByPost(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await Fulfilments.get_fulfilment(
-                    request,
-                    region,
-                    'POST',
-                    'UAC',
-                    fulfilment_individual)
+                available_fulfilments = \
+                    await Surveys.survey_fulfilments_by_type(request, 'email', survey_id, fulfilment_language)
 
-                if len(available_fulfilments) > 1:
-                    for fulfilment in available_fulfilments:
-                        if fulfilment['language'] == fulfilment_language:
-                            fulfilment_code_array.append(fulfilment['fulfilmentCode'])
-                else:
-                    fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
+                fulfilment_code_array.append(available_fulfilments)
 
                 logger.info(
                     f"fulfilment query: region={region}, individual={fulfilment_individual}",

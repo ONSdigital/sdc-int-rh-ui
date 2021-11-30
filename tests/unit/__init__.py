@@ -705,6 +705,10 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/fulfilments'
         )
 
+        self.rhsvc_url_surveys = (
+            f'{rh_svc_url}/surveys'
+        )
+
         self.rhsvc_cases_by_uprn_url = (
             f'{rh_svc_url}/cases/uprn/'
         )

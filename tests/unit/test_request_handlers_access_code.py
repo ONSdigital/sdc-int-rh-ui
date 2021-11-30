@@ -218,7 +218,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_confirm_address_input_yes_code(display_region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
-        await self.check_post_confirm_send_by_text_error_from_get_fulfilment(display_region, region)
+        await self.check_post_confirm_send_by_text_error_from_get_survey_details(display_region)
 
     async def assert_request_access_code_confirm_send_by_email_get_fulfilment_error(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -227,7 +227,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_confirm_address_input_yes_code(display_region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
-        await self.check_post_confirm_send_by_email_error_from_get_fulfilment(display_region, region)
+        await self.check_post_confirm_send_by_email_error_from_get_survey_details(display_region)
 
     async def assert_request_access_code_confirm_send_by_text_request_fulfilment_error(self, display_region, region):
         await self.check_get_enter_address(display_region)
@@ -325,7 +325,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_confirm_address_input_yes_code(display_region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
-        await self.check_post_confirm_send_by_post_error_from_get_fulfilment(display_region, region)
+        await self.check_post_confirm_send_by_post_error_from_get_survey_details(display_region)
 
     async def assert_request_access_code_post_confirm_send_by_post_request_fulfilment_error(
             self, display_region, region):
