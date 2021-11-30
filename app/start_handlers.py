@@ -15,7 +15,7 @@ from .flash import flash
 from .exceptions import InvalidEqPayLoad, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
 from .session import get_session_value
-from .comms.rhsvc import Authentication
+from .service_calls.rhsvc import Authentication
 
 from .utils import View, LaunchEQ
 

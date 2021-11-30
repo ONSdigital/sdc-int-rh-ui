@@ -1,5 +1,5 @@
 import jwt
-from app.comms import MakeRequest
+from app.service_calls import MakeRequest
 
 
 class JWT:

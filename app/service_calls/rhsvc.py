@@ -1,5 +1,5 @@
 from structlog import get_logger
-from app.comms import MakeRequest, SingleClientIP
+from app.service_calls import MakeRequest, SingleClientIP
 from datetime import datetime
 from pytz import utc
 

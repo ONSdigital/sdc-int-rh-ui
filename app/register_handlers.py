@@ -10,10 +10,12 @@ from . import (NO_SELECTION_CHECK_MSG)
 from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
-from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName
-from .comms.rhsvc import RegisterCase
+from .utils import View, FlashMessage
+from .service_calls.rhsvc import RegisterCase
 from .validators.date_of_birth import ProcessDOB
+from .validators.mobile import ProcessMobileNumber
+from .validators.name import ProcessName
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()

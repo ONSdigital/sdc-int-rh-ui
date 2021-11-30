@@ -15,13 +15,15 @@ from .security import forget
 from .exceptions import TooManyRequests, GetFulfilmentsError
 from .security import invalidate
 
-from .utils import View, ProcessPostcode, ProcessMobileNumber, \
-    InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName
+from .utils import View, FlashMessage
 from .validators.email import ProcessEmailAddress
+from .validators.postcode import ProcessPostcode
+from .validators.mobile import ProcessMobileNumber
+from .validators.name import ProcessName
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh
 from .session import get_existing_session, get_session_value
-from app.comms.rhsvc import Cases, Fulfilments, Surveys
-from app.comms.aims import Postcode, JWT
+from app.service_calls.rhsvc import Cases, Fulfilments, Surveys
+from app.service_calls.aims import Postcode, JWT
 
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()

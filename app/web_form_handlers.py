@@ -21,7 +21,7 @@ from . import (WEBFORM_MISSING_COUNTRY_MSG,
                )
 from .flash import flash
 from .utils import View
-from .comms.rhsvc import RHSvcWebForm
+from .service_calls.rhsvc import RHSvcWebForm
 
 logger = get_logger('respondent-home')
 web_form_routes = RouteTableDef()

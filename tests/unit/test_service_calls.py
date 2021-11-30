@@ -1,8 +1,8 @@
-from app.comms import SingleClientIP
+from app.service_calls import SingleClientIP
 from . import RHTestCase
 
 
-class TestUtils(RHTestCase):
+class TestServiceCalls(RHTestCase):
 
     def test_client_ip_valid(self):
         valid_request = {'client_ip': '192.168.0.0, 35.190.0.0, 35.191.10.0'}
