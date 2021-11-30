@@ -8,7 +8,7 @@ from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
                  BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.exceptions import InactiveCaseError, InvalidEqPayLoad
+from app.exceptions import InactiveCaseError
 from app.start_handlers import Start
 
 from . import build_eq_raises, skip_encrypt
@@ -351,54 +351,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn(self.content_start_closed_study, contents)
 
     @unittest_run_loop
-    async def test_post_start_uac_case_status_not_found_ew_e(self):
-        uac_json = self.uac_json_e.copy()
-        uac_json['caseStatus'] = 'NOT_FOUND'
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
-
-        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
-
-    @unittest_run_loop
-    async def test_post_start_uac_case_status_not_found_ew_w(self):
-        uac_json = self.uac_json_w.copy()
-        uac_json['caseStatus'] = 'NOT_FOUND'
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_en,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
-
-        self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
-
-    @unittest_run_loop
-    async def test_post_start_uac_case_status_not_found_cy(self):
-        uac_json = self.uac_json_w.copy()
-        uac_json['caseStatus'] = 'NOT_FOUND'
-
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, payload=uac_json)
-
-            with self.assertLogs('respondent-home', 'INFO') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
-
-        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
-
-    @unittest_run_loop
     async def test_post_start_get_uac_connection_error_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -688,16 +640,6 @@ class TestStartHandlers(TestHelpers):
             Start.validate_case(case_json)
 
         # Then an InactiveCaseError is raised
-
-    def test_validate_caseStatus_notfound(self):
-        # Given a dict with an active key and value
-        case_json = {'active': True, 'caseStatus': 'NOT_FOUND'}
-
-        # When validate_case is called
-        with self.assertRaises(InvalidEqPayLoad):
-            Start.validate_case(case_json)
-
-        # Then an InvalidEqPayload is raised
 
     def test_validate_case_empty(self):
         # Given an empty dict
@@ -998,7 +940,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1073,7 +1015,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_en)
@@ -1148,7 +1090,7 @@ class TestStartHandlers(TestHelpers):
             eq_payload[
                 'account_service_log_out_url'] = \
                 f'{account_service_url}{url_path_prefix}{url_display_region}{self.account_service_log_out_url}'
-            eq_payload['ru_ref'] = 'xxxxxxxxxxx'
+            eq_payload['ru_ref'] = '11100000009'
             eq_payload['display_address'] = 'ONS, Segensworth Road'
 
             get_start_response = await self.client.request('GET', self.get_start_cy)

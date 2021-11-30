@@ -3,7 +3,7 @@ import re
 import jwt
 
 from aiohttp.client_exceptions import (ClientResponseError)
-from .exceptions import InactiveCaseError, InvalidEqPayLoad, InvalidDataError, InvalidDataErrorWelsh, \
+from .exceptions import InactiveCaseError, InvalidDataError, InvalidDataErrorWelsh, \
     TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from datetime import datetime
@@ -139,13 +139,10 @@ class View:
     def validate_case(case_json):
         if not case_json.get('active', False):
             raise InactiveCaseError()
-        if not case_json.get('caseStatus', None) == 'OK':
-            raise InvalidEqPayLoad('CaseStatus is not OK')
 
     @staticmethod
     async def call_questionnaire(request, case, attributes, app, adlocation):
-        eq_payload = await EqPayloadConstructor(case, attributes, app,
-                                                adlocation).build()
+        eq_payload = await EqPayloadConstructor(case, attributes, app).build()
 
         token = encrypt(eq_payload,
                         key_store=app['key_store'],
@@ -557,7 +554,7 @@ class RHService(View):
             adlocation = ''
         launch_json = {
             'questionnaireId': case['qid'],
-            'caseId': case['caseId'],
+            'caseId': case['collectionCase']['caseId'],
             'agentId': adlocation,
             'clientIP': View.single_client_ip(request)
         }

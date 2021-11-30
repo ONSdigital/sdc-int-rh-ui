@@ -13,8 +13,7 @@ Request = namedtuple('Request', ['method', 'path', 'auth', 'func'])
 
 
 class EqPayloadConstructor(object):
-    def __init__(self, case: dict, attributes: dict, app: Application,
-                 adlocation: str):
+    def __init__(self, case: dict, attributes: dict, app: Application):
         """
         Creates the payload needed to communicate with EQ, built from the RH service
         """
@@ -40,20 +39,15 @@ class EqPayloadConstructor(object):
         self._account_service_log_out_url = \
             f'{domain_url_protocol}{domain_url}{url_path_prefix}{url_display_region}{save_and_exit_url}'
 
-        if adlocation:
-            self._channel = 'ad'
-            self._user_id = adlocation
-        else:
-            self._channel = 'rh'
-            self._user_id = ''
+        self._channel = 'rh'
 
         try:
-            self._case_id = case['caseId']
+            self._case_id = case['collectionCase']['caseId']
         except KeyError:
             raise InvalidEqPayLoad('No case id in supplied case JSON')
 
         try:
-            self._collex_id = case['collectionExerciseId']
+            self._collex_id = case['collectionExercise']['collectionExerciseId']
         except KeyError:
             raise InvalidEqPayLoad('No collection id in supplied case JSON')
 
@@ -65,14 +59,30 @@ class EqPayloadConstructor(object):
         self._response_id = self.hash_qid(self._questionnaire_id, salt)
 
         try:
-            self._uprn = case['address']['uprn']
+            self._uprn = case['collectionCase']['address']['uprn']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address uprn from case JSON')
 
         try:
-            self._region = case['region'][0]
+            self._region = case['collectionCase']['address']['region'][0]
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve region from case JSON')
+
+        if self._region == 'E':
+            self._language_code = 'en'
+        else:
+            self._language_code = self._sample_attributes['language']
+
+        #   The following are put in as part of SOCINT-258 - temporary for use with POC
+        try:
+            self._collex_name = case['collectionExercise']['name']
+        except KeyError:
+            raise InvalidEqPayLoad('No collection name supplied in case JSON')
+
+        try:
+            self._case_ref = case['collectionCase']['caseRef']
+        except KeyError:
+            raise InvalidEqPayLoad('No caseRef supplied in case JSON')
 
     async def build(self):
         """__init__ is not a coroutine function, so I/O needs to go here"""
@@ -81,41 +91,39 @@ class EqPayloadConstructor(object):
                      case_id=self._case_id,
                      tx_id=self._tx_id)
 
-        if self._region == 'E':
-            self._language_code = 'en'
-        else:
-            self._language_code = self._sample_attributes['language']
-
-        self._payload = {
-            'jti': str(uuid4()),  # required by eQ for creating a new claim
-            'tx_id': self.
-            _tx_id,  # not required by eQ (will generate if does not exist)
+        payload = {
+            'jti': str(uuid4()),
+            'tx_id': self._tx_id,
             'iat': int(time.time()),
-            'exp': int(time.time() +
-                       (5 * 60)),  # required by eQ for creating a new claim
-            'collection_exercise_sid': self._collex_id,  # required by eQ
+            'exp': int(time.time() + (5 * 60)),
+            'collection_exercise_sid': self._collex_id,
             'region_code': self.convert_region_code(self._region),
-            'ru_ref': self._uprn,  # new payload requires uprn to be ru_ref
-            'case_id':
-            self._case_id,  # not required by eQ but useful for downstream
+            'ru_ref': self._questionnaire_id,   # SOCINT-258 - temporary for use with POC
+            'user_id': '1234567890',            # SOCINT-258 - temporary for use with POC
+            'case_id': self._case_id,
             'language_code': self._language_code,
-            'display_address':
-            self.build_display_address(self._sample_attributes),
+            'display_address': self.build_display_address(self._sample_attributes),
             'response_id': self._response_id,
             'account_service_url': self._account_service_url,
-            'account_service_log_out_url':
-            self._account_service_log_out_url,  # required for save/continue
+            'account_service_log_out_url': self._account_service_log_out_url,
             'channel': self._channel,
-            'user_id': self._user_id,
             'questionnaire_id': self._questionnaire_id,
-            'eq_id': 'census',  # hardcoded for rehearsal
-            'period_id': '2021',
-            'form_type': 'H',  # hardcoded for sdc
-            'survey': 'CENSUS'  # hardcoded for rehearsal
+            'eq_id': '9999',  # originally 'census' changed for SOCINT-258
+            'period_id': self._collex_id,  # SOCINT-258 - temporary for use with POC
+            'form_type': 'zzz',  # Was originally 'H' but changed for SOCINT-258
+            # The following are put in as part of SOCINT-258 - temporary for use with POC
+            'schema_name': 'zzz_9999',
+            'period_str': self._collex_name,
+            'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
+                          '/test_schemas/en/zzz_9999.json',
+            'case_ref': self._case_ref,
+            # ru_name is a temp harcoded value for a show and tell. It will likely be removed or reference another field
+            'ru_name': 'Hercule Poirot'
         }
-        return self._payload
+        return payload
 
-    def hash_qid(self, qid, salt):
+    @staticmethod
+    def hash_qid(qid, salt):
         hashed = hashlib.sha256(salt.encode() + qid.encode()).hexdigest()
         return qid + hashed[0:16]
 
@@ -139,8 +147,8 @@ class EqPayloadConstructor(object):
 
         except KeyError:
             for key in [
-                    'addressLine1', 'addressLine2', 'addressLine3', 'townName',
-                    'postcode'
+                'addressLine1', 'addressLine2', 'addressLine3', 'townName',
+                'postcode'
             ]:  # retain order of address attributes
                 val = sample_attributes.get(key)
                 if val:
