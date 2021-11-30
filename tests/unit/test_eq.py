@@ -28,7 +28,7 @@ class TestEq(RHTestCase):
         self.assertIn(f'No collection id in supplied case JSON',
                       ex.exception.message)
 
-    def test_create_eq_constructor_missing_questionnaire_id(self):
+    def test_create_eq_constructor_missing_qid(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['qid']
 
@@ -44,6 +44,33 @@ class TestEq(RHTestCase):
         with self.assertRaises(InvalidEqPayLoad) as ex:
             EqPayloadConstructor(uac_json, self.attributes_en, self.app)
             self.assertIn(f'Could not retrieve address uprn from case JSON',
+                          ex.exception.message)
+
+    def test_create_eq_constructor_missing_region(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionCase']['address']['region']
+
+        with self.assertRaises(InvalidEqPayLoad) as ex:
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
+            self.assertIn(f'Could not retrieve region from case JSON',
+                          ex.exception.message)
+
+    def test_create_eq_constructor_missing_collex_name(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionExercise']['name']
+
+        with self.assertRaises(InvalidEqPayLoad) as ex:
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
+            self.assertIn(f'No collection name supplied in case JSON',
+                          ex.exception.message)
+
+    def test_create_eq_constructor_missing_case_ref(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionCase']['caseRef']
+
+        with self.assertRaises(InvalidEqPayLoad) as ex:
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
+            self.assertIn(f'No caseRef supplied in case JSON',
                           ex.exception.message)
 
     @unittest_run_loop

@@ -54,16 +54,6 @@ class EQLaunch:
 
 class Fulfilments:
     @staticmethod
-    async def get_fulfilment(request, region, delivery_channel, product_group, individual):
-        rhsvc_url = request.app['RHSVC_URL']
-        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
-              f'&productGroup={product_group}&individual={individual}'
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              url,
-                                              return_json=True)
-
-    @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
         rhsvc_url = request.app['RHSVC_URL']
         fulfilment_json = {

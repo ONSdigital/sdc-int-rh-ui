@@ -411,7 +411,7 @@ class RequestCodeSelectHowToReceive(View):
 
         form_option_set = []
 
-        if survey_data['allowedSmsFulfilments']:
+        if survey_data.get('allowedSmsFulfilments'):
             form_option_set.append({
                 'id': 'sms',
                 'label': {
@@ -420,7 +420,7 @@ class RequestCodeSelectHowToReceive(View):
                 },
                 'value': 'sms'
             })
-        if survey_data['allowedPrintFulfilments']:
+        if survey_data.get('allowedPrintFulfilments'):
             form_option_set.append({
                 'id': 'post',
                 'label': {
@@ -429,7 +429,7 @@ class RequestCodeSelectHowToReceive(View):
                 },
                 'value': 'post'
             })
-        if survey_data['allowedEmailFulfilments']:
+        if survey_data.get('allowedEmailFulfilments'):
             form_option_set.append({
                 'id': 'email',
                 'label': {
@@ -439,9 +439,9 @@ class RequestCodeSelectHowToReceive(View):
                 'value': 'email'
             })
 
-        if (not survey_data['allowedSmsFulfilments']) and \
-                (not survey_data['allowedPrintFulfilments']) and \
-                (not survey_data['allowedEmailFulfilments']):
+        if (not survey_data.get('allowedSmsFulfilments')) and \
+                (not survey_data.get('allowedPrintFulfilments')) and \
+                (not survey_data.get('allowedEmailFulfilments')):
             logger.info('no valid fulfilments available',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -1092,7 +1092,7 @@ class RequestCommonConfirmSendByPost(View):
 
             try:
                 available_fulfilments = \
-                    await Surveys.survey_fulfilments_by_type(request, 'email', survey_id, fulfilment_language)
+                    await Surveys.survey_fulfilments_by_type(request, 'post', survey_id, fulfilment_language)
 
                 fulfilment_code_array.append(available_fulfilments)
 

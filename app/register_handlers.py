@@ -15,7 +15,7 @@ from .service_calls.rhsvc import RegisterCase
 from .validators.date_of_birth import ProcessDOB
 from .validators.mobile import ProcessMobileNumber
 from .validators.name import ProcessName
-from .exceptions import InvalidDataError, InvalidDataErrorWelsh
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh, TooManyRequestsRegister
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -681,7 +681,10 @@ class RegisterChildSummary(View):
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
         except (KeyError, ClientResponseError) as ex:
-            raise ex
+            if ex.status == 429:
+                raise TooManyRequestsRegister(request_type)
+            else:
+                raise ex
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +

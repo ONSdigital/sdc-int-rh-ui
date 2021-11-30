@@ -118,6 +118,12 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_confirm_address_input_yes_code(display_region)
         await self.check_post_select_how_to_receive_input_no_selection(display_region)
 
+    async def assert_post_request_access_code_select_how_to_receive_no_fulfilments(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_code_no_fulfilments(display_region)
+
     async def assert_post_request_access_code_select_how_to_receive_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -482,6 +488,18 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_post_request_access_code_select_how_to_receive_no_selection_cy(self):
         await self.assert_post_request_access_code_select_how_to_receive_no_selection('cy', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_how_to_receive_no_fulfilments_ew_e(self):
+        await self.assert_post_request_access_code_select_how_to_receive_no_fulfilments('en', 'E')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_how_to_receive_no_fulfilments_ew_w(self):
+        await self.assert_post_request_access_code_select_how_to_receive_no_fulfilments('en', 'W')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_how_to_receive_no_fulfilments_cy(self):
+        await self.assert_post_request_access_code_select_how_to_receive_no_fulfilments('cy', 'W')
 
     @unittest_run_loop
     async def test_post_request_access_code_select_how_to_receive_input_invalid_ew_e(self):

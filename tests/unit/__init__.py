@@ -514,10 +514,14 @@ class RHTestCase(AioHTTPTestCase):
             'We are currently experiencing very high demand, thank you for your patience'
         self.content_common_429_error_uac_title_en = \
             'You have reached the maximum number of access codes you can request online'
+        self.content_common_429_error_register_title_en = \
+            'You have reached the maximum number of registrations you can make online'
         self.content_common_429_error_eq_launch_title_cy = \
             "Rydym ni\\\'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
         self.content_common_429_error_uac_title_cy = \
             "Rydych chi wedi cyrraedd y nifer fwyaf o godau mynediad y gallwch ofyn amdanynt ar lein"
+        self.content_common_429_error_register_title_cy = \
+            "You have reached the maximum number of registrations you can make online"
 
         # End Common
 
@@ -799,6 +803,11 @@ class RHTestCase(AioHTTPTestCase):
             f = asyncio.Future()
             f.set_result(json.load(fp))
             self.rhsvc_get_surveys = f
+
+        with open('tests/test_data/rhsvc/get_surveys_no_fulfilments.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_get_surveys_no_fulfilments = f
 
         with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
             f = asyncio.Future()
