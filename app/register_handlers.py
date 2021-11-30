@@ -11,8 +11,9 @@ from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB
+    FlashMessage, ProcessName
 from .comms.rhsvc import RegisterCase
+from .validators.date_of_birth import ProcessDOB
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()

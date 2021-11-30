@@ -146,11 +146,6 @@ class RegisterCase:
 class Surveys:
     @staticmethod
     async def get_survey_details(request, survey_id):
-        logger.info('making get request for survey by id',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    survey_id=survey_id)
         rhsvc_url = request.app['RHSVC_URL']
         return await MakeRequest.make_request(request,
                                               'GET',

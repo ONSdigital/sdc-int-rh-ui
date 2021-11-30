@@ -15,9 +15,10 @@ from .security import forget
 from .exceptions import TooManyRequests, GetFulfilmentsError
 from .security import invalidate
 
-from .utils import View, ProcessPostcode, ProcessMobileNumber, ProcessEmailAddress, \
+from .utils import View, ProcessPostcode, ProcessMobileNumber, \
     InvalidDataError, InvalidDataErrorWelsh, \
     FlashMessage, ProcessName
+from .validators.email import ProcessEmailAddress
 from .session import get_existing_session, get_session_value
 from app.comms.rhsvc import Cases, Fulfilments, Surveys
 from app.comms.aims import Postcode, JWT
