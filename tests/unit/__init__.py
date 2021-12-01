@@ -656,6 +656,7 @@ class RHTestCase(AioHTTPTestCase):
             'collection_exercise_sid': self.collection_exercise_id,
             'region_code': 'GB-ENG',
             'ru_ref': self.questionnaire_id,
+            'user_id': '1234567890',
             'case_id': self.case_id,
             'language_code': 'en',
             'display_address':
@@ -672,7 +673,9 @@ class RHTestCase(AioHTTPTestCase):
             'period_str': 'velit',
             'schema_name': 'zzz_9999',
             'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
-                          '/test_schemas/en/zzz_9999.json'
+                          '/test_schemas/en/zzz_9999.json',
+            # ru_name is a temp harcoded value for a show and tell. It will likely be removed or reference another field
+            'ru_name': 'Hercule Poirot'
         }
 
         self.account_service_url = '/start/'
