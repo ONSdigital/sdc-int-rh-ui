@@ -281,17 +281,24 @@ class RequestConfirmAddress(View):
 
         except ClientResponseError as ex:
             if ex.status == 404:
-                logger.info('no case matching uprn in RHSvc - return customer contact centre page',
+                logger.info('no case matching uprn in RHSvc - using AIMS data',
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
                             trace=request['trace'])
-                return HTTPFound(
-                    request.app.router['RequestContactCentre:get'].url_for(
-                        display_region=display_region,
-                        user_journey=user_journey,
-                        request_type=request_type,
-                        issue='address-not-required'
-                    ))
+
+                aims_uprn_return = await AddressIndex.get_ai_uprn(request, uprn)
+
+                # Ensure no session data from previous RM case used later
+                if 'case_id' in fulfilment_attributes:
+                    del fulfilment_attributes['case_id']
+                    session.changed()
+                fulfilment_attributes['addressLine1'] = aims_uprn_return['response']['address']['addressLine1']
+                fulfilment_attributes['addressLine2'] = aims_uprn_return['response']['address']['addressLine2']
+                fulfilment_attributes['addressLine3'] = aims_uprn_return['response']['address']['addressLine3']
+                fulfilment_attributes['townName'] = aims_uprn_return['response']['address']['townName']
+                fulfilment_attributes['postcode'] = aims_uprn_return['response']['address']['postcode']
+                fulfilment_attributes['uprn'] = aims_uprn_return['response']['address']['uprn']
+                fulfilment_attributes['region'] = aims_uprn_return['response']['address']['countryCode']
             else:
                 logger.info('error response from RHSvc',
                             client_ip=request['client_ip'],
@@ -325,7 +332,8 @@ class RequestConfirmAddress(View):
 
         self.log_entry(request, display_region + '/' + user_journey + '/' + request_type + '/confirm-address')
 
-        await get_existing_session(request, user_journey, request_type)
+        session = await get_existing_session(request, user_journey, request_type)
+        fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         data = await request.post()
 
         try:
@@ -344,9 +352,22 @@ class RequestConfirmAddress(View):
                 ))
 
         if address_confirmation == 'yes':
-            return HTTPFound(
-                request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                    request_type=request_type, display_region=display_region))
+            if 'case_id' in fulfilment_attributes:
+                return HTTPFound(
+                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                        request_type=request_type, display_region=display_region))
+            else:
+                logger.info('no case matching uprn in RHSvc - return customer contact centre page',
+                            client_ip=request['client_ip'],
+                            client_id=request['client_id'],
+                            trace=request['trace'])
+                return HTTPFound(
+                    request.app.router['RequestContactCentre:get'].url_for(
+                        display_region=display_region,
+                        user_journey=user_journey,
+                        request_type=request_type,
+                        issue='address-not-required'
+                    ))
 
         elif address_confirmation == 'no':
             return HTTPFound(

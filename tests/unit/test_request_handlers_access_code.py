@@ -111,6 +111,18 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address_no_case(display_region)
 
+    async def assert_post_request_access_code_select_address_case_no_case(self, display_region, region):
+        # This tests for when an address is added to the session, the address is rejected,
+        # then one without a case is selected - checks case_id is removed from session
+
+        # Select an address with a case, but then select 'no' in confirm address
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_no(display_region)
+        # And again, this time selecting an address without a case
+        await self.check_post_select_address_no_case(display_region)
+
     async def assert_post_request_access_code_select_how_to_receive_no_selection(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
@@ -476,6 +488,14 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_post_request_access_code_select_address_no_case_cy(self):
         await self.assert_post_request_access_code_select_address_no_case('cy')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_address_case_no_case_ew(self):
+        await self.assert_post_request_access_code_select_address_case_no_case('en', 'E')
+
+    @unittest_run_loop
+    async def test_post_request_access_code_select_address_case_no_case_cy(self):
+        await self.assert_post_request_access_code_select_address_case_no_case('cy', 'W')
 
     @unittest_run_loop
     async def test_post_request_access_code_select_how_to_receive_no_selection_ew_e(self):
