@@ -223,9 +223,7 @@ class StartConfirmAddress(StartCommon):
         if address_confirmation == 'Yes':
             auth_attributes['language'] = locale
             auth_attributes['display_region'] = display_region
-            await LaunchEQ.call_questionnaire(request, case, auth_attributes,
-                                              request.app,
-                                              session.get('adlocation'))
+            await LaunchEQ.call_questionnaire(request, case, auth_attributes, request.app)
 
         elif address_confirmation == 'No':
             return HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))

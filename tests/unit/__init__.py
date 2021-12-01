@@ -403,7 +403,6 @@ class RHTestCase(AioHTTPTestCase):
         self.postcode_invalid = 'ZZ99 9ZZ'
         self.postcode_no_results = 'GU34 6DU'
         self.postcode_empty = ''
-        self.adlocation = '1234567890'
 
         self.selected_uprn = '10023122451'
 

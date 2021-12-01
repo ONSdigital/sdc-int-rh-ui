@@ -35,13 +35,9 @@ class RHSvcCases:
 
 class RHSvcEQLaunch:
     @staticmethod
-    async def post_surveylaunched(request, case, adlocation):
-        if not adlocation:
-            adlocation = ''
+    async def post_surveylaunched(request, case):
         launch_json = {
             'questionnaireId': case['qid'],
-            'caseId': case['collectionCase']['caseId'],
-            'agentId': adlocation,
             'clientIP': SingleClientIP.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']

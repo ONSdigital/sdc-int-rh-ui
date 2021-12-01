@@ -76,7 +76,7 @@ class View:
 
 class LaunchEQ:
     @staticmethod
-    async def call_questionnaire(request, case, attributes, app, adlocation):
+    async def call_questionnaire(request, case, attributes, app):
         eq_payload = await EqPayloadConstructor(case, attributes, app).build()
 
         token = encrypt(eq_payload,
@@ -84,7 +84,7 @@ class LaunchEQ:
                         key_purpose='authentication')
 
         try:
-            await RHSvcEQLaunch.post_surveylaunched(request, case, adlocation)
+            await RHSvcEQLaunch.post_surveylaunched(request, case)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()
