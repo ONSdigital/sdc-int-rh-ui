@@ -699,10 +699,6 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/surveyLaunched'
         )
 
-        self.rhsvc_url_fulfilments = (
-            f'{rh_svc_url}/fulfilments'
-        )
-
         self.rhsvc_url_surveys = (
             f'{rh_svc_url}/surveys'
         )
