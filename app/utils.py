@@ -3,7 +3,7 @@ from .exceptions import TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from pytz import timezone
 
-from app.service_calls.rhsvc import EQLaunch
+from app.service_calls.rhsvc import RHSvcEQLaunch
 
 from sdc.crypto.encrypter import encrypt
 from .eq import EqPayloadConstructor
@@ -84,7 +84,7 @@ class LaunchEQ:
                         key_purpose='authentication')
 
         try:
-            await EQLaunch.post_surveylaunched(request, case, adlocation)
+            await RHSvcEQLaunch.post_surveylaunched(request, case, adlocation)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()

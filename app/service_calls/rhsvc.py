@@ -6,7 +6,7 @@ from pytz import utc
 logger = get_logger('respondent-home')
 
 
-class Authentication:
+class RHSvcAuthentication:
     @staticmethod
     async def get_uac_details(request):
         uac_hash = request['uac_hash']
@@ -23,7 +23,7 @@ class Authentication:
                                               return_json=True)
 
 
-class Cases:
+class RHSvcCases:
     @staticmethod
     async def get_cases_by_uprn(request, uprn):
         rhsvc_url = request.app['RHSVC_URL']
@@ -33,7 +33,7 @@ class Cases:
                                               return_json=True)
 
 
-class EQLaunch:
+class RHSvcEQLaunch:
     @staticmethod
     async def post_surveylaunched(request, case, adlocation):
         if not adlocation:
@@ -52,7 +52,7 @@ class EQLaunch:
                                               request_json=launch_json)
 
 
-class Fulfilments:
+class RHSvcFulfilments:
     @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
         rhsvc_url = request.app['RHSVC_URL']
@@ -107,7 +107,7 @@ class Fulfilments:
                                               request_json=fulfilment_json)
 
 
-class RegisterCase:
+class RHSvcRegisterCase:
     @staticmethod
     async def register_new_case(request, data):
         new_case_json = {
@@ -133,7 +133,7 @@ class RegisterCase:
                                               request_json=new_case_json)
 
 
-class Surveys:
+class RHSvcSurveys:
     @staticmethod
     async def get_survey_details(request, survey_id):
         rhsvc_url = request.app['RHSVC_URL']
@@ -145,7 +145,7 @@ class Surveys:
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
-        survey_data = await Surveys.get_survey_details(request, survey_id)
+        survey_data = await RHSvcSurveys.get_survey_details(request, survey_id)
         method_data = {}
         pack_code = ''
         if method == 'sms':

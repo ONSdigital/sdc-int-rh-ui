@@ -11,7 +11,7 @@ from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, FlashMessage
-from .service_calls.rhsvc import RegisterCase
+from .service_calls.rhsvc import RHSvcRegisterCase
 from .validators.date_of_birth import ProcessDOB
 from .validators.mobile import ProcessMobileNumber
 from .validators.name import ProcessName
@@ -676,7 +676,7 @@ class RegisterChildSummary(View):
         }
 
         try:
-            await RegisterCase.register_new_case(request, submission_data)
+            await RHSvcRegisterCase.register_new_case(request, submission_data)
             return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))

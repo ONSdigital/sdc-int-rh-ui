@@ -804,36 +804,6 @@ class RHTestCase(AioHTTPTestCase):
             f.set_result(json.load(fp))
             self.rhsvc_get_surveys_no_fulfilments = f
 
-        with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_multi_sms = f
-
-        with open('tests/test_data/rhsvc/get_fulfilment_single_sms.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_single_sms = f
-
-        with open('tests/test_data/rhsvc/get_fulfilment_multi_post.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_multi_post = f
-
-        with open('tests/test_data/rhsvc/get_fulfilment_single_post.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_single_post = f
-
-        with open('tests/test_data/rhsvc/get_fulfilment_multi_email.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_multi_email = f
-
-        with open('tests/test_data/rhsvc/get_fulfilment_single_email.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_fulfilment_single_email = f
-
         with open('tests/test_data/rhsvc/request_fulfilment_sms.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))

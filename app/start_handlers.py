@@ -15,7 +15,7 @@ from .flash import flash
 from .exceptions import InvalidEqPayLoad, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
 from .session import get_session_value
-from .service_calls.rhsvc import Authentication
+from .service_calls.rhsvc import RHSvcAuthentication
 
 from .utils import View, LaunchEQ
 
@@ -111,7 +111,7 @@ class Start(StartCommon):
             return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
         try:
-            uac_json = await Authentication.get_uac_details(request)
+            uac_json = await RHSvcAuthentication.get_uac_details(request)
         except ClientResponseError as ex:
             if ex.status == 404:
                 logger.warn('attempt to use an invalid access code',
