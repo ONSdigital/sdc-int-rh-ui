@@ -490,11 +490,15 @@ class TestHelpers(RHTestCase):
             self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
 
     async def check_post_select_address_no_case(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
-                passthrough=[str(self.server._root)]
-        ) as mocked_get_case_by_uprn:
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                mock.patch('app.utils.AddressIndex.get_ai_uprn') as mocked_get_ai_uprn, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_get_case_by_uprn:
 
             mocked_get_case_by_uprn.get(self.rhsvc_cases_by_uprn_url + self.selected_uprn, status=404)
+            if display_region == 'cy':
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
+            else:
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -504,11 +508,21 @@ class TestHelpers(RHTestCase):
 
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
+            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - using AIMS data')
+            self.assertEqual(response.status, 200)
+            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
+
+            confirm_response = await self.client.request('POST',
+                                                         self.get_url_from_class(
+                                                             'RequestConfirmAddress', 'post',
+                                                             display_region, request_type=self.request_type),
+                                                         data=self.common_confirm_address_input_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, 'no case matching uprn in RHSvc - return customer contact centre page')
             self.assertLogEvent(cm, self.build_url_log_entry('address-not-required', display_region, 'GET'))
 
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
+            self.assertEqual(confirm_response.status, 200)
+            contents = str(await confirm_response.content.read())
             self.assertSiteLogo(display_region, contents)
             self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
                                               self.request_type, 'address-not-required')

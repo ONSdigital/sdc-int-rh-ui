@@ -446,6 +446,18 @@ class AddressIndex(View):
                                         headers=headers,
                                         return_json=True)
 
+    @staticmethod
+    async def get_ai_uprn(request, uprn):
+        ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
+        ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
+        url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
+        headers = {'Authorization': 'Bearer ' + AddressIndex.generate_jwt(request)}
+        return await View._make_request(request,
+                                        'GET',
+                                        url,
+                                        headers=headers,
+                                        return_json=True)
+
 
 class RHService(View):
 
