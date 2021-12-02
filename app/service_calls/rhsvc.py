@@ -35,9 +35,9 @@ class RHSvcCases:
 
 class RHSvcEQLaunch:
     @staticmethod
-    async def post_surveylaunched(request, case):
+    async def post_survey_launched(request, uac_context):
         launch_json = {
-            'questionnaireId': case['qid'],
+            'questionnaireId': uac_context['qid'],
             'clientIP': SingleClientIP.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']

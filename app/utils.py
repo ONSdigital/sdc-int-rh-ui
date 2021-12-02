@@ -84,7 +84,7 @@ class LaunchEQ:
                         key_purpose='authentication')
 
         try:
-            await RHSvcEQLaunch.post_surveylaunched(request, uac_context)
+            await RHSvcEQLaunch.post_survey_launched(request, uac_context)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()
