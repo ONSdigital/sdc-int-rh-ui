@@ -11,40 +11,50 @@ class TestEq(RHTestCase):
         self.assertIsInstance(
             EqPayloadConstructor(self.uac_json_e, self.attributes_en, self.app), EqPayloadConstructor)
 
+    def verify_missing(self, uac_json, expected_msg):
+        with self.assertRaises(InvalidEqPayLoad) as ex:
+            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
+        self.assertIn(expected_msg, ex.exception.message)
+
     def test_create_eq_constructor_missing_case_id(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['collectionCase']['caseId']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-        self.assertIn('No case id in supplied case JSON', ex.exception.message)
+        self.verify_missing(uac_json, 'No case id in supplied UAC context JSON')
 
     def test_create_eq_constructor_missing_ce_id(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['collectionExercise']['collectionExerciseId']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-        self.assertIn(f'No collection id in supplied case JSON',
-                      ex.exception.message)
+        self.verify_missing(uac_json, 'No collection id in supplied UAC context JSON')
 
     def test_create_eq_constructor_missing_questionnaire_id(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['qid']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-            self.assertIn(f'No qid in supplied case JSON',
-                          ex.exception.message)
+        self.verify_missing(uac_json, 'No questionnaireId in supplied UAC context JSON')
 
     def test_create_eq_constructor_missing_uprn(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['collectionCase']['address']['uprn']
+        self.verify_missing(uac_json, 'Could not retrieve address uprn from UAC context JSON')
 
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-            self.assertIn(f'Could not retrieve address uprn from case JSON',
-                          ex.exception.message)
+    def test_create_eq_constructor_missing_region(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionCase']['address']['region']
+        self.verify_missing(uac_json, 'Could not retrieve region from UAC context JSON')
+
+    def test_create_eq_constructor_missing_collection_name(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionExercise']['name']
+        self.verify_missing(uac_json, 'No collection name supplied in UAC context JSON')
+
+    def test_create_eq_constructor_missing_collection_case_ref(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionCase']['caseRef']
+        self.verify_missing(uac_json, 'No caseRef supplied in UAC context JSON')
+
+    def test_create_eq_constructor_missing_survey_url(self):
+        uac_json = self.uac_json_e.copy()
+        del uac_json['collectionInstrumentUrl']
+        self.verify_missing(uac_json, 'No collectionInstrumentUrl in UAC context JSON')
 
     @unittest_run_loop
     async def test_build_en(self):

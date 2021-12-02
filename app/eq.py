@@ -13,7 +13,7 @@ Request = namedtuple('Request', ['method', 'path', 'auth', 'func'])
 
 
 class EqPayloadConstructor(object):
-    def __init__(self, uac_claim_ctx: dict, attributes: dict, app: Application):
+    def __init__(self, uac_context: dict, attributes: dict, app: Application):
         """
         Creates the payload needed to communicate with EQ, built from the RH service
         """
@@ -42,31 +42,31 @@ class EqPayloadConstructor(object):
         self._channel = 'rh'
 
         try:
-            self._case_id = uac_claim_ctx['collectionCase']['caseId']
+            self._case_id = uac_context['collectionCase']['caseId']
         except KeyError:
-            raise InvalidEqPayLoad('No case id in supplied case JSON')
+            raise InvalidEqPayLoad('No case id in supplied UAC context JSON')
 
         try:
-            self._collex_id = uac_claim_ctx['collectionExercise']['collectionExerciseId']
+            self._collex_id = uac_context['collectionExercise']['collectionExerciseId']
         except KeyError:
-            raise InvalidEqPayLoad('No collection id in supplied case JSON')
+            raise InvalidEqPayLoad('No collection id in supplied UAC context JSON')
 
         try:
-            self._questionnaire_id = uac_claim_ctx['qid']
+            self._questionnaire_id = uac_context['qid']
         except KeyError:
-            raise InvalidEqPayLoad('No questionnaireId in supplied case JSON')
+            raise InvalidEqPayLoad('No questionnaireId in supplied UAC context JSON')
 
         self._response_id = self.hash_qid(self._questionnaire_id, salt)
 
         try:
-            self._uprn = uac_claim_ctx['collectionCase']['address']['uprn']
+            self._uprn = uac_context['collectionCase']['address']['uprn']
         except KeyError:
-            raise InvalidEqPayLoad('Could not retrieve address uprn from case JSON')
+            raise InvalidEqPayLoad('Could not retrieve address uprn from UAC context JSON')
 
         try:
-            self._region = uac_claim_ctx['collectionCase']['address']['region'][0]
+            self._region = uac_context['collectionCase']['address']['region'][0]
         except KeyError:
-            raise InvalidEqPayLoad('Could not retrieve region from case JSON')
+            raise InvalidEqPayLoad('Could not retrieve region from UAC context JSON')
 
         if self._region == 'E':
             self._language_code = 'en'
@@ -75,19 +75,19 @@ class EqPayloadConstructor(object):
 
         #   The following are put in as part of SOCINT-258 - temporary for use with POC
         try:
-            self._collex_name = uac_claim_ctx['collectionExercise']['name']
+            self._collex_name = uac_context['collectionExercise']['name']
         except KeyError:
-            raise InvalidEqPayLoad('No collection name supplied in case JSON')
+            raise InvalidEqPayLoad('No collection name supplied in UAC context JSON')
 
         try:
-            self._case_ref = uac_claim_ctx['collectionCase']['caseRef']
+            self._case_ref = uac_context['collectionCase']['caseRef']
         except KeyError:
-            raise InvalidEqPayLoad('No caseRef supplied in case JSON')
+            raise InvalidEqPayLoad('No caseRef supplied in UAC context JSON')
 
         try:
-            self._survey_url = uac_claim_ctx['collectionInstrumentUrl']
+            self._survey_url = uac_context['collectionInstrumentUrl']
         except KeyError:
-            raise InvalidEqPayLoad('No collectionInstrumentUrl in case JSON')
+            raise InvalidEqPayLoad('No collectionInstrumentUrl in UAC context JSON')
 
     async def build(self):
         """__init__ is not a coroutine function, so I/O needs to go here"""
