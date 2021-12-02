@@ -111,7 +111,7 @@ class Start(StartCommon):
             return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
         try:
-            uac_json = await RHSvcAuthentication.get_uac_details(request)
+            uac_context = await RHSvcAuthentication.get_uac_details(request)
         except ClientResponseError as ex:
             if ex.status == 404:
                 logger.warn('attempt to use an invalid access code',
@@ -126,17 +126,17 @@ class Start(StartCommon):
                              client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                 raise ex
 
-        if uac_json['receiptReceived']:
+        if uac_context['receiptReceived']:
             raise InactiveCaseError
-        elif not uac_json['active']:
-            collection_id = uac_json['collectionExercise']['collectionExerciseId']
+        elif not uac_context['active']:
+            collection_id = uac_context['collectionExercise']['collectionExerciseId']
             raise ExerciseClosedError(collection_id)
         else:
-            await remember(uac_json['collectionCase']['caseId'], request)
-            self.validate_case(uac_json)
+            await remember(uac_context['collectionCase']['caseId'], request)
+            self.validate_case(uac_context)
 
         try:
-            auth_attributes = uac_json['collectionCase']['address']
+            auth_attributes = uac_context['collectionCase']['address']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address details')
 
@@ -144,7 +144,7 @@ class Start(StartCommon):
                      client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
         session = await get_session(request)
         session['auth_attributes'] = auth_attributes
-        session['case'] = uac_json
+        session['uac_context'] = uac_context
 
         return HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
@@ -201,7 +201,7 @@ class StartConfirmAddress(StartCommon):
             locale = 'en'
 
         auth_attributes = get_session_value(request, session, 'auth_attributes', user_journey)
-        case = get_session_value(request, session, 'case', user_journey)
+        uac_context = get_session_value(request, session, 'uac_context', user_journey)
 
         try:
             address_confirmation = data['address-check-answer']
@@ -223,7 +223,7 @@ class StartConfirmAddress(StartCommon):
         if address_confirmation == 'Yes':
             auth_attributes['language'] = locale
             auth_attributes['display_region'] = display_region
-            await LaunchEQ.call_questionnaire(request, case, auth_attributes, request.app)
+            await LaunchEQ.call_questionnaire(request, uac_context, auth_attributes, request.app)
 
         elif address_confirmation == 'No':
             return HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))

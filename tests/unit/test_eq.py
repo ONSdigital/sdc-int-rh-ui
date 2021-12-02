@@ -56,33 +56,6 @@ class TestEq(RHTestCase):
         del uac_json['collectionInstrumentUrl']
         self.verify_missing(uac_json, 'No collectionInstrumentUrl in UAC context JSON')
 
-    def test_create_eq_constructor_missing_region(self):
-        uac_json = self.uac_json_e.copy()
-        del uac_json['collectionCase']['address']['region']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-            self.assertIn(f'Could not retrieve region from case JSON',
-                          ex.exception.message)
-
-    def test_create_eq_constructor_missing_collex_name(self):
-        uac_json = self.uac_json_e.copy()
-        del uac_json['collectionExercise']['name']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-            self.assertIn(f'No collection name supplied in case JSON',
-                          ex.exception.message)
-
-    def test_create_eq_constructor_missing_case_ref(self):
-        uac_json = self.uac_json_e.copy()
-        del uac_json['collectionCase']['caseRef']
-
-        with self.assertRaises(InvalidEqPayLoad) as ex:
-            EqPayloadConstructor(uac_json, self.attributes_en, self.app)
-            self.assertIn(f'No caseRef supplied in case JSON',
-                          ex.exception.message)
-
     @unittest_run_loop
     async def test_build_en(self):
         eq_payload = self.eq_payload.copy()
