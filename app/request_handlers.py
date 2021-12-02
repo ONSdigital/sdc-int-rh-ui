@@ -15,10 +15,15 @@ from .security import forget
 from .exceptions import TooManyRequests
 from .security import invalidate
 
-from .utils import View, ProcessPostcode, ProcessMobileNumber, ProcessEmailAddress, \
-    InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, AddressIndex, RHService, ProcessName
+from .utils import View, FlashMessage
+from .validators.email import ProcessEmailAddress
+from .validators.postcode import ProcessPostcode
+from .validators.mobile import ProcessMobileNumber
+from .validators.name import ProcessName
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh
 from .session import get_existing_session, get_session_value
+from .service_calls.rhsvc import RHSvcCases, RHSvcFulfilments
+from .service_calls.aims import AimsPostcode, AimsJWT, AimsUprn
 
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()
@@ -60,7 +65,7 @@ class RequestEnterAddress(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
-            'jwt': AddressIndex.generate_jwt(request),
+            'jwt': AimsJWT.generate_jwt(request),
             'aims_domain': request.app['ADDRESS_INDEX_SVC_EXTERNAL_URL']
         }
 
@@ -160,7 +165,7 @@ class RequestSelectAddress(View):
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
-        address_content = await AddressIndex.get_postcode_return(request, postcode, display_region)
+        address_content = await AimsPostcode.get_postcode_return(request, postcode, display_region)
         address_content['page_title'] = page_title
         address_content['display_region'] = display_region
         address_content['user_journey'] = user_journey
@@ -257,7 +262,7 @@ class RequestConfirmAddress(View):
         uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
         try:
-            rhsvc_uprn_return = await RHService.get_case_by_uprn(request, uprn)
+            rhsvc_uprn_return = await RHSvcCases.get_cases_by_uprn(request, uprn)
             logger.info('case matching uprn found in RHSvc',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -280,7 +285,7 @@ class RequestConfirmAddress(View):
                             client_id=request['client_id'],
                             trace=request['trace'])
 
-                aims_uprn_return = await AddressIndex.get_ai_uprn(request, uprn)
+                aims_uprn_return = await AimsUprn.get_ai_uprn(request, uprn)
 
                 # Ensure no session data from previous RM case used later
                 if 'case_id' in fulfilment_attributes:
@@ -636,7 +641,7 @@ class RequestCodeConfirmSendByText(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await RHSvcFulfilments.get_fulfilment(
                     request, region, 'SMS', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
@@ -646,10 +651,10 @@ class RequestCodeConfirmSendByText(View):
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
                 try:
-                    await RHService.request_fulfilment_sms(request,
-                                                           case_id,
-                                                           mobile_number,
-                                                           fulfilment_code_array)
+                    await RHSvcFulfilments.request_fulfilment_sms(request,
+                                                                  case_id,
+                                                                  mobile_number,
+                                                                  fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -844,7 +849,7 @@ class RequestCodeConfirmSendByEmail(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await RHSvcFulfilments.get_fulfilment(
                     request, region, 'EMAIL', 'UAC', fulfilment_individual)
                 if len(available_fulfilments) > 1:
                     for fulfilment in available_fulfilments:
@@ -854,10 +859,10 @@ class RequestCodeConfirmSendByEmail(View):
                     fulfilment_code_array.append(available_fulfilments[0]['fulfilmentCode'])
 
                 try:
-                    await RHService.request_fulfilment_email(request,
-                                                             case_id,
-                                                             email,
-                                                             fulfilment_code_array)
+                    await RHSvcFulfilments.request_fulfilment_email(request,
+                                                                    case_id,
+                                                                    email,
+                                                                    fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -1055,7 +1060,7 @@ class RequestCommonConfirmSendByPost(View):
             fulfilment_code_array = []
 
             try:
-                available_fulfilments = await RHService.get_fulfilment(
+                available_fulfilments = await RHSvcFulfilments.get_fulfilment(
                     request,
                     region,
                     'POST',
@@ -1077,12 +1082,12 @@ class RequestCommonConfirmSendByPost(View):
                     postcode=postcode)
 
                 try:
-                    await RHService.request_fulfilment_post(request,
-                                                            case_id,
-                                                            first_name,
-                                                            last_name,
-                                                            fulfilment_code_array,
-                                                            None)
+                    await RHSvcFulfilments.request_fulfilment_post(request,
+                                                                   case_id,
+                                                                   first_name,
+                                                                   last_name,
+                                                                   fulfilment_code_array,
+                                                                   None)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)

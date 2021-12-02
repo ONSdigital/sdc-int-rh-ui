@@ -20,7 +20,8 @@ from . import (WEBFORM_MISSING_COUNTRY_MSG,
                WEBFORM_MISSING_EMAIL_INVALID_MSG_CY
                )
 from .flash import flash
-from .utils import View, RHService
+from .utils import View
+from .service_calls.rhsvc import RHSvcWebForm
 
 logger = get_logger('respondent-home')
 web_form_routes = RouteTableDef()
@@ -136,7 +137,7 @@ class WebForm(View):
             }
 
             try:
-                await RHService.post_webform(request, form_data)
+                await RHSvcWebForm.post_webform(request, form_data)
             except ClientResponseError as ex:
                 if ex.status == 429:
                     raise TooManyRequestsWebForm()

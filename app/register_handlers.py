@@ -10,8 +10,12 @@ from . import (NO_SELECTION_CHECK_MSG)
 from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
-from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB, RHService
+from .utils import View, FlashMessage
+from .service_calls.rhsvc import RHSvcRegisterCase
+from .validators.date_of_birth import ProcessDOB
+from .validators.mobile import ProcessMobileNumber
+from .validators.name import ProcessName
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh, TooManyRequestsRegister
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -672,12 +676,15 @@ class RegisterChildSummary(View):
         }
 
         try:
-            await RHService.register_new_case(request, submission_data)
+            await RHSvcRegisterCase.register_new_case(request, submission_data)
             return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
         except (KeyError, ClientResponseError) as ex:
-            raise ex
+            if ex.status == 429:
+                raise TooManyRequestsRegister(request_type)
+            else:
+                raise ex
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
