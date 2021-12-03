@@ -137,10 +137,10 @@ class RHSvc:
     async def get_survey_details(request, survey_id):
         rhsvc_url = request.app['RHSVC_URL']
         return await ServiceCalls.make_request(request,
-                                              'GET',
-                                              f'{rhsvc_url}/surveys/{survey_id}',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              return_json=True)
+                                               'GET',
+                                               f'{rhsvc_url}/surveys/{survey_id}',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               return_json=True)
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):

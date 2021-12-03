@@ -702,10 +702,7 @@ class RequestCodeConfirmSendByText(View):
                 fulfilment_code_array.append(available_fulfilments)
 
                 try:
-                    await RHSvc.request_fulfilment_sms(request,
-                                                                  case_id,
-                                                                  mobile_number,
-                                                                  fulfilment_code_array)
+                    await RHSvc.request_fulfilment_sms(request, case_id, mobile_number, fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -907,10 +904,7 @@ class RequestCodeConfirmSendByEmail(View):
                 fulfilment_code_array.append(available_fulfilments)
 
                 try:
-                    await RHSvc.request_fulfilment_email(request,
-                                                                    case_id,
-                                                                    email,
-                                                                    fulfilment_code_array)
+                    await RHSvc.request_fulfilment_email(request, case_id, email, fulfilment_code_array)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -1122,12 +1116,8 @@ class RequestCommonConfirmSendByPost(View):
                     postcode=postcode)
 
                 try:
-                    await RHSvc.request_fulfilment_post(request,
-                                                                   case_id,
-                                                                   first_name,
-                                                                   last_name,
-                                                                   fulfilment_code_array,
-                                                                   None)
+                    await RHSvc.request_fulfilment_post(request, case_id, first_name, last_name,
+                                                        fulfilment_code_array, None)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
