@@ -5,7 +5,7 @@ from structlog import get_logger
 logger = get_logger('respondent-home')
 
 
-class MakeRequest:
+class ServiceCalls:
     @staticmethod
     async def make_request(request,
                            method,
@@ -26,8 +26,6 @@ class MakeRequest:
         retry_request = RetryRequest(request, method, url, auth, headers, request_json, return_json)
         return await retry_request.make_request()
 
-
-class SingleClientIP:
     @staticmethod
     def single_client_ip(request):
         if request['client_ip']:

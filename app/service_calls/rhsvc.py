@@ -1,5 +1,5 @@
 from structlog import get_logger
-from app.service_calls import MakeRequest, SingleClientIP
+from app.service_calls import ServiceCalls, ServiceCalls
 from datetime import datetime
 from pytz import utc
 
@@ -16,7 +16,7 @@ class RHSvcAuthentication:
                     trace=request['trace'],
                     uac_hash=uac_hash)
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               f'{rhsvc_url}/uacs/{uac_hash}',
                                               auth=request.app['RHSVC_AUTH'],
@@ -28,10 +28,10 @@ class RHSvcAuthentication:
             'questionnaireId': uac_context['qid'],
             'caseId': uac_context['collectionCase']['caseId'],
             'agentId': '',
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               f'{rhsvc_url}/surveyLaunched',
                                               auth=request.app['RHSVC_AUTH'],
@@ -42,7 +42,7 @@ class RHSvcFulfilments:
     @staticmethod
     async def get_cases_by_uprn(request, uprn):
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               f'{rhsvc_url}/cases/uprn/{uprn}',
                                               return_json=True)
@@ -53,7 +53,7 @@ class RHSvcFulfilments:
         rhsvc_url = request.app['RHSVC_URL']
         url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
               f'&productGroup={product_group}&individual={individual}'
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               url,
                                               return_json=True)
@@ -66,10 +66,10 @@ class RHSvcFulfilments:
             'telNo': tel_no,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/sms'
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               url,
                                               auth=request.app['RHSVC_AUTH'],
@@ -85,10 +85,10 @@ class RHSvcFulfilments:
             'surname': last_name,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/post'
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               url,
                                               auth=request.app['RHSVC_AUTH'],
@@ -102,10 +102,10 @@ class RHSvcFulfilments:
             'email': email,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/email'
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               url,
                                               auth=request.app['RHSVC_AUTH'],
@@ -131,7 +131,7 @@ class RHSvcRegisterCase:
             'emailAddress': 'a.b@c.com'  # Dummy value - not required to be captured currently
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               f'{rhsvc_url}/cases/new',
                                               auth=request.app['RHSVC_AUTH'],
@@ -148,10 +148,10 @@ class RHSvcWebForm:
             'name': form_data['name'],
             'description': form_data['description'],
             'email': form_data['email'],
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'POST',
                                               f'{rhsvc_url}/webform',
                                               auth=request.app['RHSVC_AUTH'],

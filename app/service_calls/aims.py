@@ -1,5 +1,5 @@
 import jwt
-from app.service_calls import MakeRequest
+from app.service_calls import ServiceCalls
 
 
 class Aims:
@@ -52,7 +52,7 @@ class Aims:
         token = Aims.generate_jwt(request)
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
         headers = {'Authorization': 'Bearer ' + token}
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               url,
                                               headers=headers,
@@ -64,7 +64,7 @@ class Aims:
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
         headers = {'Authorization': 'Bearer ' + Aims.generate_jwt(request)}
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               url,
                                               headers=headers,

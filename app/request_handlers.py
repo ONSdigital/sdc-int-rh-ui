@@ -16,10 +16,8 @@ from .exceptions import TooManyRequests
 from .security import invalidate
 
 from .utils import View, FlashMessage
-from .validators.email import ProcessEmailAddress
-from .validators.postcode import ProcessPostcode
-from .validators.mobile import ProcessMobileNumber
-from .validators.name import ProcessName
+from .validators.address import AddressValidators
+from .validators.identity import IdentityValidators
 from .exceptions import InvalidDataError, InvalidDataErrorWelsh
 from .session import get_existing_session, get_session_value
 from .service_calls.rhsvc import RHSvcFulfilments
@@ -81,7 +79,7 @@ class RequestEnterAddress(View):
 
         if data.get('form-enter-address-postcode') or data.get('form-enter-address-postcode') == '':
             try:
-                postcode = ProcessPostcode.validate_postcode(data['form-enter-address-postcode'], display_region)
+                postcode = AddressValidators.validate_postcode(data['form-enter-address-postcode'], display_region)
                 logger.info('valid postcode',
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
@@ -526,7 +524,7 @@ class RequestCodeEnterMobile(View):
         data = await request.post()
 
         try:
-            mobile_number = ProcessMobileNumber.validate_uk_mobile_phone_number(data['request-mobile-number'],
+            mobile_number = IdentityValidators.validate_uk_mobile_phone_number(data['request-mobile-number'],
                                                                                 locale)
 
             logger.info('valid mobile number',
@@ -738,7 +736,7 @@ class RequestCodeEnterEmail(View):
         data = await request.post()
 
         try:
-            email = ProcessEmailAddress.validate_email(data['request-email'], locale)
+            email = IdentityValidators.validate_email(data['request-email'], locale)
 
             logger.info('valid email address',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -941,7 +939,7 @@ class RequestCommonEnterName(View):
 
         data = await request.post()
 
-        form_valid = ProcessName.validate_name(request, data, display_region)
+        form_valid = IdentityValidators.validate_name(request, data, display_region)
 
         if not form_valid:
             logger.info('form submission error',
