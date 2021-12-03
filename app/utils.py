@@ -5,7 +5,7 @@ from sdc.crypto.encrypter import encrypt
 
 from .exceptions import TooManyRequestsEQLaunch
 from .eq import EqPayloadConstructor
-from .service_calls.rhsvc import RHSvcAuthentication
+from .service_calls.rhsvc import RHSvc
 
 from structlog import get_logger
 
@@ -84,7 +84,7 @@ class LaunchEQ:
                         key_purpose='authentication')
 
         try:
-            await RHSvcAuthentication.post_survey_launched(request, uac_context)
+            await RHSvc.post_survey_launched(request, uac_context)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()

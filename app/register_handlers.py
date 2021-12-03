@@ -11,7 +11,7 @@ from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
 from .utils import View, FlashMessage
-from .service_calls.rhsvc import RHSvcRegisterCase
+from .service_calls.rhsvc import RHSvc
 from .validators.identity import IdentityValidators
 from .exceptions import InvalidDataError, InvalidDataErrorWelsh, TooManyRequestsRegister
 
@@ -229,8 +229,7 @@ class RegisterEnterMobile(View):
         data = await request.post()
 
         try:
-            mobile_number = IdentityValidators.validate_uk_mobile_phone_number(data['request-mobile-number'],
-                                                                                locale)
+            mobile_number = IdentityValidators.validate_uk_mobile_phone_number(data['request-mobile-number'], locale)
 
             logger.info('valid mobile number',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -674,7 +673,7 @@ class RegisterChildSummary(View):
         }
 
         try:
-            await RHSvcRegisterCase.register_new_case(request, submission_data)
+            await RHSvc.register_new_case(request, submission_data)
             return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
