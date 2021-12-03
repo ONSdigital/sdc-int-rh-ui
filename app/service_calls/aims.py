@@ -1,19 +1,17 @@
 import jwt
-from app.service_calls import MakeRequest
+from app.service_calls import ServiceCalls
 
 
-class AimsJWT:
+class Aims:
     @staticmethod
     def generate_jwt(request):
         key = request.app['ADDRESS_INDEX_SVC_KEY']
         token = jwt.encode({}, key, algorithm="HS256")
         return token
 
-
-class AimsPostcode:
     @staticmethod
     async def get_postcode_return(request, postcode, display_region):
-        postcode_return = await AimsPostcode.get_ai_postcode(request, postcode)
+        postcode_return = await Aims.get_ai_postcode(request, postcode)
 
         address_options = []
 
@@ -51,25 +49,15 @@ class AimsPostcode:
     async def get_ai_postcode(request, postcode):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
-        token = AimsJWT.generate_jwt(request)
+        token = Aims.generate_jwt(request)
         url = f'{ai_svc_url}/addresses/rh/postcode/{postcode}?limit=5000&epoch={ai_epoch}'
         headers = {'Authorization': 'Bearer ' + token}
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              url,
-                                              headers=headers,
-                                              return_json=True)
+        return await ServiceCalls.make_request(request, 'GET', url, headers=headers, return_json=True)
 
-
-class AimsUprn:
     @staticmethod
     async def get_ai_uprn(request, uprn):
         ai_svc_url = request.app['ADDRESS_INDEX_SVC_URL']
         ai_epoch = request.app['ADDRESS_INDEX_EPOCH']
         url = f'{ai_svc_url}/addresses/rh/uprn/{uprn}?addresstype=paf&epoch={ai_epoch}'
-        headers = {'Authorization': 'Bearer ' + AimsJWT.generate_jwt(request)}
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              url,
-                                              headers=headers,
-                                              return_json=True)
+        headers = {'Authorization': 'Bearer ' + Aims.generate_jwt(request)}
+        return await ServiceCalls.make_request(request, 'GET', url, headers=headers, return_json=True)

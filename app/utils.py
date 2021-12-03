@@ -1,12 +1,12 @@
 from aiohttp.client_exceptions import (ClientResponseError)
-from .exceptions import TooManyRequestsEQLaunch
 from aiohttp.web import HTTPFound
 from pytz import timezone
-
-from app.service_calls.rhsvc import RHSvcEQLaunch
-
 from sdc.crypto.encrypter import encrypt
+
+from .exceptions import TooManyRequestsEQLaunch
 from .eq import EqPayloadConstructor
+from .service_calls.rhsvc import RHSvc
+
 from structlog import get_logger
 
 logger = get_logger('respondent-home')
@@ -84,7 +84,7 @@ class LaunchEQ:
                         key_purpose='authentication')
 
         try:
-            await RHSvcEQLaunch.post_survey_launched(request, uac_context)
+            await RHSvc.post_survey_launched(request, uac_context)
         except ClientResponseError as ex:
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()

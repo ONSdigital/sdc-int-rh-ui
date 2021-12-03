@@ -1,12 +1,12 @@
 from structlog import get_logger
-from app.service_calls import MakeRequest, SingleClientIP
+from app.service_calls import ServiceCalls
 from datetime import datetime
 from pytz import utc
 
 logger = get_logger('respondent-home')
 
 
-class RHSvcAuthentication:
+class RHSvc:
     @staticmethod
     async def get_uac_details(request):
         uac_hash = request['uac_hash']
@@ -16,39 +16,46 @@ class RHSvcAuthentication:
                     trace=request['trace'],
                     uac_hash=uac_hash)
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              f'{rhsvc_url}/uacs/{uac_hash}',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              return_json=True)
+        return await ServiceCalls.make_request(request,
+                                               'GET',
+                                               f'{rhsvc_url}/uacs/{uac_hash}',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               return_json=True)
 
-
-class RHSvcCases:
-    @staticmethod
-    async def get_cases_by_uprn(request, uprn):
-        rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              f'{rhsvc_url}/cases/uprn/{uprn}',
-                                              return_json=True)
-
-
-class RHSvcEQLaunch:
     @staticmethod
     async def post_survey_launched(request, uac_context):
         launch_json = {
             'questionnaireId': uac_context['qid'],
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'caseId': uac_context['collectionCase']['caseId'],
+            'agentId': '',
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              f'{rhsvc_url}/surveyLaunched',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=launch_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               f'{rhsvc_url}/surveyLaunched',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=launch_json)
 
+    @staticmethod
+    async def get_cases_by_uprn(request, uprn):
+        rhsvc_url = request.app['RHSVC_URL']
+        return await ServiceCalls.make_request(request,
+                                               'GET',
+                                               f'{rhsvc_url}/cases/uprn/{uprn}',
+                                               return_json=True)
 
-class RHSvcFulfilments:
+    @staticmethod
+    async def get_fulfilment(request, region,
+                             delivery_channel, product_group, individual):
+        rhsvc_url = request.app['RHSVC_URL']
+        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
+              f'&productGroup={product_group}&individual={individual}'
+        return await ServiceCalls.make_request(request,
+                                               'GET',
+                                               url,
+                                               return_json=True)
+
     @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
         rhsvc_url = request.app['RHSVC_URL']
@@ -57,14 +64,14 @@ class RHSvcFulfilments:
             'telNo': tel_no,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/sms'
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              url,
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=fulfilment_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               url,
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=fulfilment_json)
 
     @staticmethod
     async def request_fulfilment_post(request, case_id, first_name, last_name, fulfilment_code_array, title=None):
@@ -76,14 +83,14 @@ class RHSvcFulfilments:
             'surname': last_name,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/post'
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              url,
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=fulfilment_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               url,
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=fulfilment_json)
 
     @staticmethod
     async def request_fulfilment_email(request, case_id, email, fulfilment_code_array):
@@ -93,17 +100,15 @@ class RHSvcFulfilments:
             'email': email,
             'fulfilmentCodes': fulfilment_code_array,
             'dateTime': datetime.now(utc).isoformat(),
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         url = f'{rhsvc_url}/cases/{case_id}/fulfilments/email'
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              url,
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=fulfilment_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               url,
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=fulfilment_json)
 
-
-class RHSvcRegisterCase:
     @staticmethod
     async def register_new_case(request, data):
         new_case_json = {
@@ -122,18 +127,16 @@ class RHSvcRegisterCase:
             'emailAddress': 'a.b@c.com'  # Dummy value - not required to be captured currently
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              f'{rhsvc_url}/cases/new',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=new_case_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               f'{rhsvc_url}/cases/new',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=new_case_json)
 
-
-class RHSvcSurveys:
     @staticmethod
     async def get_survey_details(request, survey_id):
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
+        return await ServiceCalls.make_request(request,
                                               'GET',
                                               f'{rhsvc_url}/surveys/{survey_id}',
                                               auth=request.app['RHSVC_AUTH'],
@@ -141,7 +144,7 @@ class RHSvcSurveys:
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
-        survey_data = await RHSvcSurveys.get_survey_details(request, survey_id)
+        survey_data = await RHSvc.get_survey_details(request, survey_id)
         method_data = {}
         pack_code = ''
         if method == 'sms':
@@ -158,10 +161,8 @@ class RHSvcSurveys:
 
         return pack_code
 
-
-class RHSvcWebForm:
     @staticmethod
-    async def post_webform(request, form_data):
+    async def post_web_form(request, form_data):
         form_json = {
             'category': form_data['category'],
             'region': form_data['region'],
@@ -169,11 +170,11 @@ class RHSvcWebForm:
             'name': form_data['name'],
             'description': form_data['description'],
             'email': form_data['email'],
-            'clientIP': SingleClientIP.single_client_ip(request)
+            'clientIP': ServiceCalls.single_client_ip(request)
         }
         rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'POST',
-                                              f'{rhsvc_url}/webform',
-                                              auth=request.app['RHSVC_AUTH'],
-                                              request_json=form_json)
+        return await ServiceCalls.make_request(request,
+                                               'POST',
+                                               f'{rhsvc_url}/webform',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               request_json=form_json)

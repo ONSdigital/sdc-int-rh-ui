@@ -1,5 +1,5 @@
-from app.validators.postcode import ProcessPostcode
-from app.validators.mobile import ProcessMobileNumber
+from app.validators.address import AddressValidators
+from app.validators.identity import IdentityValidators
 from app.exceptions import InvalidDataError, InvalidDataErrorWelsh
 
 from . import RHTestCase
@@ -12,7 +12,7 @@ class TestValidatorsPostcode(RHTestCase):
         locale = 'en'
 
         # When validate_postcode is called
-        ProcessPostcode.validate_postcode(postcode, locale)
+        AddressValidators.validate_postcode(postcode, locale)
         # Nothing happens
 
     def test_validate_postcode_valid_with_unicode(self):
@@ -20,7 +20,7 @@ class TestValidatorsPostcode(RHTestCase):
         locale = 'en'
 
         # When validate_postcode is called
-        ProcessPostcode.validate_postcode(postcode, locale)
+        AddressValidators.validate_postcode(postcode, locale)
         # Nothing happens
 
     def test_validate_postcode_empty(self):
@@ -29,7 +29,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a postcode',
@@ -43,7 +43,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a valid UK postcode',
@@ -57,7 +57,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a valid UK postcode',
@@ -71,7 +71,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a valid UK postcode',
@@ -85,7 +85,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a valid UK postcode',
@@ -98,7 +98,7 @@ class TestValidatorsPostcode(RHTestCase):
         locale = 'cy'
 
         # When validate_postcode is called
-        ProcessPostcode.validate_postcode(postcode, locale)
+        AddressValidators.validate_postcode(postcode, locale)
         # Nothing happens
 
     def test_validate_postcode_empty_cy(self):
@@ -107,7 +107,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Rhowch god post',
@@ -121,7 +121,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Rhowch god post dilys yn y Deyrnas Unedig',
@@ -135,7 +135,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Rhowch god post dilys yn y Deyrnas Unedig',
@@ -149,7 +149,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Rhowch god post dilys yn y Deyrnas Unedig',
@@ -163,7 +163,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Rhowch god post dilys yn y Deyrnas Unedig',
@@ -177,7 +177,7 @@ class TestValidatorsPostcode(RHTestCase):
 
         # When validate_postcode is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessPostcode.validate_postcode(postcode, locale)
+            AddressValidators.validate_postcode(postcode, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             'Enter a valid UK postcode',
@@ -192,7 +192,7 @@ class TestValidatorsMobile(RHTestCase):
         locale = 'en'
 
         # When validate_uk_mobile_phone_number is called
-        ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+        IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Nothing happens
 
     def test_validate_uk_mobile_phone_number_short(self):
@@ -201,7 +201,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_en,
@@ -215,7 +215,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_en,
@@ -229,7 +229,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_en,
@@ -243,7 +243,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataError) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_en,
@@ -256,7 +256,7 @@ class TestValidatorsMobile(RHTestCase):
         locale = 'cy'
 
         # When validate_uk_mobile_phone_number is called
-        ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+        IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Nothing happens
 
     def test_validate_uk_mobile_phone_number_short_cy(self):
@@ -265,7 +265,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_cy,
@@ -279,7 +279,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_cy,
@@ -293,7 +293,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_cy,
@@ -307,7 +307,7 @@ class TestValidatorsMobile(RHTestCase):
 
         # When validate_uk_mobile_phone_number is called
         with self.assertRaises(InvalidDataErrorWelsh) as cm:
-            ProcessMobileNumber.validate_uk_mobile_phone_number(mobile_number, locale)
+            IdentityValidators.validate_uk_mobile_phone_number(mobile_number, locale)
         # Then an InvalidDataError is raised
         self.assertEqual(
             self.content_common_invalid_mobile_error_cy,
