@@ -10,8 +10,10 @@ from . import (NO_SELECTION_CHECK_MSG)
 from .flash import flash
 from .security import invalidate
 from .session import get_existing_session, get_session_value
-from .utils import View, ProcessMobileNumber, InvalidDataError, InvalidDataErrorWelsh, \
-    FlashMessage, ProcessName, ProcessDOB, RHService
+from .utils import View, FlashMessage
+from .service_calls.rhsvc import RHSvc
+from .validators.identity import IdentityValidators
+from .exceptions import InvalidDataError, InvalidDataErrorWelsh, TooManyRequestsRegister
 
 logger = get_logger('respondent-home')
 register_routes = RouteTableDef()
@@ -162,7 +164,7 @@ class RegisterEnterName(View):
 
         data = await request.post()
 
-        form_valid = ProcessName.validate_name(request, data, display_region)
+        form_valid = IdentityValidators.validate_name(request, data, display_region)
 
         if not form_valid:
             logger.info('form submission error',
@@ -227,8 +229,7 @@ class RegisterEnterMobile(View):
         data = await request.post()
 
         try:
-            mobile_number = ProcessMobileNumber.validate_uk_mobile_phone_number(data['request-mobile-number'],
-                                                                                locale)
+            mobile_number = IdentityValidators.validate_uk_mobile_phone_number(data['request-mobile-number'], locale)
 
             logger.info('valid mobile number',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -443,7 +444,7 @@ class RegisterEnterChildName(View):
 
         data = await request.post()
 
-        form_valid = ProcessName.validate_name(request, data, display_region, child=True)
+        form_valid = IdentityValidators.validate_name(request, data, display_region, child=True)
 
         if not form_valid:
             logger.info('form submission error',
@@ -588,7 +589,7 @@ class RegisterChildDOB(View):
         data = await request.post()
 
         try:
-            date = ProcessDOB.validate_dob(data)
+            date = IdentityValidators.validate_dob(data)
 
             logger.info('valid dob',
                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
@@ -642,8 +643,8 @@ class RegisterChildSummary(View):
                                               'child_middle_names', user_journey, request_type),
             'last_name': get_session_value(request, register_attributes, 'child_last_name', user_journey, request_type),
             'school_name': get_session_value(request, register_attributes, 'school_name', user_journey, request_type),
-            'child_dob': ProcessDOB.format_dob(get_session_value(request, register_attributes, 'child_dob',
-                                                                 user_journey, request_type))
+            'child_dob': IdentityValidators.format_dob(get_session_value(request, register_attributes, 'child_dob',
+                                                                         user_journey, request_type))
         }
 
     async def post(self, request):
@@ -672,12 +673,15 @@ class RegisterChildSummary(View):
         }
 
         try:
-            await RHService.register_new_case(request, submission_data)
+            await RHSvc.register_new_case(request, submission_data)
             return HTTPFound(
                 request.app.router['RegisterComplete:get'].url_for(display_region=display_region,
                                                                    request_type=request_type))
         except (KeyError, ClientResponseError) as ex:
-            raise ex
+            if ex.status == 429:
+                raise TooManyRequestsRegister(request_type)
+            else:
+                raise ex
 
 
 @register_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_registration_types +
