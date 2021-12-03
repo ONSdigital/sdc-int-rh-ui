@@ -21,19 +21,7 @@ class RHSvcAuthentication:
                                               f'{rhsvc_url}/uacs/{uac_hash}',
                                               auth=request.app['RHSVC_AUTH'],
                                               return_json=True)
-
-
-class RHSvcCases:
-    @staticmethod
-    async def get_cases_by_uprn(request, uprn):
-        rhsvc_url = request.app['RHSVC_URL']
-        return await MakeRequest.make_request(request,
-                                              'GET',
-                                              f'{rhsvc_url}/cases/uprn/{uprn}',
-                                              return_json=True)
-
-
-class RHSvcEQLaunch:
+    
     @staticmethod
     async def post_survey_launched(request, uac_context):
         launch_json = {
@@ -51,6 +39,14 @@ class RHSvcEQLaunch:
 
 
 class RHSvcFulfilments:
+    @staticmethod
+    async def get_cases_by_uprn(request, uprn):
+        rhsvc_url = request.app['RHSVC_URL']
+        return await MakeRequest.make_request(request,
+                                              'GET',
+                                              f'{rhsvc_url}/cases/uprn/{uprn}',
+                                              return_json=True)
+
     @staticmethod
     async def get_fulfilment(request, region,
                              delivery_channel, product_group, individual):

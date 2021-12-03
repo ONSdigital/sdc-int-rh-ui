@@ -22,8 +22,8 @@ from .validators.mobile import ProcessMobileNumber
 from .validators.name import ProcessName
 from .exceptions import InvalidDataError, InvalidDataErrorWelsh
 from .session import get_existing_session, get_session_value
-from .service_calls.rhsvc import RHSvcCases, RHSvcFulfilments
-from .service_calls.aims import AimsPostcode, AimsJWT, AimsUprn
+from .service_calls.rhsvc import RHSvcFulfilments
+from .service_calls.aims import Aims
 
 logger = get_logger('respondent-home')
 request_routes = RouteTableDef()
@@ -65,7 +65,7 @@ class RequestEnterAddress(View):
             'locale': locale,
             'page_url': View.gen_page_url(request),
             'contact_us_link': View.get_campaign_site_link(request, display_region, 'contact-us'),
-            'jwt': AimsJWT.generate_jwt(request),
+            'jwt': Aims.generate_jwt(request),
             'aims_domain': request.app['ADDRESS_INDEX_SVC_EXTERNAL_URL']
         }
 
@@ -165,7 +165,7 @@ class RequestSelectAddress(View):
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         postcode = get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
 
-        address_content = await AimsPostcode.get_postcode_return(request, postcode, display_region)
+        address_content = await Aims.get_postcode_return(request, postcode, display_region)
         address_content['page_title'] = page_title
         address_content['display_region'] = display_region
         address_content['user_journey'] = user_journey
@@ -262,7 +262,7 @@ class RequestConfirmAddress(View):
         uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
         try:
-            rhsvc_uprn_return = await RHSvcCases.get_cases_by_uprn(request, uprn)
+            rhsvc_uprn_return = await RHSvcFulfilments.get_cases_by_uprn(request, uprn)
             logger.info('case matching uprn found in RHSvc',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -285,7 +285,7 @@ class RequestConfirmAddress(View):
                             client_id=request['client_id'],
                             trace=request['trace'])
 
-                aims_uprn_return = await AimsUprn.get_ai_uprn(request, uprn)
+                aims_uprn_return = await Aims.get_ai_uprn(request, uprn)
 
                 # Ensure no session data from previous RM case used later
                 if 'case_id' in fulfilment_attributes:

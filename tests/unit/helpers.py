@@ -350,7 +350,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_enter_address(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
 
             response = await self.client.request('POST',
@@ -368,7 +368,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_enter_address_finder(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
-                'app.service_calls.rhsvc.RHSvcCases.get_cases_by_uprn') as mocked_get_case_by_uprn:
+                'app.service_calls.rhsvc.RHSvcFulfilments.get_cases_by_uprn') as mocked_get_case_by_uprn:
             if region == 'W':
                 mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_w
             else:
@@ -389,7 +389,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_enter_address_input_returns_no_results(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode:
             mocked_get_ai_postcode.return_value = self.ai_postcode_no_results
 
             response = await self.client.request('POST',
@@ -450,7 +450,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_select_address_no_selection_made(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
 
             response = await self.client.request('POST',
@@ -467,8 +467,8 @@ class TestHelpers(RHTestCase):
 
     async def check_post_select_address(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvcCases.get_cases_by_uprn') as mocked_get_case_by_uprn:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
+                'app.service_calls.rhsvc.RHSvcFulfilments.get_cases_by_uprn') as mocked_get_case_by_uprn:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
             if region == 'W':
                 mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_w
@@ -491,7 +491,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_select_address_no_case(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsUprn.get_ai_uprn') as mocked_get_ai_uprn, \
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn, \
                 aioresponses(passthrough=[str(self.server._root)]) as mocked_get_case_by_uprn:
 
             mocked_get_case_by_uprn.get(self.rhsvc_cases_by_uprn_url + self.selected_uprn, status=404)
@@ -572,8 +572,8 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_address_input_invalid(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvcCases.get_cases_by_uprn') as mocked_get_case_by_uprn:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
+                'app.service_calls.rhsvc.RHSvcFulfilments.get_cases_by_uprn') as mocked_get_case_by_uprn:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
             mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
 
@@ -588,8 +588,8 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_address_input_no_selection(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvcCases.get_cases_by_uprn') as mocked_get_case_by_uprn:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
+                'app.service_calls.rhsvc.RHSvcFulfilments.get_cases_by_uprn') as mocked_get_case_by_uprn:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
             mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
 
@@ -604,7 +604,7 @@ class TestHelpers(RHTestCase):
 
     async def check_post_confirm_address_input_no(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.AimsPostcode.get_ai_postcode') as mocked_get_ai_postcode:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
 
             response = await self.client.request('POST',
