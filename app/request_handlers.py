@@ -429,38 +429,49 @@ class RequestCodeSelectHowToReceive(View):
         survey_data = await RHSvc.get_survey_details(request, survey_id)
 
         form_option_set = []
+        show_sms = False
+        show_post = False
+        show_email = False
 
-        if survey_data.get('allowedSmsFulfilments'):
-            form_option_set.append({
-                'id': 'sms',
-                'label': {
-                    'text': label_text_sms,
-                    'description': label_description_sms
-                },
-                'value': 'sms'
-            })
-        if survey_data.get('allowedPrintFulfilments'):
-            form_option_set.append({
-                'id': 'post',
-                'label': {
-                    'text': label_text_print,
-                    'description': label_description_print
-                },
-                'value': 'post'
-            })
-        if survey_data.get('allowedEmailFulfilments'):
-            form_option_set.append({
-                'id': 'email',
-                'label': {
-                    'text': label_text_email,
-                    'description': label_description_email
-                },
-                'value': 'email'
-            })
+        if survey_data.get('allowedFulfilments'):
+            for fulfilment in survey_data.get('allowedFulfilments'):
+                if fulfilment['productGroup'] == 'UAC':
+                    if fulfilment['deliveryChannel'] == 'SMS':
+                        show_sms = True
+                    if fulfilment['deliveryChannel'] == 'POST':
+                        show_post = True
+                    if fulfilment['deliveryChannel'] == 'EMAIL':
+                        show_email = True
 
-        if (not survey_data.get('allowedSmsFulfilments')) and \
-                (not survey_data.get('allowedPrintFulfilments')) and \
-                (not survey_data.get('allowedEmailFulfilments')):
+            if show_sms:
+                form_option_set.append({
+                    'id': 'sms',
+                    'label': {
+                        'text': label_text_sms,
+                        'description': label_description_sms
+                    },
+                    'value': 'sms'
+                })
+            if show_post:
+                form_option_set.append({
+                    'id': 'post',
+                    'label': {
+                        'text': label_text_print,
+                        'description': label_description_print
+                    },
+                    'value': 'post'
+                })
+            if show_email:
+                form_option_set.append({
+                    'id': 'email',
+                    'label': {
+                        'text': label_text_email,
+                        'description': label_description_email
+                    },
+                    'value': 'email'
+                })
+
+        else:
             logger.info('no valid fulfilments available',
                         client_ip=request['client_ip'],
                         client_id=request['client_id'],
@@ -697,7 +708,7 @@ class RequestCodeConfirmSendByText(View):
 
             try:
                 available_fulfilments = \
-                    await RHSvc.survey_fulfilments_by_type(request, 'sms', survey_id, fulfilment_language)
+                    await RHSvc.survey_fulfilments_by_type(request, 'SMS', survey_id, fulfilment_language)
 
                 fulfilment_code_array.append(available_fulfilments)
 
@@ -899,7 +910,7 @@ class RequestCodeConfirmSendByEmail(View):
 
             try:
                 available_fulfilments = \
-                    await RHSvc.survey_fulfilments_by_type(request, 'email', survey_id, fulfilment_language)
+                    await RHSvc.survey_fulfilments_by_type(request, 'EMAIL', survey_id, fulfilment_language)
 
                 fulfilment_code_array.append(available_fulfilments)
 
@@ -1104,7 +1115,7 @@ class RequestCommonConfirmSendByPost(View):
 
             try:
                 available_fulfilments = \
-                    await RHSvc.survey_fulfilments_by_type(request, 'post', survey_id, fulfilment_language)
+                    await RHSvc.survey_fulfilments_by_type(request, 'POST', survey_id, fulfilment_language)
 
                 fulfilment_code_array.append(available_fulfilments)
 

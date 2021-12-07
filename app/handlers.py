@@ -23,44 +23,6 @@ class Info(View):
         return json_response(info)
 
 
-@static_routes.view('/launch-eq/')
-class LaunchEQ(View):
-    @aiohttp_jinja2.template('launch-eq.html')
-    async def get(self, request):
-        display_region = request.match_info['display_region']
-        self.log_entry(request, '/launch-eq')
-        if display_region == 'cy':
-            locale = 'cy'
-            page_title = 'Launch EQ'
-        else:
-            locale = 'en'
-            page_title = 'Launch EQ'
-        return {
-            'display_region': display_region,
-            'page_title': page_title,
-            'locale': locale,
-            'token': request.query['token'],
-            'page_url': View.gen_page_url(request)
-        }
-
-    @aiohttp_jinja2.template('launch-eq.html')
-    async def post(self, request):
-        display_region = request.match_info['display_region']
-        self.log_entry(request, '/launch-eq')
-
-        data = await request.post()
-
-        token = data.get('token')
-
-        logger.info('redirecting to eq',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    region_of_site=display_region)
-        eq_url = request.app['EQ_URL']
-        return HTTPFound(f'{eq_url}/session?token={token}')
-
-
 @static_routes.view(r'/' + View.valid_display_regions + '/signed-out/')
 class SignedOut(View):
     @aiohttp_jinja2.template('signed-out.html')

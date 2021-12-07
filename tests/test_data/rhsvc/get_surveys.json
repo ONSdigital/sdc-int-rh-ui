@@ -1,65 +1,73 @@
 {
-            "surveyId": "3883af91-0052-4497-9805-3238544fcf8a",
-            "name": "LMS",
-            "allowedPrintFulfilments": [
-                {
-                    "packCode": "replace-uac-print-en",
-                    "description": "Replacement UAC by print - English",
-                    "metadata": {
-                        "suitableRegions": [
-                           "E"
-                        ]
-                    }
-                },
-                {
-                    "packCode": "replace-uac-print-cy",
-                    "description": "Replacement UAC by print - English & Welsh",
-                    "metadata": {
-                        "suitableRegions": [
-                           "W"
-                        ]
-                    }
-                }
-            ],
-            "allowedSmsFulfilments": [
-                {
-                    "packCode": "replace-uac-sms-en",
-                    "description": "Replacement UAC by SMS - English",
-                    "metadata": {
-                        "suitableRegions": [
-                           "E"
-                        ]
-                    }
-                },
-                {
-                    "packCode": "replace-uac-sms-cy",
-                    "description": "Replacement UAC by SMS - English & Welsh",
-                    "metadata": {
-                        "suitableRegions": [
-                           "W"
-                        ]
-                    }
-                }
-            ],
-            "allowedEmailFulfilments": [
-                {
-                    "packCode": "replace-uac-email-en",
-                    "description": "Replacement UAC by Email - English",
-                    "metadata": {
-                        "suitableRegions": [
-                           "E"
-                        ]
-                    }
-                },
-                {
-                    "packCode": "replace-uac-email-cy",
-                    "description": "Replacement UAC by Email - English & Welsh",
-                    "metadata": {
-                        "suitableRegions": [
-                           "W"
-                        ]
-                    }
-                }
-            ],
-            "surveyType": "social"
-        }
+  "surveyId": "91b32904-5360-11ec-b6f8-4c3275913db5",
+  "name": "how-rich-are-you",
+  "allowedFulfilments": [
+    {
+      "packCode": "replace-uac-sms-en",
+      "description": "English UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "SMS",
+      "metadata": {
+        "suitableRegions": [
+          "E"
+        ]
+      }
+    },
+    {
+      "packCode": "replace-uac-sms-cy",
+      "description": "Welsh UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "SMS",
+      "metadata": {
+        "suitableRegions": [
+          "W"
+        ]
+      }
+    },
+    {
+      "packCode": "replace-uac-post-en",
+      "description": "English UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "POST",
+      "metadata": {
+        "suitableRegions": [
+          "E"
+        ]
+      }
+    },
+    {
+      "packCode": "replace-uac-post-cy",
+      "description": "Welsh UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "POST",
+      "metadata": {
+        "suitableRegions": [
+          "W"
+        ]
+      }
+    },
+    {
+      "packCode": "replace-uac-email-en",
+      "description": "English UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "EMAIL",
+      "metadata": {
+        "suitableRegions": [
+          "E"
+        ]
+      }
+    },
+    {
+      "packCode": "replace-uac-email-cy",
+      "description": "English UAC thing",
+      "productGroup": "UAC",
+      "deliveryChannel": "EMAIL",
+      "metadata": {
+        "suitableRegions": [
+          "W"
+        ]
+      }
+    }
+  ],
+  "surveyType": "SOCIAL"
+}

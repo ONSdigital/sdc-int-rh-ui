@@ -46,17 +46,6 @@ class RHSvc:
                                                return_json=True)
 
     @staticmethod
-    async def get_fulfilment(request, region,
-                             delivery_channel, product_group, individual):
-        rhsvc_url = request.app['RHSVC_URL']
-        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
-              f'&productGroup={product_group}&individual={individual}'
-        return await ServiceCalls.make_request(request,
-                                               'GET',
-                                               url,
-                                               return_json=True)
-
-    @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
         rhsvc_url = request.app['RHSVC_URL']
         fulfilment_json = {
@@ -145,20 +134,13 @@ class RHSvc:
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
         survey_data = await RHSvc.get_survey_details(request, survey_id)
-        method_data = {}
         pack_code = ''
-        if method == 'sms':
-            method_data = survey_data['allowedSmsFulfilments']
-        elif method == 'post':
-            method_data = survey_data['allowedPrintFulfilments']
-        elif method == 'email':
-            method_data = survey_data['allowedEmailFulfilments']
-
-        for fulfilment in method_data:
-            for region in fulfilment['metadata']['suitableRegions']:
-                if region == language:
-                    pack_code = fulfilment['packCode']
-
+        fulfilments = survey_data['allowedFulfilments']
+        for fulfilment in fulfilments:
+            if fulfilment['deliveryChannel'] == method:
+                for region in fulfilment['metadata']['suitableRegions']:
+                    if region == language:
+                        pack_code = fulfilment['packCode']
         return pack_code
 
     @staticmethod
