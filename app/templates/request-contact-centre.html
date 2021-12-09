@@ -5,9 +5,11 @@
     <h1 class="ons-u-mt-l">{{ _('You need to call the customer contact centre') }}</h1>
 
     {%- if issue == 'address-not-required' -%}
-        <p>The address you have selected is not part of any active study. If you believe this to be incorrect you will need to contact us.</p>
+        <p>{{ _('The address you have selected is not part of any active study. If you believe this to be incorrect you will need to contact us.') }}</p>
     {%- elif issue == 'address-not-found' -%}
-        <p>You have indicated that you cannot find your address. As a result we need you to contact us.</p>
+        <p>{{ _('You have indicated that you cannot find your address. As a result we need you to contact us.') }}</p>
+    {%- elif issue == 'multiple-cases' -%}
+        <p>{{ _('We are unable to process this request via the website. As a result we need you to contact us.') }}</p>
     {%- endif -%}
 
     {%- autoescape false -%}

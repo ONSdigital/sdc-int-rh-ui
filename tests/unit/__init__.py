@@ -699,8 +699,8 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/fulfilments'
         )
 
-        self.rhsvc_cases_by_uprn_url = (
-            f'{rh_svc_url}/cases/uprn/'
+        self.rhsvc_cases_by_attribute_url = (
+            f'{rh_svc_url}/cases/attribute/'
         )
 
         self.rhsvc_post_create_case_url = (
@@ -775,15 +775,30 @@ class RHTestCase(AioHTTPTestCase):
         self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
         self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
 
-        with open('tests/test_data/rhsvc/case_by_uprn_hh_e.json') as fp:
+        with open('tests/test_data/rhsvc/empty_array.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_hh_e = f
+            self.rhsvc_empty_array = f
 
-        with open('tests/test_data/rhsvc/case_by_uprn_hh_w.json') as fp:
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_e.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_hh_w = f
+            self.rhsvc_case_by_attribute_uprn_single_e = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_w.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_single_w = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_e.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_multiple_e = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_w.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_multiple_w = f
 
         with open('tests/test_data/rhsvc/get_fulfilment_multi_sms.json') as fp:
             f = asyncio.Future()

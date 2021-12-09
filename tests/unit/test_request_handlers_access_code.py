@@ -12,7 +12,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text(display_region, region)
@@ -21,7 +21,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email(display_region, region)
@@ -74,74 +74,64 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address_input_invalid(display_region)
 
-    async def assert_get_request_access_code_confirm_address_get_cases_error(self, display_region):
-        await self.check_get_enter_address(display_region)
-        await self.check_post_enter_address(display_region)
-        await self.check_post_select_address_error_from_get_cases(display_region)
-
     async def assert_get_request_access_code_enter_address_finder(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address_finder(display_region, region)
+
+    async def assert_get_request_access_code_confirm_address_data_yes_no_cases(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_no_cases(display_region)
+
+    async def assert_get_request_access_code_confirm_address_data_yes_multiple_cases(self, display_region, region):
+        await self.check_get_enter_address(display_region)
+        await self.check_post_enter_address(display_region)
+        await self.check_post_select_address(display_region, region)
+        await self.check_post_confirm_address_input_yes_multiple_cases(display_region, region)
 
     async def assert_get_request_access_code_confirm_address_data_no(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_no(display_region)
+        await self.check_post_confirm_address_input_no(display_region, region)
 
     async def assert_get_request_access_code_confirm_address_data_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_invalid(display_region)
+        await self.check_post_confirm_address_input_invalid(display_region, region)
 
     async def assert_get_request_access_code_confirm_address_data_no_selection(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_no_selection(display_region)
+        await self.check_post_confirm_address_input_no_selection(display_region, region)
 
     async def assert_post_request_access_code_select_address_no_selection(self, display_region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address_no_selection_made(display_region)
 
-    async def assert_post_request_access_code_select_address_no_case(self, display_region):
-        await self.check_get_enter_address(display_region)
-        await self.check_post_enter_address(display_region)
-        await self.check_post_select_address_no_case(display_region)
-
-    async def assert_post_request_access_code_select_address_case_no_case(self, display_region, region):
-        # This tests for when an address is added to the session, the address is rejected,
-        # then one without a case is selected - checks case_id is removed from session
-
-        # Select an address with a case, but then select 'no' in confirm address
-        await self.check_get_enter_address(display_region)
-        await self.check_post_enter_address(display_region)
-        await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_no(display_region)
-        # And again, this time selecting an address without a case
-        await self.check_post_select_address_no_case(display_region)
-
     async def assert_post_request_access_code_select_how_to_receive_no_selection(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_no_selection(display_region)
 
     async def assert_post_request_access_code_select_how_to_receive_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_invalid(display_region)
 
     async def assert_post_request_access_code_enter_mobile_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile_input_invalid(display_region)
 
@@ -149,7 +139,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email_input_invalid(display_region)
 
@@ -157,7 +147,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile_input_empty(display_region)
 
@@ -165,7 +155,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email_input_empty(display_region)
 
@@ -173,7 +163,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_no(display_region)
@@ -182,7 +172,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_input_no(display_region)
@@ -191,7 +181,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_no_selection(display_region)
@@ -200,7 +190,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_input_no_selection(display_region)
@@ -209,7 +199,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_input_invalid(display_region)
@@ -218,7 +208,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_input_invalid(display_region)
@@ -227,7 +217,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_from_get_fulfilment(display_region, region)
@@ -236,7 +226,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_error_from_get_fulfilment(display_region, region)
@@ -245,7 +235,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_from_request_fulfilment(display_region)
@@ -254,7 +244,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_error_from_request_fulfilment(display_region)
@@ -264,7 +254,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_sms(display_region)
         await self.check_post_enter_mobile(display_region)
         await self.check_post_confirm_send_by_text_error_429_from_request_fulfilment(display_region)
@@ -274,7 +264,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_email(display_region)
         await self.check_post_enter_email(display_region)
         await self.check_post_confirm_send_by_email_error_429_from_request_fulfilment(display_region)
@@ -295,7 +285,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name_inputs_error(display_region, data)
 
@@ -307,7 +297,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_input_invalid_or_no_selection(display_region, data)
@@ -316,7 +306,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_input_no(display_region)
@@ -325,7 +315,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_input_yes(display_region, region)
@@ -334,7 +324,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_error_from_get_fulfilment(display_region, region)
@@ -344,7 +334,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_error_from_request_fulfilment(display_region)
@@ -354,7 +344,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code(display_region)
+        await self.check_post_confirm_address_input_yes_code(display_region, region)
         await self.check_post_select_how_to_receive_input_post(display_region)
         await self.check_post_enter_name(display_region)
         await self.check_post_confirm_send_by_post_error_429_from_request_fulfilment_uac(display_region)
@@ -412,14 +402,6 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.assert_post_request_access_code_enter_address_invalid_postcode('cy')
 
     @unittest_run_loop
-    async def test_get_request_access_code_confirm_address_get_cases_error_ew(self):
-        await self.assert_get_request_access_code_confirm_address_get_cases_error('en')
-
-    @unittest_run_loop
-    async def test_get_request_access_code_confirm_address_get_cases_error_cy(self):
-        await self.assert_get_request_access_code_confirm_address_get_cases_error('cy')
-
-    @unittest_run_loop
     async def test_get_request_access_code_enter_address_finder_ew_e(self):
         await self.assert_get_request_access_code_enter_address_finder('en', 'E')
 
@@ -432,15 +414,39 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.assert_get_request_access_code_enter_address_finder('cy', 'W')
 
     @unittest_run_loop
-    async def test_get_request_individual_confirm_address_data_no_ew_e(self):
+    async def test_get_request_access_code_confirm_address_data_yes_no_cases_ew_e(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_no_cases('en', 'E')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_yes_no_cases_ew_w(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_no_cases('en', 'W')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_yes_no_cases_cy(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_no_cases('cy', 'W')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_yes_multiple_cases_ew_e(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_multiple_cases('en', 'E')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_yes_multiple_cases_ew_w(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_multiple_cases('en', 'W')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_yes_multiple_cases_cy(self):
+        await self.assert_get_request_access_code_confirm_address_data_yes_multiple_cases('cy', 'W')
+
+    @unittest_run_loop
+    async def test_get_request_access_code_confirm_address_data_no_ew_e(self):
         await self.assert_get_request_access_code_confirm_address_data_no('en', 'E')
 
     @unittest_run_loop
-    async def test_get_request_individual_confirm_address_data_no_ew_w(self):
+    async def test_get_request_access_code_confirm_address_data_no_ew_w(self):
         await self.assert_get_request_access_code_confirm_address_data_no('en', 'W')
 
     @unittest_run_loop
-    async def test_get_request_individual_confirm_address_data_no_cy(self):
+    async def test_get_request_access_code_confirm_address_data_no_cy(self):
         await self.assert_get_request_access_code_confirm_address_data_no('cy', 'W')
 
     @unittest_run_loop
@@ -474,22 +480,6 @@ class TestRequestHandlersAccessCode(TestHelpers):
     @unittest_run_loop
     async def test_post_request_access_code_select_address_no_selection_cy(self):
         await self.assert_post_request_access_code_select_address_no_selection('cy')
-
-    @unittest_run_loop
-    async def test_post_request_access_code_select_address_no_case_ew(self):
-        await self.assert_post_request_access_code_select_address_no_case('en')
-
-    @unittest_run_loop
-    async def test_post_request_access_code_select_address_no_case_cy(self):
-        await self.assert_post_request_access_code_select_address_no_case('cy')
-
-    @unittest_run_loop
-    async def test_post_request_access_code_select_address_case_no_case_ew(self):
-        await self.assert_post_request_access_code_select_address_case_no_case('en', 'E')
-
-    @unittest_run_loop
-    async def test_post_request_access_code_select_address_case_no_case_cy(self):
-        await self.assert_post_request_access_code_select_address_case_no_case('cy', 'W')
 
     @unittest_run_loop
     async def test_post_request_access_code_select_how_to_receive_no_selection_ew_e(self):

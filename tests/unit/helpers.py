@@ -1,3 +1,4 @@
+import json
 from unittest import mock
 
 from aiohttp.client_exceptions import ClientConnectionError
@@ -367,12 +368,12 @@ class TestHelpers(RHTestCase):
             self.check_content_select_address(display_region, str(await response.content.read()), check_error=False)
 
     async def check_post_enter_address_finder(self, display_region, region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
-                'app.service_calls.rhsvc.RHSvc.get_cases_by_uprn') as mocked_get_case_by_uprn:
+        with self.assertLogs('respondent-home', 'INFO') as cm,\
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn:
             if region == 'W':
-                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_w
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
             else:
-                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -383,7 +384,6 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('enter-address', display_region, 'POST'))
             self.assertLogEvent(cm, 'UPRN of selected address: ' + self.selected_uprn)
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
-            self.assertLogEvent(cm, 'case matching uprn found in RHSvc')
             self.assertEqual(response.status, 200)
             self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
 
@@ -467,39 +467,13 @@ class TestHelpers(RHTestCase):
 
     async def check_post_select_address(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvc.get_cases_by_uprn') as mocked_get_case_by_uprn:
+                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, \
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn:
             mocked_get_ai_postcode.return_value = self.ai_postcode_results
             if region == 'W':
-                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_w
-            else:
-                mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
-
-            response = await self.client.request('POST',
-                                                 self.get_url_from_class(
-                                                     'RequestSelectAddress', 'post',
-                                                     display_region, request_type=self.request_type),
-                                                 data=self.common_select_address_input_valid)
-
-            self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
-            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
-
-            self.assertLogEvent(cm, 'case matching uprn found in RHSvc')
-
-            self.assertEqual(response.status, 200)
-            self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
-
-    async def check_post_select_address_no_case(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn, \
-                aioresponses(passthrough=[str(self.server._root)]) as mocked_get_case_by_uprn:
-
-            mocked_get_case_by_uprn.get(self.rhsvc_cases_by_uprn_url + self.selected_uprn, status=404)
-            if display_region == 'cy':
                 mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
             else:
                 mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
-
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
                                                      'RequestSelectAddress', 'post',
@@ -508,44 +482,8 @@ class TestHelpers(RHTestCase):
 
             self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
-            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - using AIMS data')
             self.assertEqual(response.status, 200)
             self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=False)
-
-            confirm_response = await self.client.request('POST',
-                                                         self.get_url_from_class(
-                                                             'RequestConfirmAddress', 'post',
-                                                             display_region, request_type=self.request_type),
-                                                         data=self.common_confirm_address_input_yes)
-            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
-            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - return customer contact centre page')
-            self.assertLogEvent(cm, self.build_url_log_entry('address-not-required', display_region, 'GET'))
-
-            self.assertEqual(confirm_response.status, 200)
-            contents = str(await confirm_response.content.read())
-            self.assertSiteLogo(display_region, contents)
-            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
-                                              self.request_type, 'address-not-required')
-            if display_region == 'cy':
-                self.assertIn(self.content_common_contact_centre_title_cy, contents)
-            else:
-                self.assertIn(self.content_common_contact_centre_title_en, contents)
-
-    async def check_post_select_address_error_from_get_cases(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, \
-                aioresponses(passthrough=[str(self.server._root)]) as mocked_get_case_by_uprn:
-            mocked_get_case_by_uprn.get(self.rhsvc_cases_by_uprn_url + self.selected_uprn, status=400)
-
-            response = await self.client.request('POST',
-                                                 self.get_url_from_class(
-                                                     'RequestSelectAddress', 'post',
-                                                     display_region, request_type=self.request_type),
-                                                 data=self.common_select_address_input_valid)
-            self.assertLogEvent(cm, self.build_url_log_entry('select-address', display_region, 'POST'))
-            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'GET'))
-            self.assertLogEvent(cm, 'error response from RHSvc')
-            self.assertLogEvent(cm, 'bad request', status_code=400)
-            self.assert500Error(response, display_region, str(await response.content.read()))
 
     async def check_post_select_address_address_not_found(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
@@ -570,12 +508,13 @@ class TestHelpers(RHTestCase):
                 self.assertIn(self.content_common_contact_centre_title_en, contents)
                 self.assertIn(self.content_call_centre_number_ew, contents)
 
-    async def check_post_confirm_address_input_invalid(self, display_region):
+    async def check_post_confirm_address_input_invalid(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvc.get_cases_by_uprn') as mocked_get_case_by_uprn:
-            mocked_get_ai_postcode.return_value = self.ai_postcode_results
-            mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn:
+            if region == 'W':
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
+            else:
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -586,12 +525,13 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, "address confirmation error")
             self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=True)
 
-    async def check_post_confirm_address_input_no_selection(self, display_region):
+    async def check_post_confirm_address_input_no_selection(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode, mock.patch(
-                'app.service_calls.rhsvc.RHSvc.get_cases_by_uprn') as mocked_get_case_by_uprn:
-            mocked_get_ai_postcode.return_value = self.ai_postcode_results
-            mocked_get_case_by_uprn.return_value = self.rhsvc_case_by_uprn_hh_e
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn:
+            if region == 'W':
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
+            else:
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -602,10 +542,13 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, "address confirmation error")
             self.check_content_confirm_address(display_region, str(await response.content.read()), check_error=True)
 
-    async def check_post_confirm_address_input_no(self, display_region):
+    async def check_post_confirm_address_input_no(self, display_region, region):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
-                mock.patch('app.service_calls.aims.Aims.get_ai_postcode') as mocked_get_ai_postcode:
-            mocked_get_ai_postcode.return_value = self.ai_postcode_results
+                mock.patch('app.service_calls.aims.Aims.get_ai_uprn') as mocked_get_ai_uprn:
+            if region == 'W':
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_wales
+            else:
+                mocked_get_ai_uprn.return_value = self.ai_uprn_result_england
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -621,8 +564,14 @@ class TestHelpers(RHTestCase):
                                               self.request_type, 'enter-address')
             self.check_text_enter_address(display_region, contents, check_empty=False, check_error=False)
 
-    async def check_post_confirm_address_input_yes_code(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
+    async def check_post_confirm_address_input_yes_code(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.service_calls.rhsvc.RHSvc.get_cases_by_attribute') as mocked_get_cases_by_attribute:
+            if region == 'W':
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_single_w
+            else:
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_single_e
+
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
                                                      'RequestConfirmAddress', 'post',
@@ -631,6 +580,55 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'GET'))
             self.check_content_select_how_to_receive(display_region, str(await response.content.read()))
+
+    async def check_post_confirm_address_input_yes_no_cases(self, display_region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.service_calls.rhsvc.RHSvc.get_cases_by_attribute') as mocked_get_cases_by_attribute:
+            mocked_get_cases_by_attribute.return_value = self.rhsvc_empty_array
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestConfirmAddress', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.common_confirm_address_input_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
+            self.assertLogEvent(cm, 'no case matching uprn in RHSvc - return customer contact centre page')
+            self.assertLogEvent(cm, self.build_url_log_entry('address-not-required', display_region, 'GET'))
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                              self.request_type, 'address-not-required')
+            if display_region == 'cy':
+                self.assertIn(self.content_common_contact_centre_title_cy, contents)
+            else:
+                self.assertIn(self.content_common_contact_centre_title_en, contents)
+
+    async def check_post_confirm_address_input_yes_multiple_cases(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.service_calls.rhsvc.RHSvc.get_cases_by_attribute') as mocked_get_cases_by_attribute:
+            if region == 'W':
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_multiple_w
+            else:
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_multiple_e
+
+            response = await self.client.request('POST',
+                                                 self.get_url_from_class(
+                                                     'RequestConfirmAddress', 'post',
+                                                     display_region, request_type=self.request_type),
+                                                 data=self.common_confirm_address_input_yes)
+            self.assertLogEvent(cm, self.build_url_log_entry('confirm-address', display_region, 'POST'))
+            self.assertLogEvent(cm, 'multiple cases matching uprn found in RHSvc - return customer contact centre page')
+            self.assertLogEvent(cm, self.build_url_log_entry('multiple-cases', display_region, 'GET'))
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo(display_region, contents)
+            self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+                                              self.request_type, 'multiple-cases')
+            if display_region == 'cy':
+                self.assertIn(self.content_common_contact_centre_title_cy, contents)
+            else:
+                self.assertIn(self.content_common_contact_centre_title_en, contents)
 
     async def check_post_select_how_to_receive_input_sms(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:

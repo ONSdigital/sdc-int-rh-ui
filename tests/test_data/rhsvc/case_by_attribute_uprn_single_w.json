@@ -1,0 +1,20 @@
+[
+  {
+    "caseId": "dc4477d1-dd3f-4c69-b181-7ff725dc9fa4",
+    "surveyId": "4a6c6e0a-6384-4da8-8c3c-7c56a801f792",
+    "collectionExerciseId": "4a6c6e0a-6384-4da8-8c3c-7c56a801f792",
+    "invalid": false,
+    "refusalReceived": "CENSUS",
+    "sample": {
+      "address": {
+        "uprn": "123456",
+        "addressLine1": "1 West Street",
+        "addressLine2": "West Westingham",
+        "addressLine3": "",
+        "townName": "Weston",
+        "postcode": "WE10 3WE",
+        "region": "W"
+      }
+    }
+  }
+]

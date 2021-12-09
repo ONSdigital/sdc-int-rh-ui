@@ -38,11 +38,11 @@ class RHSvc:
                                                request_json=launch_json)
 
     @staticmethod
-    async def get_cases_by_uprn(request, uprn):
+    async def get_cases_by_attribute(request, attribute_key, attribute_value):
         rhsvc_url = request.app['RHSVC_URL']
         return await ServiceCalls.make_request(request,
                                                'GET',
-                                               f'{rhsvc_url}/cases/uprn/{uprn}',
+                                               f'{rhsvc_url}/cases/attribute/{attribute_key}/{attribute_value}',
                                                return_json=True)
 
     @staticmethod

@@ -1,5 +1,4 @@
 from aiohttp.test_utils import unittest_run_loop
-from unittest import mock
 from aioresponses import aioresponses
 from .helpers import TestHelpers
 
