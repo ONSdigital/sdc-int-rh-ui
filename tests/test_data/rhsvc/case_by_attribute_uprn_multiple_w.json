@@ -6,15 +6,13 @@
     "invalid": false,
     "refusalReceived": "CENSUS",
     "sample": {
-      "address": {
-        "uprn": "123456",
-        "addressLine1": "1 West Street",
-        "addressLine2": "West Westingham",
-        "addressLine3": "",
-        "townName": "Weston",
-        "postcode": "WE10 3WE",
-        "region": "W"
-      }
+      "uprn": "123456",
+      "addressLine1": "1 West Street",
+      "addressLine2": "West Westingham",
+      "addressLine3": "",
+      "townName": "Weston",
+      "postcode": "WE10 3WE",
+      "region": "W"
     }
   },
   {
@@ -24,15 +22,13 @@
     "invalid": false,
     "refusalReceived": "CENSUS",
     "sample": {
-      "address": {
-        "uprn": "123456",
-        "addressLine1": "1 West Street",
-        "addressLine2": "West Westingham",
-        "addressLine3": "",
-        "townName": "Weston",
-        "postcode": "WE10 3WE",
-        "region": "W"
-      }
+      "uprn": "123456",
+      "addressLine1": "1 West Street",
+      "addressLine2": "West Westingham",
+      "addressLine3": "",
+      "townName": "Weston",
+      "postcode": "WE10 3WE",
+      "region": "W"
     }
   }
 ]

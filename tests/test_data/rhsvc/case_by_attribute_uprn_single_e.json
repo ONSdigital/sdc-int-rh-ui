@@ -6,15 +6,13 @@
     "invalid": false,
     "refusalReceived": "CENSUS",
     "sample": {
-      "address": {
-        "uprn": "123456",
-        "addressLine1": "1 Main Street",
-        "addressLine2": "Upper Upperingham",
-        "addressLine3": "",
-        "townName": "Upton",
-        "postcode": "UP10 3UP",
-        "region": "E"
-      }
+      "uprn": "123456",
+      "addressLine1": "1 Main Street",
+      "addressLine2": "Upper Upperingham",
+      "addressLine3": "",
+      "townName": "Upton",
+      "postcode": "UP10 3UP",
+      "region": "E"
     }
   }
 ]

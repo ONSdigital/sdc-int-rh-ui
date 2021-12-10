@@ -310,14 +310,14 @@ class RequestConfirmAddress(View):
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
                             trace=request['trace'])
-                fulfilment_attributes['addressLine1'] = rhsvc_uprn_return[0]['sample']['address']['addressLine1']
-                fulfilment_attributes['addressLine2'] = rhsvc_uprn_return[0]['sample']['address']['addressLine2']
-                fulfilment_attributes['addressLine3'] = rhsvc_uprn_return[0]['sample']['address']['addressLine3']
-                fulfilment_attributes['townName'] = rhsvc_uprn_return[0]['sample']['address']['townName']
-                fulfilment_attributes['postcode'] = rhsvc_uprn_return[0]['sample']['address']['postcode']
-                fulfilment_attributes['uprn'] = rhsvc_uprn_return[0]['sample']['address']['uprn']
+                fulfilment_attributes['addressLine1'] = rhsvc_uprn_return[0]['sample']['addressLine1']
+                fulfilment_attributes['addressLine2'] = rhsvc_uprn_return[0]['sample']['addressLine2']
+                fulfilment_attributes['addressLine3'] = rhsvc_uprn_return[0]['sample']['addressLine3']
+                fulfilment_attributes['townName'] = rhsvc_uprn_return[0]['sample']['townName']
+                fulfilment_attributes['postcode'] = rhsvc_uprn_return[0]['sample']['postcode']
+                fulfilment_attributes['uprn'] = rhsvc_uprn_return[0]['sample']['uprn']
                 fulfilment_attributes['case_id'] = rhsvc_uprn_return[0]['caseId']
-                fulfilment_attributes['region'] = rhsvc_uprn_return[0]['sample']['address']['region']
+                fulfilment_attributes['region'] = rhsvc_uprn_return[0]['sample']['region']
                 session.changed()
                 return HTTPFound(
                     request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
