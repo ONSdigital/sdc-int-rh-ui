@@ -17,7 +17,7 @@
       "invalid":false,
       "refusalReceived":"HARD_REFUSAL",
       "caseRef": "123abc",
-      "address":{
+      "sample":{
          "addressLine1":"ONS",
          "addressLine2":"Segensworth Road",
          "addressLine3":"Titchfield",
