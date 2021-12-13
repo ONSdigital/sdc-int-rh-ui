@@ -704,16 +704,12 @@ class RequestCodeConfirmSendByText(View):
                         trace=request['trace'],
                         postcode=postcode)
 
-            fulfilment_code_array = []
-
             try:
                 available_fulfilments = \
                     await RHSvc.survey_fulfilments_by_type(request, 'SMS', survey_id, fulfilment_language)
 
-                fulfilment_code_array.append(available_fulfilments)
-
                 try:
-                    await RHSvc.request_fulfilment_sms(request, case_id, mobile_number, fulfilment_code_array)
+                    await RHSvc.request_fulfilment_sms(request, case_id, mobile_number, available_fulfilments)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -906,16 +902,12 @@ class RequestCodeConfirmSendByEmail(View):
                         trace=request['trace'],
                         postcode=postcode)
 
-            fulfilment_code_array = []
-
             try:
                 available_fulfilments = \
                     await RHSvc.survey_fulfilments_by_type(request, 'EMAIL', survey_id, fulfilment_language)
 
-                fulfilment_code_array.append(available_fulfilments)
-
                 try:
-                    await RHSvc.request_fulfilment_email(request, case_id, email, fulfilment_code_array)
+                    await RHSvc.request_fulfilment_email(request, case_id, email, available_fulfilments)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)
@@ -1111,13 +1103,9 @@ class RequestCommonConfirmSendByPost(View):
             else:
                 fulfilment_language = 'E'
 
-            fulfilment_code_array = []
-
             try:
                 available_fulfilments = \
                     await RHSvc.survey_fulfilments_by_type(request, 'POST', survey_id, fulfilment_language)
-
-                fulfilment_code_array.append(available_fulfilments)
 
                 logger.info(
                     f"fulfilment query: region={region}, individual={fulfilment_individual}",
@@ -1128,7 +1116,7 @@ class RequestCommonConfirmSendByPost(View):
 
                 try:
                     await RHSvc.request_fulfilment_post(request, case_id, first_name, last_name,
-                                                        fulfilment_code_array, None)
+                                                        available_fulfilments, None)
                 except (KeyError, ClientResponseError) as ex:
                     if ex.status == 429:
                         raise TooManyRequests(request_type)

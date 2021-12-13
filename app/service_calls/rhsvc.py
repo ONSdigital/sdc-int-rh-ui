@@ -134,13 +134,13 @@ class RHSvc:
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
         survey_data = await RHSvc.get_survey_details(request, survey_id)
-        pack_code = ''
+        pack_code = []
         fulfilments = survey_data['allowedFulfilments']
         for fulfilment in fulfilments:
             if fulfilment['deliveryChannel'] == method:
                 for region in fulfilment['metadata']['suitableRegions']:
                     if region == language:
-                        pack_code = fulfilment['packCode']
+                        pack_code.append(fulfilment['packCode'])
         return pack_code
 
     @staticmethod

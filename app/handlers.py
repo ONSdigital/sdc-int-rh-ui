@@ -1,6 +1,6 @@
 import aiohttp_jinja2
 
-from aiohttp.web import RouteTableDef, json_response, HTTPFound, FileResponse
+from aiohttp.web import RouteTableDef, json_response, FileResponse
 from structlog import get_logger
 
 from . import VERSION
