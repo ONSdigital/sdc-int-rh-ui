@@ -64,3 +64,7 @@ class InvalidDataErrorWelsh(Exception):
 
 class InvalidAccessCode(Exception):
     """Raised when an invalid UAC is entered"""
+
+
+class GetFulfilmentsError(Exception):
+    """ Raised when no valid fulfilments are available """

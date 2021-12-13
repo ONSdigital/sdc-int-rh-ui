@@ -18,36 +18,6 @@
     {%- set error_radio = {'id': 'no-selection', 'text': _('Select an answer')} -%}
 {%- endif -%}
 
-{%- set post_description = _('We can only send access codes to the registered address') -%}
-
-{%- set form_options = [
-        {
-            'id': 'sms',
-            'label': {
-                'text': _('Text message'),
-                'description': _('We will need your mobile number for this')
-            },
-            'value': 'sms'
-        },
-        {
-            'id': 'post',
-            'label': {
-                'text': _('Post'),
-                'description': post_description
-            },
-            'value': 'post'
-        },
-        {
-            'id': 'email',
-            'label': {
-                'text': _('Email'),
-                'description': _('We will need your email address for this')
-            },
-            'value': 'email'
-        }
-    ]
--%}
-
 {%- set question_title = _('How would you like to receive a new access code?') -%}
 
 {%- block main -%}
@@ -64,7 +34,7 @@
             onsRadios({
                 'name': 'form-select-method',
                 'legend': _('Select how to send access code'),
-                'radios': form_options,
+                'radios': form_option_set,
                 'error': error_radio
             })
         }}
