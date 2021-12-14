@@ -318,6 +318,7 @@ class RequestConfirmAddress(View):
                 fulfilment_attributes['uprn'] = rhsvc_uprn_return[0]['sample']['uprn']
                 fulfilment_attributes['case_id'] = rhsvc_uprn_return[0]['caseId']
                 fulfilment_attributes['region'] = rhsvc_uprn_return[0]['sample']['region']
+                fulfilment_attributes['survey_id'] = rhsvc_uprn_return[0]['surveyId']
                 session.changed()
                 return HTTPFound(
                     request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
