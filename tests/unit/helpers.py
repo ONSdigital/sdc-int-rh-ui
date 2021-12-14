@@ -632,10 +632,15 @@ class TestHelpers(RHTestCase):
             else:
                 self.assertIn(self.content_common_contact_centre_title_en, contents)
 
-    async def check_post_confirm_address_input_yes_code_no_fulfilments(self, display_region):
-        with self.assertLogs('respondent-home', 'INFO') as cm, \
+    async def check_post_confirm_address_input_yes_code_no_fulfilments(self, display_region, region):
+        with self.assertLogs('respondent-home', 'INFO') as cm, mock.patch(
+                'app.service_calls.rhsvc.RHSvc.get_cases_by_attribute') as mocked_get_cases_by_attribute, \
                 mock.patch('app.service_calls.rhsvc.RHSvc.get_survey_details') as mocked_get_survey_details:
             mocked_get_survey_details.return_value = self.rhsvc_get_surveys_no_fulfilments
+            if region == 'W':
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_single_w
+            else:
+                mocked_get_cases_by_attribute.return_value = self.rhsvc_case_by_attribute_uprn_single_e
 
             response = await self.client.request('POST',
                                                  self.get_url_from_class(
@@ -646,7 +651,6 @@ class TestHelpers(RHTestCase):
             self.assertLogEvent(cm, self.build_url_log_entry('select-how-to-receive', display_region, 'GET'))
             self.assertLogEvent(cm, "survey query returned no appropriate fulfilments")
             self.assert500Error(response, display_region, str(await response.content.read()))
-
 
     async def check_post_select_how_to_receive_input_sms(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:

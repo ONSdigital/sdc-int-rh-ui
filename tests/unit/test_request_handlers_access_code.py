@@ -124,7 +124,7 @@ class TestRequestHandlersAccessCode(TestHelpers):
         await self.check_get_enter_address(display_region)
         await self.check_post_enter_address(display_region)
         await self.check_post_select_address(display_region, region)
-        await self.check_post_confirm_address_input_yes_code_no_fulfilments(display_region)
+        await self.check_post_confirm_address_input_yes_code_no_fulfilments(display_region, region)
 
     async def assert_post_request_access_code_select_how_to_receive_invalid(self, display_region, region):
         await self.check_get_enter_address(display_region)
