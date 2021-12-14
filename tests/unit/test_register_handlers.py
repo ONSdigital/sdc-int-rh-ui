@@ -480,6 +480,26 @@ class TestRegisterHandlers(TestHelpers):
             self.assertLogEvent(cm, 'bad request', status_code=400)
             self.assert500Error(get_response, display_region, str(await get_response.content.read()))
 
+    async def post_register_person_summary_error_429(self, display_region):
+        url_post = self.get_url_from_class('RegisterChildSummary', 'post',
+                                           display_region=display_region, request_type='person')
+        with self.assertLogs('respondent-home', 'INFO') as cm, \
+                aioresponses(passthrough=[str(self.server._root)]) as mocked_aioresponses:
+            mocked_aioresponses.post(self.rhsvc_new_case_url, status=429)
+
+            get_response = await self.client.request('POST', url_post)
+            self.assertLogEvent(cm, self.build_url_log_entry('child-summary', display_region, 'POST',
+                                                             include_request_type=True, include_page=True))
+            self.assertLogEvent(cm, 'too many requests', status_code=429)
+            self.assertLogEvent(cm, 'session invalidated')
+            self.assertEqual(get_response.status, 429)
+            contents = str(await get_response.content.read())
+            self.assertSiteLogo(display_region, contents)
+            if display_region == 'cy':
+                self.assertIn(self.content_common_429_error_register_title_cy, contents)
+            else:
+                self.assertIn(self.content_common_429_error_register_title_en, contents)
+
     async def post_register_consent_accept(self, display_region):
         url_post = self.get_url_from_class('RegisterConsent', 'post',
                                            display_region=display_region, request_type='person')
@@ -648,6 +668,23 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_select_school(display_region)
         await self.post_register_child_dob(display_region)
         await self.post_register_person_summary_error(display_region)
+
+    @unittest_run_loop
+    async def test_register_rhsvc_submission_error_429_en(self):
+        display_region = 'en'
+        await self.get_register(display_region)
+        await self.get_register_sis2(display_region)
+        await self.get_register_school_list(display_region)
+        await self.get_register_start(display_region)
+        await self.post_register_start(display_region)
+        await self.post_register_parent_enter_name_valid(display_region)
+        await self.post_register_enter_mobile_valid(display_region)
+        await self.post_register_confirm_mobile_yes(display_region)
+        await self.post_register_consent_accept(display_region)
+        await self.post_register_child_enter_name_valid(display_region)
+        await self.post_register_select_school(display_region)
+        await self.post_register_child_dob(display_region)
+        await self.post_register_person_summary_error_429(display_region)
 
     @unittest_run_loop
     async def test_register_parent_enter_name_invalid_first_name_en(self):

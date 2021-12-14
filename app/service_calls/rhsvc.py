@@ -46,17 +46,6 @@ class RHSvc:
                                                return_json=True)
 
     @staticmethod
-    async def get_fulfilment(request, region,
-                             delivery_channel, product_group, individual):
-        rhsvc_url = request.app['RHSVC_URL']
-        url = f'{rhsvc_url}/fulfilments?caseType=HH&region={region}&deliveryChannel={delivery_channel}' \
-              f'&productGroup={product_group}&individual={individual}'
-        return await ServiceCalls.make_request(request,
-                                               'GET',
-                                               url,
-                                               return_json=True)
-
-    @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
         rhsvc_url = request.app['RHSVC_URL']
         fulfilment_json = {
@@ -132,6 +121,27 @@ class RHSvc:
                                                f'{rhsvc_url}/cases/new',
                                                auth=request.app['RHSVC_AUTH'],
                                                request_json=new_case_json)
+
+    @staticmethod
+    async def get_survey_details(request, survey_id):
+        rhsvc_url = request.app['RHSVC_URL']
+        return await ServiceCalls.make_request(request,
+                                               'GET',
+                                               f'{rhsvc_url}/surveys/{survey_id}',
+                                               auth=request.app['RHSVC_AUTH'],
+                                               return_json=True)
+
+    @staticmethod
+    async def survey_fulfilments_by_type(request, method, survey_id, language):
+        survey_data = await RHSvc.get_survey_details(request, survey_id)
+        pack_code = []
+        fulfilments = survey_data['allowedFulfilments']
+        for fulfilment in fulfilments:
+            if fulfilment['deliveryChannel'] == method:
+                for region in fulfilment['metadata']['suitableRegions']:
+                    if region == language:
+                        pack_code.append(fulfilment['packCode'])
+        return pack_code
 
     @staticmethod
     async def post_web_form(request, form_data):

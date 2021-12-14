@@ -26,7 +26,7 @@ class TestEq(RHTestCase):
         del uac_json['collectionExercise']['collectionExerciseId']
         self.verify_missing(uac_json, 'No collection id in supplied UAC context JSON')
 
-    def test_create_eq_constructor_missing_questionnaire_id(self):
+    def test_create_eq_constructor_missing_qid(self):
         uac_json = self.uac_json_e.copy()
         del uac_json['qid']
         self.verify_missing(uac_json, 'No questionnaireId in supplied UAC context JSON')

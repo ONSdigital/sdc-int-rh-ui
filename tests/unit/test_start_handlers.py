@@ -624,7 +624,7 @@ class TestStartHandlers(TestHelpers):
 
     def test_validate_case(self):
         # Given a dict with an active key and value
-        case_json = {'active': True, 'caseStatus': 'OK'}
+        case_json = {'active': True}
 
         # When validate_case is called
         Start.validate_case(case_json)
@@ -633,7 +633,7 @@ class TestStartHandlers(TestHelpers):
 
     def test_validate_case_inactive(self):
         # Given a dict with an active key and value
-        case_json = {'active': False, 'caseStatus': 'OK'}
+        case_json = {'active': False}
 
         # When validate_case is called
         with self.assertRaises(InactiveCaseError):
