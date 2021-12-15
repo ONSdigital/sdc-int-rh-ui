@@ -1,4 +1,3 @@
-import json
 from unittest import mock
 
 from aiohttp.client_exceptions import ClientConnectionError
