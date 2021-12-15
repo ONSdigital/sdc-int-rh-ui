@@ -378,7 +378,7 @@ class RHTestCase(AioHTTPTestCase):
         with open('tests/test_data/rhsvc/uac_e.json') as fp:
             self.uac_json_e = json.load(fp)
 
-        with open('tests/test_data/rhsvc/uac-w.json') as fp:
+        with open('tests/test_data/rhsvc/uac_w.json') as fp:
             self.uac_json_w = json.load(fp)
 
         # URLs used in later statements
@@ -625,17 +625,17 @@ class RHTestCase(AioHTTPTestCase):
         self.period_id = '2021'
         self.uac = 'w4nwwpphjjptp7fn'
         self.uacHash = self.uac_json_e['uacHash']
-        self.uprn = self.uac_json_e['collectionCase']['address']['uprn']
+        self.uprn = self.uac_json_e['collectionCase']['sample']['uprn']
         self.response_id = '111000000092a445af12905967d'
         self.questionnaire_id = self.uac_json_e['qid']
         self.channel = 'rh'
         self.attributes_en = {
-            'addressLine1': self.uac_json_e['collectionCase']['address']['addressLine1'],
-            'addressLine2': self.uac_json_e['collectionCase']['address']['addressLine2'],
-            'addressLine3': self.uac_json_e['collectionCase']['address']['addressLine3'],
-            'townName': self.uac_json_e['collectionCase']['address']['townName'],
-            'postcode': self.uac_json_e['collectionCase']['address']['postcode'],
-            'uprn': self.uac_json_e['collectionCase']['address']['uprn'],
+            'addressLine1': self.uac_json_e['collectionCase']['sample']['addressLine1'],
+            'addressLine2': self.uac_json_e['collectionCase']['sample']['addressLine2'],
+            'addressLine3': self.uac_json_e['collectionCase']['sample']['addressLine3'],
+            'townName': self.uac_json_e['collectionCase']['sample']['townName'],
+            'postcode': self.uac_json_e['collectionCase']['sample']['postcode'],
+            'uprn': self.uac_json_e['collectionCase']['sample']['uprn'],
             'language': 'en',
             'display_region': 'en'
         }
@@ -658,7 +658,8 @@ class RHTestCase(AioHTTPTestCase):
             'case_id': self.case_id,
             'language_code': 'en',
             'display_address':
-                self.uac_json_e['collectionCase']['address']['addressLine1'] + ', ' + self.uac_json_e['collectionCase']['address']['addressLine2'],
+                self.uac_json_e['collectionCase']['sample']['addressLine1'] + ', ' +
+                self.uac_json_e['collectionCase']['sample']['addressLine2'],
             'response_id': self.response_id,
             'account_service_url': f'{account_svc_url}{url_path_prefix}/start/',
             'account_service_log_out_url': f'{account_svc_url}{url_path_prefix}/signed-out/',
@@ -703,8 +704,8 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/surveys'
         )
 
-        self.rhsvc_cases_by_uprn_url = (
-            f'{rh_svc_url}/cases/uprn/'
+        self.rhsvc_cases_by_attribute_url = (
+            f'{rh_svc_url}/cases/attribute/'
         )
 
         self.rhsvc_post_create_case_url = (
@@ -763,11 +764,11 @@ class RHTestCase(AioHTTPTestCase):
         self.start_modify_address_data = {
             'caseId': self.case_id,
             'uprn': self.uprn,
-            'addressLine1': self.uac_json_e['collectionCase']['address']['addressLine1'],
-            'addressLine2': self.uac_json_e['collectionCase']['address']['addressLine2'],
-            'addressLine3': self.uac_json_e['collectionCase']['address']['addressLine3'],
-            'townName': self.uac_json_e['collectionCase']['address']['townName'],
-            'postcode': self.uac_json_e['collectionCase']['address']['postcode']
+            'addressLine1': self.uac_json_e['collectionCase']['sample']['addressLine1'],
+            'addressLine2': self.uac_json_e['collectionCase']['sample']['addressLine2'],
+            'addressLine3': self.uac_json_e['collectionCase']['sample']['addressLine3'],
+            'townName': self.uac_json_e['collectionCase']['sample']['townName'],
+            'postcode': self.uac_json_e['collectionCase']['sample']['postcode']
             }
 
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'
@@ -779,15 +780,30 @@ class RHTestCase(AioHTTPTestCase):
         self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
         self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
 
-        with open('tests/test_data/rhsvc/case_by_uprn_hh_e.json') as fp:
+        with open('tests/test_data/rhsvc/empty_array.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_hh_e = f
+            self.rhsvc_empty_array = f
 
-        with open('tests/test_data/rhsvc/case_by_uprn_hh_w.json') as fp:
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_e.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
-            self.rhsvc_case_by_uprn_hh_w = f
+            self.rhsvc_case_by_attribute_uprn_single_e = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_w.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_single_w = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_e.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_multiple_e = f
+
+        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_w.json') as fp:
+            f = asyncio.Future()
+            f.set_result(json.load(fp))
+            self.rhsvc_case_by_attribute_uprn_multiple_w = f
 
         with open('tests/test_data/rhsvc/get_surveys.json') as fp:
             f = asyncio.Future()

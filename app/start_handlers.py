@@ -135,7 +135,7 @@ class Start(StartCommon):
             self.validate_case(uac_context)
 
         try:
-            auth_attributes = uac_context['collectionCase']['address']
+            auth_attributes = uac_context['collectionCase']['sample']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address details')
 

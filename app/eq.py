@@ -59,12 +59,12 @@ class EqPayloadConstructor(object):
         self._response_id = self.hash_qid(self._questionnaire_id, salt)
 
         try:
-            self._uprn = uac_context['collectionCase']['address']['uprn']
+            self._uprn = uac_context['collectionCase']['sample']['uprn']
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve address uprn from UAC context JSON')
 
         try:
-            self._region = uac_context['collectionCase']['address']['region'][0]
+            self._region = uac_context['collectionCase']['sample']['region'][0]
         except KeyError:
             raise InvalidEqPayLoad('Could not retrieve region from UAC context JSON')
 

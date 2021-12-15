@@ -33,12 +33,12 @@ class TestEq(RHTestCase):
 
     def test_create_eq_constructor_missing_uprn(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['collectionCase']['address']['uprn']
+        del uac_json['collectionCase']['sample']['uprn']
         self.verify_missing(uac_json, 'Could not retrieve address uprn from UAC context JSON')
 
     def test_create_eq_constructor_missing_region(self):
         uac_json = self.uac_json_e.copy()
-        del uac_json['collectionCase']['address']['region']
+        del uac_json['collectionCase']['sample']['region']
         self.verify_missing(uac_json, 'Could not retrieve region from UAC context JSON')
 
     def test_create_eq_constructor_missing_collection_name(self):
@@ -139,7 +139,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.build_display_address(
-            self.uac_json_e['collectionCase']['address'])
+            self.uac_json_e['collectionCase']['sample'])
         self.assertEqual(result, eq_payload['display_address'])
 
     def test_build_display_address_cy(self):
@@ -148,7 +148,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.build_display_address(
-            self.uac_json_e['collectionCase']['address'])
+            self.uac_json_e['collectionCase']['sample'])
         self.assertEqual(result, eq_payload['display_address'])
 
     def test_convert_region_code_e(self):
@@ -157,7 +157,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.convert_region_code(
-            self.uac_json_e['collectionCase']['address']['region'])
+            self.uac_json_e['collectionCase']['sample']['region'])
         self.assertEqual(result, eq_payload['region_code'])
 
     def test_convert_region_code_w(self):
@@ -166,7 +166,7 @@ class TestEq(RHTestCase):
         from app import eq
 
         result = eq.EqPayloadConstructor.convert_region_code(
-            self.uac_json_w['collectionCase']['address']['region'])
+            self.uac_json_w['collectionCase']['sample']['region'])
         self.assertEqual(result, eq_payload['region_code'])
 
     def test_build_display_address_raises(self):

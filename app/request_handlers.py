@@ -28,7 +28,7 @@ request_routes = RouteTableDef()
 
 user_journey = 'request'
 valid_request_types = r'{request_type:\baccess-code\b}'
-valid_issue_types = r'{issue:\baddress-not-required|address-not-found\b}'
+valid_issue_types = r'{issue:\baddress-not-required|address-not-found|multiple-cases\b}'
 
 
 @request_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/' + valid_request_types +
@@ -259,51 +259,7 @@ class RequestConfirmAddress(View):
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
-        try:
-            rhsvc_uprn_return = await RHSvc.get_cases_by_uprn(request, uprn)
-            logger.info('case matching uprn found in RHSvc',
-                        client_ip=request['client_ip'],
-                        client_id=request['client_id'],
-                        trace=request['trace'])
-            fulfilment_attributes['addressLine1'] = rhsvc_uprn_return['address']['addressLine1']
-            fulfilment_attributes['addressLine2'] = rhsvc_uprn_return['address']['addressLine2']
-            fulfilment_attributes['addressLine3'] = rhsvc_uprn_return['address']['addressLine3']
-            fulfilment_attributes['townName'] = rhsvc_uprn_return['address']['townName']
-            fulfilment_attributes['postcode'] = rhsvc_uprn_return['address']['postcode']
-            fulfilment_attributes['uprn'] = rhsvc_uprn_return['address']['uprn']
-            fulfilment_attributes['case_id'] = rhsvc_uprn_return['caseId']
-            fulfilment_attributes['region'] = rhsvc_uprn_return['address']['region']
-            fulfilment_attributes['survey_id'] = rhsvc_uprn_return['surveyId']
-
-            session.changed()
-
-        except ClientResponseError as ex:
-            if ex.status == 404:
-                logger.info('no case matching uprn in RHSvc - using AIMS data',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'])
-
-                aims_uprn_return = await Aims.get_ai_uprn(request, uprn)
-
-                # Ensure no session data from previous RM case used later
-                if 'case_id' in fulfilment_attributes:
-                    del fulfilment_attributes['case_id']
-                    session.changed()
-                fulfilment_attributes['addressLine1'] = aims_uprn_return['response']['address']['addressLine1']
-                fulfilment_attributes['addressLine2'] = aims_uprn_return['response']['address']['addressLine2']
-                fulfilment_attributes['addressLine3'] = aims_uprn_return['response']['address']['addressLine3']
-                fulfilment_attributes['townName'] = aims_uprn_return['response']['address']['townName']
-                fulfilment_attributes['postcode'] = aims_uprn_return['response']['address']['postcode']
-                fulfilment_attributes['uprn'] = aims_uprn_return['response']['address']['uprn']
-                fulfilment_attributes['region'] = aims_uprn_return['response']['address']['countryCode']
-            else:
-                logger.info('error response from RHSvc',
-                            client_ip=request['client_ip'],
-                            client_id=request['client_id'],
-                            trace=request['trace'],
-                            status_code=ex.status)
-                raise ex
+        aims_uprn_return = await Aims.get_ai_uprn(request, uprn)
 
         return {
             'page_title': page_title,
@@ -312,14 +268,11 @@ class RequestConfirmAddress(View):
             'request_type': request_type,
             'locale': locale,
             'page_url': View.gen_page_url(request),
-            'addressLine1': get_session_value(request, fulfilment_attributes, 'addressLine1',
-                                              user_journey, request_type),
-            'addressLine2': get_session_value(request, fulfilment_attributes, 'addressLine2',
-                                              user_journey, request_type),
-            'addressLine3': get_session_value(request, fulfilment_attributes, 'addressLine3',
-                                              user_journey, request_type),
-            'townName': get_session_value(request, fulfilment_attributes, 'townName', user_journey, request_type),
-            'postcode': get_session_value(request, fulfilment_attributes, 'postcode', user_journey, request_type)
+            'addressLine1': aims_uprn_return['response']['address']['addressLine1'],
+            'addressLine2': aims_uprn_return['response']['address']['addressLine2'],
+            'addressLine3': aims_uprn_return['response']['address']['addressLine3'],
+            'townName': aims_uprn_return['response']['address']['townName'],
+            'postcode': aims_uprn_return['response']['address']['postcode']
         }
 
     async def post(self, request):
@@ -332,6 +285,7 @@ class RequestConfirmAddress(View):
 
         session = await get_existing_session(request, user_journey, request_type)
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
+        uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
         data = await request.post()
 
         try:
@@ -350,21 +304,50 @@ class RequestConfirmAddress(View):
                 ))
 
         if address_confirmation == 'yes':
-            if 'case_id' in fulfilment_attributes:
-                return HTTPFound(
-                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
-                        request_type=request_type, display_region=display_region))
-            else:
-                logger.info('no case matching uprn in RHSvc - return customer contact centre page',
+            rhsvc_uprn_return = await RHSvc.get_cases_by_attribute(request, 'uprn', uprn)
+            if len(rhsvc_uprn_return) == 1:
+                logger.info('case matching uprn found in RHSvc',
                             client_ip=request['client_ip'],
                             client_id=request['client_id'],
                             trace=request['trace'])
+                fulfilment_attributes['addressLine1'] = rhsvc_uprn_return[0]['sample']['addressLine1']
+                fulfilment_attributes['addressLine2'] = rhsvc_uprn_return[0]['sample']['addressLine2']
+                fulfilment_attributes['addressLine3'] = rhsvc_uprn_return[0]['sample']['addressLine3']
+                fulfilment_attributes['townName'] = rhsvc_uprn_return[0]['sample']['townName']
+                fulfilment_attributes['postcode'] = rhsvc_uprn_return[0]['sample']['postcode']
+                fulfilment_attributes['uprn'] = rhsvc_uprn_return[0]['sample']['uprn']
+                fulfilment_attributes['case_id'] = rhsvc_uprn_return[0]['caseId']
+                fulfilment_attributes['region'] = rhsvc_uprn_return[0]['sample']['region']
+                fulfilment_attributes['survey_id'] = rhsvc_uprn_return[0]['surveyId']
+                session.changed()
+                return HTTPFound(
+                    request.app.router['RequestCodeSelectHowToReceive:get'].url_for(
+                        request_type=request_type, display_region=display_region))
+            elif len(rhsvc_uprn_return) > 1:
+                logger.info('multiple cases matching uprn found in RHSvc - return customer contact centre page',
+                            client_ip=request['client_ip'],
+                            client_id=request['client_id'],
+                            trace=request['trace'])
+                issue = 'multiple-cases'
                 return HTTPFound(
                     request.app.router['RequestContactCentre:get'].url_for(
                         display_region=display_region,
                         user_journey=user_journey,
                         request_type=request_type,
-                        issue='address-not-required'
+                        issue=issue
+                    ))
+            else:
+                logger.info('no case matching uprn in RHSvc - return customer contact centre page',
+                            client_ip=request['client_ip'],
+                            client_id=request['client_id'],
+                            trace=request['trace'])
+                issue = 'address-not-required'
+                return HTTPFound(
+                    request.app.router['RequestContactCentre:get'].url_for(
+                        display_region=display_region,
+                        user_journey=user_journey,
+                        request_type=request_type,
+                        issue=issue
                     ))
 
         elif address_confirmation == 'no':
