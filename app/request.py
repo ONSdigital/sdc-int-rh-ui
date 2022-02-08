@@ -34,14 +34,14 @@ class RetryRequest:
     """
     Make requests to a URL, but retry under certain conditions to tolerate server graceful shutdown.
     """
-    def __init__(self, request, method, url, auth, request_headers, request_json, return_json):
+    def __init__(self, request, method, url, auth, request_headers, request_json, return_type):
         self.request = request
         self.method = method
         self.url = url
         self.auth = auth
         self.headers = request_headers
         self.json = request_json
-        self.return_json = return_json
+        self.return_type = return_type
 
     def __handle_response(self, response):
         try:
@@ -70,7 +70,9 @@ class RetryRequest:
         async with aiohttp.request(
                 self.method, self.url, auth=self.auth, json=self.json, headers=self.headers) as resp:
             self.__handle_response(resp)
-            if self.return_json:
+            if self.return_type == 'text':
+                return await resp.text()
+            elif self.return_type == 'json':
                 return await resp.json()
             else:
                 return None
@@ -84,7 +86,9 @@ class RetryRequest:
         async with self.request.app.http_session_pool.request(
                 self.method, self.url, auth=self.auth, json=self.json, headers=self.headers, ssl=False) as resp:
             self.__handle_response(resp)
-            if self.return_json:
+            if self.return_type == 'text':
+                return await resp.text()
+            elif self.return_type == 'json':
                 return await resp.json()
             else:
                 return None

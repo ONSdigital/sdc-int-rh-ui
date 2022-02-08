@@ -20,7 +20,12 @@ class RHSvc:
                                                'GET',
                                                f'{rhsvc_url}/uacs/{uac_hash}',
                                                auth=request.app['RHSVC_AUTH'],
-                                               return_json=True)
+                                               return_type="json")
+
+    @staticmethod
+    async def get_eq_launch_token(request, uac_context, attributes):
+        # WRITEME
+        pass
 
     @staticmethod
     async def post_survey_launched(request, uac_context):
@@ -43,7 +48,7 @@ class RHSvc:
         return await ServiceCalls.make_request(request,
                                                'GET',
                                                f'{rhsvc_url}/cases/attribute/{attribute_key}/{attribute_value}',
-                                               return_json=True)
+                                               return_type="json")
 
     @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
@@ -129,7 +134,7 @@ class RHSvc:
                                                'GET',
                                                f'{rhsvc_url}/surveys/{survey_id}',
                                                auth=request.app['RHSVC_AUTH'],
-                                               return_json=True)
+                                               return_type="json")
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):

@@ -13,7 +13,7 @@ class ServiceCalls:
                            auth=None,
                            headers=None,
                            request_json=None,
-                           return_json=False):
+                           return_type=None):
         """
         :param request: The AIOHTTP user request, used for logging and app access
         :param method: The HTTP verb
@@ -21,9 +21,9 @@ class ServiceCalls:
         :param auth: Authorization
         :param headers: Any needed headers as a python dictionary
         :param request_json: JSON payload to pass as request data
-        :param return_json: If True, the response JSON will be returned
+        :param return_type: Return type: None, "json" or "text"
         """
-        retry_request = RetryRequest(request, method, url, auth, headers, request_json, return_json)
+        retry_request = RetryRequest(request, method, url, auth, headers, request_json, return_type)
         return await retry_request.make_request()
 
     @staticmethod
