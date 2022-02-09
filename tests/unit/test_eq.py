@@ -1,6 +1,6 @@
 from aiohttp.test_utils import unittest_run_loop
 from app.eq import EqLaunch
-from app.exceptions import InvalidEqPayLoad
+from app.exceptions import InvalidForEqTokenGeneration
 
 from . import RHTestCase
 
@@ -11,7 +11,7 @@ class TestEq(RHTestCase):
             EqLaunch(self.uac_json_e, self.attributes_en, self.app), EqLaunch)
 
     def verify_missing(self, uac_json, expected_msg):
-        with self.assertRaises(InvalidEqPayLoad) as ex:
+        with self.assertRaises(InvalidForEqTokenGeneration) as ex:
             EqLaunch(uac_json, self.attributes_en, self.app)
         self.assertIn(expected_msg, ex.exception.message)
 

@@ -4,7 +4,8 @@ class InactiveCaseError(Exception):
         super().__init__()
 
 
-class InvalidEqPayLoad(Exception):
+class InvalidForEqTokenGeneration(Exception):
+    """ Raised when information is missing or invalid for getting the EQ token """
     def __init__(self, message):
         super().__init__()
         self.message = message

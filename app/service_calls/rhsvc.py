@@ -33,22 +33,6 @@ class RHSvc:
                                                auth=request.app['RHSVC_AUTH'],
                                                return_type="text")
 
-    # FIXME delete this
-    @staticmethod
-    async def post_survey_launched(request, uac_context):
-        launch_json = {
-            'questionnaireId': uac_context['qid'],
-            'caseId': uac_context['collectionCase']['caseId'],
-            'agentId': '',
-            'clientIP': ServiceCalls.single_client_ip(request)
-        }
-        rhsvc_url = request.app['RHSVC_URL']
-        return await ServiceCalls.make_request(request,
-                                               'POST',
-                                               f'{rhsvc_url}/surveyLaunched',
-                                               auth=request.app['RHSVC_AUTH'],
-                                               request_json=launch_json)
-
     @staticmethod
     async def get_cases_by_attribute(request, attribute_key, attribute_value):
         rhsvc_url = request.app['RHSVC_URL']

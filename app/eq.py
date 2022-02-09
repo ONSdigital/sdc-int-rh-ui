@@ -3,7 +3,7 @@ from aiohttp.web import Application, HTTPFound
 from aiohttp.client_exceptions import (ClientResponseError)
 from structlog import get_logger
 
-from .exceptions import InvalidEqPayLoad, TooManyRequestsEQLaunch
+from .exceptions import InvalidForEqTokenGeneration, TooManyRequestsEQLaunch
 from .service_calls.rhsvc import RHSvc
 
 
@@ -25,7 +25,7 @@ class EqLaunch(object):
         self._app = app
 
         if not attributes:
-            raise InvalidEqPayLoad('Attributes is empty')
+            raise InvalidForEqTokenGeneration('Attributes is empty')
 
         self._sample_attributes = attributes
         self._uac_hash = uac_context['uacHash']
@@ -44,7 +44,7 @@ class EqLaunch(object):
         try:
             self._region = uac_context['collectionCase']['sample']['region'][0]
         except KeyError:
-            raise InvalidEqPayLoad('Could not retrieve region from UAC context JSON')
+            raise InvalidForEqTokenGeneration('Could not retrieve region from UAC context JSON')
 
         if self._region == 'E':
             self._language_code = 'en'

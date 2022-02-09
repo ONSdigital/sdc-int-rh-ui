@@ -2,6 +2,7 @@ import asyncio
 import json
 import time
 import uuid
+import functools
 
 from aiohttp.test_utils import AioHTTPTestCase
 from tenacity import wait_exponential
@@ -13,25 +14,43 @@ from aiohttp_session import session_middleware
 from aiohttp_session import SimpleCookieStorage
 
 
-def skip_build_eq(func, *args, **kwargs):
-    """
-    FIXME remove
-    """
-    pass
-
-
 def build_eq_raises(func, *args, **kwargs):
     """
-    FIXME remove
-    """
-    pass
+    Helper decorator for manually patching the methods of app.eq.EqLaunch.
 
+    This can be useful for tests that perform as a client but wish the server to raise InvalidForEqTokenGeneration
+    when operations are called on an instance of app.eq.EqLaunch.
 
-def skip_encrypt(func, *args, **kwargs):
+    The test case checks for and calls when possible .setUp and .tearDown attributes on each test method
+    at server setUp (setUpAsync) and server tearDown (tearDownAsync).
+
+    :param func: test method that requires the patch
+    :param args: the test method's arguments
+    :param args: the test method's keyword arguments
+    :return: new method with patching functions attached as attributes
     """
-    FIXME remove
-    """
-    pass
+    async def _override_eq_build_with_error(*_):
+        from app import eq
+
+        def init_replaced(*_):
+            raise eq.InvalidForEqTokenGeneration('')
+
+        eq.EqLaunch._bk__init__ = eq.EqLaunch.__init__
+        eq.EqLaunch.__init__ = init_replaced
+
+    async def _reset_eq_payload_constructor(*_):
+        from app import eq
+
+        eq.EqLaunch.__init__ = eq.EqLaunch._bk__init__
+
+    @functools.wraps(func, *args, **kwargs)
+    def new_func(self, *inner_args, **inner_kwargs):
+        return func(self, *inner_args, **inner_kwargs)
+
+    new_func.setUp = _override_eq_build_with_error
+    new_func.tearDown = _reset_eq_payload_constructor
+
+    return new_func
 
 
 class RHTestCase(AioHTTPTestCase):
