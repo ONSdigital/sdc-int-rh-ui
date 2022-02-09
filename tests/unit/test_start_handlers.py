@@ -115,7 +115,7 @@ class TestStartHandlers(TestHelpers):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -142,7 +142,7 @@ class TestStartHandlers(TestHelpers):
     async def test_post_start_build_raises_InvalidEqPayLoad_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -169,7 +169,7 @@ class TestStartHandlers(TestHelpers):
     async def test_post_start_build_raises_InvalidEqPayLoad_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
 
             response = await self.client.request('POST',
                                                  self.post_start_cy,
@@ -492,7 +492,7 @@ class TestStartHandlers(TestHelpers):
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched,
+            mocked.post(self.rhsvc_url_get_launch_token,
                         exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
@@ -508,7 +508,7 @@ class TestStartHandlers(TestHelpers):
                     data=self.start_confirm_address_data_yes)
             self.assertLogEvent(cm,
                                 'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+                                url=self.rhsvc_url_get_launch_token)
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
@@ -518,7 +518,7 @@ class TestStartHandlers(TestHelpers):
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched,
+            mocked.post(self.rhsvc_url_get_launch_token,
                         exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
@@ -534,7 +534,7 @@ class TestStartHandlers(TestHelpers):
                     data=self.start_confirm_address_data_yes)
             self.assertLogEvent(cm,
                                 'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+                                url=self.rhsvc_url_get_launch_token)
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
@@ -544,7 +544,7 @@ class TestStartHandlers(TestHelpers):
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched,
+            mocked.post(self.rhsvc_url_get_launch_token,
                         exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
@@ -560,7 +560,7 @@ class TestStartHandlers(TestHelpers):
                     data=self.start_confirm_address_data_yes)
             self.assertLogEvent(cm,
                                 'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+                                url=self.rhsvc_url_get_launch_token)
 
         self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
@@ -927,7 +927,7 @@ class TestStartHandlers(TestHelpers):
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
 
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-ENG'
             eq_payload['language_code'] = 'en'
@@ -1002,7 +1002,7 @@ class TestStartHandlers(TestHelpers):
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
 
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-WLS'
             eq_payload['language_code'] = 'en'
@@ -1077,7 +1077,7 @@ class TestStartHandlers(TestHelpers):
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
 
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.post(self.rhsvc_url_get_launch_token)
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-WLS'
             eq_payload['language_code'] = 'cy'

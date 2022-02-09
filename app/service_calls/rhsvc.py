@@ -23,10 +23,17 @@ class RHSvc:
                                                return_type="json")
 
     @staticmethod
-    async def get_eq_launch_token(request, uac_context, attributes):
-        # WRITEME
-        pass
+    async def get_eq_launch_token(request, url_path):
+        rhsvc_url = request.app['RHSVC_URL']
+        client_ip = request['client_ip']
+        url = f'{rhsvc_url}{url_path}&clientIP={client_ip}'
+        return await ServiceCalls.make_request(request,
+                                               'GET',
+                                               url,
+                                               auth=request.app['RHSVC_AUTH'],
+                                               return_type="text")
 
+    # FIXME delete this
     @staticmethod
     async def post_survey_launched(request, uac_context):
         launch_json = {

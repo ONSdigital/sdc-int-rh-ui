@@ -16,7 +16,8 @@ from .exceptions import InvalidEqPayLoad, InvalidAccessCode, ExerciseClosedError
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
 from .session import get_session_value
 from .service_calls.rhsvc import RHSvc
-from .utils import View, LaunchEQ
+from .utils import View
+from .eq import EqLaunch
 
 logger = get_logger('respondent-home')
 start_routes = RouteTableDef()
@@ -222,7 +223,7 @@ class StartConfirmAddress(StartCommon):
         if address_confirmation == 'Yes':
             auth_attributes['language'] = locale
             auth_attributes['display_region'] = display_region
-            await LaunchEQ.call_questionnaire(request, uac_context, auth_attributes, request.app)
+            await EqLaunch(uac_context, auth_attributes, request.app).call_eq(request)
 
         elif address_confirmation == 'No':
             return HTTPFound(request.app.router['StartIncorrectAddress:get'].url_for(display_region=display_region))

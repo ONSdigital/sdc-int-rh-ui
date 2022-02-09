@@ -50,15 +50,6 @@ Respondent Home is one part of the RAS/RM docker containers:
 
   [https://github.com/ONSdigital/ras-rm-docker-dev](https://github.com/ONSdigital/ras-rm-docker-dev)
 
-
-## Environment Variables
-The environment variables below must be provided:
-
-```
-JSON_SECRET_KEYS
-SECRET_KEY
-```
-
 ## Translations
 The site uses babel for translations.
 

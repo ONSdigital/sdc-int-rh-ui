@@ -1,5 +1,4 @@
 import asyncio
-import functools
 import json
 import time
 import uuid
@@ -16,123 +15,23 @@ from aiohttp_session import SimpleCookieStorage
 
 def skip_build_eq(func, *args, **kwargs):
     """
-    Helper decorator for manually patching the methods of app.eq.EqPayloadConstructor.
-
-    This can be useful for tests that perform as a client but wish the server to skip the builder functionality.
-
-    The test case checks for and calls when possible .setUp and .tearDown attributes on each test method
-    at server setUp (setUpAsync) and server tearDown (tearDownAsync).
-
-    :param func: test method that requires the patch
-    :param args: the test method's arguments
-    :param args: the test method's keyword arguments
-    :return: new method with patching functions attached as attributes
+    FIXME remove
     """
-    async def _override_eq_payload_constructor(test_case, *_):
-        from app import eq
-
-        async def build(_):
-            return test_case.eq_payload
-
-        eq.EqPayloadConstructor._bk__init__ = eq.EqPayloadConstructor.__init__
-        eq.EqPayloadConstructor.__init__ = lambda *args: None
-        eq.EqPayloadConstructor._bk_build = eq.EqPayloadConstructor.build
-        eq.EqPayloadConstructor.build = build
-
-    async def _reset_eq_payload_constructor(*_):
-        from app import eq
-
-        eq.EqPayloadConstructor.__init__ = eq.EqPayloadConstructor._bk__init__
-        eq.EqPayloadConstructor.build = eq.EqPayloadConstructor._bk_build
-
-    @functools.wraps(func, *args, **kwargs)
-    def new_func(self, *inner_args, **inner_kwargs):
-        return func(self, *inner_args, **inner_kwargs)
-
-    new_func.setUp = _override_eq_payload_constructor
-    new_func.tearDown = _reset_eq_payload_constructor
-
-    return new_func
+    pass
 
 
 def build_eq_raises(func, *args, **kwargs):
     """
-    Helper decorator for manually patching the methods of app.eq.EqPayloadConstructor.
-
-    This can be useful for tests that perform as a client but wish the server to raise InvalidEqPayLoad when .build()
-    is called on an instance of app.eq.EqPayloadConstructor.
-
-    The test case checks for and calls when possible .setUp and .tearDown attributes on each test method
-    at server setUp (setUpAsync) and server tearDown (tearDownAsync).
-
-    :param func: test method that requires the patch
-    :param args: the test method's arguments
-    :param args: the test method's keyword arguments
-    :return: new method with patching functions attached as attributes
+    FIXME remove
     """
-    async def _override_eq_build_with_error(*_):
-        from app import eq
-
-        async def build(_):
-            raise eq.InvalidEqPayLoad('')
-
-        eq.EqPayloadConstructor._bk__init__ = eq.EqPayloadConstructor.__init__
-        eq.EqPayloadConstructor.__init__ = lambda *args: None
-        eq.EqPayloadConstructor._bk_build = eq.EqPayloadConstructor.build
-        eq.EqPayloadConstructor.build = build
-
-    async def _reset_eq_payload_constructor(*_):
-        from app import eq
-
-        eq.EqPayloadConstructor.__init__ = eq.EqPayloadConstructor._bk__init__
-        eq.EqPayloadConstructor.build = eq.EqPayloadConstructor._bk_build
-
-    @functools.wraps(func, *args, **kwargs)
-    def new_func(self, *inner_args, **inner_kwargs):
-        return func(self, *inner_args, **inner_kwargs)
-
-    new_func.setUp = _override_eq_build_with_error
-    new_func.tearDown = _reset_eq_payload_constructor
-
-    return new_func
+    pass
 
 
 def skip_encrypt(func, *args, **kwargs):
     """
-    Helper decorator for manually patching the encrypt function in start_handlers.py.
-
-    This can be useful for tests that perform as a client but wish the server to skip encrypting a payload.
-
-    The test case checks for and calls when possible .setUp and .tearDown attributes on each test method
-    at server setUp (setUpAsync) and server tearDown (tearDownAsync).
-
-    :param func: test method that requires the patch
-    :param args: the test method's arguments
-    :param args: the test method's keyword arguments
-    :return: new method with patching functions attached as attributes
+    FIXME remove
     """
-    async def _override_sdc_encrypt(*_):
-        from app import utils
-
-        def encrypt(payload, **_):
-            return json.dumps(payload)
-
-        utils._bk_encrypt = utils.encrypt
-        utils.encrypt = encrypt
-
-    async def _reset_sdc_encrypt(*_):
-        from app import utils
-
-        utils.encrypt = utils._bk_encrypt
-
-    @functools.wraps(func, *args, **kwargs)
-    def new_func(self, *inner_args, **inner_kwargs):
-        return func(self, *inner_args, **inner_kwargs)
-
-    new_func.setUp = _override_sdc_encrypt
-    new_func.tearDown = _reset_sdc_encrypt
-
-    return new_func
+    pass
 
 
 class RHTestCase(AioHTTPTestCase):
@@ -370,6 +269,16 @@ class RHTestCase(AioHTTPTestCase):
             self.assertIn("Mae\\'n flin gennym, aeth rhywbeth o\\'i le", content)
         else:
             self.assertIn('Sorry, something went wrong', content)
+
+    def get_full_account_service_url(self, display_region):
+        account_svc_url = self.app['ACCOUNT_SERVICE_URL']
+        url_path_prefix = self.app['URL_PATH_PREFIX']
+        return f'{account_svc_url}{url_path_prefix}/{display_region}/start/'
+
+    def get_full_account_service_logout_url(self, display_region):
+        account_svc_url = self.app['ACCOUNT_SERVICE_URL']
+        url_path_prefix = self.app['URL_PATH_PREFIX']
+        return f'{account_svc_url}{url_path_prefix}/{display_region}/signed-out/'
 
     def setUp(self):
         # This section gets ugly if YAPF reformats it
@@ -661,8 +570,8 @@ class RHTestCase(AioHTTPTestCase):
                 self.uac_json_e['collectionCase']['sample']['addressLine1'] + ', ' +
                 self.uac_json_e['collectionCase']['sample']['addressLine2'],
             'response_id': self.response_id,
-            'account_service_url': f'{account_svc_url}{url_path_prefix}/start/',
-            'account_service_log_out_url': f'{account_svc_url}{url_path_prefix}/signed-out/',
+            'account_service_url': self.get_full_account_service_url('en'),
+            'account_service_log_out_url': self.get_full_account_service_logout_url('en'),
             'channel': self.channel,
             'questionnaire_id': self.questionnaire_id,
             'eq_id': self.eq_id,
@@ -696,8 +605,8 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/uacs/{self.uacHash}'
         )
 
-        self.rhsvc_url_surveylaunched = (
-            f'{rh_svc_url}/surveyLaunched'
+        self.rhsvc_url_get_launch_token = (
+            f'{rh_svc_url}/uacs/{self.uacHash}/launch'
         )
 
         self.rhsvc_url_surveys = (

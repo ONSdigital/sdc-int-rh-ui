@@ -74,11 +74,6 @@ spec:
             configMapKeyRef:
               name: rh-config
               key: eq-host
-        - name: JSON_SECRET_KEYS
-          valueFrom:
-            secretKeyRef:
-              name: rh-keys
-              key: rh-keys
         - name: REDIS_SERVER
           valueFrom:
             configMapKeyRef:
