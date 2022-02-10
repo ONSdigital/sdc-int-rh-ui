@@ -1,11 +1,4 @@
-from aiohttp.client_exceptions import (ClientResponseError)
-from aiohttp.web import HTTPFound
 from pytz import timezone
-from sdc.crypto.encrypter import encrypt
-
-from .exceptions import TooManyRequestsEQLaunch
-from .eq import EqPayloadConstructor
-from .service_calls.rhsvc import RHSvc
 
 from structlog import get_logger
 
@@ -72,29 +65,6 @@ class View:
                 link = base_en + '/privacy-and-data-protection/'
 
         return link
-
-
-class LaunchEQ:
-    @staticmethod
-    async def call_questionnaire(request, uac_context, attributes, app):
-        eq_payload = await EqPayloadConstructor(uac_context, attributes, app).build()
-
-        token = encrypt(eq_payload,
-                        key_store=app['key_store'],
-                        key_purpose='authentication')
-
-        try:
-            await RHSvc.post_survey_launched(request, uac_context)
-        except ClientResponseError as ex:
-            if ex.status == 429:
-                raise TooManyRequestsEQLaunch()
-            else:
-                raise ex
-
-        logger.info('redirecting to eq',
-                    client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-        eq_url = app['EQ_URL']
-        raise HTTPFound(f'{eq_url}/session?token={token}')
 
 
 class FlashMessage:

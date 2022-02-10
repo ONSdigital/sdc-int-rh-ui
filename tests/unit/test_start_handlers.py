@@ -11,7 +11,7 @@ from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
 from app.exceptions import InactiveCaseError
 from app.start_handlers import Start
 
-from . import build_eq_raises, skip_encrypt
+from . import build_eq_raises
 
 from .helpers import TestHelpers
 
@@ -111,11 +111,9 @@ class TestStartHandlers(TestHelpers):
 
     @build_eq_raises
     @unittest_run_loop
-    async def test_post_start_build_raises_InvalidEqPayLoad_ew_e(self):
+    async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_e(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched)
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -126,23 +124,22 @@ class TestStartHandlers(TestHelpers):
                           response.headers['Location'])
 
             with self.assertLogs('respondent-home', 'ERROR') as cm:
-                # decorator makes URL constructor raise InvalidEqPayLoad when build() is called in handler
+                # decorator makes EqLaunch constructor raise exception
                 response = await self.client.request(
                     'POST',
                     self.post_start_confirm_address_en,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
+            self.assertLogEvent(cm, 'service failed to get EQ token')
 
         # then error handler catches exception and renders error.html
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
     @unittest_run_loop
-    async def test_post_start_build_raises_InvalidEqPayLoad_ew_w(self):
+    async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched)
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -153,23 +150,22 @@ class TestStartHandlers(TestHelpers):
                           response.headers['Location'])
 
             with self.assertLogs('respondent-home', 'ERROR') as cm:
-                # decorator makes URL constructor raise InvalidEqPayLoad when build() is called in handler
+                # decorator makes EqLaunch constructor raise exception
                 response = await self.client.request(
                     'POST',
                     self.post_start_confirm_address_en,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
+            self.assertLogEvent(cm, 'service failed to get EQ token')
 
         # then error handler catches exception and renders error.html
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
     @unittest_run_loop
-    async def test_post_start_build_raises_InvalidEqPayLoad_cy(self):
+    async def test_post_start_build_raises_InvalidEqTokenGeneration_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched)
 
             response = await self.client.request('POST',
                                                  self.post_start_cy,
@@ -180,13 +176,13 @@ class TestStartHandlers(TestHelpers):
                           response.headers['Location'])
 
             with self.assertLogs('respondent-home', 'ERROR') as cm:
-                # decorator makes URL constructor raise InvalidEqPayLoad when build() is called in handler
+                # decorator makes EqLaunch constructor raise exception
                 response = await self.client.request(
                     'POST',
                     self.post_start_confirm_address_cy,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm, 'service failed to build eq payload')
+            self.assertLogEvent(cm, 'service failed to get EQ token')
 
         # then error handler catches exception and renders error.html
         self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
@@ -486,14 +482,12 @@ class TestStartHandlers(TestHelpers):
         self.assertLogEvent(cm, 'invalid access code entered')
         self.check_content_start('cy', str(await response.content.read()), check_error=True)
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_ew_e(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-            mocked.post(self.rhsvc_url_surveylaunched,
-                        exception=ClientConnectionError('Failed'))
+            mocked.get(self.get_launch_token_url_path('en'), exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -506,20 +500,17 @@ class TestStartHandlers(TestHelpers):
                     self.post_start_confirm_address_en,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm,
-                                'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+            self.assertLogEvent(cm, 'client failed to connect',
+                                url=self.get_launch_token_url_path('en'))
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_ew_w(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched,
-                        exception=ClientConnectionError('Failed'))
+            mocked.get(self.get_launch_token_url_path('en'), exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
                                                  self.post_start_en,
@@ -532,20 +523,17 @@ class TestStartHandlers(TestHelpers):
                     self.post_start_confirm_address_en,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm,
-                                'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+            self.assertLogEvent(cm, 'client failed to connect',
+                                url=self.get_launch_token_url_path('en'))
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_cy(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-            mocked.post(self.rhsvc_url_surveylaunched,
-                        exception=ClientConnectionError('Failed'))
+            mocked.get(self.get_launch_token_url_path('cy'), exception=ClientConnectionError('Failed'))
 
             response = await self.client.request('POST',
                                                  self.post_start_cy,
@@ -558,9 +546,8 @@ class TestStartHandlers(TestHelpers):
                     self.post_start_confirm_address_cy,
                     allow_redirects=False,
                     data=self.start_confirm_address_data_yes)
-            self.assertLogEvent(cm,
-                                'client failed to connect',
-                                url=self.rhsvc_url_surveylaunched)
+            self.assertLogEvent(cm, 'client failed to connect',
+                                url=self.get_launch_token_url_path('cy'))
 
         self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
@@ -917,7 +904,6 @@ class TestStartHandlers(TestHelpers):
             self.assertSiteLogo('cy', contents)
             self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_ew_e(self):
         display_region = 'en'
@@ -926,8 +912,7 @@ class TestStartHandlers(TestHelpers):
                 as mocked:
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.get(self.get_launch_token_url_path(display_region), payload="dummy-payload")
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-ENG'
             eq_payload['language_code'] = 'en'
@@ -979,20 +964,8 @@ class TestStartHandlers(TestHelpers):
         # outputs url on fail
         self.assertTrue(redirected_url.startswith(self.app['EQ_URL']),
                         redirected_url)
-        # we only care about the query string
-        _, _, _, query, *_ = urlsplit(redirected_url)
-        # convert token to dict
-        token = json.loads(parse_qs(query)['token'][0])
-        # fail early if payload keys differ
-        self.assertEqual(eq_payload.keys(), token.keys())
-        for key in eq_payload.keys():
-            # skip uuid / time generated values
-            if key in ['jti', 'tx_id', 'iat', 'exp']:
-                continue
-            # outputs failed key as msg
-            self.assertEqual(eq_payload[key], token[key], key)
+        # no longer testing the token keys since this is created by RHSvc
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_ew_w(self):
         display_region = 'en'
@@ -1001,8 +974,7 @@ class TestStartHandlers(TestHelpers):
                 as mocked:
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.get(self.get_launch_token_url_path(display_region), payload="dummy-payload")
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-WLS'
             eq_payload['language_code'] = 'en'
@@ -1054,20 +1026,8 @@ class TestStartHandlers(TestHelpers):
         # outputs url on fail
         self.assertTrue(redirected_url.startswith(self.app['EQ_URL']),
                         redirected_url)
-        # we only care about the query string
-        _, _, _, query, *_ = urlsplit(redirected_url)
-        # convert token to dict
-        token = json.loads(parse_qs(query)['token'][0])
-        # fail early if payload keys differ
-        self.assertEqual(eq_payload.keys(), token.keys())
-        for key in eq_payload.keys():
-            # skip uuid / time generated values
-            if key in ['jti', 'tx_id', 'iat', 'exp']:
-                continue
-            # outputs failed key as msg
-            self.assertEqual(eq_payload[key], token[key], key)
+        # no longer testing the token keys since this is created by RHSvc
 
-    @skip_encrypt
     @unittest_run_loop
     async def test_start_happy_path_cy(self):
         display_region = 'cy'
@@ -1076,8 +1036,7 @@ class TestStartHandlers(TestHelpers):
                 as mocked:
 
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-
-            mocked.post(self.rhsvc_url_surveylaunched)
+            mocked.get(self.get_launch_token_url_path(display_region), payload="dummy-payload")
             eq_payload = self.eq_payload.copy()
             eq_payload['region_code'] = 'GB-WLS'
             eq_payload['language_code'] = 'cy'
@@ -1129,18 +1088,7 @@ class TestStartHandlers(TestHelpers):
         # outputs url on fail
         self.assertTrue(redirected_url.startswith(self.app['EQ_URL']),
                         redirected_url)
-        # we only care about the query string
-        _, _, _, query, *_ = urlsplit(redirected_url)
-        # convert token to dict
-        token = json.loads(parse_qs(query)['token'][0])
-        # fail early if payload keys differ
-        self.assertEqual(eq_payload.keys(), token.keys())
-        for key in eq_payload.keys():
-            # skip uuid / time generated values
-            if key in ['jti', 'tx_id', 'iat', 'exp']:
-                continue
-            # outputs failed key as msg
-            self.assertEqual(eq_payload[key], token[key], key)
+        # no longer testing the token keys since this is created by RHSvc
 
     @unittest_run_loop
     async def test_post_start_for_receiptReceived_true_ew_e(self):

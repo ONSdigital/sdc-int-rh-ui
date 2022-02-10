@@ -48,8 +48,6 @@ class BaseConfig:
 
     ACCOUNT_SERVICE_URL = env('ACCOUNT_SERVICE_URL')
     EQ_URL = env('EQ_URL')
-    JSON_SECRET_KEYS = env('JSON_SECRET_KEYS')
-
     RHSVC_URL = env('RHSVC_URL')
     RHSVC_AUTH = (env('RHSVC_USERNAME'), env('RHSVC_PASSWORD'))
 
@@ -95,10 +93,6 @@ class DevelopmentConfig:
     ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
                                   default='http://localhost:9092')
     EQ_URL = env.str('EQ_URL', default='http://localhost:5000')
-    JSON_SECRET_KEYS = env.str(
-        'JSON_SECRET_KEYS',
-        default=None) or open('./tests/test_data/test_keys.json').read()
-
     RHSVC_URL = env.str('RHSVC_URL', default='http://localhost:8071')
     RHSVC_AUTH = (env.str('RHSVC_USERNAME', default='admin'),
                   env.str('RHSVC_PASSWORD', default='secret'))
@@ -140,8 +134,6 @@ class TestingConfig:
 
     ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
-    JSON_SECRET_KEYS = open('./tests/test_data/test_keys.json').read()
-
     RHSVC_URL = 'http://localhost:8071'
     RHSVC_AUTH = ('admin', 'secret')
 

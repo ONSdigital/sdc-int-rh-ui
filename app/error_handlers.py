@@ -6,7 +6,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
                                        ClientConnectionError, ContentTypeError)
 
 from .exceptions import (ExerciseClosedError, InactiveCaseError,
-                         InvalidEqPayLoad, InvalidAccessCode,
+                         InvalidForEqTokenGeneration, InvalidAccessCode,
                          SessionTimeout, GetFulfilmentsError,
                          TooManyRequests, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
 from structlog import get_logger
@@ -66,7 +66,7 @@ def create_error_middleware(overrides):
             return await inactive_case(request)
         except ExerciseClosedError as ex:
             return await ce_closed(request, ex.collection_exercise_id)
-        except InvalidEqPayLoad as ex:
+        except InvalidForEqTokenGeneration as ex:
             return await eq_error(request, ex.message)
         except GetFulfilmentsError:
             return await no_fulfilments(request)
@@ -104,7 +104,7 @@ async def ce_closed(request, collex_id):
 
 
 async def eq_error(request, message: str):
-    logger.error('service failed to build eq payload',
+    logger.error('service failed to get EQ token',
                  client_ip=request['client_ip'],
                  client_id=request['client_id'],
                  trace=request['trace'],

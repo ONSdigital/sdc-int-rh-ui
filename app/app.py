@@ -16,7 +16,6 @@ from . import error_handlers
 from . import flash
 from . import google_analytics
 from . import domains
-from . import jwt
 from . import routes
 from . import security
 from . import session
@@ -128,9 +127,6 @@ def create_app(config_name=None) -> Application:
 
     env.filters['setAttributes'] = jinja_filter_set_attributes
     env.install_gettext_translations(i18n, newstyle=True)
-
-    # JWT KeyStore
-    app['key_store'] = jwt.key_store(app['JSON_SECRET_KEYS'])
 
     app.on_startup.append(on_startup)
     app.on_cleanup.append(on_cleanup)

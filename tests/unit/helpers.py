@@ -1391,6 +1391,16 @@ class TestHelpers(RHTestCase):
             self.assertEqual(200, response.status)
             self.check_content_start(display_region, str(await response.content.read()))
 
+    def get_launch_token_url_path(self, display_region):
+        """ build the URL path for calling RHSvc to get the EQ token """
+        base = self.rhsvc_url_get_launch_token
+        p1 = f'languageCode=' + display_region
+        p2 = 'accountServiceUrl=' + self.get_full_account_service_url(display_region)
+        p3 = f'accountServiceLogoutUrl=' + self.get_full_account_service_logout_url(display_region)
+        p4 = f'clientIP=None'
+        url = f'{base}?{p1}&{p2}&{p3}&{p4}'
+        return url
+
     async def check_post_start_confirm_address_get_survey_launched_error(
             self, post_start_url, post_confirm_url, display_region, region, status):
         with self.assertLogs('respondent-home', 'INFO') as cm, \
@@ -1400,7 +1410,7 @@ class TestHelpers(RHTestCase):
             else:
                 payload = self.uac_json_e
             mocked.get(self.rhsvc_url, payload=payload)
-            mocked.post(self.rhsvc_url_surveylaunched, status=status)
+            mocked.get(self.get_launch_token_url_path(display_region), status=status)
 
             await self.client.request('POST', post_start_url, data=self.start_data_valid)
             response = await self.client.request(

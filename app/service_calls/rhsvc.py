@@ -20,22 +20,18 @@ class RHSvc:
                                                'GET',
                                                f'{rhsvc_url}/uacs/{uac_hash}',
                                                auth=request.app['RHSVC_AUTH'],
-                                               return_json=True)
+                                               return_type="json")
 
     @staticmethod
-    async def post_survey_launched(request, uac_context):
-        launch_json = {
-            'questionnaireId': uac_context['qid'],
-            'caseId': uac_context['collectionCase']['caseId'],
-            'agentId': '',
-            'clientIP': ServiceCalls.single_client_ip(request)
-        }
+    async def get_eq_launch_token(request, url_path):
         rhsvc_url = request.app['RHSVC_URL']
+        client_ip = request['client_ip']
+        url = f'{rhsvc_url}{url_path}&clientIP={client_ip}'
         return await ServiceCalls.make_request(request,
-                                               'POST',
-                                               f'{rhsvc_url}/surveyLaunched',
+                                               'GET',
+                                               url,
                                                auth=request.app['RHSVC_AUTH'],
-                                               request_json=launch_json)
+                                               return_type="text")
 
     @staticmethod
     async def get_cases_by_attribute(request, attribute_key, attribute_value):
@@ -43,7 +39,7 @@ class RHSvc:
         return await ServiceCalls.make_request(request,
                                                'GET',
                                                f'{rhsvc_url}/cases/attribute/{attribute_key}/{attribute_value}',
-                                               return_json=True)
+                                               return_type="json")
 
     @staticmethod
     async def request_fulfilment_sms(request, case_id, tel_no, fulfilment_code_array):
@@ -129,7 +125,7 @@ class RHSvc:
                                                'GET',
                                                f'{rhsvc_url}/surveys/{survey_id}',
                                                auth=request.app['RHSVC_AUTH'],
-                                               return_json=True)
+                                               return_type="json")
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
