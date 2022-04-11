@@ -53,3 +53,9 @@ flake8:
 demo:
 	./scripts/start_eq.sh ${EQ_RUNNER_REPO_URL}
 	pipenv run inv demo
+
+up:
+	./docker/rh-ui-up.sh
+
+down:
+	./docker/rh-ui-stop.sh
