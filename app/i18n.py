@@ -2,7 +2,7 @@ import os
 import sys
 import gettext
 from jinja2.ext import InternationalizationExtension
-from jinja2.utils import contextfunction, Markup
+from jinja2.utils import pass_context, markupsafe
 
 # try:
 #     BASE_PATH = sys._MEIPASS
@@ -44,7 +44,7 @@ def ngettext(context, singular, plural, n):
 
 
 class InternationalizationWithContextExtension(InternationalizationExtension):
-    def _install_callables(self, gettext, ngettext, newstyle=None):
+    def _install_callables(self, gettext, ngettext, newstyle=None, npgettext=None, pgettext=None):
         if newstyle is not None:
             self.environment.newstyle_gettext = newstyle
         if self.environment.newstyle_gettext:
@@ -53,29 +53,29 @@ class InternationalizationWithContextExtension(InternationalizationExtension):
         self.environment.globals.update(gettext=gettext, ngettext=ngettext)
 
 
-@contextfunction
+@pass_context
 def _gettext_alias(__context, *args, **kwargs):
     return __context.call(__context.resolve('gettext'), *args, **kwargs)
 
 
 def _make_new_gettext(func):
-    @contextfunction
+    @pass_context
     def gettext(__context, __string, **variables):
         rv = __context.call(func, __context, __string)
         if __context.eval_ctx.autoescape:
-            rv = Markup(rv)
+            rv = markupsafe.Markup(rv)
         return rv % variables
 
     return gettext
 
 
 def _make_new_ngettext(func):
-    @contextfunction
+    @pass_context
     def ngettext(__context, __singular, __plural, __num, **variables):
         variables.setdefault('num', __num)
         rv = __context.call(func, __context, __singular, __plural, __num)
         if __context.eval_ctx.autoescape:
-            rv = Markup(rv)
+            rv = markupsafe.Markup(rv)
         return rv % variables
 
     return ngettext

@@ -2,7 +2,7 @@ from importlib import reload
 
 from unittest import TestCase, mock
 
-from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
+from aiohttp.test_utils import AioHTTPTestCase
 from aiohttp.web_app import Application
 from aiohttp_session import session_middleware
 from aiohttp_session import SimpleCookieStorage
@@ -32,11 +32,9 @@ class TestCreateApp(AioHTTPTestCase):
         session.setup = self.session_storage
         return create_app(self.config)
 
-    @unittest_run_loop
     async def test_create_app(self):
         self.assertIsInstance(self.app, Application)
 
-    @unittest_run_loop
     async def test_security_headers(self):
         from app import config
         aims_url = config.TestingConfig.ADDRESS_INDEX_SVC_URL
@@ -153,7 +151,6 @@ class TestCheckServices(AioHTTPTestCase):
         session.setup = self.session_storage
         return create_app(self.config)
 
-    @unittest_run_loop
     async def test_service_status_urls(self):
         from app.config import TestingConfig
 
@@ -167,14 +164,12 @@ class TestCheckServices(AioHTTPTestCase):
                 getattr(TestingConfig, config_name) + '/info',
                 self.app.service_status_urls[config_name])
 
-    @unittest_run_loop
     async def test_check_services(self):
         with aioresponses() as mocked:
             for service_url in self.app.service_status_urls.values():
                 mocked.get(service_url)
             self.assertTrue(await self.app.check_services())
 
-    @unittest_run_loop
     async def test_check_services_failed(self):
         with aioresponses():
             self.assertFalse(await self.app.check_services())

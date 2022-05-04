@@ -1,4 +1,3 @@
-from aiohttp.test_utils import unittest_run_loop
 from app.eq import EqLaunch
 from app.exceptions import InvalidForEqTokenGeneration
 
@@ -20,7 +19,6 @@ class TestEq(RHTestCase):
         del uac_json['collectionCase']['sample']['region']
         self.verify_missing(uac_json, 'Could not retrieve region from UAC context JSON')
 
-    @unittest_run_loop
     async def test_url_path_en(self):
         url_path = EqLaunch(self.uac_json_e,
                             self.attributes_en,
@@ -30,7 +28,6 @@ class TestEq(RHTestCase):
         self.assertRegex(url_path, r'\&accountServiceUrl=' + self.app['ACCOUNT_SERVICE_URL'] + '/en/start/')
         self.assertRegex(url_path, r'\&accountServiceLogoutUrl=' + self.app['ACCOUNT_SERVICE_URL'] + '/en/signed-out/')
 
-    @unittest_run_loop
     async def test_url_path_cy(self):
         url_path = EqLaunch(self.uac_json_w,
                             self.attributes_cy,

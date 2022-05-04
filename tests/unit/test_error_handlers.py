@@ -1,11 +1,8 @@
-from aiohttp.test_utils import unittest_run_loop
-
 from . import RHTestCase
 
 
 class TestErrorHandlers(RHTestCase):
 
-    @unittest_run_loop
     async def test_partial_path_redirects_to_index_en(self):
         with self.assertLogs('respondent-home', 'DEBUG') as cm:
             response = await self.client.request('GET', str(self.get_start_en).rstrip('/'))
@@ -16,7 +13,6 @@ class TestErrorHandlers(RHTestCase):
         self.assertEqual(contents.count(b'input--text'), 1)
         self.assertIn(b'type="submit"', contents)
 
-    @unittest_run_loop
     async def test_partial_path_redirects_to_index_cy(self):
         with self.assertLogs('respondent-home', 'DEBUG') as cm:
             response = await self.client.request('GET', str(self.get_start_cy).rstrip('/'))
@@ -27,7 +23,6 @@ class TestErrorHandlers(RHTestCase):
         self.assertEqual(contents.count(b'input--text'), 1)
         self.assertIn(b'type="submit"', contents)
 
-    @unittest_run_loop
     async def test_404_renders_template(self):
         response = await self.client.request('GET', '/unknown-path')
         self.assertEqual(response.status, 404)

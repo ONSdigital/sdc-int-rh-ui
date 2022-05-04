@@ -83,8 +83,8 @@ class DevelopmentConfig:
     env = Env()
     HOST = env.str('HOST', default='0.0.0.0')
     PORT = env.int('PORT', default='9092')
-    LOG_LEVEL = env('LOG_LEVEL', default='INFO')
-    EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='WARN')
+    LOG_LEVEL = env('LOG_LEVEL', default='DEBUG')
+    EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='DEBUG')
 
     DOMAIN_URL_PROTOCOL = 'http://'
     DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092')
