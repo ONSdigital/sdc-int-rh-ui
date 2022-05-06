@@ -1,6 +1,6 @@
 import time
 
-from asyncio import get_event_loop
+from asyncio import get_running_loop
 
 from aioredis import from_url, RedisError
 from aiohttp_session import session_middleware, Session, get_session
@@ -17,31 +17,31 @@ logger = get_logger('respondent-home')
 # Monkey patch aiohttp_session Session.__init__ method to remove suspect behaviour.
 
 
-# def aiohttp_session_pr_331_rollback(self, identity, *, data, new,
-#                                     max_age=None):
-#     self._changed = False
-#     self._mapping = {}
-#     self._identity = identity if data != {} else None
-#     self._new = new
-#     self._new = new if data != {} else True
-#     self._max_age = max_age
-#     created = data.get('created', None) if data else None
-#     session_data = data.get('session', None) if data else None
-#
-#     if self._new or created is None:
-#         self._created = int(time.time())
-#     else:
-#         self._created = created
-#
-#     if session_data is not None:
-#         self._mapping.update(session_data)
+def aiohttp_session_pr_331_rollback(self, identity, *, data, new,
+                                    max_age=None):
+    self._changed = False
+    self._mapping = {}
+    self._identity = identity if data != {} else None
+    self._new = new
+    self._new = new if data != {} else True
+    self._max_age = max_age
+    created = data.get('created', None) if data else None
+    session_data = data.get('session', None) if data else None
+
+    if self._new or created is None:
+        self._created = int(time.time())
+    else:
+        self._created = created
+
+    if session_data is not None:
+        self._mapping.update(session_data)
 
 
 def setup(app_config):
     # Monkey patch aiohttp_session.py Session.__init__ method to remove PR 331 as above
-    # Session.__init__ = aiohttp_session_pr_331_rollback
+    #Session.__init__ = aiohttp_session_pr_331_rollback
 
-    loop = get_event_loop()
+    loop = get_running_loop()
     redis_pool = loop.run_until_complete(
         make_redis_pool(app_config['REDIS_SERVER'], app_config['REDIS_PORT']))
     return session_middleware(
@@ -54,7 +54,7 @@ async def make_redis_pool(host, port):
     redis_host = "redis://" + host + ":" + port
     try:
         redis = from_url(
-            redis_host, encoding="utf-8", decode_responses=True
+            redis_host
         )
         return redis
     except (OSError, RedisError):

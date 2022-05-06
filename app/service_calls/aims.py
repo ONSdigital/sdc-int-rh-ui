@@ -20,6 +20,7 @@ class Aims:
         else:
             cannot_find_text = 'I cannot find my address'
 
+        print(postcode_return)
         for singleAddress in postcode_return['response']['addresses']:
             address_options.append({
                 'value': singleAddress['uprn'],
