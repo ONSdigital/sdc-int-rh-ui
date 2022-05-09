@@ -1,3 +1,5 @@
+import asyncio
+
 from structlog import get_logger
 from app.service_calls import ServiceCalls
 from datetime import datetime
@@ -129,7 +131,9 @@ class RHSvc:
 
     @staticmethod
     async def survey_fulfilments_by_type(request, method, survey_id, language):
-        survey_data = await RHSvc.get_survey_details(request, survey_id)
+        pending_future = asyncio.gather(await RHSvc.get_survey_details(request, survey_id))
+        await pending_future
+        survey_data = pending_future.result()[0]
         pack_code = []
         fulfilments = survey_data['allowedFulfilments']
         for fulfilment in fulfilments:

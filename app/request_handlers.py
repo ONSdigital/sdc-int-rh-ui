@@ -1,3 +1,5 @@
+import asyncio
+
 import aiohttp_jinja2
 
 from aiohttp.client_exceptions import (ClientResponseError)
@@ -259,8 +261,9 @@ class RequestConfirmAddress(View):
         fulfilment_attributes = get_session_value(request, session, 'fulfilment_attributes', user_journey, request_type)
         uprn = get_session_value(request, fulfilment_attributes, 'uprn', user_journey, request_type)
 
-        aims_uprn_return = await Aims.get_ai_uprn(request, uprn)
-
+        pending_future = asyncio.gather(await Aims.get_ai_uprn(request, uprn))
+        await pending_future
+        aims_uprn_return = pending_future.result()[0]
         return {
             'page_title': page_title,
             'display_region': display_region,
@@ -304,7 +307,9 @@ class RequestConfirmAddress(View):
                 ))
 
         if address_confirmation == 'yes':
-            rhsvc_uprn_return = await RHSvc.get_cases_by_attribute(request, 'uprn', uprn)
+            pending_future = asyncio.gather(await RHSvc.get_cases_by_attribute(request, 'uprn', uprn))
+            await pending_future
+            rhsvc_uprn_return = pending_future.result()[0]
             if len(rhsvc_uprn_return) == 1:
                 logger.info('case matching uprn found in RHSvc',
                             client_ip=request['client_ip'],
@@ -409,8 +414,9 @@ class RequestCodeSelectHowToReceive(View):
             locale = 'en'
 
         survey_id = get_session_value(request, fulfilment_attributes, 'survey_id', user_journey, request_type)
-        survey_data = await RHSvc.get_survey_details(request, survey_id)
-
+        pending_future = asyncio.gather(await RHSvc.get_survey_details(request, survey_id))
+        await pending_future
+        survey_data = pending_future.result()[0]
         form_option_set = []
         show_sms = False
         show_post = False
@@ -702,7 +708,7 @@ class RequestCodeConfirmSendByText(View):
                 return HTTPFound(
                     request.app.router['RequestCodeSentByText:get'].url_for(request_type=request_type,
                                                                             display_region=display_region))
-            except ClientResponseError as ex:
+            except Exception as ex:
                 raise ex
 
         elif mobile_confirmation == 'no':
@@ -886,9 +892,7 @@ class RequestCodeConfirmSendByEmail(View):
                         postcode=postcode)
 
             try:
-                available_fulfilments = \
-                    await RHSvc.survey_fulfilments_by_type(request, 'EMAIL', survey_id, fulfilment_language)
-
+                available_fulfilments = await RHSvc.survey_fulfilments_by_type(request, 'EMAIL', survey_id, fulfilment_language)
                 try:
                     await RHSvc.request_fulfilment_email(request, case_id, email, available_fulfilments)
                 except (KeyError, ClientResponseError) as ex:
@@ -900,7 +904,7 @@ class RequestCodeConfirmSendByEmail(View):
                 return HTTPFound(
                     request.app.router['RequestCodeSentByEmail:get'].url_for(request_type=request_type,
                                                                              display_region=display_region))
-            except ClientResponseError as ex:
+            except Exception as ex:
                 raise ex
 
         elif email_confirmation == 'no':

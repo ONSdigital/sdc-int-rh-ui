@@ -350,8 +350,9 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm,
                                 'client failed to connect',
                                 url=self.rhsvc_url)
+        response_content = await response.content.read()
 
-        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
+        self.assert500Error(response, 'cy', str(response_content), check_exit=True)
 
     async def should_use_default_error_handler(self, http_status):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:

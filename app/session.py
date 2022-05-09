@@ -1,11 +1,11 @@
+import asyncio
 import time
 
-from asyncio import get_running_loop
-
-from aioredis import from_url, RedisError
 from aiohttp_session import session_middleware, Session, get_session
 from aiohttp_session.redis_storage import RedisStorage
+from aioredis import from_url, RedisError
 from structlog import get_logger
+
 from .exceptions import SessionTimeout
 
 logger = get_logger('respondent-home')
@@ -39,9 +39,9 @@ def aiohttp_session_pr_331_rollback(self, identity, *, data, new,
 
 def setup(app_config):
     # Monkey patch aiohttp_session.py Session.__init__ method to remove PR 331 as above
-    #Session.__init__ = aiohttp_session_pr_331_rollback
+    # Session.__init__ = aiohttp_session_pr_331_rollback
 
-    loop = get_running_loop()
+    loop = asyncio.get_event_loop()
     redis_pool = loop.run_until_complete(
         make_redis_pool(app_config['REDIS_SERVER'], app_config['REDIS_PORT']))
     return session_middleware(
