@@ -1394,10 +1394,10 @@ class TestHelpers(RHTestCase):
     def get_launch_token_url_path(self, display_region):
         """ build the URL path for calling RHSvc to get the EQ token """
         base = self.rhsvc_url_get_launch_token
-        p1 = f'languageCode=' + display_region
+        p1 = 'languageCode=' + display_region
         p2 = 'accountServiceUrl=' + self.get_full_account_service_url(display_region)
-        p3 = f'accountServiceLogoutUrl=' + self.get_full_account_service_logout_url(display_region)
-        p4 = f'clientIP=None'
+        p3 = 'accountServiceLogoutUrl=' + self.get_full_account_service_logout_url(display_region)
+        p4 = 'clientIP=None'
         url = f'{base}?{p1}&{p2}&{p3}&{p4}'
         return url
 

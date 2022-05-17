@@ -1,4 +1,3 @@
-from collections import namedtuple
 from aiohttp.web import Application, HTTPFound
 from aiohttp.client_exceptions import (ClientResponseError)
 from structlog import get_logger
@@ -6,9 +5,6 @@ from structlog import get_logger
 from .exceptions import InvalidForEqTokenGeneration, TooManyRequestsEQLaunch
 from .service_calls.rhsvc import RHSvc
 
-
-# FIXME is this Request thing needed ?
-Request = namedtuple('Request', ['method', 'path', 'auth', 'func'])
 
 logger = get_logger('respondent-home')
 

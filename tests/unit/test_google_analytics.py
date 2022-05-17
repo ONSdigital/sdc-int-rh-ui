@@ -19,8 +19,8 @@ class TestGoogleAnalytics(RHTestCase):
         response = await self.client.request('GET', self.get_start_en)
         self.assertEqual(response.status, 200)
         response = await response.content.read()
-        self.assertIn(f"(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(), response)
-        self.assertIn(f"gtm_auth=12345&gtm_cookies_win=x".encode(), response)
+        self.assertIn("(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(), response)
+        self.assertIn("gtm_auth=12345&gtm_cookies_win=x".encode(), response)
 
     async def test_google_analytics_script_rendered_base_cy(self):
         self.app['GTM_CONTAINER_ID'] = 'GTM-XXXXXXX'
@@ -28,15 +28,15 @@ class TestGoogleAnalytics(RHTestCase):
         response = await self.client.request('GET', self.get_start_cy)
         self.assertEqual(response.status, 200)
         response = await response.content.read()
-        self.assertIn(f"(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(), response)
-        self.assertIn(f"gtm_auth=12345&gtm_cookies_win=x".encode(), response)
+        self.assertIn("(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(), response)
+        self.assertIn("gtm_auth=12345&gtm_cookies_win=x".encode(), response)
 
     async def test_google_analytics_script_not_rendered_missing_container_id_base_en(self):
         self.app['GTM_CONTAINER_ID'] = ''
 
         response = await self.client.request('GET', self.get_start_en)
         self.assertEqual(response.status, 200)
-        self.assertNotIn(f"(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(),
+        self.assertNotIn("(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(),
                          await response.content.read())
 
     async def test_google_analytics_script_not_rendered_missing_container_id_base_cy(self):
@@ -44,7 +44,7 @@ class TestGoogleAnalytics(RHTestCase):
 
         response = await self.client.request('GET', self.get_start_cy)
         self.assertEqual(response.status, 200)
-        self.assertNotIn(f"(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(),
+        self.assertNotIn("(window,document,\'script\',\'dataLayer\',\'GTM-XXXXXXX\');".encode(),
                          await response.content.read())
 
     async def test_google_analytics_script_not_rendered_base_en(self):
@@ -52,11 +52,11 @@ class TestGoogleAnalytics(RHTestCase):
 
         response = await self.client.request('GET', self.get_start_en)
         self.assertEqual(response.status, 200)
-        self.assertNotIn(f"gtm_auth=12345&gtm_cookies_win=x".encode(), await response.content.read())
+        self.assertNotIn("gtm_auth=12345&gtm_cookies_win=x".encode(), await response.content.read())
 
     async def test_google_analytics_script_not_rendered_base_cy(self):
         self.app['GTM_AUTH'] = ''
 
         response = await self.client.request('GET', self.get_start_cy)
         self.assertEqual(response.status, 200)
-        self.assertNotIn(f"gtm_auth=12345&gtm_cookies_win=x".encode(), await response.content.read())
+        self.assertNotIn("gtm_auth=12345&gtm_cookies_win=x".encode(), await response.content.read())
