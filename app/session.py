@@ -10,12 +10,6 @@ from .exceptions import SessionTimeout
 
 logger = get_logger('respondent-home')
 
-# Please see https://github.com/aio-libs/aiohttp-session/issues/344
-# Anomalous behaviour can arise where you have a valid session cookie from the client as if a session was created by
-# a previous request but cannot retrieve the session data in Redis, although the data will be in Redis. This behaviour
-# was introduced with Pull Request: https://github.com/aio-libs/aiohttp-session/pull/331
-# Monkey patch aiohttp_session Session.__init__ method to remove suspect behaviour.
-
 
 def setup(app_config):
     loop = asyncio.get_event_loop()
