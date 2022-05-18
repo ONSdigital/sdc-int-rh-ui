@@ -1,11 +1,7 @@
-from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
-
-from app.app import create_app
 from . import RHTestCase
 
 
 class TestInfo(RHTestCase):
-    @unittest_run_loop
     async def test_get_info(self):
         response = await self.client.request('GET', '/info')
         json = await response.json()
@@ -13,7 +9,6 @@ class TestInfo(RHTestCase):
         self.assertIn('name', json)
         self.assertIn('version', json)
 
-    @unittest_run_loop
     async def test_get_info_check(self):
         response = await self.client.request('GET', '/info?check=true')
         self.assertEqual(response.status, 200)

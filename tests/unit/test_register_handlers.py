@@ -1,4 +1,3 @@
-from aiohttp.test_utils import unittest_run_loop
 from aioresponses import aioresponses
 from .helpers import TestHelpers
 
@@ -635,7 +634,6 @@ class TestRegisterHandlers(TestHelpers):
             self.check_content_register_confirm_mobile(display_region, str(await get_response.content.read()),
                                                        error='invalid')
 
-    @unittest_run_loop
     async def test_register_basic_happy_path_en(self):
         display_region = 'en'
         await self.get_register(display_region)
@@ -652,7 +650,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.post_register_person_summary(display_region)
 
-    @unittest_run_loop
     async def test_register_rhsvc_submission_error_400_en(self):
         display_region = 'en'
         await self.get_register(display_region)
@@ -669,7 +666,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.post_register_person_summary_error(display_region)
 
-    @unittest_run_loop
     async def test_register_rhsvc_submission_error_429_en(self):
         display_region = 'en'
         await self.get_register(display_region)
@@ -686,21 +682,18 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.post_register_person_summary_error_429(display_region)
 
-    @unittest_run_loop
     async def test_register_parent_enter_name_invalid_first_name_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_parent_enter_name_invalid_first(display_region)
 
-    @unittest_run_loop
     async def test_register_parent_enter_name_invalid_last_name_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
         await self.post_register_start(display_region)
         await self.post_register_parent_enter_name_invalid_last(display_region)
 
-    @unittest_run_loop
     async def test_register_child_name_change_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -714,7 +707,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.process_register_child_name_change(display_region)
 
-    @unittest_run_loop
     async def test_register_child_enter_name_invalid_first_name_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -725,7 +717,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_consent_accept(display_region)
         await self.post_register_child_enter_name_invalid_first(display_region)
 
-    @unittest_run_loop
     async def test_register_child_enter_name_invalid_last_name_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -736,7 +727,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_consent_accept(display_region)
         await self.post_register_child_enter_name_invalid_last(display_region)
 
-    @unittest_run_loop
     async def test_register_school_empty_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -748,7 +738,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_enter_name_valid(display_region)
         await self.post_register_select_school_empty(display_region)
 
-    @unittest_run_loop
     async def test_register_school_change_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -762,7 +751,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.process_register_school_change(display_region)
 
-    @unittest_run_loop
     async def test_register_child_dob_empty_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -775,7 +763,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_select_school(display_region)
         await self.post_register_child_dob_empty(display_region)
 
-    @unittest_run_loop
     async def test_register_child_dob_change_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -789,7 +776,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_child_dob(display_region)
         await self.process_register_child_dob_change(display_region)
 
-    @unittest_run_loop
     async def test_register_consent_declined_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -799,7 +785,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_confirm_mobile_yes(display_region)
         await self.post_register_consent_declined(display_region)
 
-    @unittest_run_loop
     async def test_register_consent_invalid_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -809,7 +794,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_confirm_mobile_yes(display_region)
         await self.post_register_consent_invalid(display_region)
 
-    @unittest_run_loop
     async def test_register_mobile_empty_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -817,7 +801,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_parent_enter_name_valid(display_region)
         await self.post_register_enter_mobile_empty(display_region)
 
-    @unittest_run_loop
     async def test_register_mobile_invalid_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -825,7 +808,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_parent_enter_name_valid(display_region)
         await self.post_register_enter_mobile_invalid(display_region)
 
-    @unittest_run_loop
     async def test_register_confirm_mobile_no_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -834,7 +816,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_enter_mobile_valid(display_region)
         await self.post_register_confirm_mobile_no(display_region)
 
-    @unittest_run_loop
     async def test_register_confirm_mobile_empty_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)
@@ -843,7 +824,6 @@ class TestRegisterHandlers(TestHelpers):
         await self.post_register_enter_mobile_valid(display_region)
         await self.post_register_confirm_mobile_missing(display_region)
 
-    @unittest_run_loop
     async def test_register_confirm_mobile_invalid_en(self):
         display_region = 'en'
         await self.get_register_start(display_region)

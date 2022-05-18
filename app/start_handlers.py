@@ -1,7 +1,7 @@
-import aiohttp_jinja2
 import re
 
-from aiohttp.client_exceptions import (ClientResponseError)
+import aiohttp_jinja2
+from aiohttp import ClientResponseError
 from aiohttp.web import HTTPFound, RouteTableDef
 from aiohttp_session import get_session
 from structlog import get_logger
@@ -9,15 +9,13 @@ from structlog import get_logger
 from . import (BAD_CODE_MSG, INVALID_CODE_MSG, NO_SELECTION_CHECK_MSG,
                BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY, NO_SELECTION_CHECK_MSG_CY,
                START_PAGE_TITLE_EN, START_PAGE_TITLE_CY)
-
-from .flash import flash
-
-from .exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
-from .security import remember, get_permitted_session, get_sha256_hash, invalidate
-from .session import get_session_value
-from .service_calls.rhsvc import RHSvc
-from .utils import View
 from .eq import EqLaunch
+from .exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
+from .flash import flash
+from .security import remember, get_permitted_session, get_sha256_hash, invalidate
+from .service_calls.rhsvc import RHSvc
+from .session import get_session_value
+from .utils import View
 
 logger = get_logger('respondent-home')
 start_routes = RouteTableDef()

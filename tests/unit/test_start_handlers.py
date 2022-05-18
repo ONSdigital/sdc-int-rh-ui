@@ -1,9 +1,4 @@
-import json
-
-from urllib.parse import urlsplit, parse_qs
-
 from aiohttp.client_exceptions import ClientConnectionError
-from aiohttp.test_utils import unittest_run_loop
 from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
@@ -22,7 +17,6 @@ attempts_retry_limit = 5
 class TestStartHandlers(TestHelpers):
     user_journey = 'start'
 
-    @unittest_run_loop
     async def test_post_start_with_retry_503_ew_e(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             self.mock503s(mocked, 2)
@@ -36,7 +30,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 302)
         self.assertIn('/en/start/confirm-address', response.headers['Location'])
 
-    @unittest_run_loop
     async def test_post_start_with_retry_503_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             self.mock503s(mocked, 2)
@@ -50,7 +43,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 302)
         self.assertIn('/en/start/confirm-address', response.headers['Location'])
 
-    @unittest_run_loop
     async def test_post_start_with_retry_503_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             self.mock503s(mocked, 2)
@@ -64,7 +56,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 302)
         self.assertIn('/cy/start/confirm-address', response.headers['Location'])
 
-    @unittest_run_loop
     async def test_post_start_with_retry_ConnectionError_ew_e(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -79,7 +70,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 302)
         self.assertIn('/en/start/confirm-address', response.headers['Location'])
 
-    @unittest_run_loop
     async def test_post_start_with_retry_ConnectionError_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -94,7 +84,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 302)
         self.assertIn('/en/start/confirm-address', response.headers['Location'])
 
-    @unittest_run_loop
     async def test_post_start_with_retry_ConnectionError_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -110,7 +99,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('/cy/start/confirm-address', response.headers['Location'])
 
     @build_eq_raises
-    @unittest_run_loop
     async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_e(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_e)
@@ -136,7 +124,6 @@ class TestStartHandlers(TestHelpers):
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
-    @unittest_run_loop
     async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -162,7 +149,6 @@ class TestStartHandlers(TestHelpers):
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
     @build_eq_raises
-    @unittest_run_loop
     async def test_post_start_build_raises_InvalidEqTokenGeneration_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, payload=self.uac_json_w)
@@ -187,7 +173,6 @@ class TestStartHandlers(TestHelpers):
         # then error handler catches exception and renders error.html
         self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_invalid_blank_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
@@ -204,7 +189,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
-    @unittest_run_loop
     async def test_post_start_invalid_blank_cy(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
@@ -221,7 +205,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG_CY, contents)
 
-    @unittest_run_loop
     async def test_post_start_invalid_text_url_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'http://www.census.gov.uk/'
@@ -238,7 +221,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
-    @unittest_run_loop
     async def test_post_start_invalid_text_url_cy(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'http://www.census.gov.uk/'
@@ -255,7 +237,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
-    @unittest_run_loop
     async def test_post_start_invalid_text_random_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'rT~l34u8{?nm4£#f'
@@ -272,7 +253,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
-    @unittest_run_loop
     async def test_post_start_invalid_text_random_cy(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'rT~l34u8{?nm4£#f'
@@ -289,7 +269,6 @@ class TestStartHandlers(TestHelpers):
         self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
-    @unittest_run_loop
     async def test_post_start_uac_closed_ew_e(self):
         uac_json = self.uac_json_e.copy()
         uac_json['active'] = False
@@ -308,7 +287,6 @@ class TestStartHandlers(TestHelpers):
         self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_closed_study, contents)
 
-    @unittest_run_loop
     async def test_post_start_uac_closed_ew_w(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
@@ -327,7 +305,6 @@ class TestStartHandlers(TestHelpers):
         self.assertSiteLogo('en', contents)
         self.assertIn(self.content_start_closed_study, contents)
 
-    @unittest_run_loop
     async def test_post_start_uac_closed_cy(self):
         uac_json = self.uac_json_w.copy()
         uac_json['active'] = False
@@ -346,7 +323,6 @@ class TestStartHandlers(TestHelpers):
         self.assertSiteLogo('cy', contents)
         self.assertIn(self.content_start_closed_study, contents)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_connection_error_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -362,7 +338,6 @@ class TestStartHandlers(TestHelpers):
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_connection_error_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url,
@@ -375,8 +350,9 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm,
                                 'client failed to connect',
                                 url=self.rhsvc_url)
+        response_content = await response.content.read()
 
-        self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
+        self.assert500Error(response, 'cy', str(response_content), check_exit=True)
 
     async def should_use_default_error_handler(self, http_status):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -390,14 +366,12 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 500)
 
-    @unittest_run_loop
     async def test_default_handler_4xx(self):
         status_list = [*range(400, 452)]
         status_list.remove(404)
         for st in status_list:
             await self.should_use_default_error_handler(st)
 
-    @unittest_run_loop
     async def test_default_handler_5xx(self):
         status_list = [*range(500, 512)]
         status_list.remove(503)
@@ -418,11 +392,9 @@ class TestStartHandlers(TestHelpers):
             self.get_url_from_class('Start', 'post', display_region, request_type=self.request_type),
             display_region, 401)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_error_ew(self):
         await self.assert_post_start_get_uac_error('en')
 
-    @unittest_run_loop
     async def test_post_start_get_uac_error_cy(self):
         await self.assert_post_start_get_uac_error('cy')
 
@@ -430,7 +402,6 @@ class TestStartHandlers(TestHelpers):
         for i in range(times):
             mocked.get(self.rhsvc_url, status=503)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_503_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             self.mock503s(mocked, attempts_retry_limit)
@@ -443,7 +414,6 @@ class TestStartHandlers(TestHelpers):
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_503_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             self.mock503s(mocked, attempts_retry_limit)
@@ -456,7 +426,6 @@ class TestStartHandlers(TestHelpers):
 
         self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_404_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, status=404)
@@ -469,7 +438,6 @@ class TestStartHandlers(TestHelpers):
         self.assertLogEvent(cm, 'invalid access code entered')
         self.check_content_start('en', str(await response.content.read()), check_error=True)
 
-    @unittest_run_loop
     async def test_post_start_get_uac_404_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.rhsvc_url, status=404)
@@ -482,7 +450,6 @@ class TestStartHandlers(TestHelpers):
         self.assertLogEvent(cm, 'invalid access code entered')
         self.check_content_start('cy', str(await response.content.read()), check_error=True)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_ew_e(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -505,7 +472,6 @@ class TestStartHandlers(TestHelpers):
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_ew_w(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -528,7 +494,6 @@ class TestStartHandlers(TestHelpers):
 
         self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_survey_launched_connection_error_cy(
             self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
@@ -569,15 +534,12 @@ class TestStartHandlers(TestHelpers):
             self.get_url_from_class('StartConfirmAddress', 'post', display_region, request_type=self.request_type),
             display_region, region, 429)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_get_survey_launched_error_ew_e(self):
         await self.assert_post_start_confirm_address_get_survey_launched_error('en', 'E')
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_get_survey_launched_error_ew_w(self):
         await self.assert_post_start_confirm_address_get_survey_launched_error('en', 'W')
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_get_survey_launched_error_cy(self):
         await self.assert_post_start_confirm_address_get_survey_launched_error('cy', 'W')
 
@@ -638,7 +600,6 @@ class TestStartHandlers(TestHelpers):
 
         # Then an InactiveCaseError is raised
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_no_ew_e(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -664,7 +625,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
             self.assertIn(self.content_start_incorrect_address_title_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_no_ew_w(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -690,7 +650,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_incorrect_address_page_title_en, contents)
             self.assertIn(self.content_start_incorrect_address_title_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_no_cy(self):
         display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -716,7 +675,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_incorrect_address_page_title_cy, contents)
             self.assertIn(self.content_start_incorrect_address_title_cy, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_empty_ew_e(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -743,7 +701,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_empty_ew_w(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -770,7 +727,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_empty_cy(self):
         display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -797,7 +753,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_cy, contents)
             self.assertIn(self.content_start_confirm_address_error_cy, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_invalid_ew_e(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -824,7 +779,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_invalid_ew_w(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -851,7 +805,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_en, contents)
             self.assertIn(self.content_start_confirm_address_error_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_confirm_address_invalid_cy(self):
         display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(passthrough=[str(self.server._root)])\
@@ -878,7 +831,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_start_confirm_address_title_cy, contents)
             self.assertIn(self.content_start_confirm_address_error_cy, contents)
 
-    @unittest_run_loop
     async def test_get_signed_out_ew(self):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('GET', self.get_signed_out_en)
@@ -891,7 +843,6 @@ class TestStartHandlers(TestHelpers):
             self.assertSiteLogo('en', contents)
             self.assertIn('<a href="/cy/signed-out/" lang="cy" >Cymraeg</a>', contents)
 
-    @unittest_run_loop
     async def test_get_signed_out_cy(self):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('GET', self.get_signed_out_cy)
@@ -904,7 +855,6 @@ class TestStartHandlers(TestHelpers):
             self.assertSiteLogo('cy', contents)
             self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
-    @unittest_run_loop
     async def test_start_happy_path_ew_e(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -966,7 +916,6 @@ class TestStartHandlers(TestHelpers):
                         redirected_url)
         # no longer testing the token keys since this is created by RHSvc
 
-    @unittest_run_loop
     async def test_start_happy_path_ew_w(self):
         display_region = 'en'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -1028,7 +977,6 @@ class TestStartHandlers(TestHelpers):
                         redirected_url)
         # no longer testing the token keys since this is created by RHSvc
 
-    @unittest_run_loop
     async def test_start_happy_path_cy(self):
         display_region = 'cy'
         with self.assertLogs('respondent-home', 'INFO') as cm, aioresponses(
@@ -1090,7 +1038,6 @@ class TestStartHandlers(TestHelpers):
                         redirected_url)
         # no longer testing the token keys since this is created by RHSvc
 
-    @unittest_run_loop
     async def test_post_start_for_receiptReceived_true_ew_e(self):
         uac_json = self.uac_json_e.copy()
         uac_json['receiptReceived'] = True
@@ -1108,7 +1055,6 @@ class TestStartHandlers(TestHelpers):
             self.assertSiteLogo('en', contents)
             self.assertIn(self.content_start_uac_already_used_en, contents)
 
-    @unittest_run_loop
     async def test_post_start_for_receiptReceived_true_cy(self):
         uac_json = self.uac_json_w.copy()
         uac_json['receiptReceived'] = True

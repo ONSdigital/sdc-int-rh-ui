@@ -1,4 +1,3 @@
-from aiohttp.test_utils import unittest_run_loop
 from aioresponses import aioresponses
 
 from app import (WEBFORM_MISSING_COUNTRY_MSG,
@@ -194,22 +193,18 @@ class TestWebFormHandlers(TestHelpers):
             else:
                 self.assertMessagePanel(WEBFORM_MISSING_EMAIL_INVALID_MSG, contents)
 
-    @unittest_run_loop
     async def test_form_submission_success(self):
         await self.form_submission_success(self.get_webform_en, self.post_webform_en, 'en')
         await self.form_submission_success(self.get_webform_cy, self.post_webform_cy, 'cy')
 
-    @unittest_run_loop
     async def test_form_submission_error(self):
         await self.form_submission_error(self.post_webform_en, 'en', 400)
         await self.form_submission_error(self.post_webform_cy, 'cy', 400)
 
-    @unittest_run_loop
     async def test_form_submission_error_429(self):
         await self.form_submission_error_429(self.post_webform_en, 'en')
         await self.form_submission_error_429(self.post_webform_cy, 'cy')
 
-    @unittest_run_loop
     async def test_form_submission_incomplete(self):
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'country')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'country')
@@ -222,14 +217,12 @@ class TestWebFormHandlers(TestHelpers):
         await self.form_submission_incomplete(self.post_webform_en, 'en', 'email')
         await self.form_submission_incomplete(self.post_webform_cy, 'cy', 'email')
 
-    @unittest_run_loop
     async def test_form_submission_name_invalid(self):
         await self.form_submission_name_invalid(self.post_webform_en, 'en', '')
         await self.form_submission_name_invalid(self.post_webform_cy, 'cy', '')
         await self.form_submission_name_invalid(self.post_webform_en, 'en', ' ')
         await self.form_submission_name_invalid(self.post_webform_cy, 'cy', ' ')
 
-    @unittest_run_loop
     async def test_form_submission_email_invalid(self):
         await self.form_submission_email_invalid(self.post_webform_en, 'en', 'cheese scone')
         await self.form_submission_email_invalid(self.post_webform_cy, 'cy', 'cheese scone')

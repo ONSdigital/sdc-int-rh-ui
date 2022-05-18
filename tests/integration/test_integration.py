@@ -2,7 +2,7 @@ import logging
 import time
 
 import requests
-from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
+from aiohttp.test_utils import AioHTTPTestCase
 from aioresponses import aioresponses
 from envparse import Env
 from structlog import wrap_logger
@@ -100,7 +100,6 @@ class TestRespondentHome(AioHTTPTestCase):
                 return case
             time.sleep(3)
 
-    @unittest_run_loop
     async def test_can_access_respondent_home_homepage(self):
         if self.live_test:
             sample_summary_id = self.get_sample_summary_id_from_kwargs(

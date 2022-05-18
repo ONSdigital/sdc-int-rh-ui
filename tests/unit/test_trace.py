@@ -1,6 +1,5 @@
 from app.trace import get_trace
 from .helpers import TestHelpers
-from aiohttp.test_utils import unittest_run_loop
 from uuid import UUID
 
 
@@ -43,7 +42,6 @@ class TestTraceHandling(TestHelpers):
             # is not a valid hex code for a UUID.
             return False
 
-    @unittest_run_loop
     async def test_client_id_in_session(self):
         self.clear_session()
         cookie = {'RH_SESSION': '{ "session": {"client_id": "36be6b97-b4de-4718-8a74-8b27fb03ca8c"}}'}
@@ -55,7 +53,6 @@ class TestTraceHandling(TestHelpers):
                                 client_id='36be6b97-b4de-4718-8a74-8b27fb03ca8c',
                                 trace='0123456789')
 
-    @unittest_run_loop
     async def test_client_id_not_in_session(self):
         self.clear_session()
         header = {"X-Cloud-Trace-Context": "0123456789/0123456789012345678901;o=1"}

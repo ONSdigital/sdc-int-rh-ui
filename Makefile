@@ -9,6 +9,10 @@ build: install
 install:
 	pipenv install --dev
 
+lint:
+	pipenv run flake8
+	pipenv run vulture .
+
 serve:
 	pipenv run inv server
 

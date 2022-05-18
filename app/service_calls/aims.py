@@ -1,3 +1,5 @@
+import asyncio
+
 import jwt
 from app.service_calls import ServiceCalls
 
@@ -11,8 +13,9 @@ class Aims:
 
     @staticmethod
     async def get_postcode_return(request, postcode, display_region):
-        postcode_return = await Aims.get_ai_postcode(request, postcode)
-
+        pending_future = asyncio.gather(await Aims.get_ai_postcode(request, postcode))
+        await pending_future
+        postcode_return = pending_future.result()[0]
         address_options = []
 
         if display_region == 'cy':
@@ -20,6 +23,7 @@ class Aims:
         else:
             cannot_find_text = 'I cannot find my address'
 
+        print(postcode_return)
         for singleAddress in postcode_return['response']['addresses']:
             address_options.append({
                 'value': singleAddress['uprn'],

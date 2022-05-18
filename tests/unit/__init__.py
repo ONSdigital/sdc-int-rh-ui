@@ -78,11 +78,13 @@ class RHTestCase(AioHTTPTestCase):
         return app.create_app('TestingConfig')
 
     async def setUpAsync(self):
+        await super().setUpAsync()
         test_method = getattr(self, self._testMethodName)
         if hasattr(test_method, 'setUp'):
             await test_method.setUp(self)
 
     async def tearDownAsync(self):
+        await super().tearDownAsync()
         test_method = getattr(self, self._testMethodName)
         if hasattr(test_method, 'tearDown'):
             await test_method.tearDown(self)
@@ -310,8 +312,6 @@ class RHTestCase(AioHTTPTestCase):
             self.uac_json_w = json.load(fp)
 
         # URLs used in later statements
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        account_svc_url = self.app['ACCOUNT_SERVICE_URL']
         rh_svc_url = self.app['RHSVC_URL']
         address_index_svc_url = self.app['ADDRESS_INDEX_SVC_URL']
         aims_epoch = self.app['ADDRESS_INDEX_EPOCH']
