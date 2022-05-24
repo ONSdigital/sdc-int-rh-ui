@@ -14,6 +14,6 @@ rm -rf app/templates/components
 rm -rf app/templates/layout
 pwd
 ls
-ls build_dir
+ls build-dir
 mv ${TEMP_DIR}/templates/templates/* app/templates/
 rm -rf ${TEMP_DIR}
