@@ -12,5 +12,7 @@ curl -L --url "https://github.com/ONSdigital/design-system/releases/download/$DE
 unzip ${TEMP_DIR}/templates.zip -d ${TEMP_DIR}/templates
 rm -rf app/templates/components
 rm -rf app/templates/layout
+pwd
+ls
 mv ${TEMP_DIR}/templates/templates/* app/templates/
 rm -rf ${TEMP_DIR}
