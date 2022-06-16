@@ -845,49 +845,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_timeout_error_en = 're-enter your postcode'
         self.content_request_timeout_error_cy = 'nodi eich cod post eto'
 
-        # Start Web Form
-
-        self.get_webform_en = self.app.router['WebForm:get'].url_for(display_region='en')
-        self.get_webform_cy = self.app.router['WebForm:get'].url_for(display_region='cy')
-        self.post_webform_en = self.app.router['WebForm:post'].url_for(display_region='en')
-        self.post_webform_cy = self.app.router['WebForm:post'].url_for(display_region='cy')
-
-        self.webform_form_data = {
-            'name': 'Bob Bobbington',
-            'email': 'bob.bobbington@theinternet.co.uk',
-            'description': 'Hello this is Bob',
-            'category': 'MISSING_INFORMATION',
-            'country': 'E'
-        }
-
-        self.rhsvc_url_web_form = (
-            f'{rh_svc_url}/webform'
-        )
-
-        self.content_web_form_page_title_en = '<title>Web form - ' + site_name_en + '</title>'
-        self.content_web_form_page_title_error_en = '<title>Error: Web form - ' + site_name_en + '</title>'
-        self.content_web_form_title_en = 'Web form'
-        self.content_web_form_warning_en = 'Information about what we do with your personal data is available in our'
-        self.content_web_form_page_title_cy = '<title>Gwe-ffurflen - ' + site_name_cy + '</title>'
-        self.content_web_form_page_title_error_cy = '<title>Gwall: Gwe-ffurflen - ' + site_name_cy + '</title>'
-        self.content_web_form_title_cy = 'Gwe-ffurflen'
-        self.content_web_form_warning_cy = \
-            "Mae gwybodaeth am yr hyn rydym yn ei wneud gyda\\\'ch data personol ar gael yn ein"
-
-        self.content_web_form_success_page_title_en = \
-            '<title>Thank you for contacting us - ' + site_name_en + '</title>'
-        self.content_web_form_success_title_en = 'Thank you for contacting us'
-        self.content_web_form_success_confirmation_en = 'Your message has been sent'
-        self.content_web_form_success_secondary_en = 'We will respond to you within 4 working days'
-        self.content_web_form_success_page_title_cy = \
-            '<title>Diolch am gysylltu \\xc3\\xa2 ni - ' + site_name_cy + '</title>'
-        self.content_web_form_success_title_cy = 'Diolch am gysylltu \\xc3\\xa2 ni'
-        self.content_web_form_success_confirmation_cy = "Mae eich neges wedi cael ei hanfon"
-        self.content_web_form_success_secondary_cy = "Byddwn yn ymateb i chi o fewn 4 diwrnod gwaith"
-
-        self.content_web_form_error_429_title_en = 'You have reached the maximum number web form submissions'
-        self.content_web_form_error_429_title_cy = "Allwch chi ddim cyflwyno mwy o ffurflenni gwe"
-
         # Start Register
         self.get_register_en = self.app.router['Register:get'].url_for(display_region='en')
 

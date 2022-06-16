@@ -283,7 +283,6 @@ msgstr ""
 #: app/templates/request-code-enter-name.html:85
 #: app/templates/request-code-enter-name.html:114
 #: app/templates/request-code-enter-name.html:137
-#: app/templates/web-form.html:168
 msgid "You have {x} character remaining"
 msgstr ""
 
@@ -299,7 +298,6 @@ msgstr ""
 #: app/templates/request-code-enter-name.html:86
 #: app/templates/request-code-enter-name.html:115
 #: app/templates/request-code-enter-name.html:138
-#: app/templates/web-form.html:169
 msgid "You have {x} characters remaining"
 msgstr ""
 
@@ -752,124 +750,6 @@ msgid ""
 "by text or post."
 msgstr ""
 
-#: app/templates/web-form-success.html:44
-msgid "Thank you for contacting us"
-msgstr ""
-
-#: app/templates/web-form-success.html:45
-msgid "Your message has been sent"
-msgstr ""
-
-#: app/templates/web-form-success.html:58
-msgid "We will respond to you within 4 working days"
-msgstr ""
-
-#: app/templates/web-form-too-many-requests.html:34
-msgid "You have reached the maximum number web form submissions"
-msgstr ""
-
-#: app/templates/web-form-too-many-requests.html:36
-#, python-format
-msgid "If you need further assistance, please %(open)scontact us%(close)s"
-msgstr ""
-
-#: app/templates/web-form.html:25
-msgid "England"
-msgstr ""
-
-#: app/templates/web-form.html:32
-msgid "Wales"
-msgstr ""
-
-#: app/templates/web-form.html:39
-msgid "Northern Ireland"
-msgstr ""
-
-#: app/templates/web-form.html:51
-msgid "I don’t have everything I need to complete my study"
-msgstr ""
-
-#: app/templates/web-form.html:58
-msgid "I am having technical difficulties"
-msgstr ""
-
-#: app/templates/web-form.html:65
-msgid "I need help with my study form"
-msgstr ""
-
-#: app/templates/web-form.html:72
-msgid "I have a complaint"
-msgstr ""
-
-#: app/templates/web-form.html:79
-msgid "I need help with my address"
-msgstr ""
-
-#: app/templates/web-form.html:86
-msgid "Something else"
-msgstr ""
-
-#: app/templates/web-form.html:94 app/templates/web-form.html:98
-msgid "Select an option"
-msgstr ""
-
-#: app/templates/web-form.html:102
-msgid "Enter detail of your issue"
-msgstr ""
-
-#: app/templates/web-form.html:106
-msgid "Enter your name"
-msgstr ""
-
-#: app/templates/web-form.html:110
-msgid "Enter a valid email address"
-msgstr ""
-
-#: app/templates/web-form.html:120
-msgid "Back"
-msgstr ""
-
-#: app/templates/web-form.html:133
-msgid "Web form"
-msgstr ""
-
-#: app/templates/web-form.html:137
-msgid "Select your country"
-msgstr ""
-
-#: app/templates/web-form.html:148
-msgid "What do you need help with?"
-msgstr ""
-
-#: app/templates/web-form.html:163
-msgid "Please provide more detail"
-msgstr ""
-
-#: app/templates/web-form.html:164
-msgid "Include your address and postcode so we can help you"
-msgstr ""
-
-#: app/templates/web-form.html:176
-msgid "Your contact details"
-msgstr ""
-
-#: app/templates/web-form.html:185
-msgid "Name"
-msgstr ""
-
-#: app/templates/web-form.html:200
-msgid "Email address"
-msgstr ""
-
-#: app/templates/web-form.html:201
-msgid "We will only use this to send you a reply"
-msgstr ""
-
-#: app/templates/web-form.html:211
-msgid "Send message"
-msgstr ""
-
-#: app/templates/web-form.html:219
 #, python-format
 msgid ""
 "Information about what we do with your personal data is available in our "

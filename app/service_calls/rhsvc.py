@@ -62,21 +62,3 @@ class RHSvc:
                                                f'{rhsvc_url}/cases/new',
                                                auth=request.app['RHSVC_AUTH'],
                                                request_json=new_case_json)
-
-    @staticmethod
-    async def post_web_form(request, form_data):
-        form_json = {
-            'category': form_data['category'],
-            'region': form_data['region'],
-            'language': form_data['language'],
-            'name': form_data['name'],
-            'description': form_data['description'],
-            'email': form_data['email'],
-            'clientIP': ServiceCalls.single_client_ip(request)
-        }
-        rhsvc_url = request.app['RHSVC_URL']
-        return await ServiceCalls.make_request(request,
-                                               'POST',
-                                               f'{rhsvc_url}/webform',
-                                               auth=request.app['RHSVC_AUTH'],
-                                               request_json=form_json)
