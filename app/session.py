@@ -1,5 +1,4 @@
 import asyncio
-import time
 
 from aiohttp_session import session_middleware, Session, get_session
 from aiohttp_session.redis_storage import RedisStorage
