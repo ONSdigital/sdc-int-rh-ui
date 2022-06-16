@@ -7,8 +7,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
 
 from .exceptions import (ExerciseClosedError, InactiveCaseError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
-                         SessionTimeout, GetFulfilmentsError,
-                         TooManyRequests, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
+                         SessionTimeout, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
 from structlog import get_logger
 
 from .utils import View
@@ -54,8 +53,6 @@ def create_error_middleware(overrides):
             return await invalid_access_code(request)
         except SessionTimeout as ex:
             return await session_timeout(request, ex.user_journey, ex.request_type)
-        except TooManyRequests as ex:
-            return await too_many_requests(request, ex.request_type)
         except TooManyRequestsWebForm:
             return await too_many_requests_web_form(request)
         except TooManyRequestsEQLaunch:
@@ -68,8 +65,6 @@ def create_error_middleware(overrides):
             return await ce_closed(request, ex.collection_exercise_id)
         except InvalidForEqTokenGeneration as ex:
             return await eq_error(request, ex.message)
-        except GetFulfilmentsError:
-            return await no_fulfilments(request)
         except ClientConnectionError as ex:
             return await connection_error(request, ex.args[0])
         except ClientConnectorError as ex:
@@ -133,15 +128,6 @@ async def payload_error(request, url: str):
     return jinja.render_template('error.html', request, attributes, status=500)
 
 
-async def no_fulfilments(request):
-    logger.error('survey query returned no appropriate fulfilments',
-                 client_ip=request['client_ip'],
-                 client_id=request['client_id'],
-                 trace=request['trace'])
-    attributes = check_display_region(request)
-    return jinja.render_template('error.html', request, attributes, status=500)
-
-
 async def key_error(request, error):
     logger.error('required value ' + str(error) + ' missing',
                  client_ip=request['client_ip'],
@@ -192,13 +178,6 @@ async def forbidden(request):
     return jinja.render_template('error-forbidden.html', request, attributes, status=403)
 
 
-async def too_many_requests(request, request_type: str):
-    attributes = check_display_region(request)
-    attributes['request_type'] = request_type
-    await invalidate(request)
-    return jinja.render_template('request-too-many-requests.html', request, attributes, status=429)
-
-
 async def too_many_requests_web_form(request):
     attributes = check_display_region(request)
     await invalidate(request)
@@ -226,10 +205,6 @@ async def session_timeout(request, user_journey: str, request_type: str):
         return jinja.render_template('start-timeout.html', request, attributes, status=403)
     elif user_journey == 'register':
         return jinja.render_template('register-timeout.html', request, attributes, status=403)
-    else:
-        attributes['user_journey'] = user_journey
-        attributes['request_type'] = request_type
-        return jinja.render_template('request-timeout.html', request, attributes, status=403)
 
 
 def setup(app):

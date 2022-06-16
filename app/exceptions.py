@@ -23,13 +23,6 @@ class SessionTimeout(Exception):
         self.request_type = request_type
 
 
-class TooManyRequests(Exception):
-    """Raised when request fulfilment returns a 429"""
-    def __init__(self, request_type):
-        super().__init__()
-        self.request_type = request_type
-
-
 class TooManyRequestsWebForm(Exception):
     """Raised when web form returns a 429 error"""
 
@@ -65,7 +58,3 @@ class InvalidDataErrorWelsh(Exception):
 
 class InvalidAccessCode(Exception):
     """Raised when an invalid UAC is entered"""
-
-
-class GetFulfilmentsError(Exception):
-    """ Raised when no valid fulfilments are available """
