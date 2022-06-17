@@ -59,7 +59,8 @@ class TestCreateApp(AioHTTPTestCase):
             "frame-src https://www.timeforstorm.com",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "img-src 'self' data: https://cdn.ons.gov.uk",
+            "img-src 'self' data: https://ssl.gstatic.com "
+            "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
         self.assertEqual(response.headers['X-XSS-Protection'], '1; mode=block')
         self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
@@ -77,7 +78,8 @@ class TestCreateApp(AioHTTPTestCase):
             "frame-src https://www.timeforstorm.com",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "img-src 'self' data: https://cdn.ons.gov.uk",
+            "img-src 'self' data: https://ssl.gstatic.com "
+            "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['X-Content-Security-Policy'])
         self.assertEqual(response.headers['Referrer-Policy'], 'strict-origin-when-cross-origin')
 
