@@ -14,7 +14,6 @@ from app import i18n
 from . import config
 from . import error_handlers
 from . import flash
-from . import google_analytics
 from . import domains
 from . import routes
 from . import security
@@ -120,8 +119,7 @@ def create_app(config_name=None) -> Application:
         app,
         loader=jinja2.PackageLoader('app', 'templates'),
         context_processors=[
-            flash.context_processor, aiohttp_jinja2.request_processor,
-            google_analytics.ga_ua_id_processor, domains.domain_processor, security.context_processor
+            flash.context_processor, aiohttp_jinja2.request_processor, domains.domain_processor, security.context_processor
         ],
         extensions=['app.i18n.i18n'])
 
