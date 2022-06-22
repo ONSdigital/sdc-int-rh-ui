@@ -7,7 +7,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
 
 from .exceptions import (ExerciseClosedError, InactiveCaseError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
-                         SessionTimeout, TooManyRequestsWebForm, TooManyRequestsEQLaunch, TooManyRequestsRegister)
+                         SessionTimeout, TooManyRequestsEQLaunch, TooManyRequestsRegister)
 from structlog import get_logger
 
 from .utils import View
@@ -53,8 +53,6 @@ def create_error_middleware(overrides):
             return await invalid_access_code(request)
         except SessionTimeout as ex:
             return await session_timeout(request, ex.user_journey, ex.request_type)
-        except TooManyRequestsWebForm:
-            return await too_many_requests_web_form(request)
         except TooManyRequestsEQLaunch:
             return await too_many_requests_eq_launch(request)
         except TooManyRequestsRegister:
@@ -176,12 +174,6 @@ async def forbidden(request):
     attributes = check_display_region(request)
     attributes['timeout'] = 'true'
     return jinja.render_template('error-forbidden.html', request, attributes, status=403)
-
-
-async def too_many_requests_web_form(request):
-    attributes = check_display_region(request)
-    await invalidate(request)
-    return jinja.render_template('web-form-too-many-requests.html', request, attributes, status=429)
 
 
 async def too_many_requests_eq_launch(request):

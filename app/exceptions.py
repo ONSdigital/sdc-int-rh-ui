@@ -23,10 +23,6 @@ class SessionTimeout(Exception):
         self.request_type = request_type
 
 
-class TooManyRequestsWebForm(Exception):
-    """Raised when web form returns a 429 error"""
-
-
 class TooManyRequestsEQLaunch(Exception):
     """Raised when EQ returns a 429 error"""
 
