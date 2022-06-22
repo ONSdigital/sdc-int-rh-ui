@@ -50,17 +50,16 @@ class TestCreateApp(AioHTTPTestCase):
         self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
                       response.headers['Content-Security-Policy'])
         self.assertIn(
-            f"script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com "
-            f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
+            f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com " + aims_url,
+            "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",
+            "frame-src https://www.timeforstorm.com",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "img-src 'self' data: https://www.google-analytics.com https://ssl.gstatic.com "
+            "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
         self.assertEqual(response.headers['X-XSS-Protection'], '1; mode=block')
@@ -70,17 +69,16 @@ class TestCreateApp(AioHTTPTestCase):
         self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
                       response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            f"script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com "
-            f"https://ssl.google-analytics.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
+            f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://www.google-analytics.com " + aims_url,
+            "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "frame-src https://www.googletagmanager.com https://www.timeforstorm.com",
+            "frame-src https://www.timeforstorm.com",
             response.headers['X-Content-Security-Policy'])
         self.assertIn(
-            "img-src 'self' data: https://www.google-analytics.com https://ssl.gstatic.com "
+            "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['X-Content-Security-Policy'])
         self.assertEqual(response.headers['Referrer-Policy'], 'strict-origin-when-cross-origin')

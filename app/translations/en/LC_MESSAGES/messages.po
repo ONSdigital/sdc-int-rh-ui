@@ -97,15 +97,6 @@ msgstr ""
 #: app/templates/register-enter-mobile.html:52
 #: app/templates/register-enter-name.html:161
 #: app/templates/register-select-school.html:73
-#: app/templates/request-code-confirm-address.html:71
-#: app/templates/request-code-confirm-send-by-post.html:79
-#: app/templates/request-code-confirm-send-by-text.html:64
-#: app/templates/request-code-enter-address.html:57
-#: app/templates/request-code-enter-address.html:112
-#: app/templates/request-code-enter-mobile.html:52
-#: app/templates/request-code-enter-name.html:152
-#: app/templates/request-code-select-address.html:65
-#: app/templates/request-code-select-how-to-receive.html:68
 #: app/templates/start-confirm-address.html:71
 msgid "Continue"
 msgstr ""
@@ -128,7 +119,6 @@ msgid "A text message confirming your registration should arrive soon"
 msgstr ""
 
 #: app/templates/register-complete.html:33
-#: app/templates/request-code-sent-by-text.html:37
 msgid "The text will be sent from <strong>ONS</strong>"
 msgstr ""
 
@@ -137,23 +127,16 @@ msgid "Yes, my mobile number is correct"
 msgstr ""
 
 #: app/templates/register-confirm-mobile.html:28
-#: app/templates/request-code-confirm-send-by-text.html:28
 msgid "No, I need to change it"
 msgstr ""
 
 #: app/templates/register-confirm-mobile.html:36
-#: app/templates/request-code-confirm-address.html:36
-#: app/templates/request-code-confirm-send-by-post.html:23
-#: app/templates/request-code-confirm-send-by-text.html:36
-#: app/templates/request-code-select-how-to-receive.html:18
 #: app/templates/start-confirm-address.html:36
 msgid "Select an answer"
 msgstr ""
 
 #: app/templates/register-confirm-mobile.html:46
 #: app/templates/register-confirm-mobile.html:54
-#: app/templates/request-code-confirm-send-by-text.html:46
-#: app/templates/request-code-confirm-send-by-text.html:54
 msgid "Is this mobile number correct?"
 msgstr ""
 
@@ -215,8 +198,6 @@ msgstr ""
 #: app/templates/register-enter-child-name.html:23
 #: app/templates/register-enter-name.html:18
 #: app/templates/register-enter-name.html:23
-#: app/templates/request-code-enter-name.html:18
-#: app/templates/request-code-enter-name.html:23
 msgid "You have entered too many characters. Enter up to 35 characters"
 msgstr ""
 
@@ -236,8 +217,6 @@ msgstr ""
 #: app/templates/register-enter-child-name.html:73
 #: app/templates/register-enter-name.html:50
 #: app/templates/register-enter-name.html:73
-#: app/templates/request-code-enter-name.html:53
-#: app/templates/request-code-enter-name.html:76
 msgid "First name"
 msgstr ""
 
@@ -249,10 +228,6 @@ msgstr ""
 #: app/templates/register-enter-name.html:80
 #: app/templates/register-enter-name.html:121
 #: app/templates/register-enter-name.html:144
-#: app/templates/request-code-enter-name.html:60
-#: app/templates/request-code-enter-name.html:83
-#: app/templates/request-code-enter-name.html:112
-#: app/templates/request-code-enter-name.html:135
 msgid "{x} character too many"
 msgstr ""
 
@@ -264,10 +239,6 @@ msgstr ""
 #: app/templates/register-enter-name.html:81
 #: app/templates/register-enter-name.html:122
 #: app/templates/register-enter-name.html:145
-#: app/templates/request-code-enter-name.html:61
-#: app/templates/request-code-enter-name.html:84
-#: app/templates/request-code-enter-name.html:113
-#: app/templates/request-code-enter-name.html:136
 msgid "{x} characters too many"
 msgstr ""
 
@@ -279,10 +250,6 @@ msgstr ""
 #: app/templates/register-enter-name.html:82
 #: app/templates/register-enter-name.html:123
 #: app/templates/register-enter-name.html:146
-#: app/templates/request-code-enter-name.html:62
-#: app/templates/request-code-enter-name.html:85
-#: app/templates/request-code-enter-name.html:114
-#: app/templates/request-code-enter-name.html:137
 msgid "You have {x} character remaining"
 msgstr ""
 
@@ -294,10 +261,6 @@ msgstr ""
 #: app/templates/register-enter-name.html:83
 #: app/templates/register-enter-name.html:124
 #: app/templates/register-enter-name.html:147
-#: app/templates/request-code-enter-name.html:63
-#: app/templates/request-code-enter-name.html:86
-#: app/templates/request-code-enter-name.html:115
-#: app/templates/request-code-enter-name.html:138
 msgid "You have {x} characters remaining"
 msgstr ""
 
@@ -310,8 +273,6 @@ msgstr ""
 #: app/templates/register-enter-child-name.html:137
 #: app/templates/register-enter-name.html:114
 #: app/templates/register-enter-name.html:137
-#: app/templates/request-code-enter-name.html:105
-#: app/templates/request-code-enter-name.html:128
 msgid "Last name"
 msgstr ""
 
@@ -328,12 +289,10 @@ msgid ""
 msgstr ""
 
 #: app/templates/register-enter-mobile.html:30
-#: app/templates/request-code-enter-mobile.html:30
 msgid "What is your mobile number?"
 msgstr ""
 
 #: app/templates/register-enter-mobile.html:40
-#: app/templates/request-code-enter-mobile.html:40
 msgid "UK mobile number"
 msgstr ""
 
@@ -418,227 +377,13 @@ msgstr ""
 msgid "Take part in a survey"
 msgstr ""
 
-#: app/templates/request-code-confirm-address.html:21
 #: app/templates/start-confirm-address.html:21
 msgid "Yes, this is the correct address"
 msgstr ""
 
-#: app/templates/request-code-confirm-address.html:28
-msgid "No, search for address again"
-msgstr ""
-
-#: app/templates/request-code-confirm-address.html:46
-#: app/templates/request-code-confirm-address.html:61
 #: app/templates/start-confirm-address.html:45
 #: app/templates/start-confirm-address.html:61
 msgid "Is this the correct address?"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-post.html:30
-msgid "Yes, send the access code by post"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-post.html:37
-msgid "No, send it by text message"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-post.html:44
-msgid "Do you want to send a new access code to this address?"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-post.html:63
-msgid "Change name"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-text.html:21
-msgid "Yes, send the text"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:7
-msgid "Enter a postcode"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:9
-msgid "Enter a valid UK postcode"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:25
-msgid "What is your address?"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:26
-msgid "What is your postcode?"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:27
-msgid "<p>To request a new access code, we need your address</p>"
-msgstr ""
-
-#: app/templates/request-code-enter-address.html:48
-msgid "UK postcode"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:41
-msgid "This will not be stored and only used once to send the access code"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:28
-msgid "<p>This is who the letter will be addressed to</p>"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:37
-msgid "What is your name?"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:18
-#, python-format
-msgid ""
-"<p class=\"ons-u-fs-r--b\">%(total)s address found for postcode "
-"%(pcode)s</p>"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:20
-#, python-format
-msgid ""
-"<p class=\"ons-u-fs-r--b\">%(total)s addresses found for postcode "
-"%(pcode)s</p>"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:24
-msgid "Select an address"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:35
-msgid "Sorry, there was a problem processing your postcode"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:37
-#, python-format
-msgid ""
-"We can’t find the postcode <strong>%(pcode)s</strong>. It may not be "
-"registered on our system."
-msgstr ""
-
-#: app/templates/request-code-select-address.html:40
-#, python-format
-msgid ""
-"To register your address, we need you to get in touch. You can call us "
-"free on %(telephone_number)s or %(start_contact_link)schoose another way "
-"to contact us%(end_link)s."
-msgstr ""
-
-#: app/templates/request-code-select-address.html:46
-#: app/templates/request-code-select-address.html:55
-msgid "Select your address"
-msgstr ""
-
-#: app/templates/request-code-select-address.html:53
-msgid "Or"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:21
-msgid "We can only send access codes to the registered address"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:27
-msgid "Text message"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:28
-msgid "We will need your mobile number for this"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:35
-msgid "Post"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:43
-msgid "How would you like to receive a new access code?"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:58
-msgid "Select how to send access code"
-msgstr ""
-
-#: app/templates/request-code-select-how-to-receive.html:74
-#, python-format
-msgid ""
-"To request a study in a different format or for further help, please "
-"%(open)scontact us%(close)s."
-msgstr ""
-
-#: app/templates/request-code-sent-by-post.html:29
-#, python-format
-msgid "A letter will be sent to %(name)s at %(address)s"
-msgstr ""
-
-#: app/templates/request-code-sent-by-post.html:31
-msgid ""
-"The letter with a new access code for you to start the study should "
-"arrive within 5 working days"
-msgstr ""
-
-#: app/templates/request-code-sent-by-post.html:38
-msgid "Done"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:22
-#, python-format
-msgid "A text has been sent to %(number)s"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:25
-msgid ""
-"The text message with a new access code should arrive soon for you to "
-"start your study"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:41
-msgid "Didn’t receive a text?"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:44
-#, python-format
-msgid ""
-"It can take a few minutes for the text to arrive. If it doesn’t arrive, "
-"you can %(open)srequest a new access code%(close)s."
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:47
-msgid "Ready to start your study?"
-msgstr ""
-
-#: app/templates/request-code-sent-by-text.html:52 app/templates/start.html:64
-msgid "Start study"
-msgstr ""
-
-#: app/templates/request-contact-centre.html:5
-msgid "You need to call the customer contact centre"
-msgstr ""
-
-#: app/templates/request-contact-centre.html:14
-#, python-format
-msgid ""
-"You can call us free on %(telephone_number)s or %(open)schoose another "
-"way to contact us%(close)s."
-msgstr ""
-
-#: app/templates/request-timeout.html:13
-msgid "followed a link to the middle of a request for a new access code"
-msgstr ""
-
-#: app/templates/request-timeout.html:17
-#, python-format
-msgid "You need to start again to %(open)srequest a new access code%(close)s."
-msgstr ""
-
-#: app/templates/request-too-many-requests.html:34
-msgid "You have reached the maximum number of access codes you can request online"
-msgstr ""
-
-#: app/templates/request-too-many-requests.html:36
-#, python-format
-msgid "If you need a new access code, please %(open)scontact us%(close)s"
 msgstr ""
 
 #: app/templates/signed-out.html:19
