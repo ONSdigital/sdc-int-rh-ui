@@ -27,10 +27,6 @@ class TooManyRequestsEQLaunch(Exception):
     """Raised when EQ returns a 429 error"""
 
 
-class TooManyRequestsRegister(Exception):
-    """Raised when Register returns a 429 error"""
-
-
 class ExerciseClosedError(Exception):
     """Raised when a user attempts to access an already ended CE"""
     def __init__(self, collection_exercise_id):

@@ -845,9 +845,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_request_timeout_error_en = 're-enter your postcode'
         self.content_request_timeout_error_cy = 'nodi eich cod post eto'
 
-        # Start Register
-        self.get_register_en = self.app.router['Register:get'].url_for(display_region='en')
-
         # yapf: enable
 
     # URL functions
