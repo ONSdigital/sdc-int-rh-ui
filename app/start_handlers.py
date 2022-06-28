@@ -47,12 +47,6 @@ class StartCommon(View):
 class Start(StartCommon):
     @aiohttp_jinja2.template('start.html')
     async def get(self, request):
-        """
-        RH home page to enter a UAC.
-        Checks if URL carries query string assisted digital location and stores to session
-        :param request:
-        :return:
-        """
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/' + user_journey)
         if display_region == 'cy':
@@ -73,12 +67,12 @@ class Start(StartCommon):
             'page_url': View.gen_page_url(request)
         }
 
+    # TODO should this have a template above it?
+    # I don't understand why for the start page this had no template set for post, but Address Confirm did???
+    # @aiohttp_jinja2.template('start.html')
     async def post(self, request):
-        """
-        Forward to Address confirmation
-        :param request:
-        :return: address confirmation view
-        """
+        logger.warn('Hugh and Luke are hacking around, help me')
+        # session = await get_permitted_session(request)
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/' + user_journey)
 
@@ -94,6 +88,7 @@ class Start(StartCommon):
                 flash(request, BAD_CODE_MSG_CY)
             else:
                 flash(request, BAD_CODE_MSG)
+
             return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
         try:
@@ -108,43 +103,84 @@ class Start(StartCommon):
             flash(request, message)
             return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-        try:
-            uac_context = await RHSvc.get_uac_details(request)
-        except ClientResponseError as ex:
-            if ex.status == 404:
-                logger.warn('attempt to use an invalid access code',
-                            client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-                if display_region == 'cy':
-                    flash(request, INVALID_CODE_MSG_CY)
-                else:
-                    flash(request, INVALID_CODE_MSG)
-                raise InvalidAccessCode
-            else:
-                logger.error('error processing access code',
-                             client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-                raise ex
+        eqLaunch = EqLaunch(request['uac_hash'], display_region, request.app)
 
-        if uac_context['receiptReceived']:
-            raise InactiveCaseError
-        elif not uac_context['active']:
-            collection_id = uac_context['collectionExercise']['collectionExerciseId']
-            raise ExerciseClosedError(collection_id)
-        else:
-            await remember(uac_context['collectionCase']['caseId'], request)
-            self.validate_case(uac_context)
+        await eqLaunch.call_eq(request)
+    #     TODO: need to add back in checking the UAC is active, not receipted etc, etc
+    # Should we do this server side, and give back a good answer? or keep as is
 
-        try:
-            auth_attributes = uac_context['collectionCase']['sample']
-        except KeyError:
-            raise InvalidForEqTokenGeneration('Could not retrieve address details')
-
-        logger.debug('address confirmation displayed',
-                     client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-        session = await get_session(request)
-        session['auth_attributes'] = auth_attributes
-        session['uac_context'] = uac_context
-
-        return HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
+    # async def Oldpost(self, request):
+    #     """
+    #     Forward to Address confirmation
+    #     :param request:
+    #     :return: address confirmation view
+    #     """
+    #     display_region = request.match_info['display_region']
+    #     self.log_entry(request, display_region + '/' + user_journey)
+    #
+    #     data = await request.post()
+    #
+    #     if (not data.get('uac')) or (data.get('uac') == ''):
+    #         logger.info('access code not supplied',
+    #                     client_ip=request['client_ip'],
+    #                     client_id=request['client_id'],
+    #                     trace=request['trace'],
+    #                     region_of_site=display_region)
+    #         if display_region == 'cy':
+    #             flash(request, BAD_CODE_MSG_CY)
+    #         else:
+    #             flash(request, BAD_CODE_MSG)
+    #         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
+    #
+    #     try:
+    #         request['uac_hash'] = self.uac_hash(data.get('uac'))
+    #     except TypeError:
+    #         logger.warn('attempt to use a malformed access code',
+    #                     client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+    #         message = {
+    #             'en': INVALID_CODE_MSG,
+    #             'cy': INVALID_CODE_MSG_CY
+    #         }[display_region]
+    #         flash(request, message)
+    #         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
+    #
+    #     try:
+    #         uac_context = await RHSvc.get_uac_details(request)
+    #     except ClientResponseError as ex:
+    #         if ex.status == 404:
+    #             logger.warn('attempt to use an invalid access code',
+    #                         client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+    #             if display_region == 'cy':
+    #                 flash(request, INVALID_CODE_MSG_CY)
+    #             else:
+    #                 flash(request, INVALID_CODE_MSG)
+    #             raise InvalidAccessCode
+    #         else:
+    #             logger.error('error processing access code',
+    #                          client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+    #             raise ex
+    #
+    #     if uac_context['receiptReceived']:
+    #         raise InactiveCaseError
+    #     elif not uac_context['active']:
+    #         collection_id = uac_context['collectionExercise']['collectionExerciseId']
+    #         raise ExerciseClosedError(collection_id)
+    #     else:
+    #         await remember(uac_context['collectionCase']['caseId'], request)
+    #         self.validate_case(uac_context)
+    #
+    #     try:
+    #         auth_attributes = uac_context['collectionCase']['sample']
+    #     except KeyError:
+    #         raise InvalidForEqTokenGeneration('Could not retrieve address details')
+    #
+    #     logger.debug('address confirmation displayed',
+    #                  client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+    #     session = await get_session(request)
+    #     session['auth_attributes'] = auth_attributes
+    #     session['uac_context'] = uac_context
+    #
+    #     return HTTPFound(request.app.router['StartConfirmAddress:get'].url_for(display_region=display_region))
 
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/confirm-address/')
