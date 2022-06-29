@@ -7,7 +7,7 @@ logger = get_logger('respondent-home')
 
 class ServiceCalls:
     @staticmethod
-    async def make_request(request,
+    async def  make_request(request,
                            method,
                            url,
                            auth=None,

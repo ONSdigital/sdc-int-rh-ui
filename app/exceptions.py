@@ -1,4 +1,4 @@
-class InactiveCaseError(Exception):
+class AlreadyReceiptedUacError(Exception):
     """Raised when a user enters a used IAC code"""
     def __init__(self):
         super().__init__()

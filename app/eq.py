@@ -5,7 +5,8 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from structlog import get_logger
 
 from . import INVALID_CODE_MSG_CY, INVALID_CODE_MSG
-from .exceptions import InvalidForEqTokenGeneration, TooManyRequestsEQLaunch, InvalidAccessCode
+from .exceptions import InvalidForEqTokenGeneration, TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
+    AlreadyReceiptedUacError
 from .flash import flash
 from .service_calls.rhsvc import RHSvc
 
@@ -22,10 +23,10 @@ class EqLaunch(object):
         raise HTTPFound(f'{eq_url}/session?token={token}')
 
     @staticmethod
-    async def get_token_and_uac(request, display_region: str):
+    async def get_token(request, display_region: str):
         try:
             url = EqLaunch._url_path(request['uac_hash'], display_region, request.app)
-            token_and_uac_json = await RHSvc.get_eq_launch_token(request, url)
+            token = await RHSvc.get_eq_launch_token(request, url)
         except ClientResponseError as ex:
             if ex.status == 404:
                 logger.warn('attempt to use an invalid access code',
@@ -37,6 +38,12 @@ class EqLaunch(object):
 
                 raise InvalidAccessCode
 
+            if ex.status == 400:
+                if ex.message == 'UAC_RECEIPTED':
+                    raise AlreadyReceiptedUacError
+                if ex.message == 'UAC_RECEIPTED':
+                    raise InactiveUacError
+
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch()
             else:
@@ -44,7 +51,7 @@ class EqLaunch(object):
                              client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                 raise ex
 
-        return json.loads(token_and_uac_json)
+        return token
 
     @staticmethod
     def _url_path(uac_hash: str, display_region: str, app: Application):

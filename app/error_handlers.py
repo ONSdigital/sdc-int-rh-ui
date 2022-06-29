@@ -5,7 +5,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
                                        ClientConnectorError,
                                        ClientConnectionError, ContentTypeError)
 
-from .exceptions import (InactiveUacError, InactiveCaseError,
+from .exceptions import (InactiveUacError, AlreadyReceiptedUacError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
                          SessionTimeout, TooManyRequestsEQLaunch)
 from structlog import get_logger
@@ -55,8 +55,8 @@ def create_error_middleware(overrides):
             return await session_timeout(request, ex.user_journey, ex.request_type)
         except TooManyRequestsEQLaunch:
             return await too_many_requests_eq_launch(request)
-        except InactiveCaseError:
-            return await inactive_case(request)
+        except AlreadyReceiptedUacError:
+            return await receipted_uac(request)
         except InactiveUacError:
             return await uac_inactive(request)
         except InvalidForEqTokenGeneration as ex:
@@ -75,9 +75,8 @@ def create_error_middleware(overrides):
     return middleware_handler
 
 
-# TODO: there's an invalid case, no 'inactive' case
-async def inactive_case(request):
-    logger.warn('attempt to use an inactive access code',
+async def receipted_uac(request):
+    logger.warn('attempt to use a receipted access code',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
                 trace=request['trace'])
