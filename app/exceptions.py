@@ -27,11 +27,10 @@ class TooManyRequestsEQLaunch(Exception):
     """Raised when EQ returns a 429 error"""
 
 
-class ExerciseClosedError(Exception):
-    """Raised when a user attempts to access an already ended CE"""
-    def __init__(self, collection_exercise_id):
+class InactiveUacError(Exception):
+    """Raised when a user attempts to use an inactive UAC"""
+    def __init__(self):
         super().__init__()
-        self.collection_exercise_id = collection_exercise_id
 
 
 class InvalidDataError(Exception):

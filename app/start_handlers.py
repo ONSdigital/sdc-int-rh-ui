@@ -10,7 +10,7 @@ from . import (BAD_CODE_MSG, INVALID_CODE_MSG, NO_SELECTION_CHECK_MSG,
                BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY, NO_SELECTION_CHECK_MSG_CY,
                START_PAGE_TITLE_EN, START_PAGE_TITLE_CY)
 from .eq import EqLaunch
-from .exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, ExerciseClosedError, InactiveCaseError
+from .exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, InactiveUacError, InactiveCaseError
 from .flash import flash
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
 from .service_calls.rhsvc import RHSvc
@@ -84,9 +84,21 @@ class Start(StartCommon):
         except TypeError:
             return self._display_malformed_uac_message(request, display_region)
 
-        await EqLaunch.call_eq(request, request['uac_hash'], display_region, request.app)
-    #     TODO: need to add back in checking the UAC is active, not receipted etc, etc
-    # Should we do this server side, and give back a good answer? or keep as is
+        token_and_uac = await EqLaunch.get_token_and_uac(request, display_region)
+
+        self.validate_uacDto(token_and_uac['uacUpdateDTO'])
+
+        #     TODO: need to add back in checking the UAC is active, not receipted etc, etc
+        # Should we do this server side, and give back a good answer? or keep as is
+        EqLaunch.call_eq(request, token_and_uac['token'])
+
+    @staticmethod
+    def validate_uacDto(uac_dto):
+        if uac_dto['receiptReceived']:
+            raise InactiveCaseError
+        elif not uac_dto['active']:
+            # TODO: change to a more generic UAC inactive Exception.  They can be inactive by being receipted.
+            raise InactiveUacError
 
     @staticmethod
     def _display_malformed_uac_message(request, display_region):

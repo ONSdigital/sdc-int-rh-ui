@@ -5,7 +5,7 @@ from aiohttp.client_exceptions import (ClientResponseError,
                                        ClientConnectorError,
                                        ClientConnectionError, ContentTypeError)
 
-from .exceptions import (ExerciseClosedError, InactiveCaseError,
+from .exceptions import (InactiveUacError, InactiveCaseError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
                          SessionTimeout, TooManyRequestsEQLaunch)
 from structlog import get_logger
@@ -57,8 +57,8 @@ def create_error_middleware(overrides):
             return await too_many_requests_eq_launch(request)
         except InactiveCaseError:
             return await inactive_case(request)
-        except ExerciseClosedError as ex:
-            return await ce_closed(request, ex.collection_exercise_id)
+        except InactiveUacError:
+            return await uac_inactive(request)
         except InvalidForEqTokenGeneration as ex:
             return await eq_error(request, ex.message)
         except ClientConnectionError as ex:
@@ -75,6 +75,7 @@ def create_error_middleware(overrides):
     return middleware_handler
 
 
+# TODO: there's an invalid case, no 'inactive' case
 async def inactive_case(request):
     logger.warn('attempt to use an inactive access code',
                 client_ip=request['client_ip'],
@@ -84,14 +85,14 @@ async def inactive_case(request):
     return jinja.render_template('start-uac-already-used.html', request, attributes)
 
 
-async def ce_closed(request, collex_id):
-    logger.warn('attempt to access collection exercise that has already ended',
+# TODO: this replaced Collection Exercise Closed,  do we also need collection exercise closed?
+async def uac_inactive(request):
+    logger.warn('attempt to use an uac thats marked inative',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
-                trace=request['trace'],
-                collex_id=collex_id)
+                trace=request['trace'])
     attributes = check_display_region(request)
-    return jinja.render_template('start-closed.html', request, attributes)
+    return jinja.render_template('start-uac-inactive.html', request, attributes)
 
 
 async def eq_error(request, message: str):
