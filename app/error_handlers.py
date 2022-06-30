@@ -84,7 +84,6 @@ async def receipted_uac(request):
     return jinja.render_template('start-uac-already-used.html', request, attributes)
 
 
-# TODO: this replaced Collection Exercise Closed,  do we also need collection exercise closed?
 async def uac_inactive(request):
     logger.warn('attempt to use an uac thats marked inative',
                 client_ip=request['client_ip'],
