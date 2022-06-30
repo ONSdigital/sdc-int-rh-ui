@@ -41,7 +41,7 @@ class EqLaunch(object):
             if ex.status == 400:
                 if ex.message == 'UAC_RECEIPTED':
                     raise AlreadyReceiptedUacError
-                if ex.message == 'UAC_RECEIPTED':
+                if ex.message == 'UAC_INACTIVE':
                     raise InactiveUacError
 
             if ex.status == 429:

@@ -67,7 +67,7 @@ class Start(StartCommon):
             'page_url': View.gen_page_url(request)
         }
 
-    # TODO should this have a template above it?
+    # TODO: should this have a template above it?
     # I don't understand why for the start page this had no template set for post, but Address Confirm did???
     # @aiohttp_jinja2.template('start.html')
     async def post(self, request):
@@ -89,7 +89,6 @@ class Start(StartCommon):
         #     TODO: need to add back in checking the UAC is active, not receipted etc, etc
         # Should we do this server side, and give back a good answer? or keep as is
         EqLaunch.call_eq(request,token)
-
 
     @staticmethod
     def _display_malformed_uac_message(request, display_region):
