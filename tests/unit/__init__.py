@@ -305,16 +305,9 @@ class RHTestCase(AioHTTPTestCase):
         # This section gets ugly if YAPF reformats it
         # yapf: disable
         super().setUp()  # NB: setUp the server first so we can use self.app
-        with open('tests/test_data/rhsvc/uac_e.json') as fp:
-            self.uac_json_e = json.load(fp)
-
-        with open('tests/test_data/rhsvc/uac_w.json') as fp:
-            self.uac_json_w = json.load(fp)
 
         # URLs used in later statements
         rh_svc_url = self.app['RHSVC_URL']
-        address_index_svc_url = self.app['ADDRESS_INDEX_SVC_URL']
-        aims_epoch = self.app['ADDRESS_INDEX_EPOCH']
 
         site_name_en = self.app['SITE_NAME_EN']
         site_name_cy = self.app['SITE_NAME_CY']
@@ -346,79 +339,9 @@ class RHTestCase(AioHTTPTestCase):
 
         self.common_form_data_empty = {}
 
-        self.content_common_invalid_mobile_error_en = \
-            'Enter a UK mobile number in a valid format, for example, 07700 900345 or +44 7700 900345'
-        self.content_common_invalid_mobile_error_cy = \
-            "Rhowch rif ffôn symudol yn y Deyrnas Unedig mewn fformat dilys, er enghraifft, " \
-            "07700 900345 neu +44 7700 900345"
-
-        self.common_select_address_input_valid = {
-            'form-pick-address': '10023122451', 'action[save_continue]': '',
-        }
-
-        self.common_select_address_input_not_listed = {
-            'form-pick-address': 'xxxx', 'action[save_continue]': '',
-        }
-
-        self.common_confirm_address_input_yes = {
-            'form-confirm-address': 'yes', 'action[save_continue]': ''
-        }
-
-        self.common_confirm_address_input_no = {
-            'form-confirm-address': 'no', 'action[save_continue]': ''
-        }
-
-        self.common_confirm_address_input_invalid = {
-            'form-confirm-address': 'invalid', 'action[save_continue]': ''
-        }
-
-        self.common_postcode_input_valid = {
-            'form-enter-address-postcode': self.postcode_valid, 'action[save_continue]': '',
-        }
-
-        self.common_postcode_input_no_results = {
-            'form-enter-address-postcode': self.postcode_no_results, 'action[save_continue]': '',
-        }
-
-        self.common_postcode_input_invalid = {
-            'form-enter-address-postcode': self.postcode_invalid, 'action[save_continue]': '',
-        }
-
-        self.common_postcode_input_empty = {
-            'form-enter-address-postcode': self.postcode_empty, 'action[save_continue]': '',
-        }
-
-        self.common_address_finder_input = {
-            'address-uprn': self.selected_uprn, 'action[save_continue]': '',
-        }
-
-        with open('tests/test_data/address_index/postcode_no_results.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_postcode_no_results = f
-
-        with open('tests/test_data/address_index/postcode_results.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_postcode_results = f
-
-        with open('tests/test_data/address_index/uprn_england.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_england = f
-
-        with open('tests/test_data/address_index/uprn_wales.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.ai_uprn_result_wales = f
-
         # Content
         self.content_call_centre_number_ew = '0800 141 2021'
         self.content_call_centre_number_cy = '0800 169 2021'
-
-        self.content_common_select_address_no_results_en = 'Sorry, there was a problem processing your postcode'
-        self.content_common_select_address_no_results_cy = \
-            "Mae\\\'n ddrwg gennym, roedd problem wrth brosesu eich cod post"
 
         self.content_common_contact_centre_title_en = 'You need to call the customer contact centre'
         self.content_common_contact_centre_title_cy = 'You need to call the customer contact centre'
@@ -434,16 +357,10 @@ class RHTestCase(AioHTTPTestCase):
 
         self.content_common_429_error_eq_launch_title_en = \
             'We are currently experiencing very high demand, thank you for your patience'
-        self.content_common_429_error_uac_title_en = \
-            'You have reached the maximum number of access codes you can request online'
-        self.content_common_429_error_register_title_en = \
-            'You have reached the maximum number of registrations you can make online'
+
         self.content_common_429_error_eq_launch_title_cy = \
             "Rydym ni\\\'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
-        self.content_common_429_error_uac_title_cy = \
-            "Rydych chi wedi cyrraedd y nifer fwyaf o godau mynediad y gallwch ofyn amdanynt ar lein"
-        self.content_common_429_error_register_title_cy = \
-            "You have reached the maximum number of registrations you can make online"
+
 
         # End Common
 
@@ -452,28 +369,6 @@ class RHTestCase(AioHTTPTestCase):
         # Content
         self.content_start_uac_already_used_en = 'This access code has already been used'
         self.content_start_uac_already_used_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
-
-        self.content_start_confirm_address_page_title_en = '<title>Confirm address - ' + site_name_en + '</title>'
-        self.content_start_confirm_address_page_title_error_en = \
-            '<title>Error: Confirm address - ' + site_name_en + '</title>'
-        self.content_start_confirm_address_title_en = 'Is this the correct address?'
-        self.content_start_confirm_address_option_yes_en = 'Yes, this is the correct address'
-        self.content_start_confirm_address_option_no_en = 'No, this is not the correct address'
-        self.content_start_confirm_address_error_en = 'Select an answer'
-        self.content_start_confirm_address_page_title_cy = '<title>Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_start_confirm_address_page_title_error_cy = \
-            '<title>Gwall: Cadarnhau cyfeiriad - ' + site_name_cy + '</title>'
-        self.content_start_confirm_address_title_cy = "Ai dyma\\\'r cyfeiriad cywir?"
-        self.content_start_confirm_address_option_yes_cy = "Ie, dyma\\\'r cyfeiriad cywir"
-        self.content_start_confirm_address_option_no_cy = "Na, nid dyma\\\'r cyfeiriad cywir"
-        self.content_start_confirm_address_error_cy = "Dewiswch ateb"
-
-        self.content_start_incorrect_address_page_title_en = \
-            '<title>You do not need to take part in this study - ' + site_name_en + '</title>'
-        self.content_start_incorrect_address_title_en = 'You do not need to take part in this study'
-        self.content_start_incorrect_address_page_title_cy = \
-            "<title>You do not need to take part in this study - " + site_name_cy + "</title>"
-        self.content_start_incorrect_address_title_cy = 'You do not need to take part in this study'
 
         self.content_signed_out_page_title_en = '<title>Progress saved - ' + site_name_en + '</title>'
         self.content_signed_out_title_en = 'Your progress has been saved'
@@ -531,13 +426,9 @@ class RHTestCase(AioHTTPTestCase):
 
         self.get_start_en = self.app.router['Start:get'].url_for(display_region='en')
         self.post_start_en = self.app.router['Start:post'].url_for(display_region='en')
-        self.get_start_confirm_address_en = self.app.router['StartConfirmAddress:get'].url_for(display_region='en')
-        self.post_start_confirm_address_en = self.app.router['StartConfirmAddress:post'].url_for(display_region='en')
 
         self.get_start_cy = self.app.router['Start:get'].url_for(display_region='cy')
         self.post_start_cy = self.app.router['Start:post'].url_for(display_region='cy')
-        self.get_start_confirm_address_cy = self.app.router['StartConfirmAddress:get'].url_for(display_region='cy')
-        self.post_start_confirm_address_cy = self.app.router['StartConfirmAddress:post'].url_for(display_region='cy')
 
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
@@ -557,68 +448,13 @@ class RHTestCase(AioHTTPTestCase):
         self.response_id = '111000000092a445af12905967d'
         self.questionnaire_id = self.uac_json_e['qid']
         self.channel = 'rh'
-        self.attributes_en = {
-            'addressLine1': self.uac_json_e['collectionCase']['sample']['addressLine1'],
-            'addressLine2': self.uac_json_e['collectionCase']['sample']['addressLine2'],
-            'addressLine3': self.uac_json_e['collectionCase']['sample']['addressLine3'],
-            'townName': self.uac_json_e['collectionCase']['sample']['townName'],
-            'postcode': self.uac_json_e['collectionCase']['sample']['postcode'],
-            'uprn': self.uac_json_e['collectionCase']['sample']['uprn'],
-            'language': 'en',
-            'display_region': 'en'
-        }
-        self.attributes_cy = {
-            **self.attributes_en,
-            'language': 'cy',
-            'display_region': 'cy',
-            'locale': 'cy'
-        }
 
         self.eq_payload = {
-            'jti': self.jti,
-            'tx_id': self.jti,
-            'iat': int(time.time()),
-            'exp': int(time.time() + (5 * 60)),
-            'collection_exercise_sid': self.collection_exercise_id,
-            'region_code': 'GB-ENG',
-            'ru_ref': self.questionnaire_id,
-            'user_id': '1234567890',
-            'case_id': self.case_id,
-            'language_code': 'en',
-            'display_address':
-                self.uac_json_e['collectionCase']['sample']['addressLine1'] + ', ' +
-                self.uac_json_e['collectionCase']['sample']['addressLine2'],
-            'response_id': self.response_id,
-            'account_service_url': self.get_full_account_service_url('en'),
-            'account_service_log_out_url': self.get_full_account_service_logout_url('en'),
-            'channel': self.channel,
-            'questionnaire_id': self.questionnaire_id,
-            'eq_id': self.eq_id,
-            'period_id': self.collection_exercise_id,
-            'form_type': self.form_type,
-            'case_ref': '123abc',
-            'period_str': 'velit',
-            'schema_name': 'zzz_9999',
-            'survey_url': 'https://raw.githubusercontent.com/ONSdigital/eq-questionnaire-runner/social-demo'
-                          '/test_schemas/en/zzz_9999.json',
-            # ru_name is a temp harcoded value for a show and tell. It will likely be removed or reference another field
-            'ru_name': 'Hercule Poirot'
+            'no_point_in_this': 'until updated to new Token'
         }
 
         self.account_service_url = '/start/'
         self.account_service_log_out_url = '/signed-out/'
-
-        self.survey_launched_json = {
-            'questionnaireId': self.questionnaire_id,
-            'caseId': self.case_id,
-            'agentId': ''
-        }
-
-        self.survey_launched_json = {
-            'questionnaireId': self.questionnaire_id,
-            'caseId': self.case_id,
-            'agentId': ''
-        }
 
         self.rhsvc_url = (
             f'{rh_svc_url}/uacs/{self.uacHash}'
@@ -632,26 +468,6 @@ class RHTestCase(AioHTTPTestCase):
             f'{rh_svc_url}/surveys'
         )
 
-        self.rhsvc_cases_by_attribute_url = (
-            f'{rh_svc_url}/cases/attribute/'
-        )
-
-        self.rhsvc_post_create_case_url = (
-            f'{rh_svc_url}/cases/create'
-        )
-
-        self.rhsvc_put_modify_address = (
-            f'{rh_svc_url}/cases/e37b0d05-3643-445e-8e71-73f7df3ff95e/address'
-        )
-
-        self.rhsvc_cases_url = (
-            f'{rh_svc_url}/cases/'
-        )
-
-        self.rhsvc_new_case_url = (
-            f'{rh_svc_url}/cases/new'
-        )
-
         self.rhsvc_url_link_uac = (
             f'{rh_svc_url}/uacs/{self.uacHash}/link'
         )
@@ -660,190 +476,16 @@ class RHTestCase(AioHTTPTestCase):
             'uac': self.uac, 'action[save_continue]': '',
         }
 
-        self.start_confirm_address_data_yes = {
-            'address-check-answer': 'Yes', 'action[save_continue]': ''
-        }
-
-        self.start_confirm_address_data_no = {
-            'address-check-answer': 'No', 'action[save_continue]': ''
-        }
-
-        self.start_confirm_address_data_invalid = {
-            'address-check-answer': 'Invalid', 'action[save_continue]': ''
-        }
-
-        self.start_confirm_address_data_empty = {}
-
-        self.start_modify_address_data_valid = {
-            'address-line-1': 'ONS',
-            'address-line-2': 'Segensworth Road',
-            'address-line-3': 'Titchfield',
-            'address-town': 'Fareham',
-            'address-postcode': 'PO15 5RR'
-        }
-
-        self.start_modify_address_data_incomplete = {
-            'address-line-2': 'Segensworth Road',
-            'address-line-3': 'Titchfield',
-            'address-town': 'Fareham',
-            'address-postcode': 'PO15 5RR'
-        }
-
-        self.start_modify_address_data = {
-            'caseId': self.case_id,
-            'uprn': self.uprn,
-            'addressLine1': self.uac_json_e['collectionCase']['sample']['addressLine1'],
-            'addressLine2': self.uac_json_e['collectionCase']['sample']['addressLine2'],
-            'addressLine3': self.uac_json_e['collectionCase']['sample']['addressLine3'],
-            'townName': self.uac_json_e['collectionCase']['sample']['townName'],
-            'postcode': self.uac_json_e['collectionCase']['sample']['postcode']
-            }
 
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'
         self.content_common_error_panel_answer_cy = "Mae problem gyda\\\'ch ateb"
         self.content_common_error_select_an_option_en = 'Select an option'
         self.content_common_error_select_an_option_cy = 'Dewiswch opsiwn'
 
-        self.addressindexsvc_url = f'{address_index_svc_url}/addresses/rh/postcode/'
-        self.address_index_epoch_param = f'?limit={self.aims_postcode_limit}&epoch={aims_epoch}'
-        self.address_index_epoch_param_test = f'?limit={self.aims_postcode_limit}&epoch=test'
-
         with open('tests/test_data/rhsvc/empty_array.json') as fp:
             f = asyncio.Future()
             f.set_result(json.load(fp))
             self.rhsvc_empty_array = f
-
-        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_attribute_uprn_single_e = f
-
-        with open('tests/test_data/rhsvc/case_by_attribute_uprn_single_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_attribute_uprn_single_w = f
-
-        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_e.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_attribute_uprn_multiple_e = f
-
-        with open('tests/test_data/rhsvc/case_by_attribute_uprn_multiple_w.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_case_by_attribute_uprn_multiple_w = f
-
-        with open('tests/test_data/rhsvc/get_surveys.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_get_surveys = f
-
-        self.request_common_enter_name_form_data_valid = {
-            'name_first_name': 'Bob', 'name_last_name': 'Bobbington', 'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_long_surname = {
-            'name_first_name': 'Bob', 'name_last_name': 'Bobbington-Fortesque-Smythe',
-            'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_only_spaces = {
-            'name_first_name': ' ', 'name_last_name': ' ',
-            'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_no_first = {
-            'name_last_name': 'Bobbington', 'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_no_last = {
-            'name_first_name': 'Bob', 'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_overlength_firstname = {
-            'name_first_name': 'Robert Albert Everest Reginald Bartholomew', 'name_last_name': 'Bobbington',
-            'action[save_continue]': '',
-        }
-
-        self.request_common_enter_name_form_data_overlength_lastname = {
-            'name_first_name': 'Bob', 'name_last_name': 'Bobbington-Browning Fortesque-Smythe',
-            'action[save_continue]': '',
-        }
-
-        self.content_common_enter_name_check_first = \
-            'name_first_name"\\n            value="Bob"'
-        self.content_common_enter_name_check_last = \
-            'name_last_name"\\n            value="Bobbington"'
-        self.content_common_enter_name_check_long_first = \
-            'name_first_name"\\n            value="Robert Albert Everest Reginald Bartholomew"'
-        self.content_common_enter_name_check_long_last = \
-            'name_last_name"\\n            value="Bobbington-Browning Fortesque-Smythe"'
-
-        self.request_common_confirm_send_by_post_data_yes = {
-            'request-name-address-confirmation': 'yes', 'action[save_continue]': ''
-        }
-
-        self.request_common_confirm_send_by_post_data_yes_large_print = {
-            'request-name-address-confirmation': 'yes',
-            'request-name-address-large-print': 'large-print',
-            'action[save_continue]': ''
-        }
-
-        self.request_common_confirm_send_by_post_data_no = {
-            'request-name-address-confirmation': 'no', 'action[save_continue]': ''
-        }
-
-        self.request_common_confirm_send_by_post_data_invalid = {
-            'request-name-address-confirmation': 'invalid', 'action[save_continue]': ''
-        }
-
-        self.content_request_common_enter_name_page_title_en = \
-            '<title>Enter name - ' + site_name_en + '</title>'
-        self.content_request_common_enter_name_page_title_error_en = \
-            '<title>Error: Enter name - ' + site_name_en + '</title>'
-        self.content_request_common_enter_name_title_en = 'What is your name?'
-        self.content_request_common_enter_name_error_first_name_en = 'Enter your first name'
-        self.content_request_common_enter_name_error_first_name_overlength_en = \
-            "You have entered too many characters. Enter up to 35 characters"
-        self.content_request_common_enter_name_error_last_name_en = 'Enter your last name'
-        self.content_request_common_enter_name_error_last_name_overlength_en = \
-            "You have entered too many characters. Enter up to 35 characters"
-        self.content_request_common_enter_name_page_title_cy = \
-            '<title>Nodi enw - ' + site_name_cy + '</title>'
-        self.content_request_common_enter_name_page_title_error_cy = \
-            '<title>Gwall: Nodi enw - ' + site_name_cy + '</title>'
-        self.content_request_common_enter_name_title_cy = "Beth yw eich enw?"
-        self.content_request_common_enter_name_error_first_name_cy = "Rhowch eich enw cyntaf"
-        self.content_request_common_enter_name_error_first_name_overlength_cy = \
-            "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
-        self.content_request_common_enter_name_error_last_name_cy = "Rhowch eich cyfenw"
-        self.content_request_common_enter_name_error_last_name_overlength_cy = \
-            "Rydych wedi defnyddio gormod o nodau. Rhowch hyd at 35 o nodau"
-
-        self.content_request_code_sent_by_post_page_title_en = \
-            '<title>Access code will be sent by post - ' + site_name_en + '</title>'
-        self.content_request_code_hh_region_e_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at 1 Main Street, Upper Upperingham'
-        self.content_request_code_hh_region_w_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at 1 West Street, West Westingham'
-        self.content_request_code_aims_sent_post_title_en = \
-            'A letter will be sent to Bob Bobbington at 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_secondary_en = \
-            'The letter with a new access code for you to start the study should arrive within 5 working days'
-        self.content_request_code_sent_by_post_page_title_cy = \
-            '<title>Access code will be sent by post - ' + site_name_cy + '</title>'
-        self.content_request_code_hh_sent_post_title_cy = \
-            'Caiff llythyr ei anfon at Bob Bobbington yn 1 West Street, West Westingham'
-        self.content_request_code_aims_sent_post_title_cy = \
-            'Caiff llythyr ei anfon at Bob Bobbington yn 1 Gate Reach, Exeter'
-        self.content_request_code_sent_post_secondary_cy = \
-            'The letter with a new access code for you to start the study should arrive within 5 working days'
-
-        self.content_request_contact_centre_en = 'You need to call the Census customer contact centre'
-        self.content_request_contact_centre_cy = "Mae angen i chi ffonio canolfan gyswllt cwsmeriaid y cyfrifiad"
-
-        self.content_request_timeout_error_en = 're-enter your postcode'
-        self.content_request_timeout_error_cy = 'nodi eich cod post eto'
 
         # yapf: enable
 
