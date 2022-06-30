@@ -23,7 +23,7 @@ user_journey = 'start'
 
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/')
-class Start(StartCommon):
+class Start:
     @aiohttp_jinja2.template('start.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
@@ -105,7 +105,7 @@ class Start(StartCommon):
 
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
-class StartExit(StartCommon):
+class StartExit:
     async def get(self, request):
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/' + user_journey + '/exit')
