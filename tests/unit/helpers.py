@@ -26,7 +26,6 @@ class TestHelpers(RHTestCase):
                    self.request_type + "/" + page + "'"
         return link
 
-
     def mock_ai_503s(self, mocked, times):
         for i in range(times):
             mocked.get(self.addressindexsvc_url + self.postcode_valid + '?limit=' + self.aims_postcode_limit,

@@ -17,6 +17,44 @@ attempts_retry_limit = 5
 class TestStartHandlers(TestHelpers):
     user_journey = 'start'
 
+    async def test_post_start_uac_closed_ew_e(self):
+        uac_json = self.uac_json_e.copy()
+        uac_json['active'] = False
+
+        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.rhsvc_url, payload=uac_json)
+
+            with self.assertLogs('respondent-home', 'INFO') as cm:
+                response = await self.client.request('POST',
+                                                     self.post_start_en,
+                                                     data=self.start_data_valid)
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('en', contents)
+        self.assertIn(self.content_start_closed_study, contents)
+
+
+    async def test_post_start_uac_closed_cy(self):
+        uac_json = self.uac_json_w.copy()
+        uac_json['active'] = False
+
+        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.rhsvc_url, payload=uac_json)
+
+            with self.assertLogs('respondent-home', 'INFO') as cm:
+                response = await self.client.request('POST',
+                                                     self.post_start_cy,
+                                                     data=self.start_data_valid)
+            self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('cy', contents)
+        self.assertIn(self.content_start_closed_study, contents)
+
+
     # TODO: all this needs rewriting as it's all very different to previous.
     # Left existing code in place as it may be useful to refer to techniques?
 
@@ -308,24 +346,8 @@ class TestStartHandlers(TestHelpers):
     #     self.assertSiteLogo('en', contents)
     #     self.assertIn(self.content_start_closed_study, contents)
     #
-    # async def test_post_start_uac_closed_cy(self):
-    #     uac_json = self.uac_json_w.copy()
-    #     uac_json['active'] = False
-    #
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url, payload=uac_json)
-    #
-    #         with self.assertLogs('respondent-home', 'INFO') as cm:
-    #             response = await self.client.request('POST',
-    #                                                  self.post_start_cy,
-    #                                                  data=self.start_data_valid)
-    #         self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('cy', contents)
-    #     self.assertIn(self.content_start_closed_study, contents)
-    #
+
+
     # async def test_post_start_get_uac_connection_error_ew(self):
     #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
     #         mocked.get(self.rhsvc_url,

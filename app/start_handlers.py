@@ -13,7 +13,6 @@ from .eq import EqLaunch
 from .exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, InactiveUacError, AlreadyReceiptedUacError
 from .flash import flash
 from .security import remember, get_permitted_session, get_sha256_hash, invalidate
-from .service_calls.rhsvc import RHSvc
 from .session import get_session_value
 from .utils import View
 
@@ -61,8 +60,8 @@ class Start(View):
         except TypeError:
             return self._display_malformed_uac_message(request, display_region)
 
-        token = await EqLaunch.get_token(request, display_region)
-        EqLaunch.call_eq(request,token)
+        token = await EqLaunch.get_token(request, display_region, request.app)
+        EqLaunch.call_eq(request.app['EQ_URL'], token)
 
     @staticmethod
     def _display_malformed_uac_message(request, display_region):
