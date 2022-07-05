@@ -133,7 +133,8 @@ class RHTestCase(AioHTTPTestCase):
                 pass
         else:
             self.fail(
-                f"No matching log records with event: '{event}' and parameters: {kwargs}"
+                f"No matching log records with event: '{event}' and parameters: {kwargs},"
+                f"{watcher.records}"
             )
 
     def assertMessagePanel(self, message, content):
@@ -455,19 +456,7 @@ class RHTestCase(AioHTTPTestCase):
         self.account_service_log_out_url = '/signed-out/'
 
         self.rhsvc_url = (
-            f'{rh_svc_url}/uacs/{self.uacHash}'
-        )
-
-        self.rhsvc_url_get_launch_token = (
-            f'{rh_svc_url}/uacs/{self.uacHash}/launch'
-        )
-
-        self.rhsvc_url_surveys = (
-            f'{rh_svc_url}/surveys'
-        )
-
-        self.rhsvc_url_link_uac = (
-            f'{rh_svc_url}/uacs/{self.uacHash}/link'
+            f'{rh_svc_url}/eqLaunch/{self.uacHash}'
         )
 
         self.start_data_valid = {
