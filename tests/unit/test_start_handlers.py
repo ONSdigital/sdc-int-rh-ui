@@ -33,6 +33,10 @@ class TestStartHandlers(TestHelpers):
         for i in range(times):
             mocked.get(self.eq_launch_url_en, status=503)
 
+    def mock503s_cy(self, mocked, times):
+        for i in range(times):
+            mocked.get(self.eq_launch_url_en, status=503)
+
     async def test_post_start_uac_closed_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             # mocked.get(url=self.eq_launch_url_cy,  exception=ClientResponseError('UAC_INACTIVE', history=Mock))
@@ -62,32 +66,32 @@ class TestStartHandlers(TestHelpers):
     #     self.assertEqual(302, response.status)
     #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
 
-#
-# async def test_post_start_with_retry_503_ew_w(self):
-#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-#         self.mock503s(mocked, 2)
-#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-#
-#         response = await self.client.request('POST',
-#                                              self.post_start_en,
-#                                              allow_redirects=False,
-#                                              data=self.start_data_valid)
-#
-#     self.assertEqual(response.status, 302)
-#     self.assertIn('/en/start/confirm-address', response.headers['Location'])
-#
-# async def test_post_start_with_retry_503_cy(self):
-#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-#         self.mock503s(mocked, 2)
-#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-#
-#         response = await self.client.request('POST',
-#                                              self.post_start_cy,
-#                                              allow_redirects=False,
-#                                              data=self.start_data_valid)
-#
-#     self.assertEqual(response.status, 302)
-#     self.assertIn('/cy/start/confirm-address', response.headers['Location'])
+    #
+    # async def test_post_start_with_retry_503_ew_w(self):
+    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+    #         self.mock503s(mocked, 2)
+    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+    #
+    #         response = await self.client.request('POST',
+    #                                              self.post_start_en,
+    #                                              allow_redirects=False,
+    #                                              data=self.start_data_valid)
+    #
+    #     self.assertEqual(response.status, 302)
+    #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
+    #
+    async def test_post_start_with_retry_503_cy(self):
+        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+            self.mock503s_cy(mocked, 2)
+            mocked.get(self.eq_launch_url_cy, payload='token')
+
+            response = await self.client.request('POST',
+                                                 self.post_start_cy,
+                                                 allow_redirects=False,
+                                                 data=self.start_data_valid)
+
+        self.assertEqual(response.status, 302)
+        self.assertIn('/cy/start/confirm-address', response.headers['Location'])
 #
 # async def test_post_start_with_retry_ConnectionError_ew_e(self):
 #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
