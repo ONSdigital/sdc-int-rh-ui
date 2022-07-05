@@ -1,11 +1,9 @@
-import json
-
-from aiohttp.web import Application, HTTPFound
 from aiohttp.client_exceptions import (ClientResponseError)
+from aiohttp.web import Application, HTTPFound
 from structlog import get_logger
 
 from . import INVALID_CODE_MSG_CY, INVALID_CODE_MSG
-from .exceptions import InvalidForEqTokenGeneration, TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
+from .exceptions import TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
     AlreadyReceiptedUacError
 from .flash import flash
 from .rhsvc import RHSvc
