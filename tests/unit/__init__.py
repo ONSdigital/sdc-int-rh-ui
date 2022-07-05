@@ -433,8 +433,7 @@ class RHTestCase(AioHTTPTestCase):
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
 
-        self.case_id = self.uac_json_e['collectionCase']['caseId']
-        self.collection_exercise_id = self.uac_json_e['collectionExercise']['collectionExerciseId']
+
         self.eq_id = '9999'
         self.form_type = 'zzz'
         self.jti = str(uuid.uuid4())
@@ -443,10 +442,9 @@ class RHTestCase(AioHTTPTestCase):
             self.uac_code[:4], self.uac_code[4:8], self.uac_code[8:12], self.uac_code[12:]
         self.period_id = '2021'
         self.uac = 'w4nwwpphjjptp7fn'
-        self.uacHash = self.uac_json_e['uacHash']
-        self.uprn = self.uac_json_e['collectionCase']['sample']['uprn']
+        self.uacHash = 'uacHashed'
         self.response_id = '111000000092a445af12905967d'
-        self.questionnaire_id = self.uac_json_e['qid']
+        self.questionnaire_id = '123424'
         self.channel = 'rh'
 
         self.eq_payload = {
@@ -476,16 +474,14 @@ class RHTestCase(AioHTTPTestCase):
             'uac': self.uac, 'action[save_continue]': '',
         }
 
-
         self.content_common_error_panel_answer_en = 'There is a problem with your answer'
         self.content_common_error_panel_answer_cy = "Mae problem gyda\\\'ch ateb"
         self.content_common_error_select_an_option_en = 'Select an option'
         self.content_common_error_select_an_option_cy = 'Dewiswch opsiwn'
 
-        with open('tests/test_data/rhsvc/empty_array.json') as fp:
-            f = asyncio.Future()
-            f.set_result(json.load(fp))
-            self.rhsvc_empty_array = f
+        f = asyncio.Future()
+        f.set_result([])
+        self.rhsvc_empty_array = f
 
         # yapf: enable
 

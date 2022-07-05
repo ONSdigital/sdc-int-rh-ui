@@ -36,15 +36,20 @@ class EqLaunch(object):
 
             if ex.status == 400:
                 if ex.message == 'UAC_RECEIPTED':
+                    logger.error('attempt to use receipted UAC',
+                                 client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                     raise AlreadyReceiptedUacError
                 if ex.message == 'UAC_INACTIVE':
+                    logger.error('attempt to use inactive UAC',
+                                 client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                     raise InactiveUacError
 
             if ex.status == 429:
-                raise TooManyRequestsEQLaunch()
+                raise TooManyRequestsEQLaunch
             else:
                 logger.error('error processing access code',
-                             client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
+                             status='ex.status', message='ex.message', client_ip=request['client_ip'],
+                             client_id=request['client_id'], trace=request['trace'])
                 raise ex
 
         return token

@@ -1,19 +1,23 @@
+import unittest
 from unittest import mock
 from unittest.mock import patch, MagicMock, Mock
 
 from aiohttp import ClientResponseError, RequestInfo, ClientResponse
+from aiohttp.test_utils import AioHTTPTestCase
 from aiohttp.web_exceptions import HTTPFound
 
 from app.eq import EqLaunch
-from app.exceptions import InvalidForEqTokenGeneration, InvalidAccessCode
+from app.exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, InactiveUacError, AlreadyReceiptedUacError
 
 from aiohttp.web import Application
 
 from app.rhsvc import RHSvc
-from tests.utilities.test_case_helper import test_helper
+# from tests.utilities.test_case_helper import test_helper
+from tests.unit.helpers import TestHelpers
 
 
-class TestEq:
+class TestEq(TestHelpers):
+
     async def test_get_token(self):
         # Given
         app = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
@@ -27,41 +31,124 @@ class TestEq:
             actual_token = await EqLaunch.get_token(data, 'en', app)
 
             # then
-            test_helper.assertEqual(actual_token, expected_token)
+            self.assertEqual(actual_token, expected_token)
             args = rh_svc.call_args.args
-            test_helper.assertEqual(args[0], data)
-            test_helper.assertEqual(args[1],
-                                    '/eqLaunch/TEST_UAC_HASH?languageCode=en&accountServiceUrl'
-                                    '=httpdomain_urlurl_prefix/en/start/&accountServiceLogoutUrl'
-                                    '=httpdomain_urlurl_prefix/en/signed-out/')
+            self.assertEqual(args[0], data)
+            self.assertEqual(args[1],
+                             '/eqLaunch/TEST_UAC_HASH?languageCode=en&accountServiceUrl'
+                             '=httpdomain_urlurl_prefix/en/start/&accountServiceLogoutUrl'
+                             '=httpdomain_urlurl_prefix/en/signed-out/')
 
     def test_call_eq(self):
-        test_helper.assertRaises(HTTPFound, EqLaunch.call_eq, 'eq_url_str', 'Test_token')
+        self.assertRaises(HTTPFound, EqLaunch.call_eq, 'eq_url_str', 'Test_token')
 
-    # TODO: test throwing exception work
-    # async def test_invalid_access_code(selfs):
-    #     # request_info = RequestInfo()
-    #     # history = Tuple[ClientResponse, ...]
-    #     # client_response_error = ClientResponseError(request_info=request_info, history=)
-    #     #
-    #     # request_info: RequestInfo,
-    #     # history: Tuple[ClientResponse, ...],
-    #     # *,
-    #     # code: Optional[int] = None,
-    #     # status: Optiona
-    #     # client_response_error.status = 404
-    #
-    #     rc = MagicMock
-    #     history = Mock
-    #
-    #     client_response_error = ClientResponseError(request_info=rc, history=history)
-    #
-    #     mock_res.status = 400
-    #     mock_conn.getresponse = MagicMock(return_value=mock_res)
-    #
-    #     app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
-    #     data = {'uac_hash': 'TEST_UAC_HASH'}
-    #
-    #     with patch.object(RHSvc, 'get_eq_launch_token', client_response_error):
-    #         # when
-    #         test_helper.assertRaises(InvalidAccessCode, await EqLaunch.get_token(data, 'en', app_mock))
+    async def test_inactive_access_code(self):
+        # Given
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey'}
+
+        client_response_error = ClientResponseError(status=400, message='UAC_INACTIVE', history=Mock(),
+                                                    request_info=Mock())
+        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
+            patch_get_eq_launch_token.side_effect = client_response_error
+
+            expected_exception = None
+            try:
+                # when
+                await EqLaunch.get_token(data, 'en', app_mock)
+            except InactiveUacError as ex:
+                expected_exception = ex
+
+            self.assertEqual(type(expected_exception), InactiveUacError)
+
+    async def test_already_receipted_code(self):
+        # Given
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey'}
+
+        client_response_error = ClientResponseError(status=400, message='UAC_RECEIPTED', history=Mock(),
+                                                    request_info=Mock())
+        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
+            patch_get_eq_launch_token.side_effect = client_response_error
+
+            expected_exception = None
+
+            try:
+                # when
+                await EqLaunch.get_token(data, 'en', app_mock)
+            except AlreadyReceiptedUacError as ex:
+                expected_exception = ex
+
+            self.assertEqual(type(expected_exception), AlreadyReceiptedUacError)
+
+    async def test_invalid_code_404_english(self):
+        # Given
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
+                'flash': []}
+
+        client_response_error = ClientResponseError(status=404, history=Mock(), request_info=Mock())
+        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
+            patch_get_eq_launch_token.side_effect = client_response_error
+
+            expected_exception = None
+
+            try:
+                # when
+                await EqLaunch.get_token(data, 'en', app_mock)
+            except InvalidAccessCode as ex:
+                expected_exception = ex
+
+            self.assertEqual(type(expected_exception), InvalidAccessCode)
+            # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
+            # can test it here
+            self.assertEqual(data['flash'], [
+                {'text': 'Enter a valid access code', 'clickable': True, 'level': 'ERROR', 'type': 'INVALID_CODE',
+                 'field': 'uac_invalid'}])
+
+    async def test_invalid_code_404_welsh(self):
+        # Given
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
+                'flash': []}
+
+        client_response_error = ClientResponseError(status=404, history=Mock(), request_info=Mock())
+        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
+            patch_get_eq_launch_token.side_effect = client_response_error
+
+            expected_exception = None
+
+            try:
+                # when
+                await EqLaunch.get_token(data, 'cy', app_mock)
+            except InvalidAccessCode as ex:
+                expected_exception = ex
+
+            self.assertEqual(type(expected_exception), InvalidAccessCode)
+            # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
+            # can test it here
+            self.assertEqual(data['flash'],
+                             [{'text': 'Rhowch god mynediad dilys', 'clickable': True, 'level': 'ERROR',
+                               'type': 'INVALID_CODE', 'field': 'uac_invalid'}])
+
+    async def test_429(self):
+        # Given
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
+                'flash': []}
+
+        client_response_error = ClientResponseError(status=429, history=Mock(), request_info=Mock())
+        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
+            patch_get_eq_launch_token.side_effect = client_response_error
+
+            expected_exception = None
+
+            try:
+                # when
+                await EqLaunch.get_token(data, 'cy', app_mock)
+            except InvalidAccessCode as ex:
+                expected_exception = ex
+
+            self.assertEqual(type(expected_exception), InvalidAccessCode)
+            # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
+            # can test it here

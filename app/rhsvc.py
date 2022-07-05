@@ -12,3 +12,4 @@ class RHSvc:
 
         retry_request = RetryRequest(request, 'GET', url, request.app['RHSVC_AUTH'], None, None, "text")
         return await retry_request.make_request()
+

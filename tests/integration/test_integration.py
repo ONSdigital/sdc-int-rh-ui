@@ -8,7 +8,6 @@ from envparse import Env
 from structlog import wrap_logger
 
 from app.app import create_app
-from app.case import get_case
 
 env = Env()
 logger = wrap_logger(logging.getLogger(__name__))
@@ -18,6 +17,68 @@ class TestRespondentHome(AioHTTPTestCase):
     """
     Assumes services are running on the default ports with social data pre-loaded with `make setup`.
     """
+
+    async def test_can_access_respondent_home_homepage(self):
+        if self.live_test:
+            sample_summary_id = self.get_sample_summary_id_from_kwargs(
+                totalSampleUnits=self.sample_size)
+        else:
+            # Any old summary should do against test data
+            sample_summary_id = self.get_first_sample_summary_id()
+        if sample_summary_id is None:
+            self.fail('No sample summary found')
+
+        sample_unit_id = self.get_first_sample_unit_id_by_summary(
+            sample_summary_id)
+        if sample_unit_id is None:
+            self.fail('No sample unit id found')
+
+        case = self.poll_for_actionable_case(sample_unit_id)
+        if case is None:
+            self.fail('No ACTIONABLE case found')
+
+        iacs = self.poll_case_for_iacs(case)
+        if iacs is None:
+            self.fail('No IACs for case found')
+
+        iac = iacs[0]['iac']
+        iac1, iac2, iac3 = iac[:4], iac[4:8], iac[8:]
+        form_data = {
+            'iac1': iac1,
+            'iac2': iac2,
+            'iac3': iac3,
+            'action[save_continue]': '',
+        }
+
+        # skip on case service so we can mock the POSTing of a case event
+        service_urls = [
+            self.app[url] for url in self.app if url.isupper()
+                                                 and not url.startswith('CASE') and url.endswith('URL')
+        ]
+        # allow all other service requests to keep integration test as close to normal as possible
+        with aioresponses(passthrough=([str(self.server._root)] +
+                                       service_urls)) as mocked:
+            # we can mock the getting of a case as the same request was already performed above
+            case_url = self.app['CASE_URL']
+            id = case['id']
+            mocked.get(f'{case_url}/cases/{id}', payload=case)
+            # mocking this prevents the transition from `NOTSTARTED` to `INPROGRESS`
+            mocked.post(f'{case_url}/cases/{id}/events')
+            response = await self.client.request('POST',
+                                                 '/',
+                                                 allow_redirects=False,
+                                                 data=form_data)
+
+        # Response should be a redirect to eQ
+        self.assertEqual(response.status, 302)
+        location = response.headers['location']
+        # Check that the redirect location is to eQ
+        self.assertIn(self.app['EQ_URL'], location)
+        # Follow the redirect location to check contents
+        response = requests.get(location)
+        self.assertIn(b'What is your name', response.content)
+        self.assertIn(b'Online Household Study', response.content)
+
     async def get_application(self):
         self.live_test = env.bool('LIVE_TEST', default=False)
         # Social Test 1 can be identified with 500 sample units
@@ -99,68 +160,3 @@ class TestRespondentHome(AioHTTPTestCase):
             if case is not None:
                 return case
             time.sleep(3)
-
-    async def test_can_access_respondent_home_homepage(self):
-        if self.live_test:
-            sample_summary_id = self.get_sample_summary_id_from_kwargs(
-                totalSampleUnits=self.sample_size)
-        else:
-            # Any old summary should do against test data
-            sample_summary_id = self.get_first_sample_summary_id()
-        if sample_summary_id is None:
-            self.fail('No sample summary found')
-
-        sample_unit_id = self.get_first_sample_unit_id_by_summary(
-            sample_summary_id)
-        if sample_unit_id is None:
-            self.fail('No sample unit id found')
-
-        case = self.poll_for_actionable_case(sample_unit_id)
-        if case is None:
-            self.fail('No ACTIONABLE case found')
-
-        iacs = self.poll_case_for_iacs(case)
-        if iacs is None:
-            self.fail('No IACs for case found')
-
-        iac = iacs[0]['iac']
-        iac1, iac2, iac3 = iac[:4], iac[4:8], iac[8:]
-        form_data = {
-            'iac1': iac1,
-            'iac2': iac2,
-            'iac3': iac3,
-            'action[save_continue]': '',
-        }
-
-        # skip on case service so we can mock the POSTing of a case event
-        service_urls = [
-            self.app[url] for url in self.app if url.isupper()
-            and not url.startswith('CASE') and url.endswith('URL')
-        ]
-        # allow all other service requests to keep integration test as close to normal as possible
-        with aioresponses(passthrough=([str(self.server._root)] +
-                                       service_urls)) as mocked:
-            # we can mock the getting of a case as the same request was already performed above
-            case_url = self.app['CASE_URL']
-            id = case['id']
-            mocked.get(f'{case_url}/cases/{id}', payload=case)
-            # mocking this prevents the transition from `NOTSTARTED` to `INPROGRESS`
-            mocked.post(f'{case_url}/cases/{id}/events')
-            response = await self.client.request('POST',
-                                                 '/',
-                                                 allow_redirects=False,
-                                                 data=form_data)
-
-        # Response should be a redirect to eQ
-        self.assertEqual(response.status, 302)
-        location = response.headers['location']
-        # Check that the redirect location is to eQ
-        self.assertIn(self.app['EQ_URL'], location)
-        # Follow the redirect location to check contents
-        response = requests.get(location)
-        self.assertIn(b'What is your name', response.content)
-        self.assertIn(b'Online Household Study', response.content)
-        case_response = await get_case(case['id'], self.app)
-        case_state = case_response['caseGroup']['caseGroupStatus']
-        # Ensure the case status has not transitioned
-        self.assertEqual(case_state, 'NOTSTARTED')
