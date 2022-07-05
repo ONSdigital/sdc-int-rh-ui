@@ -1,6 +1,6 @@
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
-from aiohttp.client_exceptions import ClientConnectionError
+from aiohttp.client_exceptions import ClientConnectionError, ClientResponseError
 from aioresponses import aioresponses
 
 from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
@@ -19,7 +19,19 @@ attempts_retry_limit = 5
 # noinspection PyTypeChecker
 class TestStartHandlers(TestHelpers):
     user_journey = 'start'
+    eq_launch_url_en = 'http://localhost:8071/eqLaunch' \
+                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=en' \
+                       '&accountServiceUrl=http://localhost:9092/en/start/&accountServiceLogoutUrl=http://localhost' \
+                       ':9092/en/signed-out/'
 
+    eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
+                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=en' \
+                       '&accountServiceUrl=http://localhost:9092/cy/start/&accountServiceLogoutUrl=http://localhost' \
+                       ':9092/en/signed-out/'
+
+    def mock503s_en(self, mocked, times):
+        for i in range(times):
+            mocked.get(self.eq_launch_url_en, status=503)
 
     # async def test_eq_called_with_token(self):
     #     uac = '0123456789ABCDEF'
@@ -39,11 +51,8 @@ class TestStartHandlers(TestHelpers):
     #             self.assertIn(self.content_start_closed_study, contents)
 
     async def test_post_start_uac_closed_cy(self):
-        url = 'http://localhost:8071/eqLaunch/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=cy&accountServiceUrl=http://localhost:9092/cy/start/&accountServiceLogoutUrl=http://localhost:9092/cy/signed-out/'
-
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.rhsvc_url, exception=ClientConnectionError('UAC_INACTIVE'))
-
+            mocked.get(self.eq_launch_url_cy, exception=ClientResponseError('UAC_INACTIVE', history=Mock))
 
             with self.assertLogs('respondent-home', 'INFO') as cm:
                 response = await self.client.request('POST',
@@ -56,53 +65,10 @@ class TestStartHandlers(TestHelpers):
         self.assertSiteLogo('cy', contents)
         self.assertIn(self.content_start_closed_study, contents)
 
-    # TODO: all this needs rewriting as it's all very different to previous.
-    # Left existing code in place as it may be useful to refer to techniques?
-
     # async def test_post_start_with_retry_503_ew_e(self):
     #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         self.mock503s(mocked, 2)
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #
-    #     self.assertEqual(response.status, 302)
-    #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
-    #
-    # async def test_post_start_with_retry_503_ew_w(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         self.mock503s(mocked, 2)
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #
-    #     self.assertEqual(response.status, 302)
-    #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
-    #
-    # async def test_post_start_with_retry_503_cy(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         self.mock503s(mocked, 2)
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #
-    #     self.assertEqual(response.status, 302)
-    #     self.assertIn('/cy/start/confirm-address', response.headers['Location'])
-    #
-    # async def test_post_start_with_retry_ConnectionError_ew_e(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url,
-    #                    exception=ClientConnectionError('Failed'))
-    #         mocked.get(self.rhsvc_url, payload='test_token')
+    #         self.mock503s_en(mocked, 2)
+    #         mocked.get(self.rhsvc_url, payload='testToken')
     #
     #         response = await self.client.request('POST',
     #                                              self.post_start_en,
@@ -111,220 +77,261 @@ class TestStartHandlers(TestHelpers):
     #
     #     self.assertEqual(302, response.status)
     #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
-    #
-    # async def test_post_start_with_retry_ConnectionError_ew_w(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url,
-    #                    exception=ClientConnectionError('Failed'))
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #
-    #     self.assertEqual(response.status, 302)
-    #     self.assertIn('/en/start/confirm-address', response.headers['Location'])
-    #
-    # async def test_post_start_with_retry_ConnectionError_cy(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url,
-    #                    exception=ClientConnectionError('Failed'))
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #
-    #     self.assertEqual(response.status, 302)
-    #     self.assertIn('/cy/start/confirm-address', response.headers['Location'])
-    #
-    # @build_eq_raises
-    # async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_e(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_e)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #         self.assertEqual(response.status, 302)
-    #         self.assertIn('/start/confirm-address',
-    #                       response.headers['Location'])
-    #
-    #         with self.assertLogs('respondent-home', 'ERROR') as cm:
-    #             # decorator makes EqLaunch constructor raise exception
-    #             response = await self.client.request(
-    #                 'POST',
-    #                 self.post_start_confirm_address_en,
-    #                 allow_redirects=False,
-    #                 data=self.start_confirm_address_data_yes)
-    #         self.assertLogEvent(cm, 'service failed to get EQ token')
-    #
-    #     # then error handler catches exception and renders error.html
-    #     self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
-    #
-    # @build_eq_raises
-    # async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_w(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #         self.assertEqual(response.status, 302)
-    #         self.assertIn('/start/confirm-address',
-    #                       response.headers['Location'])
-    #
-    #         with self.assertLogs('respondent-home', 'ERROR') as cm:
-    #             # decorator makes EqLaunch constructor raise exception
-    #             response = await self.client.request(
-    #                 'POST',
-    #                 self.post_start_confirm_address_en,
-    #                 allow_redirects=False,
-    #                 data=self.start_confirm_address_data_yes)
-    #         self.assertLogEvent(cm, 'service failed to get EQ token')
-    #
-    #     # then error handler catches exception and renders error.html
-    #     self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
-    #
-    # @build_eq_raises
-    # async def test_post_start_build_raises_InvalidEqTokenGeneration_cy(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
-    #
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              allow_redirects=False,
-    #                                              data=self.start_data_valid)
-    #         self.assertEqual(response.status, 302)
-    #         self.assertIn('/cy/start/confirm-address/',
-    #                       response.headers['Location'])
-    #
-    #         with self.assertLogs('respondent-home', 'ERROR') as cm:
-    #             # decorator makes EqLaunch constructor raise exception
-    #             response = await self.client.request(
-    #                 'POST',
-    #                 self.post_start_confirm_address_cy,
-    #                 allow_redirects=False,
-    #                 data=self.start_confirm_address_data_yes)
-    #         self.assertLogEvent(cm, 'service failed to get EQ token')
-    #
-    #     # then error handler catches exception and renders error.html
-    #     self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
-    #
-    # async def test_post_start_invalid_blank_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = ''
-    #
-    #     with self.assertLogs('respondent-home', 'INFO') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'access code not supplied')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(BAD_CODE_MSG, contents)
-    #
-    # async def test_post_start_invalid_blank_cy(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = ''
-    #
-    #     with self.assertLogs('respondent-home', 'INFO') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'access code not supplied')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('cy', contents)
-    #     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
-    #     self.assertMessagePanel(BAD_CODE_MSG_CY, contents)
-    #
-    # async def test_post_start_invalid_text_url_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'http://www.census.gov.uk/'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG, contents)
-    #
-    # async def test_post_start_invalid_text_url_cy(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'http://www.census.gov.uk/'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('cy', contents)
-    #     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
-    #
-    # async def test_post_start_invalid_text_random_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'rT~l34u8{?nm4£#f'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG, contents)
-    #
-    # async def test_post_start_invalid_text_random_cy(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'rT~l34u8{?nm4£#f'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_cy,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('cy', contents)
-    #     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
 
-    # async def test_post_start_uac_closed_ew_e(self):
-    #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-    #         mocked.get(self.rhsvc_url, payload='')
-    #
-    #         with self.assertLogs('respondent-home', 'INFO') as cm:
-    #             response = await self.client.request('POST',
-    #                                                  self.post_start_en,
-    #                                                  data=self.start_data_valid)
-    #         self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     self.assertIn(self.content_start_closed_study, contents)
+#
+# async def test_post_start_with_retry_503_ew_w(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         self.mock503s(mocked, 2)
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#
+#     self.assertEqual(response.status, 302)
+#     self.assertIn('/en/start/confirm-address', response.headers['Location'])
+#
+# async def test_post_start_with_retry_503_cy(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         self.mock503s(mocked, 2)
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#
+#     self.assertEqual(response.status, 302)
+#     self.assertIn('/cy/start/confirm-address', response.headers['Location'])
+#
+# async def test_post_start_with_retry_ConnectionError_ew_e(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url,
+#                    exception=ClientConnectionError('Failed'))
+#         mocked.get(self.rhsvc_url, payload='test_token')
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#
+#     self.assertEqual(302, response.status)
+#     self.assertIn('/en/start/confirm-address', response.headers['Location'])
+#
+# async def test_post_start_with_retry_ConnectionError_ew_w(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url,
+#                    exception=ClientConnectionError('Failed'))
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#
+#     self.assertEqual(response.status, 302)
+#     self.assertIn('/en/start/confirm-address', response.headers['Location'])
+#
+# async def test_post_start_with_retry_ConnectionError_cy(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url,
+#                    exception=ClientConnectionError('Failed'))
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#
+#     self.assertEqual(response.status, 302)
+#     self.assertIn('/cy/start/confirm-address', response.headers['Location'])
+#
+# @build_eq_raises
+# async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_e(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_e)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#         self.assertEqual(response.status, 302)
+#         self.assertIn('/start/confirm-address',
+#                       response.headers['Location'])
+#
+#         with self.assertLogs('respondent-home', 'ERROR') as cm:
+#             # decorator makes EqLaunch constructor raise exception
+#             response = await self.client.request(
+#                 'POST',
+#                 self.post_start_confirm_address_en,
+#                 allow_redirects=False,
+#                 data=self.start_confirm_address_data_yes)
+#         self.assertLogEvent(cm, 'service failed to get EQ token')
+#
+#     # then error handler catches exception and renders error.html
+#     self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
+#
+# @build_eq_raises
+# async def test_post_start_build_raises_InvalidEqTokenGeneration_ew_w(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#         self.assertEqual(response.status, 302)
+#         self.assertIn('/start/confirm-address',
+#                       response.headers['Location'])
+#
+#         with self.assertLogs('respondent-home', 'ERROR') as cm:
+#             # decorator makes EqLaunch constructor raise exception
+#             response = await self.client.request(
+#                 'POST',
+#                 self.post_start_confirm_address_en,
+#                 allow_redirects=False,
+#                 data=self.start_confirm_address_data_yes)
+#         self.assertLogEvent(cm, 'service failed to get EQ token')
+#
+#     # then error handler catches exception and renders error.html
+#     self.assert500Error(response, 'en', str(await response.content.read()), check_exit=True)
+#
+# @build_eq_raises
+# async def test_post_start_build_raises_InvalidEqTokenGeneration_cy(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url, payload=self.uac_json_w)
+#
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              allow_redirects=False,
+#                                              data=self.start_data_valid)
+#         self.assertEqual(response.status, 302)
+#         self.assertIn('/cy/start/confirm-address/',
+#                       response.headers['Location'])
+#
+#         with self.assertLogs('respondent-home', 'ERROR') as cm:
+#             # decorator makes EqLaunch constructor raise exception
+#             response = await self.client.request(
+#                 'POST',
+#                 self.post_start_confirm_address_cy,
+#                 allow_redirects=False,
+#                 data=self.start_confirm_address_data_yes)
+#         self.assertLogEvent(cm, 'service failed to get EQ token')
+#
+#     # then error handler catches exception and renders error.html
+#     self.assert500Error(response, 'cy', str(await response.content.read()), check_exit=True)
+#
+# async def test_post_start_invalid_blank_ew(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = ''
+#
+#     with self.assertLogs('respondent-home', 'INFO') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'access code not supplied')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('en', contents)
+#     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+#     self.assertMessagePanel(BAD_CODE_MSG, contents)
+#
+# async def test_post_start_invalid_blank_cy(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = ''
+#
+#     with self.assertLogs('respondent-home', 'INFO') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'access code not supplied')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('cy', contents)
+#     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
+#     self.assertMessagePanel(BAD_CODE_MSG_CY, contents)
+#
+# async def test_post_start_invalid_text_url_ew(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = 'http://www.census.gov.uk/'
+#
+#     with self.assertLogs('respondent-home', 'WARNING') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'attempt to use a malformed access code')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('en', contents)
+#     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+#     self.assertMessagePanel(INVALID_CODE_MSG, contents)
+#
+# async def test_post_start_invalid_text_url_cy(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = 'http://www.census.gov.uk/'
+#
+#     with self.assertLogs('respondent-home', 'WARNING') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'attempt to use a malformed access code')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('cy', contents)
+#     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
+#     self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
+#
+# async def test_post_start_invalid_text_random_ew(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = 'rT~l34u8{?nm4£#f'
+#
+#     with self.assertLogs('respondent-home', 'WARNING') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_en,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'attempt to use a malformed access code')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('en', contents)
+#     self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+#     self.assertMessagePanel(INVALID_CODE_MSG, contents)
+#
+# async def test_post_start_invalid_text_random_cy(self):
+#     form_data = self.start_data_valid.copy()
+#     form_data['uac'] = 'rT~l34u8{?nm4£#f'
+#
+#     with self.assertLogs('respondent-home', 'WARNING') as cm:
+#         response = await self.client.request('POST',
+#                                              self.post_start_cy,
+#                                              data=form_data)
+#     self.assertLogEvent(cm, 'attempt to use a malformed access code')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('cy', contents)
+#     self.assertIn('<a href="/en/start/" lang="en" >English</a>', contents)
+#     self.assertMessagePanel(INVALID_CODE_MSG_CY, contents)
+
+# async def test_post_start_uac_closed_ew_e(self):
+#     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
+#         mocked.get(self.rhsvc_url, payload='')
+#
+#         with self.assertLogs('respondent-home', 'INFO') as cm:
+#             response = await self.client.request('POST',
+#                                                  self.post_start_en,
+#                                                  data=self.start_data_valid)
+#         self.assertLogEvent(cm, 'attempt to access collection exercise that has already ended')
+#
+#     self.assertEqual(response.status, 200)
+#     contents = str(await response.content.read())
+#     self.assertSiteLogo('en', contents)
+#     self.assertIn(self.content_start_closed_study, contents)
 #
 # async def test_post_start_uac_closed_ew_w(self):
 #     uac_json = self.uac_json_w.copy()
@@ -420,9 +427,7 @@ class TestStartHandlers(TestHelpers):
 # async def test_post_start_get_uac_error_cy(self):
 #     await self.assert_post_start_get_uac_error('cy')
 #
-# def mock503s(self, mocked, times):
-#     for i in range(times):
-#         mocked.get(self.rhsvc_url, status=503)
+
 #
 # async def test_post_start_get_uac_503_ew(self):
 #     with aioresponses(passthrough=[str(self.server._root)]) as mocked:
