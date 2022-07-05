@@ -1,18 +1,11 @@
-import unittest
-from unittest import mock
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch, Mock
 
-from aiohttp import ClientResponseError, RequestInfo, ClientResponse
-from aiohttp.test_utils import AioHTTPTestCase
+from aiohttp import ClientResponseError
 from aiohttp.web_exceptions import HTTPFound
 
 from app.eq import EqLaunch
-from app.exceptions import InvalidForEqTokenGeneration, InvalidAccessCode, InactiveUacError, AlreadyReceiptedUacError
-
-from aiohttp.web import Application
-
+from app.exceptions import InvalidAccessCode, InactiveUacError, AlreadyReceiptedUacError
 from app.rhsvc import RHSvc
-# from tests.utilities.test_case_helper import test_helper
 from tests.unit.helpers import TestHelpers
 
 

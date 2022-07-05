@@ -33,26 +33,10 @@ class TestStartHandlers(TestHelpers):
         for i in range(times):
             mocked.get(self.eq_launch_url_en, status=503)
 
-    # async def test_eq_called_with_token(self):
-    #     uac = '0123456789ABCDEF'
-    #     token = 'thisIsAToken'
-    #
-    #     with patch.object(EqLaunch, 'get_token', return_value='TEST_TOKEN') as eq_launch_get_token:
-    #         with patch.object(EqLaunch, 'call_eq', return_value='TEST_TOKEN') as call_eq:
-    #
-    #             response = await self.client.request('POST',
-    #                                                  self.post_start_en,
-    #                                                  data=self.start_data_valid)
-    #
-    #             contents = str(await response.content.read())
-    #             self.assertEqual(response.status, 200)
-    #
-    #             self.assertSiteLogo('en', contents)
-    #             self.assertIn(self.content_start_closed_study, contents)
-
     async def test_post_start_uac_closed_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.eq_launch_url_cy, exception=ClientResponseError('UAC_INACTIVE', history=Mock))
+            # mocked.get(url=self.eq_launch_url_cy,  exception=ClientResponseError('UAC_INACTIVE', history=Mock))
+            mocked.get(url=self.eq_launch_url_cy, payload='test')
 
             with self.assertLogs('respondent-home', 'INFO') as cm:
                 response = await self.client.request('POST',
