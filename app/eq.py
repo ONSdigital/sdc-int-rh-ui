@@ -42,12 +42,15 @@ class EqLaunch(object):
                                  client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
                     raise InactiveUacError
 
+                raise ex
+
             if ex.status == 429:
                 raise TooManyRequestsEQLaunch
             else:
-                logger.error('error processing access code',
-                             status='ex.status', message='ex.message', client_ip=request['client_ip'],
-                             client_id=request['client_id'], trace=request['trace'])
+                # TODO: this produces an '{KeyError} attempt to overwrite message in LogRecord ???
+                # logger.error('error processing access code',
+                #              status='ex.status', message='ex.message', client_ip=request['client_ip'],
+                #              client_id=request['client_id'], trace=request['trace'])
                 raise ex
 
         return token
