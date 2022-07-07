@@ -28,9 +28,8 @@ class TestEq(TestHelpers):
             args = rh_svc.call_args.args
             self.assertEqual(args[0], data)
             self.assertEqual(args[1],
-                             '/eqLaunch/TEST_UAC_HASH?languageCode=en&accountServiceUrl'
-                             '=httpdomain_urlurl_prefix/en/start/&accountServiceLogoutUrl'
-                             '=httpdomain_urlurl_prefix/en/signed-out/')
+                             '/eqLaunch/TEST_UAC_HASH?accountServiceLogoutUrl=httpdomain_urlurl_prefix/en/signed-out'
+                             '/&accountServiceUrl=httpdomain_urlurl_prefix/en/start/&languageCode=en')
 
     def test_call_eq(self):
         self.assertRaises(HTTPFound, EqLaunch.call_eq, 'eq_url_str', 'Test_token')

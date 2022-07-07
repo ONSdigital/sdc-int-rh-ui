@@ -63,7 +63,7 @@ class EqLaunch(object):
         p1 = f'languageCode={display_region}'
         p2 = f'accountServiceUrl={account_service_url}'
         p3 = f'accountServiceLogoutUrl={account_service_log_out_url}'
-        url = f'{base}?{p1}&{p2}&{p3}'
+        url = f'{base}?{p3}&{p2}&{p1}'
         return url
 
     @staticmethod

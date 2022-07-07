@@ -1,6 +1,6 @@
 import asyncio
 import json
-import time
+import urllib.parse
 import uuid
 import functools
 
@@ -29,6 +29,7 @@ def build_eq_raises(func, *args, **kwargs):
     :param args: the test method's keyword arguments
     :return: new method with patching functions attached as attributes
     """
+
     async def _override_eq_build_with_error(*_):
         from app import eq
 
@@ -54,7 +55,6 @@ def build_eq_raises(func, *args, **kwargs):
 
 
 class RHTestCase(AioHTTPTestCase):
-
     language_code = 'en'
     response_id = '2vfBHlIsGPImYlWTvXLiBeXw14NkzoicZcDJB8pZ9FQ='
 
@@ -124,18 +124,46 @@ class RHTestCase(AioHTTPTestCase):
         :param kwargs: other structlog key value pairs to assert for
         """
         for record in watcher.records:
-            try:
-                if (event in record.message
-                        and all(record.__dict__[key] == val
-                                for key, val in kwargs.items())):
+            if event in record.message:
+                all_matched = True
+
+                for key, expected_value in kwargs.items():
+                    try:
+                        # TODO: it didn't used to do this, but for some reason the url in the response object now
+                        # has encoded query params.
+                        if key == 'url':
+                            encoded_url = record.__dict__[key]
+
+                            split_url = encoded_url.split('?')
+                            query_string_dict = urllib.parse.parse_qs(split_url[1])
+
+                            actual_url = f'{urllib.parse.unquote(split_url[0])}?'
+
+                            for query_key, query_value in query_string_dict.items():
+                                decoded_value = urllib.parse.unquote(query_value[0])
+                                actual_url = f'{actual_url}{query_key}={decoded_value}&'
+
+                            actual_url = actual_url[:-1]
+
+                            if actual_url == expected_value:
+                                continue
+                            else:
+                                all_matched = False
+
+                        if record.__dict__[key] == expected_value:
+                            pass
+                        else:
+                            all_matched = False
+                    except KeyError:
+                        continue
+
+                if all_matched:
                     return record
-            except KeyError:
-                pass
-        else:
-            self.fail(
-                f"No matching log records with event: '{event}' and parameters: {kwargs},"
-                f"{watcher.records}"
-            )
+
+        self.fail(
+            f"No matching log records with event: '{event}' and parameters: {kwargs},"
+            f"{watcher.records}"
+        )
 
     def assertMessagePanel(self, message, content):
         """
@@ -362,7 +390,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_429_error_eq_launch_title_cy = \
             "Rydym ni\\\'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
 
-
         # End Common
 
         # Start Journey
@@ -433,7 +460,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
-
 
         self.eq_id = '9999'
         self.form_type = 'zzz'

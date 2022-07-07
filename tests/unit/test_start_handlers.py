@@ -22,14 +22,14 @@ attempts_retry_limit = 5
 class TestStartHandlers(TestHelpers):
     user_journey = 'start'
     eq_launch_url_en = 'http://localhost:8071/eqLaunch' \
-                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=en' \
-                       '&accountServiceUrl=http://localhost:9092/en/start/&accountServiceLogoutUrl=http://localhost' \
-                       ':9092/en/signed-out/'
+                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?accountServiceLogoutUrl' \
+                       '=http://localhost:9092/en/signed-out/&accountServiceUrl=http://localhost:9092/en/start' \
+                       '/&languageCode=en'
 
-    eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
-                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=cy' \
-                       '&accountServiceUrl=http://localhost:9092/cy/start/&accountServiceLogoutUrl=http://localhost' \
-                       ':9092/cy/signed-out/ '
+    # eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
+    #                    '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=cy' \
+    #                    '&accountServiceUrl=http://localhost:9092/cy/start/&accountServiceLogoutUrl=http://localhost' \
+    #                    ':9092/cy/signed-out/ '
 
     # def mock503s_en(self, mocked, times):
     #     for i in range(times):
@@ -125,17 +125,15 @@ class TestStartHandlers(TestHelpers):
                 response = await self.client.request('POST',
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
-            self.assertLogEvent(cm, 'response error')
+            self.assertLogEvent(cm, 'response error', status=http_status, method="get", url=self.eq_launch_url_en)
             # This doesn't work anymore, I do not know why
-            # , status=http_status, method="get", url=self.eq_launch_url_en)
+            #
 
         self.assertEqual(response.status, 500)
 
     async def test_default_handler_4xx(self):
         status_list = [*range(400, 452)]
         status_list.remove(404)
-
-        # TODO: Added this in, a 429 redirects to a different webpage
         status_list.remove(429)
 
         for st in status_list:
