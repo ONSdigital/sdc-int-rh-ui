@@ -6,7 +6,7 @@ RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
 # make this install, test, live test? and docker
 build: install dockerize
 
-dockerize:
+docker-build:
 	docker build -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/rh-ui .
 
 install:

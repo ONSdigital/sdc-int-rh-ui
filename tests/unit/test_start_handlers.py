@@ -26,19 +26,6 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/en/signed-out/&accountServiceUrl=http://localhost:9092/en/start' \
                        '/&languageCode=en'
 
-    # eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
-    #                    '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?languageCode=cy' \
-    #                    '&accountServiceUrl=http://localhost:9092/cy/start/&accountServiceLogoutUrl=http://localhost' \
-    #                    ':9092/cy/signed-out/ '
-
-    # def mock503s_en(self, mocked, times):
-    #     for i in range(times):
-    #         mocked.get(self.eq_launch_url_en, status=503)
-    #
-    # def mock503s_cy(self, mocked, times):
-    #     for i in range(times):
-    #         mocked.get(self.eq_launch_url_en, status=503)
-    #
     async def test_post_start_invalid_blank_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
