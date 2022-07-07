@@ -26,6 +26,11 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/en/signed-out/&accountServiceUrl=http://localhost:9092/en/start' \
                        '/&languageCode=en'
 
+    eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
+                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?accountServiceLogoutUrl' \
+                       '=http://localhost:9092/cy/signed-out/&accountServiceUrl=http://localhost:9092/cy/start' \
+                       '/&languageCode=cy'
+
     async def test_post_start_invalid_blank_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
@@ -147,8 +152,7 @@ class TestStartHandlers(TestHelpers):
 
     async def test_post_start_get_uac_404_cy(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            # TODO: Mocking to the self.eq_launch_url_cy doesn't work ???  App works fine
-            mocked.get(re.compile(".+"), status=404)
+            mocked.get(self.eq_launch_url_cy, status=404)
             with self.assertLogs('respondent-home', 'WARN') as cm:
                 response = await self.client.request('POST',
                                                      self.post_start_cy,
@@ -228,9 +232,7 @@ class TestStartHandlers(TestHelpers):
     async def test_post_start_for_receiptReceived_true_cy(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
                 passthrough=[str(self.server._root)]) as mocked:
-            # mocked.get(self.eq_launch_url_cy,  body='UAC_RECEIPTED', status=400)
-            # TODO: Mocking to the self.eq_launch_url_cy doesn't work ???  App works fine
-            mocked.get(re.compile(".+"), body='UAC_RECEIPTED', status=400)
+            mocked.get(self.eq_launch_url_cy, body='UAC_RECEIPTED', status=400)
 
             response = await self.client.request('POST',
                                                  self.post_start_cy,
