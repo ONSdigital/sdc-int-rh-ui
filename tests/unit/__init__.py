@@ -129,8 +129,7 @@ class RHTestCase(AioHTTPTestCase):
 
                 for key, expected_value in kwargs.items():
                     try:
-                        # TODO: it didn't used to do this, but for some reason the url in the response object now
-                        # has encoded query params.
+                        # The Url on the response now has encoded query params
                         if key == 'url':
                             encoded_url = record.__dict__[key]
 
