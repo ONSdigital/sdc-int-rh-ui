@@ -3,8 +3,8 @@ RAS_RM_REPO_URL = https://github.com/ONSdigital/ras-rm-docker-dev.git
 RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
 
 .PHONY: test unit_tests integration_tests
-# make this install, test, live test? and docker
-build: install dockerize
+
+build: test install docker-build
 
 docker-build:
 	docker build -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/rh-ui .
