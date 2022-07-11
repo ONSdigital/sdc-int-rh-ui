@@ -14,6 +14,7 @@ logger = get_logger('respondent-home')
 class EqLaunch(object):
     @staticmethod
     def call_eq(eq_url, token: str):
+        # 'raise HTTPFound is the valid AIO way of redirecting
         raise HTTPFound(f'{eq_url}/session?token={token}')
 
     @staticmethod

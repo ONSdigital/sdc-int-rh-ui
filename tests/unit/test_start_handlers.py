@@ -118,8 +118,6 @@ class TestStartHandlers(TestHelpers):
                                                      self.post_start_en,
                                                      data=self.start_data_valid)
             self.assertLogEvent(cm, 'response error', status=http_status, method="get", url=self.eq_launch_url_en)
-            # This doesn't work anymore, I do not know why
-            #
 
         self.assertEqual(response.status, 500)
 
