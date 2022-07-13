@@ -5,9 +5,9 @@ from aiohttp.client_exceptions import (ClientResponseError,
                                        ClientConnectorError,
                                        ClientConnectionError, ContentTypeError)
 
-from .exceptions import (ExerciseClosedError, InactiveCaseError,
+from .exceptions import (InactiveUacError, AlreadyReceiptedUacError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
-                         SessionTimeout, TooManyRequestsEQLaunch, TooManyRequestsRegister)
+                         SessionTimeout, TooManyRequestsEQLaunch)
 from structlog import get_logger
 
 from .utils import View
@@ -55,12 +55,10 @@ def create_error_middleware(overrides):
             return await session_timeout(request, ex.user_journey, ex.request_type)
         except TooManyRequestsEQLaunch:
             return await too_many_requests_eq_launch(request)
-        except TooManyRequestsRegister:
-            return await too_many_requests_register(request)
-        except InactiveCaseError:
-            return await inactive_case(request)
-        except ExerciseClosedError as ex:
-            return await ce_closed(request, ex.collection_exercise_id)
+        except AlreadyReceiptedUacError:
+            return await receipted_uac(request)
+        except InactiveUacError:
+            return await uac_inactive(request)
         except InvalidForEqTokenGeneration as ex:
             return await eq_error(request, ex.message)
         except ClientConnectionError as ex:
@@ -77,8 +75,8 @@ def create_error_middleware(overrides):
     return middleware_handler
 
 
-async def inactive_case(request):
-    logger.warn('attempt to use an inactive access code',
+async def receipted_uac(request):
+    logger.warn('attempt to use a receipted access code',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
                 trace=request['trace'])
@@ -86,14 +84,13 @@ async def inactive_case(request):
     return jinja.render_template('start-uac-already-used.html', request, attributes)
 
 
-async def ce_closed(request, collex_id):
-    logger.warn('attempt to access collection exercise that has already ended',
+async def uac_inactive(request):
+    logger.warn('attempt to use an uac thats marked inative',
                 client_ip=request['client_ip'],
                 client_id=request['client_id'],
-                trace=request['trace'],
-                collex_id=collex_id)
+                trace=request['trace'])
     attributes = check_display_region(request)
-    return jinja.render_template('start-closed.html', request, attributes)
+    return jinja.render_template('start-uac-inactive.html', request, attributes)
 
 
 async def eq_error(request, message: str):
@@ -183,20 +180,11 @@ async def too_many_requests_eq_launch(request):
     return jinja.render_template('start-too-many-requests.html', request, attributes, status=429)
 
 
-async def too_many_requests_register(request):
-    attributes = check_display_region(request)
-    await invalidate(request)
-    attributes['timeout'] = 'true'
-    return jinja.render_template('register-too-many-requests.html', request, attributes, status=429)
-
-
 async def session_timeout(request, user_journey: str, request_type: str):
     attributes = check_display_region(request)
     attributes['timeout'] = 'true'
     if user_journey == 'start':
         return jinja.render_template('start-timeout.html', request, attributes, status=403)
-    elif user_journey == 'register':
-        return jinja.render_template('register-timeout.html', request, attributes, status=403)
 
 
 def setup(app):

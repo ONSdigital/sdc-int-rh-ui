@@ -4,7 +4,10 @@ RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
 
 .PHONY: test unit_tests integration_tests
 
-build: install
+build: test install docker-build
+
+docker-build:
+	docker build -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/rh-ui .
 
 install:
 	pipenv install --dev
@@ -63,3 +66,4 @@ up:
 
 down:
 	./docker/rh-ui-stop.sh
+

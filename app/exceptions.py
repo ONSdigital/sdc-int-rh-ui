@@ -1,4 +1,4 @@
-class InactiveCaseError(Exception):
+class AlreadyReceiptedUacError(Exception):
     """Raised when a user enters a used IAC code"""
     def __init__(self):
         super().__init__()
@@ -27,15 +27,10 @@ class TooManyRequestsEQLaunch(Exception):
     """Raised when EQ returns a 429 error"""
 
 
-class TooManyRequestsRegister(Exception):
-    """Raised when Register returns a 429 error"""
-
-
-class ExerciseClosedError(Exception):
-    """Raised when a user attempts to access an already ended CE"""
-    def __init__(self, collection_exercise_id):
+class InactiveUacError(Exception):
+    """Raised when a user attempts to use an inactive UAC"""
+    def __init__(self):
         super().__init__()
-        self.collection_exercise_id = collection_exercise_id
 
 
 class InvalidDataError(Exception):

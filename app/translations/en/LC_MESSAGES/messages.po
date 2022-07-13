@@ -92,14 +92,6 @@ msgstr ""
 msgid "What is the date of birth of %(name)s?"
 msgstr ""
 
-#: app/templates/register-child-dob.html:76
-#: app/templates/register-confirm-mobile.html:64
-#: app/templates/register-enter-mobile.html:52
-#: app/templates/register-enter-name.html:161
-#: app/templates/register-select-school.html:73
-#: app/templates/start-confirm-address.html:71
-msgid "Continue"
-msgstr ""
 
 #: app/templates/register-child-summary.html:15
 msgid "Check answers"
@@ -128,11 +120,6 @@ msgstr ""
 
 #: app/templates/register-confirm-mobile.html:28
 msgid "No, I need to change it"
-msgstr ""
-
-#: app/templates/register-confirm-mobile.html:36
-#: app/templates/start-confirm-address.html:36
-msgid "Select an answer"
 msgstr ""
 
 #: app/templates/register-confirm-mobile.html:46
@@ -377,14 +364,6 @@ msgstr ""
 msgid "Take part in a survey"
 msgstr ""
 
-#: app/templates/start-confirm-address.html:21
-msgid "Yes, this is the correct address"
-msgstr ""
-
-#: app/templates/start-confirm-address.html:45
-#: app/templates/start-confirm-address.html:61
-msgid "Is this the correct address?"
-msgstr ""
 
 #: app/templates/signed-out.html:19
 msgid "Your progress has been saved"
@@ -395,10 +374,6 @@ msgstr ""
 msgid ""
 "Keep your 16-character access code safe. You will need to enter it again "
 "to %(open)saccess your study%(close)s."
-msgstr ""
-
-#: app/templates/start-confirm-address.html:28
-msgid "No, this is not the correct address"
 msgstr ""
 
 #: app/templates/start-expired.html:7
@@ -416,9 +391,6 @@ msgid ""
 "access code%(close)s."
 msgstr ""
 
-#: app/templates/start-incorrect-address.html:5
-msgid "You do not need to take part in this study"
-msgstr ""
 
 #: app/templates/start-timeout.html:7
 msgid "Sorry, you need to enter your access code"

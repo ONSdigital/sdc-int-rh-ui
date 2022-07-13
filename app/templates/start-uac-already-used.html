@@ -6,8 +6,6 @@
 
     <p>{{ _('Someone has already submitted a response using this access code.') }}</p>
 
-    {%- autoescape false -%}
-        <p>{{ _('If you need to start your study again, you can %(open)srequest a new access code%(close)s.', open='<a href="%s">' % request_code_link, close='</a>')|safe }}</p>
-    {%- endautoescape -%}
+{#TODO: Content design to redirect to phone number/page to query this etc#}
 
 {%- endblock main -%}

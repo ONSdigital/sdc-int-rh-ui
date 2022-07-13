@@ -34,6 +34,7 @@ class RetryRequest:
     """
     Make requests to a URL, but retry under certain conditions to tolerate server graceful shutdown.
     """
+
     def __init__(self, request, method, url, auth, request_headers, request_json, return_type):
         self.request = request
         self.method = method
@@ -43,10 +44,17 @@ class RetryRequest:
         self.json = request_json
         self.return_type = return_type
 
-    def __handle_response(self, response):
+    async def __handle_response(self, response):
         try:
+            body = None
+            if self.return_type == 'text':
+                body = await response.text()
+            elif self.return_type == 'json':
+                body = await response.json()
+
             response.raise_for_status()
         except ClientResponseError as ex:
+            ex.message = body
             raise ex
         else:
             logger.debug('successfully connected to service',
@@ -54,6 +62,8 @@ class RetryRequest:
                          client_id=self.request['client_id'],
                          trace=self.request['trace'],
                          url=self.url)
+
+        return body
 
     @retry(reraise=True, stop=stop_after_attempt(basic_attempt_limit),
            wait=wait_exponential(multiplier=wait_multiplier, exp_base=25),
@@ -67,15 +77,12 @@ class RetryRequest:
                     client_id=self.request['client_id'],
                     trace=self.request['trace'])
 
-        async with aiohttp.request(
-                self.method, self.url, auth=self.auth, json=self.json, headers=self.headers) as resp:
-            self.__handle_response(resp)
-            if self.return_type == 'text':
-                return await resp.text()
-            elif self.return_type == 'json':
-                return await resp.json()
-            else:
-                return None
+        try:
+            async with aiohttp.request(
+                    self.method, self.url, auth=self.auth, json=self.json, headers=self.headers) as resp:
+                return self.__handle_response(resp)
+        except ClientConnectionError as ex:
+            raise ex
 
     @retry(stop=stop_after_attempt(pooled_attempts_limit),
            wait=wait_exponential(multiplier=wait_multiplier),
@@ -85,13 +92,7 @@ class RetryRequest:
     async def _request_using_pool(self):
         async with self.request.app.http_session_pool.request(
                 self.method, self.url, auth=self.auth, json=self.json, headers=self.headers, ssl=False) as resp:
-            self.__handle_response(resp)
-            if self.return_type == 'text':
-                return await resp.text()
-            elif self.return_type == 'json':
-                return await resp.json()
-            else:
-                return None
+            return await self.__handle_response(resp)
 
     async def make_request(self):
         """
