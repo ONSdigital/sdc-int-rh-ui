@@ -48,3 +48,21 @@ class SignedOut(View):
 class SchoolsData(View):
     async def get(self, request):
         return FileResponse('app/data/schools.json')
+
+
+@static_routes.view('/cookies/')
+class Cookies(View):
+    @aiohttp_jinja2.template('cookies.html')
+    async def get(self, request):
+        return {
+            'page_url': View.gen_page_url(request)
+        }
+
+
+@static_routes.view('/privacy-and-data-protection/')
+class PrivacyAndDataProtection(View):
+    @aiohttp_jinja2.template('privacy-and-data-protection.html')
+    async def get(self, request):
+        return {
+            'page_url': View.gen_page_url(request)
+        }
