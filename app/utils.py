@@ -55,9 +55,9 @@ class View:
                 link = base_en
         elif requested_link == 'contact-us':
             if display_region == 'cy':
-                link = base_cy + '/cysylltu-a-ni/'
+                link = 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries'
             else:
-                link = base_en + '/contact-us/'
+                link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
         elif requested_link == 'privacy':
             if display_region == 'cy':
                 link = base_cy + '/preifatrwydd-a-diogelu-data/'
