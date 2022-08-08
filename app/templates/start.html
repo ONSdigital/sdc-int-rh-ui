@@ -4,7 +4,6 @@
 {% from 'components/button/_macro.njk' import onsButton %}
 {% from "components/input/_macro.njk" import onsInput %}
 
-{% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
 {% from "components/collapsible/_macro.njk" import onsCollapsible %}
 {% from "components/panel/_macro.njk" import onsPanel %}
 
@@ -24,35 +23,6 @@
     {%- set error_uac = {'id': 'uac_invalid', 'text': _('Enter a valid access code')} -%}
 {%- endif -%}
 
-{% if display_region == 'cy' %}
-    {% set breadcrumb_items = [
-                {
-                    "url": domain_url_cy,
-                    "text": 'Hafan'
-                }
-            ]
-    %}
-    {%- set where_code_link = domain_url_cy + '/ble-i-ddod-o-hyd-ich-cod-mynediad/' -%}
-{% else %}
-    {% set breadcrumb_items = [
-                {
-                    "url": domain_url_en,
-                    "text": 'Home'
-                }
-            ]
-    %}
-    {%- set where_code_link = domain_url_en + '/where-to-find-your-access-code/' -%}
-{% endif %}
-
-{% block preMain %}
-    {{
-        onsBreadcrumbs({
-            "ariaLabel": 'Breadcrumb',
-            "itemsList": breadcrumb_items
-        })
-    }}
-{% endblock %}
-
 {% block main %}
 
     {% if messages_dict %}
@@ -65,8 +35,7 @@
         onsUACInput({
             'id': 'uac',
             'name': 'uac',
-            'postTextboxLinkText': _('Where to find your access code'),
-            'postTextboxLinkUrl': where_code_link,
+            'postTextboxLinkText': _('Your personal access code can be found in the letter or email you received which linked you to this survey.'),
             'label': {
                 'text': _('Enter your 16-character access code'),
                 'description': _('Keep this code safe. You will need to enter it every time you access your study')
