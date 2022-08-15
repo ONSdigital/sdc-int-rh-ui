@@ -1,6 +1,5 @@
 import aiohttp_jinja2
-
-from aiohttp.web import RouteTableDef, json_response, FileResponse
+from aiohttp.web import RouteTableDef, json_response
 from structlog import get_logger
 
 from . import VERSION
@@ -42,12 +41,6 @@ class SignedOut(View):
             'locale': locale,
             'page_url': View.gen_page_url(request)
         }
-
-
-@static_routes.view('/data/schools/')
-class SchoolsData(View):
-    async def get(self, request):
-        return FileResponse('app/data/schools.json')
 
 
 @static_routes.view('/cookies/')
