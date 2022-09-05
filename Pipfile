@@ -35,5 +35,5 @@ retrying = "~=1.3.3"
 vulture = "*"
 
 [requires]
-python_version = "3.10.4"
+python_version = "3.10"
 
