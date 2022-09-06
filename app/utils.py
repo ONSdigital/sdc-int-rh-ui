@@ -8,7 +8,8 @@ uk_zone = timezone('Europe/London')
 
 
 class View:
-    valid_display_regions = r'{display_region:\ben|cy\b}'
+    valid_display_regions = r'{display_region:\ben\b}'
+    # valid_display_regions = r'{display_region:\ben|cy\b}'
     valid_display_regions_en_only = r'{display_region:\ben\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     page_title_error_prefix_en = 'Error: '
