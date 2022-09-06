@@ -269,9 +269,9 @@ class RHTestCase(AioHTTPTestCase):
             else:
                 panel_label_text = 'There is a problem with this page'
 
-        self.assertIn('<h2 id="error-summary-title" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">'
+        self.assertIn('<h2 id="alert" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">'
                       + panel_label_text + '</h2>', content)
-        self.assertIn('<a href="#' + field_name + '" class="ons-list__link  js-inpagelink">' + list_error + '</a>',
+        self.assertIn('<a href="#' + field_name + '" class="ons-list__link js-inpagelink">' + list_error + '</a>',
                       content)
         self.assertIn('<strong>' + field_error + '</strong>', content)
 
