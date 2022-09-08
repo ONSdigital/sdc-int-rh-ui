@@ -97,28 +97,3 @@ class TestEq(TestHelpers):
             self.assertEqual(data['flash'], [
                 {'text': 'Enter a valid access code', 'clickable': True, 'level': 'ERROR', 'type': 'INVALID_CODE',
                  'field': 'uac_invalid'}])
-
-    async def test_invalid_code_404_welsh(self):
-        # Given
-        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
-        data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
-                'flash': []}
-
-        client_response_error = ClientResponseError(status=404, history=Mock(), request_info=Mock())
-        with patch.object(RHSvc, 'get_eq_launch_token') as patch_get_eq_launch_token:
-            patch_get_eq_launch_token.side_effect = client_response_error
-
-            expected_exception = None
-
-            try:
-                # when
-                await EqLaunch.get_token(data, 'cy', app_mock)
-            except InvalidAccessCode as ex:
-                expected_exception = ex
-
-            self.assertEqual(type(expected_exception), InvalidAccessCode)
-            # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
-            # can test it here
-            self.assertEqual(data['flash'],
-                             [{'text': 'Rhowch god mynediad dilys', 'clickable': True, 'level': 'ERROR',
-                               'type': 'INVALID_CODE', 'field': 'uac_invalid'}])

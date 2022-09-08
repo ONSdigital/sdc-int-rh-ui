@@ -1,18 +1,7 @@
-import re
-from unittest.mock import patch, Mock
-
-from aiohttp.client_exceptions import ClientConnectionError, ClientResponseError
-from aiohttp_session import get_session
+from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
-
-from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
-                 BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.eq import EqLaunch
-from app.exceptions import AlreadyReceiptedUacError
+from app import (BAD_CODE_MSG, INVALID_CODE_MSG)
 from app.start_handlers import Start
-
-from . import build_eq_raises
-
 from .helpers import TestHelpers
 
 attempts_retry_limit = 5
@@ -26,11 +15,6 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/en/signed-out/&accountServiceUrl=http://localhost:9092/en/start' \
                        '/&languageCode=en'
 
-    eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
-                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?accountServiceLogoutUrl' \
-                       '=http://localhost:9092/cy/signed-out/&accountServiceUrl=http://localhost:9092/cy/start' \
-                       '/&languageCode=cy'
-
     async def test_post_start_invalid_blank_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
@@ -43,8 +27,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertSiteLogo(contents)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_url_ew(self):
@@ -59,8 +42,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertSiteLogo(contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_random_ew(self):
@@ -75,8 +57,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertSiteLogo(contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_uac_closed_ew_w(self):
@@ -91,7 +72,7 @@ class TestStartHandlers(TestHelpers):
 
         self.assertEqual(200, response.status)
         contents = str(await response.content.read())
-        self.assertSiteLogo('en', contents)
+        self.assertSiteLogo(contents)
         self.assertIn("This access code has been marked inactive", contents)
 
     async def test_post_start_get_uac_connection_error_ew(self):
@@ -146,7 +127,7 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm, 'attempt to use an invalid access code', client_ip=None)
         self.assertEqual(401, response.status)
         self.assertLogEvent(cm, 'invalid access code entered')
-        self.check_content_start('en', str(await response.content.read()), check_error=True)
+        self.check_content_start(str(await response.content.read()), check_error=True)
 
     def test_uac_hash(self):
         # Given some post data
@@ -185,8 +166,7 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertIn(self.content_signed_out_page_title_en, contents)
             self.assertIn(self.content_signed_out_title_en, contents)
-            self.assertSiteLogo('en', contents)
-            self.assertIn('<a href="/cy/signed-out/" lang="cy" >Cymraeg</a>', contents)
+            self.assertSiteLogo(contents)
 
     async def test_post_start_for_receiptReceived_true_ew_e(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
@@ -200,5 +180,5 @@ class TestStartHandlers(TestHelpers):
             self.assertLogEvent(cm, "attempt to use receipted UAC")
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
-            self.assertSiteLogo('en', contents)
+            self.assertSiteLogo(contents)
             self.assertIn(self.content_start_uac_already_used_en, contents)

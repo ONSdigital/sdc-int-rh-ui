@@ -28,7 +28,7 @@ class View:
     @staticmethod
     def gen_page_url(request):
         full_url = str(request.rel_url)
-        if full_url[:3] == '/en' or full_url[:3] == '/cy':
+        if full_url[:3] == '/en':
             generic_url = full_url[3:]
         else:
             generic_url = full_url

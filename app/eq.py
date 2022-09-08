@@ -2,7 +2,7 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import Application, HTTPFound
 from structlog import get_logger
 
-from . import INVALID_CODE_MSG_CY, INVALID_CODE_MSG
+from . import INVALID_CODE_MSG
 from .exceptions import TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
     AlreadyReceiptedUacError
 from .flash import flash
@@ -26,10 +26,8 @@ class EqLaunch(object):
             if ex.status == 404:
                 logger.warn('attempt to use an invalid access code',
                             client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
-                if display_region == 'cy':
-                    flash(request, INVALID_CODE_MSG_CY)
-                else:
-                    flash(request, INVALID_CODE_MSG)
+
+                flash(request, INVALID_CODE_MSG)
 
                 raise InvalidAccessCode
 

@@ -34,10 +34,7 @@ def create_error_middleware(overrides):
 
             index_resource = request.app.router['Start:get']
 
-            if path_starts_with('/cy'):
-                display_region = 'cy'
-            else:
-                display_region = 'en'
+            display_region = 'en'
 
             if request.path + '/' == index_resource.canonical.replace('{display_region}', display_region):
                 logger.debug('redirecting to index',
@@ -247,18 +244,9 @@ def check_display_region(request):
         'page_url': View.gen_page_url(request)
     }
 
-    if path_starts_with('/cy'):
-        return {
-            **base_attributes,
-            'display_region': 'cy',
-            'locale': 'cy',
-            'page_title': 'Gwall',
-            'contact_us_link': View.get_campaign_site_link(request, 'cy', 'contact-us')
-        }
-    else:
-        return {
-            **base_attributes,
-            'display_region': 'en',
-            'page_title': 'Error',
-            'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
-        }
+    return {
+        **base_attributes,
+        'display_region': 'en',
+        'page_title': 'Error',
+        'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
+    }

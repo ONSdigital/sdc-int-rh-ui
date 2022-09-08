@@ -180,53 +180,19 @@ class RHTestCase(AioHTTPTestCase):
         level = message['level'].lower()
         self.assertIn(f'panel--{level}', content)
 
-    def assertSiteLogo(self, display_region, content):
-        """
-        Helper method for asserting that the correct site logo is presented (english or welsh)
-        :param display_region: str: either 'en' or 'cy'
-        :param content: rendered HTML str
-        """
-        if display_region == 'cy':
-            self.assertIn('<title id="ons-logo-cy-alt">', content)
-        else:
-            self.assertIn('<title id="ons-logo-en-alt">', content)
+    def assertSiteLogo(self, content):
+        self.assertIn('<title id="ons-logo-en-alt">', content)
 
-    def assertExitButton(self, display_region, content):
-        """
-        Helper method for asserting that the 'Exit' button is presented (english or welsh) on authenticated pages
-        :param display_region: str: either 'en' or 'cy'
-        :param content: rendered HTML str
-        """
-        if display_region == 'cy':
-            self.assertIn('href="/cy/start/exit/"', content)
-        else:
-            self.assertIn('href="/en/start/exit/"', content)
+    def assertExitButton(self,  content):
+        self.assertIn('href="/en/start/exit/"', content)
 
-    def assertNotExitButton(self, display_region, content):
-        """
-        Helper method for asserting that the 'Exit' button is presented (english or welsh) on authenticated pages
-        :param display_region: str: either 'en' or 'cy'
-        :param content: rendered HTML str
-        """
-        if display_region == 'cy':
-            self.assertNotIn('href="/cy/start/exit/"', content)
-        else:
-            self.assertNotIn('href="/en/start/exit/"', content)
+    def assertNotExitButton(self, content):
+        self.assertNotIn('href="/en/start/exit/"', content)
 
-    def assertCorrectHeadTitleTag(self, display_region, title, content, error=False):
-        """
-        Helper method for asserting that the head title tag is correct and displays error prefix if required
-        :param display_region: str: either 'en' or 'cy'
-        :param title: str
-        :param content: rendered HTML str
-        :param error: Boolean
-        """
-        if display_region == 'cy':
-            site_name = self.app['SITE_NAME_CY']
-            error_prefix = 'Gwall'
-        else:
-            site_name = self.app['SITE_NAME_EN']
-            error_prefix = 'Error'
+    def assertCorrectHeadTitleTag(self, title, content, error=False):
+        site_name = self.app['SITE_NAME_EN']
+        error_prefix = 'Error'
+
         if error:
             self.assertIn('<title>' + error_prefix + ': ' + title + ' - ' + site_name + '</title>', content)
         else:
@@ -248,7 +214,7 @@ class RHTestCase(AioHTTPTestCase):
         """
         self.assertIn('<h1 class="ons-u-mb-xs ons-u-fs-l">' + title + '</h1>', content)
 
-    def assertErrorMessageDisplayed(self, display_region, panel_label, list_error, field_name, field_error, content):
+    def assertErrorMessageDisplayed(self, panel_label, list_error, field_name, field_error, content):
         """
         Helper method for asserting that the error panel and messages are displayed
         :param display_region: str: either 'en' or 'cy'
@@ -258,49 +224,17 @@ class RHTestCase(AioHTTPTestCase):
         :param field_error: str: text of error on individual field
         :param content: rendered HTML str
         """
-        if display_region == 'cy':
-            if panel_label == 'answer':
-                panel_label_text = "Mae problem gyda\\\'ch ateb"
-            else:
-                panel_label_text = "Mae problem gyda\\\'r dudalen hon"
+
+        if panel_label == 'answer':
+            panel_label_text = 'There is a problem with your answer'
         else:
-            if panel_label == 'answer':
-                panel_label_text = 'There is a problem with your answer'
-            else:
-                panel_label_text = 'There is a problem with this page'
+            panel_label_text = 'There is a problem with this page'
 
         self.assertIn('<h2 id="alert" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">'
                       + panel_label_text + '</h2>', content)
         self.assertIn('<a href="#' + field_name + '" class="ons-list__link js-inpagelink">' + list_error + '</a>',
                       content)
         self.assertIn('<strong>' + field_error + '</strong>', content)
-
-    def assertCorrectTranslationLink(self, content, display_region, user_journey, request_type=None, page=None):
-        """
-        Helper method for asserting that the correct translation link is displayed
-        :param display_region: str: either 'en' or 'cy'
-        :param user_journey: str
-        :param content: rendered HTML str
-        :param request_type: str
-        :param page: str
-        """
-        if display_region == 'cy':
-            lang = 'en'
-            link_text = 'English'
-        else:
-            lang = 'cy'
-            link_text = 'Cymraeg'
-
-        if not page:
-            link = '<a href="/' + lang + '/' + user_journey + '/" lang="' + lang + '" >' + link_text + '</a>'
-        elif not request_type:
-            link = '<a href="/' + lang + '/' + user_journey + '/' + page + \
-                   '/" lang="' + lang + '" >' + link_text + '</a>'
-        else:
-            link = '<a href="/' + lang + '/' + user_journey + '/' + request_type + '/' + page + \
-                   '/" lang="' + lang + '" >' + link_text + '</a>'
-
-        self.assertIn(link, content)
 
     def assert500Error(self, response, display_region, content, check_exit=False):
         """
@@ -311,9 +245,9 @@ class RHTestCase(AioHTTPTestCase):
         :param check_exit: Boolean
         """
         self.assertEqual(response.status, 500)
-        self.assertSiteLogo(display_region, content)
+        self.assertSiteLogo(content)
         if not check_exit:
-            self.assertNotExitButton(display_region, content)
+            self.assertNotExitButton(content)
         if display_region == 'cy':
             self.assertIn("Mae\\'n flin gennym, aeth rhywbeth o\\'i le", content)
         else:

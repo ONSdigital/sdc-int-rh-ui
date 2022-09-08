@@ -4,8 +4,7 @@ import aiohttp_jinja2
 from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
-from . import (BAD_CODE_MSG, INVALID_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY, START_PAGE_TITLE_EN,
-               START_PAGE_TITLE_CY)
+from . import (BAD_CODE_MSG, INVALID_CODE_MSG, START_PAGE_TITLE_EN)
 from .eq import EqLaunch
 from .flash import flash
 from .security import get_sha256_hash, invalidate
@@ -22,21 +21,16 @@ class Start(View):
     async def get(self, request):
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/' + user_journey)
-        if display_region == 'cy':
-            locale = 'cy'
-            page_title = START_PAGE_TITLE_CY
-            if request.get('flash'):
-                page_title = View.page_title_error_prefix_cy + page_title
-        else:
-            locale = 'en'
-            page_title = START_PAGE_TITLE_EN
-            if request.get('flash'):
-                page_title = View.page_title_error_prefix_en + page_title
+
+        page_title = START_PAGE_TITLE_EN
+
+        if request.get('flash'):
+            page_title = View.page_title_error_prefix_en + page_title
 
         return {
             'display_region': display_region,
             'page_title': page_title,
-            'locale': locale,
+            'locale': 'en',
             'page_url': View.gen_page_url(request)
         }
 
@@ -48,7 +42,7 @@ class Start(View):
         data = await request.post()
 
         if (not data.get('uac')) or (data.get('uac') == ''):
-            return self._display_missing_uac_error(request, display_region)
+            return self._display_missing_uac_error(request)
 
         try:
             request['uac_hash'] = self._uac_hash(data.get('uac'))
@@ -63,8 +57,7 @@ class Start(View):
         logger.warn('attempt to use a malformed access code',
                     client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
         message = {
-            'en': INVALID_CODE_MSG,
-            'cy': INVALID_CODE_MSG_CY
+            'en': INVALID_CODE_MSG
         }[display_region]
         flash(request, message)
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
@@ -84,18 +77,15 @@ class Start(View):
         return get_sha256_hash(combined)
 
     @staticmethod
-    def _display_missing_uac_error(request, display_region):
+    def _display_missing_uac_error(request):
         logger.info('access code not supplied',
                     client_ip=request['client_ip'],
                     client_id=request['client_id'],
-                    trace=request['trace'],
-                    region_of_site=display_region)
-        if display_region == 'cy':
-            flash(request, BAD_CODE_MSG_CY)
-        else:
-            flash(request, BAD_CODE_MSG)
+                    trace=request['trace'])
 
-        return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
+        flash(request, BAD_CODE_MSG)
+
+        return HTTPFound(request.app.router['Start:get'].url_for(display_region='en'))
 
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')

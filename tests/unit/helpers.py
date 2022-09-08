@@ -48,37 +48,28 @@ class TestHelpers(RHTestCase):
                 self.assertIn(self.content_common_timeout_en, contents)
                 self.assertIn(self.content_request_timeout_error_en, contents)
 
-    def check_content_start(self, display_region, contents, check_empty=False, check_error=False):
-        if display_region == 'cy':
-            title_tag = 'Start study'  # TODO Add Translation
-            h1_title = 'Start study'
-            secondary_text = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
-            error_text_link = "Rhowch god mynediad dilys"
-            error_text = error_text_link
-            error_text_empty = 'Rhowch god mynediad'
-        else:
-            title_tag = 'Start study'
-            h1_title = 'Start study'
-            secondary_text = 'Enter your 16-character access code'
-            error_text_link = 'Enter a valid access code'
-            error_text = error_text_link
-            error_text_empty = 'Enter an access code'
+    def check_content_start(self, contents, check_empty=False, check_error=False):
+        title_tag = 'Start study'
+        h1_title = 'Start study'
+        secondary_text = 'Enter your 16-character access code'
+        error_text_link = 'Enter a valid access code'
+        error_text = error_text_link
+        error_text_empty = 'Enter an access code'
 
-        self.assertNotExitButton(display_region, contents)
-        self.assertSiteLogo(display_region, contents)
-        self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
+        self.assertNotExitButton(contents)
+        self.assertSiteLogo(contents)
 
         if check_empty:
-            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
-            self.assertErrorMessageDisplayed(display_region, 'page', error_text_empty, 'uac_invalid',
+            self.assertCorrectHeadTitleTag(title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed( 'page', error_text_empty, 'uac_invalid',
                                              error_text_empty, contents)
             self.assertIn(error_text_empty, contents)
         elif check_error:
-            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)
-            self.assertErrorMessageDisplayed(display_region, 'page', error_text_link, 'uac_invalid',
+            self.assertCorrectHeadTitleTag(title_tag, contents, error=True)
+            self.assertErrorMessageDisplayed('page', error_text_link, 'uac_invalid',
                                              error_text, contents)
         else:
-            self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=False)
+            self.assertCorrectHeadTitleTag( title_tag, contents, error=False)
 
         self.assertIn('<h1 class="ons-u-fs-xxl ons-u-mt-l">' + h1_title + '</h1>', contents)
         self.assertIn(secondary_text, contents)
