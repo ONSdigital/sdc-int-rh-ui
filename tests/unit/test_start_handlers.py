@@ -44,7 +44,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_url_ew(self):
@@ -60,7 +59,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_random_ew(self):
@@ -76,7 +74,6 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_uac_closed_ew_w(self):
@@ -148,18 +145,6 @@ class TestStartHandlers(TestHelpers):
         self.assertLogEvent(cm, 'invalid access code entered')
         self.check_content_start('en', str(await response.content.read()), check_error=True)
 
-    async def test_post_start_get_uac_404_cy(self):
-        with aioresponses(passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.eq_launch_url_cy, status=404)
-            with self.assertLogs('respondent-home', 'WARN') as cm:
-                response = await self.client.request('POST',
-                                                     self.post_start_cy,
-                                                     data=self.start_data_valid)
-            self.assertLogEvent(cm, 'attempt to use an invalid access code', client_ip=None)
-        self.assertEqual(response.status, 401)
-        self.assertLogEvent(cm, 'invalid access code entered')
-        self.check_content_start('cy', str(await response.content.read()), check_error=True)
-
     def test_uac_hash(self):
         # Given some post data
         post_data = {'uac': 'w4nw wpph jjpt p7fn', 'action[save_continue]': ''}
@@ -198,19 +183,6 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_signed_out_page_title_en, contents)
             self.assertIn(self.content_signed_out_title_en, contents)
             self.assertSiteLogo('en', contents)
-            self.assertIn('<a href="/cy/signed-out/" lang="cy" >Cymraeg</a>', contents)
-
-    async def test_get_signed_out_cy(self):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', self.get_signed_out_cy)
-            self.assertLogEvent(cm, "received GET on endpoint 'cy/signed-out'")
-            self.assertLogEvent(cm, "identity not previously remembered")
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_signed_out_page_title_cy, contents)
-            self.assertIn(self.content_signed_out_title_cy, contents)
-            self.assertSiteLogo('cy', contents)
-            self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
     async def test_post_start_for_receiptReceived_true_ew_e(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
@@ -226,18 +198,3 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertSiteLogo('en', contents)
             self.assertIn(self.content_start_uac_already_used_en, contents)
-
-    async def test_post_start_for_receiptReceived_true_cy(self):
-        with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
-                passthrough=[str(self.server._root)]) as mocked:
-            mocked.get(self.eq_launch_url_cy, body='UAC_RECEIPTED', status=400)
-
-            response = await self.client.request('POST',
-                                                 self.post_start_cy,
-                                                 data=self.start_data_valid)
-
-            self.assertLogEvent(cm, "attempt to use receipted UAC")
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertSiteLogo('cy', contents)
-            self.assertIn(self.content_start_uac_already_used_cy, contents)
