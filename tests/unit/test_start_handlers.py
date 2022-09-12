@@ -26,11 +26,6 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/en/signed-out/&accountServiceUrl=http://localhost:9092/en/start' \
                        '/&languageCode=en'
 
-    eq_launch_url_cy = 'http://localhost:8071/eqLaunch' \
-                       '/54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c?accountServiceLogoutUrl' \
-                       '=http://localhost:9092/cy/signed-out/&accountServiceUrl=http://localhost:9092/cy/start' \
-                       '/&languageCode=cy'
-
     async def test_post_start_invalid_blank_ew(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
