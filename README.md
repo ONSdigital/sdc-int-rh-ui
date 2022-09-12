@@ -20,7 +20,7 @@ First, run scripts/load_templates.sh to pull the current/correct version of the 
 
 Then to run this application in development use, run 'run.py'
 
-and access using [http://localhost:9092/en/start/](http://localhost:9092/en/start/) or [http://localhost:9092/cy/start/](http://localhost:9092/cy/start/).
+and access using [http://localhost:9092/en/start/](http://localhost:9092/en/start/)
 
 You can also run RH UI and its dependencies in Docker.
 See the [Readme](docker/README.md) in the docker directory for details.
