@@ -20,13 +20,7 @@ steps:
       echo "Run Tests"
       pipenv run pytest tests/unit --ignore=node_modules -n 2
 
-  # Docker Build
-  - name: 'gcr.io/cloud-builders/docker'
-    id: Docker Build
-    args: [ 'build', '-t', 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME-$SHORT_SHA', '-f', 'Dockerfile', '.' ]
-      
 timeout: '2400s'
-images: [ 'europe-west2-docker.pkg.dev/ons-ci-int/int-docker-snapshot/rh-ui:$BRANCH_NAME-$SHORT_SHA' ]
 
 
 
