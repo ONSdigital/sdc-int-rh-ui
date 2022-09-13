@@ -69,8 +69,6 @@ class BaseConfig:
     ADDRESS_INDEX_SVC_EXTERNAL_URL = env('ADDRESS_INDEX_SVC_EXTERNAL_URL')
     ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='')
 
-    EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
-
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
     SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
 
@@ -116,8 +114,6 @@ class DevelopmentConfig:
     ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='c2VjcmV0PT0=')  # secret== base64 encoded
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
-    EQ_SALT = env('EQ_SALT', default='s3cr3tS4lt')
-
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
     SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
 
@@ -155,8 +151,6 @@ class TestingConfig:
     ADDRESS_INDEX_SVC_EXTERNAL_URL = 'http://localhost:9000'
     ADDRESS_INDEX_SVC_KEY = 'c2VjcmV0PT0='  # secret== base64 encoded
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
-
-    EQ_SALT = 's3cr3tS4lt'
 
     SITE_NAME_EN = 'ONS Surveys'
     SITE_NAME_CY = 'ONS Surveys'
