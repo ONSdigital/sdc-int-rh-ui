@@ -12,8 +12,7 @@
             'iconType': 'exit',
             'iconPosition': 'after',
             'url': url('StartExit:get', display_region='en')
-        }
-    -%}
+        }-%}
 {%- endif -%}
 
 {%- set footer_content = {
@@ -53,8 +52,7 @@
         'copyrightDeclaration': {
             'copyright': 'Crown copyright and database rights 2020 OS 100019153.'
         }
-    }
--%}
+    }-%}
 
 {%- if page_url -%}
     {%- set language = { 'languages':
@@ -69,17 +67,10 @@
                 'current': true
             },
             {
-                'url': '/cy' + page_url,
-                'ISOCode': 'cy',
-                'text': 'Cymraeg',
-                'buttonAriaLabel': 'Dewisydd iaith. Iaith gyfredol: Cymraeg',
-                'chooseLanguage': 'Dewiswch iaith',
-                'allLanguages': 'Pob iaith',
                 'current': false
             }
         ]
-}
-    -%}
+}-%}
 {%- endif -%}
 
 {%- set pageConfig = {
@@ -97,12 +88,10 @@
 {%- block preHeader -%}
 
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
-    {{
-        onsCookiesBanner({
+    {{ onsCookiesBanner({
             "statementTitle": 'Tell us whether you accept cookies',
             "statementText": 'We use <a href="' + domain_url_en + '/cookies/' + '">cookies to collect information</a> about how you use start.surveys.ons.gov.uk. We use this information to make the website work as well as possible and improve our services.',
             "confirmationText": 'You’ve accepted all cookies. You can <a href="' + domain_url_en + '/cookies/' + '">change your cookie preferences</a> at any time.',
             "secondaryButtonUrl": domain_url_en + '/cookies/'
-        })
-    }}
+        }) }}
 {%- endblock -%}
