@@ -1,5 +1,5 @@
-ARG  dockerfile_from_image=europe-west2-docker.pkg.dev/ons-ci-rm/docker/python-pipenv:latest
-FROM ${dockerfile_from_image} as build
+ARG  python_pipenv_build_image=europe-west2-docker.pkg.dev/ons-ci-rm/docker/python-pipenv:latest
+FROM ${python_pipenv_build_image} as build
 
 ENV PIPENV_VENV_IN_PROJECT=1
 
