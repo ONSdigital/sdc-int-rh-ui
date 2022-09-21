@@ -48,7 +48,7 @@ integration_tests:
 live_integration_tests:
 	pipenv run inv integration --live
 
-unittests:
+unit_tests: check lint
 	pipenv run inv unittests
 
 coverage:
@@ -67,3 +67,5 @@ up:
 down:
 	./docker/rh-ui-stop.sh
 
+check:
+	pipenv check
