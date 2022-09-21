@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+set -e
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd "${DIR}"/.. || exit
 
-DESIGN_SYSTEM_VERSION="55.sdfdsf1.0"
+DESIGN_SYSTEM_VERSION="55.1.0"
 
 TEMP_DIR=$(mktemp -d)
 
