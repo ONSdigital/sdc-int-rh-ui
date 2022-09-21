@@ -18,7 +18,6 @@ tenacity = "~=8.0.1"
 jinja2 = "~=3.1.1"
 importlib-metadata = "~=4.11.3" # Requires python 3.7+
 urllib3 = "~=1.26.9"
-pyjwt = "~=2.3.0"
 
 [dev-packages]
 aiohttp-devtools = "~=1.0.post0"
@@ -36,4 +35,3 @@ vulture = "*"
 
 [requires]
 python_version = "3.10"
-
