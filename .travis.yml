@@ -1,0 +1,35 @@
+dist: bionic # The default dist does not yet support python 3.10
+
+sudo: required
+
+services:
+  - docker
+
+language: python
+
+python:
+  - "3.10"
+
+before_install:
+  - python -m pip install --upgrade pip
+  - python -m pip install --upgrade py
+  - pip uninstall -y numpy  # Remove the vulnerable Numpy which Travis provides
+  - docker login -u "${DOCKER_GCP_USERNAME}" -p "${DOCKER_GCP_PASSWORD}" https://europe-west2-docker.pkg.dev;
+  - docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_PASSWORD}";
+  - docker network create ssdcrmdockerdev_default
+
+install:
+  - pip install -U pipenv
+  - pipenv install --dev --deploy   # TODO: Is this needed if script step does this?
+
+script:
+  - make install
+  - make unit_tests
+
+env:
+  global:
+    - PIPENV_IGNORE_VIRTUALENVS=1
+
+branches:
+  only:
+    - main
