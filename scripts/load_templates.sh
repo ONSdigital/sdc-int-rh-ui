@@ -4,7 +4,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd "${DIR}"/.. || exit
+cd "${DIR}"/..
 
 DESIGN_SYSTEM_VERSION="55.1.0"
 
