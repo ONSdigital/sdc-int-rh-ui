@@ -20,7 +20,7 @@ before_install:
 
 install:
   - pip install -U pipenv
-  - pipenv install --dev --deploy   # TODO: Is this needed if script step does this?
+#  - pipenv install --dev --deploy   # TODO: Is this needed if script step does this?
 
 script:
   - make test
