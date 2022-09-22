@@ -1,6 +1,3 @@
-from unittest import mock
-
-from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
 
 from . import RHTestCase

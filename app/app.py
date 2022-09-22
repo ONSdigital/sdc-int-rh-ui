@@ -119,7 +119,10 @@ def create_app(config_name=None) -> Application:
         app,
         loader=jinja2.PackageLoader('app', 'templates'),
         context_processors=[
-            flash.context_processor, aiohttp_jinja2.request_processor, domains.domain_processor, security.context_processor
+            flash.context_processor,
+            aiohttp_jinja2.request_processor,
+            domains.domain_processor,
+            security.context_processor
         ],
         extensions=['app.i18n.i18n'])
 

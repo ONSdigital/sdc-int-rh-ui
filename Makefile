@@ -22,7 +22,7 @@ serve:
 run:
 	pipenv run inv run
 
-test: install unit_tests
+test: install flake8 unit_tests
 
 local_test:  start_services wait_for_services setup integration_tests stop_services
 
@@ -48,14 +48,14 @@ integration_tests:
 live_integration_tests:
 	pipenv run inv integration --live
 
-unit_tests: check load_templates
+unit_tests: check flake8 load_templates
 	pipenv run inv unittests
 
 coverage:
 	pipenv run inv coverage
 
 flake8:
-	pipenv run inv flake8
+	pipenv run flake8
 
 demo:
 	./scripts/start_eq.sh ${EQ_RUNNER_REPO_URL}
