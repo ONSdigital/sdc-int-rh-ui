@@ -23,8 +23,7 @@ install:
   - pipenv install --dev --deploy   # TODO: Is this needed if script step does this?
 
 script:
-  - make install
-  - make unit_tests
+  - make test
 
 env:
   global:

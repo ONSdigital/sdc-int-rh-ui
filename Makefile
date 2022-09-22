@@ -22,7 +22,7 @@ serve:
 run:
 	pipenv run inv run
 
-test: flake8 unittests
+test: install unit_tests
 
 local_test:  start_services wait_for_services setup integration_tests stop_services
 
@@ -48,7 +48,7 @@ integration_tests:
 live_integration_tests:
 	pipenv run inv integration --live
 
-unit_tests: check lint
+unit_tests: check load_templates
 	pipenv run inv unittests
 
 coverage:
@@ -69,3 +69,6 @@ down:
 
 check:
 	pipenv check
+
+load_templates:
+	./scripts/load_templates.sh
