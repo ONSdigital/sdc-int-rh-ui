@@ -1,18 +1,8 @@
-import re
-from unittest.mock import patch, Mock
-
-from aiohttp.client_exceptions import ClientConnectionError, ClientResponseError
-from aiohttp_session import get_session
+from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
 
-from app import (BAD_CODE_MSG, INVALID_CODE_MSG,
-                 BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY)
-from app.eq import EqLaunch
-from app.exceptions import AlreadyReceiptedUacError
+from app import (BAD_CODE_MSG, INVALID_CODE_MSG)
 from app.start_handlers import Start
-
-from . import build_eq_raises
-
 from .helpers import TestHelpers
 
 attempts_retry_limit = 5

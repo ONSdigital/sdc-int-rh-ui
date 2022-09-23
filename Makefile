@@ -4,7 +4,7 @@ RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
 
 .PHONY: test unit_tests integration_tests
 
-build: test install docker-build
+build: test docker-build
 
 docker-build:
 	docker build -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/rh-ui .
@@ -22,7 +22,7 @@ serve:
 run:
 	pipenv run inv run
 
-test: flake8 unittests
+test: install unit_tests
 
 local_test:  start_services wait_for_services setup integration_tests stop_services
 
@@ -48,14 +48,14 @@ integration_tests:
 live_integration_tests:
 	pipenv run inv integration --live
 
-unittests:
+unit_tests: check flake8 load_templates
 	pipenv run inv unittests
 
 coverage:
 	pipenv run inv coverage
 
 flake8:
-	pipenv run inv flake8
+	pipenv run flake8
 
 demo:
 	./scripts/start_eq.sh ${EQ_RUNNER_REPO_URL}
@@ -67,3 +67,8 @@ up:
 down:
 	./docker/rh-ui-stop.sh
 
+check:
+	pipenv check
+
+load_templates:
+	./scripts/load_templates.sh

@@ -52,8 +52,9 @@ class TestRespondentHome(AioHTTPTestCase):
 
         # skip on case service so we can mock the POSTing of a case event
         service_urls = [
-            self.app[url] for url in self.app if url.isupper()
-                                                 and not url.startswith('CASE') and url.endswith('URL')
+            self.app[url]
+            for url in self.app
+            if url.isupper() and not url.startswith('CASE') and url.endswith('URL')
         ]
         # allow all other service requests to keep integration test as close to normal as possible
         with aioresponses(passthrough=([str(self.server._root)] +
