@@ -22,7 +22,7 @@ serve:
 run:
 	pipenv run inv run
 
-test: install flake8 unit_tests
+test: install unit_tests
 
 local_test:  start_services wait_for_services setup integration_tests stop_services
 
