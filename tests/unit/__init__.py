@@ -275,6 +275,33 @@ class RHTestCase(AioHTTPTestCase):
                       content)
         self.assertIn('<strong>' + field_error + '</strong>', content)
 
+    def assertCorrectTranslationLink(self, content, display_region, user_journey, request_type=None, page=None):
+        """
+        Helper method for asserting that the correct translation link is displayed
+        :param display_region: str: either 'en' or 'cy'
+        :param user_journey: str
+        :param content: rendered HTML str
+        :param request_type: str
+        :param page: str
+        """
+        if display_region == 'cy':
+            lang = 'en'
+            link_text = 'English'
+        else:
+            lang = 'cy'
+            link_text = 'Cymraeg'
+
+        if not page:
+            link = '<a href="/' + lang + '/' + user_journey + '/" lang="' + lang + '" >' + link_text + '</a>'
+        elif not request_type:
+            link = '<a href="/' + lang + '/' + user_journey + '/' + page + \
+                   '/" lang="' + lang + '" >' + link_text + '</a>'
+        else:
+            link = '<a href="/' + lang + '/' + user_journey + '/' + request_type + '/' + page + \
+                   '/" lang="' + lang + '" >' + link_text + '</a>'
+
+        self.assertIn(link, content)
+
     def assert500Error(self, response, display_region, content, check_exit=False):
         """
         Helper method for asserting that the correct site logo is presented (english or welsh)
