@@ -23,10 +23,6 @@ run:
 
 test: install unit_tests
 
-local_test:  start_services wait_for_services setup integration_tests stop_services
-
-live_test: start_services wait_for_services setup live_integration_tests stop_services
-
 wait_for_services:
 	pipenv run inv wait
 
