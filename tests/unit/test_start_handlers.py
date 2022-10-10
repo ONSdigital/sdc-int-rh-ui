@@ -34,7 +34,8 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_url_ew(self):
@@ -50,7 +51,8 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_random_ew(self):
@@ -66,7 +68,8 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_uac_closed_ew_w(self):
@@ -199,7 +202,8 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_signed_out_page_title_cy, contents)
             self.assertIn(self.content_signed_out_title_cy, contents)
             self.assertSiteLogo('cy', contents)
-            self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
+            # LANGUAGE TOGGLE TEST
+            # self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
     async def test_post_start_for_receiptReceived_true_ew_e(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
