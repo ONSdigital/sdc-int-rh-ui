@@ -12,11 +12,11 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.10.1\n"
 
 #: app/templates/404.html:5
 msgid "Page not found"
@@ -83,287 +83,119 @@ msgstr ""
 msgid "Press the below button to launch EQ"
 msgstr ""
 
-#: app/templates/register-child-dob.html:18
-msgid "Enter a valid date"
-msgstr ""
-
-#: app/templates/register-child-dob.html:30
-#, python-format
-msgid "What is the date of birth of %(name)s?"
-msgstr ""
-
-
-#: app/templates/register-child-summary.html:15
-msgid "Check answers"
-msgstr ""
-
-#: app/templates/register-child-summary.html:95
-#: app/templates/register-enter-child-name.html:161
-msgid "Save and continue"
-msgstr ""
-
-#: app/templates/register-complete.html:18
-msgid "Your child has been registered for the survey"
-msgstr ""
-
-#: app/templates/register-complete.html:21
-msgid "A text message confirming your registration should arrive soon"
-msgstr ""
-
-#: app/templates/register-complete.html:33
+#: app/templates/request-code-sent-by-text.html:37
 msgid "The text will be sent from <strong>ONS</strong>"
 msgstr ""
 
-#: app/templates/register-confirm-mobile.html:21
-msgid "Yes, my mobile number is correct"
-msgstr ""
-
-#: app/templates/register-confirm-mobile.html:28
+#: app/templates/request-code-confirm-send-by-text.html:28
 msgid "No, I need to change it"
 msgstr ""
 
-#: app/templates/register-confirm-mobile.html:46
-#: app/templates/register-confirm-mobile.html:54
+#: app/templates/request-code-confirm-send-by-text.html:46
+#: app/templates/request-code-confirm-send-by-text.html:54
 msgid "Is this mobile number correct?"
 msgstr ""
 
-#: app/templates/register-consent-declined.html:5
-msgid "You have been removed from this study"
-msgstr ""
-
-#: app/templates/register-consent.html:15
-msgid "Confirm consent"
-msgstr ""
-
-#: app/templates/register-consent.html:22
-msgid "I confirm that I have read and understand the Information Sheet."
-msgstr ""
-
-#: app/templates/register-consent.html:25
-msgid ""
-"I understand that my child’s participation is voluntary. I am free to "
-"withdraw my child from the study at any time without giving a reason and "
-"without my child’s care or education being affected."
-msgstr ""
-
-#: app/templates/register-consent.html:28
-msgid ""
-"I have explained to my child what is involved in the study and my child "
-"is happy to participate."
-msgstr ""
-
-#: app/templates/register-consent.html:31
-msgid ""
-"I understand that the results of the antibody test will/ won’t be "
-"reported back to me."
-msgstr ""
-
-#: app/templates/register-consent.html:34
-msgid ""
-"I understand that information about other children and adults in my "
-"household will be collected in the questionnaire. and I have discussed "
-"this with my family."
-msgstr ""
-
-#: app/templates/register-consent.html:37
-msgid ""
-"I understand that my information I provide will be shared within the "
-"study team which will include the Office for National Statistics (ONS), "
-"Public Health England (PHE), the London School of Hygiene and Tropical "
-"Medicine (LSHTM) and Department for Education (DfE)."
-msgstr ""
-
-#: app/templates/register-consent.html:47
-msgid "I accept"
-msgstr ""
-
-#: app/templates/register-consent.html:56
-msgid "I decline"
-msgstr ""
-
-#: app/templates/register-enter-child-name.html:18
-#: app/templates/register-enter-child-name.html:23
-#: app/templates/register-enter-name.html:18
-#: app/templates/register-enter-name.html:23
+#: app/templates/request-code-enter-name.html:18
+#: app/templates/request-code-enter-name.html:23
 msgid "You have entered too many characters. Enter up to 35 characters"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:20
-msgid "Enter your child's first name"
-msgstr ""
-
-#: app/templates/register-enter-child-name.html:25
-msgid "Enter your child's last name"
-msgstr ""
-
-#: app/templates/register-enter-child-name.html:35
-msgid "Who would you like to register?"
-msgstr ""
-
-#: app/templates/register-enter-child-name.html:50
-#: app/templates/register-enter-child-name.html:73
-#: app/templates/register-enter-name.html:50
-#: app/templates/register-enter-name.html:73
+#: app/templates/request-code-enter-name.html:53
+#: app/templates/request-code-enter-name.html:76
 msgid "First name"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:57
-#: app/templates/register-enter-child-name.html:80
-#: app/templates/register-enter-child-name.html:121
-#: app/templates/register-enter-child-name.html:144
-#: app/templates/register-enter-name.html:57
-#: app/templates/register-enter-name.html:80
-#: app/templates/register-enter-name.html:121
-#: app/templates/register-enter-name.html:144
+#: app/templates/request-code-enter-name.html:60
+#: app/templates/request-code-enter-name.html:83
+#: app/templates/request-code-enter-name.html:112
+#: app/templates/request-code-enter-name.html:135
 msgid "{x} character too many"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:58
-#: app/templates/register-enter-child-name.html:81
-#: app/templates/register-enter-child-name.html:122
-#: app/templates/register-enter-child-name.html:145
-#: app/templates/register-enter-name.html:58
-#: app/templates/register-enter-name.html:81
-#: app/templates/register-enter-name.html:122
-#: app/templates/register-enter-name.html:145
+#: app/templates/request-code-enter-name.html:61
+#: app/templates/request-code-enter-name.html:84
+#: app/templates/request-code-enter-name.html:113
+#: app/templates/request-code-enter-name.html:136
 msgid "{x} characters too many"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:59
-#: app/templates/register-enter-child-name.html:82
-#: app/templates/register-enter-child-name.html:123
-#: app/templates/register-enter-child-name.html:146
-#: app/templates/register-enter-name.html:59
-#: app/templates/register-enter-name.html:82
-#: app/templates/register-enter-name.html:123
-#: app/templates/register-enter-name.html:146
+#: app/templates/request-code-enter-name.html:62
+#: app/templates/request-code-enter-name.html:85
+#: app/templates/request-code-enter-name.html:114
+#: app/templates/request-code-enter-name.html:137
 msgid "You have {x} character remaining"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:60
-#: app/templates/register-enter-child-name.html:83
-#: app/templates/register-enter-child-name.html:124
-#: app/templates/register-enter-child-name.html:147
-#: app/templates/register-enter-name.html:60
-#: app/templates/register-enter-name.html:83
-#: app/templates/register-enter-name.html:124
-#: app/templates/register-enter-name.html:147
+#: app/templates/request-code-enter-name.html:63
+#: app/templates/request-code-enter-name.html:86
+#: app/templates/request-code-enter-name.html:115
+#: app/templates/request-code-enter-name.html:138
 msgid "You have {x} characters remaining"
 msgstr ""
 
-#: app/templates/register-enter-child-name.html:95
-#: app/templates/register-enter-name.html:95
-msgid "Middle name(s)"
-msgstr ""
-
-#: app/templates/register-enter-child-name.html:114
-#: app/templates/register-enter-child-name.html:137
-#: app/templates/register-enter-name.html:114
-#: app/templates/register-enter-name.html:137
+#: app/templates/request-code-enter-name.html:105
+#: app/templates/request-code-enter-name.html:128
 msgid "Last name"
 msgstr ""
 
-#: app/templates/register-enter-mobile.html:18
 #: app/templates/request-code-enter-mobile.html:18
 msgid "Enter your mobile number"
 msgstr ""
 
-#: app/templates/register-enter-mobile.html:20
 #: app/templates/request-code-enter-mobile.html:20
 msgid ""
 "Enter a UK mobile number in a valid format, for example, 07700 900345 or "
 "+44 7700 900345"
 msgstr ""
 
-#: app/templates/register-enter-mobile.html:30
+#: app/templates/request-code-enter-mobile.html:30
 msgid "What is your mobile number?"
 msgstr ""
 
-#: app/templates/register-enter-mobile.html:40
+#: app/templates/request-code-enter-mobile.html:40
 msgid "UK mobile number"
 msgstr ""
 
-#: app/templates/register-enter-mobile.html:41
-msgid "This will be stored and used to send study access codes"
-msgstr ""
-
-#: app/templates/register-enter-name.html:20
 #: app/templates/request-code-enter-name.html:20
 msgid "Enter your first name"
 msgstr ""
 
-#: app/templates/register-enter-name.html:25
 #: app/templates/request-code-enter-name.html:25
 msgid "Enter your last name"
 msgstr ""
 
-#: app/templates/register-enter-name.html:35
-msgid "What is the parent/guardian's name?"
-msgstr ""
-
-#: app/templates/register-school-list.html:7
-msgid "Schools taking part in SIS"
-msgstr ""
-
-#: app/templates/register-select-school.html:19
-msgid "Enter a value"
-msgstr ""
-
-#: app/templates/register-select-school.html:31
-#, python-format
-msgid "What school does %(name)s attend?"
-msgstr ""
-
-#: app/templates/register-sis2.html:7
-msgid "COVID-19 Schools Infection Survey (SIS)"
-msgstr ""
-
-#: app/templates/register-start.html:15
-msgid "Register a child"
-msgstr ""
-
-#: app/templates/register-start.html:44
-msgid "Register now"
-msgstr ""
-
-#: app/templates/register-timeout.html:7 app/templates/request-timeout.html:8
-msgid "Sorry, you need to start again"
-msgstr ""
-
-#: app/templates/register-timeout.html:9 app/templates/request-timeout.html:10
 #: app/templates/start-timeout.html:9
 msgid "This is because you’ve either:"
 msgstr ""
 
-#: app/templates/register-timeout.html:11 app/templates/request-timeout.html:12
 #: app/templates/start-timeout.html:11
 msgid ""
 "been inactive for 45 minutes and your session has timed out to protect "
 "your information"
 msgstr ""
 
-#: app/templates/register-timeout.html:12
-msgid "followed a link to the middle of a registration request"
+#: app/templates/start.html:64
+msgid "Start study"
 msgstr ""
 
-#: app/templates/register-timeout.html:16
+#: app/templates/request-timeout.html:13
+msgid "followed a link to the middle of a request for a new access code"
+msgstr ""
+
+#: app/templates/request-timeout.html:17
 #, python-format
-msgid "You need to start again to %(open)sregister%(close)s."
+msgid "You need to start again to %(open)srequest a new access code%(close)s."
 msgstr ""
 
-#: app/templates/register-too-many-requests.html:7
-msgid "You have reached the maximum number of registrations you can make online"
+#: app/templates/request-too-many-requests.html:34
+msgid "You have reached the maximum number of access codes you can request online"
 msgstr ""
 
-#: app/templates/register-too-many-requests.html:9
+#: app/templates/request-too-many-requests.html:36
 #, python-format
-msgid "If you need to register, please %(open)scontact us%(close)s"
+msgid "If you need a new access code, please %(open)scontact us%(close)s"
 msgstr ""
-
-#: app/templates/register.html:7
-msgid "Take part in a survey"
-msgstr ""
-
 
 #: app/templates/signed-out.html:19
 msgid "Your progress has been saved"
@@ -390,7 +222,6 @@ msgid ""
 "If you need to start your study again, you can %(open)srequest a new "
 "access code%(close)s."
 msgstr ""
-
 
 #: app/templates/start-timeout.html:7
 msgid "Sorry, you need to enter your access code"
@@ -501,5 +332,137 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Someone has already submitted a study using this access code."
+#~ msgstr ""
+
+#~ msgid "Enter a valid date"
+#~ msgstr ""
+
+#~ msgid "What is the date of birth of %(name)s?"
+#~ msgstr ""
+
+#~ msgid "Check answers"
+#~ msgstr ""
+
+#~ msgid "Save and continue"
+#~ msgstr ""
+
+#~ msgid "Your child has been registered for the survey"
+#~ msgstr ""
+
+#~ msgid "A text message confirming your registration should arrive soon"
+#~ msgstr ""
+
+#~ msgid "Yes, my mobile number is correct"
+#~ msgstr ""
+
+#~ msgid "You have been removed from this study"
+#~ msgstr ""
+
+#~ msgid "Confirm consent"
+#~ msgstr ""
+
+#~ msgid "I confirm that I have read and understand the Information Sheet."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that my child’s "
+#~ "participation is voluntary. I am free"
+#~ " to withdraw my child from the "
+#~ "study at any time without giving a"
+#~ " reason and without my child’s care"
+#~ " or education being affected."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I have explained to my child what"
+#~ " is involved in the study and "
+#~ "my child is happy to participate."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that the results of "
+#~ "the antibody test will/ won’t be "
+#~ "reported back to me."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that information about "
+#~ "other children and adults in my "
+#~ "household will be collected in the "
+#~ "questionnaire. and I have discussed this"
+#~ " with my family."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that my information I "
+#~ "provide will be shared within the "
+#~ "study team which will include the "
+#~ "Office for National Statistics (ONS), "
+#~ "Public Health England (PHE), the London"
+#~ " School of Hygiene and Tropical "
+#~ "Medicine (LSHTM) and Department for "
+#~ "Education (DfE)."
+#~ msgstr ""
+
+#~ msgid "I accept"
+#~ msgstr ""
+
+#~ msgid "I decline"
+#~ msgstr ""
+
+#~ msgid "Enter your child's first name"
+#~ msgstr ""
+
+#~ msgid "Enter your child's last name"
+#~ msgstr ""
+
+#~ msgid "Who would you like to register?"
+#~ msgstr ""
+
+#~ msgid "Middle name(s)"
+#~ msgstr ""
+
+#~ msgid "This will be stored and used to send study access codes"
+#~ msgstr ""
+
+#~ msgid "What is the parent/guardian's name?"
+#~ msgstr ""
+
+#~ msgid "Schools taking part in SIS"
+#~ msgstr ""
+
+#~ msgid "Enter a value"
+#~ msgstr ""
+
+#~ msgid "What school does %(name)s attend?"
+#~ msgstr ""
+
+#~ msgid "COVID-19 Schools Infection Survey (SIS)"
+#~ msgstr ""
+
+#~ msgid "Register a child"
+#~ msgstr ""
+
+#~ msgid "Register now"
+#~ msgstr ""
+
+#~ msgid "Sorry, you need to start again"
+#~ msgstr ""
+
+#~ msgid "followed a link to the middle of a registration request"
+#~ msgstr ""
+
+#~ msgid "You need to start again to %(open)sregister%(close)s."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You have reached the maximum number "
+#~ "of registrations you can make online"
+#~ msgstr ""
+
+#~ msgid "If you need to register, please %(open)scontact us%(close)s"
+#~ msgstr ""
+
+#~ msgid "Take part in a survey"
 #~ msgstr ""
 
