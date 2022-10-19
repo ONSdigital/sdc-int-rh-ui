@@ -453,7 +453,7 @@ msgstr "Rydym ni'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
 
 #: app/templates/start-too-many-requests.html:38
 msgid "Please try again later."
-msgstr "Rhowch gynnig arall arni yn nes ymlaen."
+msgstr "PLACEHOLDER WELSH Rhowch gynnig arall arni yn nes ymlaen."
 
 #: app/templates/start-too-many-requests.html:45
 msgid ""
@@ -463,19 +463,19 @@ msgstr ""
 
 #: app/templates/start.html:24
 msgid "Enter an access code"
-msgstr "Rhowch god mynediad"
+msgstr "PLACEHOLDER WELSH Rhowch god mynediad"
 
 #: app/templates/start.html:26
 msgid "Enter a valid access code"
-msgstr "Rhowch god mynediad dilys"
+msgstr "PLACEHOLDER WELSH Rhowch god mynediad dilys"
 
 #: app/templates/start.html:70
 msgid "Where to find your access code"
-msgstr "Ble i ddod o hyd i'ch cod mynediad"
+msgstr "PLACEHOLDER WELSH Ble i ddod o hyd i'ch cod mynediad"
 
 #: app/templates/start.html:73
 msgid "Enter your 16-character access code"
-msgstr "Rhowch eich cod mynediad, sy'n cynnwys 16 nod"
+msgstr "PLACEHOLDER WELSH Rhowch eich cod mynediad, sy'n cynnwys 16 nod"
 
 #: app/templates/start.html:74
 msgid ""
@@ -488,7 +488,7 @@ msgid ""
 "Your personal information is protected by law and will be kept "
 "confidential."
 msgstr ""
-"Mae eich gwybodaeth bersonol yn cael ei diogelu gan y gyfraith a chaiff "
+"PLACEHOLDER WELSH Mae eich gwybodaeth bersonol yn cael ei diogelu gan y gyfraith a chaiff "
 "ei chadw'n gyfrinachol."
 
 #: app/templates/start.html:82
@@ -497,7 +497,7 @@ msgstr ""
 
 #: app/templates/start.html:88
 msgid "If you don’t have an access code"
-msgstr "Os nad oes gennych chi god mynediad"
+msgstr "PLACEHOLDER WELSH Os nad oes gennych chi god mynediad"
 
 #: app/templates/start.html:90
 #, python-format
@@ -512,26 +512,26 @@ msgid ""
 "Information about what we do with your personal data is available in our "
 "%(open)sprivacy and data protection statement%(close)s."
 msgstr ""
-"Mae gwybodaeth am yr hyn rydym yn ei wneud gyda'ch data personol ar gael "
+"PLACEHOLDER WELSH Mae gwybodaeth am yr hyn rydym yn ei wneud gyda'ch data personol ar gael "
 "yn ein %(open)sdatganiad preifatrwydd a diogelu data%(close)s."
 
 #: app/templates/partials/messages.html:8
 msgid "There is a problem with this page"
-msgstr "Mae problem gyda'r dudalen hon"
+msgstr "PLACEHOLDER WELSH Mae problem gyda'r dudalen hon"
 
 #: app/templates/partials/messages.html:10
 msgid "There is a problem with your answer"
-msgstr "Mae problem gyda'ch ateb"
+msgstr "PLACEHOLDER WELSH Mae problem gyda'ch ateb"
 
 #: app/templates/partials/messages.html:14
 #, python-format
 msgid "There are %(errorcount)s problems with this page"
-msgstr "Mae %(errorcount)s o broblemau gyda'r dudalen hon"
+msgstr "PLACEHOLDER WELSH Mae %(errorcount)s o broblemau gyda'r dudalen hon"
 
 #: app/templates/partials/messages.html:16
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
-msgstr "Mae %(errorcount)s o broblemau gyda'ch ateb"
+msgstr "PLACEHOLDER WELSH Mae %(errorcount)s o broblemau gyda'ch ateb"
 
 #~ msgid "Your children have been registered for the survey"
 #~ msgstr ""

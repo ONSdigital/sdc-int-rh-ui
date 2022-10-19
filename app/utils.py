@@ -60,6 +60,7 @@ class View:
                 link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
         elif requested_link == 'privacy':
             if display_region == 'cy':
+                # PLACEHOLDER WELSH
                 link = base_cy + '/preifatrwydd-a-diogelu-data/'
             else:
                 link = base_en + '/privacy-and-data-protection/'

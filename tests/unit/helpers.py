@@ -50,12 +50,12 @@ class TestHelpers(RHTestCase):
 
     def check_content_start(self, display_region, contents, check_empty=False, check_error=False):
         if display_region == 'cy':
-            title_tag = 'Start study'  # TODO Add Translation
-            h1_title = 'Start study'
-            secondary_text = "Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
-            error_text_link = "Rhowch god mynediad dilys"
+            title_tag = 'PLACEHOLDER WELSH Start study'  # TODO Add Translation
+            h1_title = 'PLACEHOLDER WELSH Start study'
+            secondary_text = "PLACEHOLDER WELSH Rhowch eich cod mynediad, sy\\\'n cynnwys 16 nod"
+            error_text_link = "PLACEHOLDER WELSH Rhowch god mynediad dilys"
             error_text = error_text_link
-            error_text_empty = 'Rhowch god mynediad'
+            error_text_empty = 'PLACEHOLDER WELSH Rhowch god mynediad'
         else:
             title_tag = 'Start study'
             h1_title = 'Start study'

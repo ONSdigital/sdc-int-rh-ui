@@ -252,7 +252,7 @@ def check_display_region(request):
             **base_attributes,
             'display_region': 'cy',
             'locale': 'cy',
-            'page_title': 'Gwall',
+            'page_title': 'PLACEHOLDER WELSH Gwall',
             'contact_us_link': View.get_campaign_site_link(request, 'cy', 'contact-us')
         }
     else:
