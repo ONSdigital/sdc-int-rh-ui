@@ -37,6 +37,10 @@ class TestHelpers(RHTestCase):
             contents = str(await response.content.read())
             self.assertSiteLogo(display_region, contents)
 
+            # LANGUAGE TOGGLE TEST
+            # self.assertCorrectTranslationLink(contents, display_region, self.user_journey,
+            #                                   self.request_type, 'timeout')
+
             if display_region == 'cy':
                 self.assertIn(self.content_common_timeout_cy, contents)
                 self.assertIn(self.content_request_timeout_error_cy, contents)
@@ -62,6 +66,9 @@ class TestHelpers(RHTestCase):
 
         self.assertNotExitButton(display_region, contents)
         self.assertSiteLogo(display_region, contents)
+
+        # LANGUAGE TOGGLE TEST
+        # self.assertCorrectTranslationLink(contents, display_region, self.user_journey)
 
         if check_empty:
             self.assertCorrectHeadTitleTag(display_region, title_tag, contents, error=True)

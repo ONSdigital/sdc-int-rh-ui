@@ -27,9 +27,17 @@ def create_error_middleware(overrides):
             override = overrides.get(resp.status)
             return await override(request) if override else resp
         except web.HTTPNotFound:
+            path_prefix = request.app['URL_PATH_PREFIX']
+
+            def path_starts_with(suffix):
+                return request.path.startswith(path_prefix + suffix)
+
             index_resource = request.app.router['Start:get']
 
-            display_region = 'en'
+            if path_starts_with('/cy'):
+                display_region = 'cy'
+            else:
+                display_region = 'en'
 
             if request.path + '/' == index_resource.canonical.replace('{display_region}', display_region):
                 logger.debug('redirecting to index',
@@ -223,6 +231,10 @@ def setup(app):
 
 
 def check_display_region(request):
+    path_prefix = request.app['URL_PATH_PREFIX']
+
+    def path_starts_with(suffix):
+        return request.path.startswith(path_prefix + suffix)
 
     domain_url_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app[
         'DOMAIN_URL_EN']
@@ -235,9 +247,18 @@ def check_display_region(request):
         'page_url': View.gen_page_url(request)
     }
 
-    return {
-        **base_attributes,
-        'display_region': 'en',
-        'page_title': 'Error',
-        'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
-    }
+    if path_starts_with('/cy'):
+        return {
+            **base_attributes,
+            'display_region': 'cy',
+            'locale': 'cy',
+            'page_title': 'Gwall',
+            'contact_us_link': View.get_campaign_site_link(request, 'cy', 'contact-us')
+        }
+    else:
+        return {
+            **base_attributes,
+            'display_region': 'en',
+            'page_title': 'Error',
+            'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
+        }
