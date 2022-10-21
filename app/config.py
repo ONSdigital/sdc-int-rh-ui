@@ -70,7 +70,7 @@ class BaseConfig:
     ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='')
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
 
 class ProductionConfig(BaseConfig):
@@ -115,7 +115,7 @@ class DevelopmentConfig:
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
 
 class TestingConfig:
@@ -153,4 +153,4 @@ class TestingConfig:
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     SITE_NAME_EN = 'ONS Surveys'
-    SITE_NAME_CY = 'ONS Surveys'
+    SITE_NAME_CY = 'PLACEHOLDER WELSH ONS Surveys'
