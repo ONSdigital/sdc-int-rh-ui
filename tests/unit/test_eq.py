@@ -120,5 +120,5 @@ class TestEq(TestHelpers):
             # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
             # can test it here
             self.assertEqual(data['flash'],
-                             [{'text': 'Rhowch god mynediad dilys', 'clickable': True, 'level': 'ERROR',
-                               'type': 'INVALID_CODE', 'field': 'uac_invalid'}])
+                             [{'text': 'PLACEHOLDER WELSH Rhowch god mynediad dilys', 'clickable': True,
+                               'level': 'ERROR', 'type': 'INVALID_CODE', 'field': 'uac_invalid'}])

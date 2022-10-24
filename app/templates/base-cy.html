@@ -8,7 +8,7 @@
 
 {%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
-            'text': 'Gadael',
+            'text': 'PLACEHOLDER WELSH Gadael',
             'iconType': 'exit',
             'iconPosition': 'after',
             'url': url('StartExit:get', display_region='cy')
@@ -23,11 +23,11 @@
             {
                 'itemsList': [
                     {
-                        'text': 'About ONS studies',
+                        'text': 'PLACEHOLDER WELSH About ONS studies',
                         'url': domain_url_cy + '/studies/'
                     },
                     {
-                        'text': 'Cysylltu â ni',
+                        'text': 'PLACEHOLDER WELSH Cysylltu â ni',
                         'url': 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries'
                     }
                 ]
@@ -37,27 +37,27 @@
             {
                 'itemsList': [
                     {
-                        'text': 'Cwcis',
+                        'text': 'PLACEHOLDER WELSH Cwcis',
                         'url': domain_url_cy + '/cookies/'
                     },
                     {
-                        'text': 'Datganiad hygyrchedd',
+                        'text': 'PLACEHOLDER WELSH Datganiad hygyrchedd',
                         'url': domain_url_cy + '/datganiad-hygyrchedd/'
                     },
                     {
-                        'text': 'Preifatrwydd a diogelu data',
+                        'text': 'PLACEHOLDER WELSH Preifatrwydd a diogelu data',
                         'url': domain_url_cy + '/privacy-and-data-protection/'
                     },
                     {
-                        'text': 'Telerau ac amodau',
+                        'text': 'PLACEHOLDER WELSH Telerau ac amodau',
                         'url': domain_url_cy + '/telerau-ac-amodau/'
                     }
                 ]
             }
         ],
         'copyrightDeclaration': {
-            'copyright': 'Hawlfraint y Goron a hawliau cronfa ddata 2020 Arolwg Ordnans 100019153.',
-            'text': 'Mae defnydd o ddata ar gyfeiriadau yn amodol ar y telerau ac amodau.'
+            'copyright': 'PLACEHOLDER WELSH Hawlfraint y Goron a hawliau cronfa ddata 2020 Arolwg Ordnans 100019153.',
+            'text': 'PLACEHOLDER WELSH Mae defnydd o ddata ar gyfeiriadau yn amodol ar y telerau ac amodau.'
         }
     }
 -%}
@@ -68,24 +68,27 @@
             {
                 'url': '/cy' + page_url,
                 'ISOCode': 'cy',
-                'text': 'Cymraeg',
-                'buttonAriaLabel': 'Dewisydd iaith. Iaith gyfredol: Cymraeg',
-                'chooseLanguage': 'Dewiswch iaith',
-                'allLanguages': 'Pob iaith',
+                'text': 'PLACEHOLDER WELSH Cymraeg',
+                'buttonAriaLabel': 'PLACEHOLDER WELSH Dewisydd iaith. Iaith gyfredol: Cymraeg',
+                'chooseLanguage': 'PLACEHOLDER WELSH Dewiswch iaith',
+                'allLanguages': 'PLACEHOLDER WELSH Pob iaith',
                 'current': true
             },
             {
-                'url': '/en' + page_url,
-                'ISOCode': 'en',
-                'text': 'English',
-                'buttonAriaLabel': 'Language selector. Current language: English',
-                'chooseLanguage': 'Choose language',
-                'allLanguages': 'All languages',
                 'current': false
             }
         ]
 }
     -%}
+{#    LANGUAGE TOGGGLE CODE, CAN'T BE COMMENTED OUT IN PLACE#}
+{#                    'url': '/en' + page_url,
+{#                'ISOCode': 'en',
+{#                'text': 'English',
+{#                'buttonAriaLabel': 'Language selector. Current language: English',
+{#                'chooseLanguage': 'Choose language',
+{#                 'allLanguages': 'All languages',#}
+{#                 'current': false#}
+
 {%- endif -%}
 
 {%- set pageConfig = {
@@ -115,13 +118,25 @@
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{
         onsCookiesBanner({
-            'statementTitle': 'Dywedwch wrthym a ydych yn derbyn cwcis',
-            'statementText': "Rydym ni’n defnyddio <a href='" + domain_url_cy + "/cookies/" + "'>cwcis i gasglu gwybodaeth</a> am y ffordd rydych chi’n defnyddio cy.ons.gov.uk. Rydym ni’n defnyddio’r wybodaeth hon i sicrhau bod y wefan yn gweithio cystal â phosibl ac i wella ein gwasanaethau.",
-            'confirmationText': 'Rydych chi wedi derbyn yr holl gwcis. Gallwch chi <a href="' + domain_url_cy + '/cookies/' + '">newid eich dewisiadau o ran cwcis</a> ar unrhyw adeg.',
-            'secondaryButtonUrl': domain_url_cy + '/cookies/',
-            'primaryButtonText': "Derbyn yr holl gwcis",
-            'secondaryButtonText': "Gosod dewisiadau o ran cwcis",
-            'confirmationButtonText': 'Cuddio hwn'
+            'lang': 'cy'
         })
     }}
 {%- endblock -%}
+
+{#TODO: PLACEHOLDER WELSH  Old below: But we're calling design system, so should be able to read theirs. Below did little as different vars now #}
+{#{%- block preHeader -%}#}
+{##}
+{#    {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}#}
+{#    {{#}
+{#        onsCookiesBanner({#}
+{#            'statementTitle': 'PLACEHOLDER WELSH Dywedwch wrthym a ydych yn derbyn cwcis',#}
+{#            'statementText': "PLACEHOLDER WELSH Rydym ni’n defnyddio <a href='" + domain_url_cy + "/cookies/" + "'>cwcis i gasglu gwybodaeth</a> am y ffordd rydych chi’n defnyddio cy.ons.gov.uk. Rydym ni’n defnyddio’r wybodaeth hon i sicrhau bod y wefan yn gweithio cystal â phosibl ac i wella ein gwasanaethau.",#}
+{#            'confirmationText': 'PLACEHOLDER WELSH Rydych chi wedi derbyn yr holl gwcis. Gallwch chi <a href="' + domain_url_cy + '/cookies/' + '">newid eich dewisiadau o ran cwcis</a> ar unrhyw adeg.',#}
+{#            'secondaryButtonUrl': domain_url_cy + '/cookies/',#}
+{#            'primaryButtonText': "PLACEHOLDER WELSH Derbyn yr holl gwcis",#}
+{#            'secondaryButtonText': "PLACEHOLDER WELSH Gosod dewisiadau o ran cwcis",#}
+{#            'confirmationButtonText': 'PLACEHOLDER WELSH Cuddio hwn',#}
+{#            'lang': 'cy'#}
+{#        })#}
+{#    }}#}
+{#{%- endblock -%}#}

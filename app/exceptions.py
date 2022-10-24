@@ -43,7 +43,7 @@ class InvalidDataError(Exception):
 class InvalidDataErrorWelsh(Exception):
     """ Raised when user supplies invalid data in form fields (on welsh language page) """
     def __init__(self, message=None, message_type=None):
-        super().__init__(message or "Mae'r gwerth rydych wedi'i roi yn annilys")
+        super().__init__(message or "PLACEHOLDER WELSH Mae'r gwerth rydych wedi'i roi yn annilys")
         self.message_type = message_type
 
 

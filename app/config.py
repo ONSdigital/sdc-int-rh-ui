@@ -44,7 +44,7 @@ class BaseConfig:
 
     DOMAIN_URL_PROTOCOL = env('DOMAIN_URL_PROTOCOL', default='https://')
     DOMAIN_URL_EN = env('DOMAIN_URL_EN')
-    DOMAIN_URL_CY = ''
+    DOMAIN_URL_CY = env('DOMAIN_URL_CY')
 
     ACCOUNT_SERVICE_URL = env('ACCOUNT_SERVICE_URL')
     EQ_URL = env('EQ_URL')
@@ -70,7 +70,7 @@ class BaseConfig:
     ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='')
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
 
 class ProductionConfig(BaseConfig):
@@ -86,7 +86,7 @@ class DevelopmentConfig:
 
     DOMAIN_URL_PROTOCOL = 'http://'
     DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092')
-    DOMAIN_URL_CY = ''
+    DOMAIN_URL_CY = env.str('DOMAIN_URL_CY', default='localhost:9092')
 
     ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
                                   default='http://localhost:9092')
@@ -115,7 +115,7 @@ class DevelopmentConfig:
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
 
 class TestingConfig:
@@ -126,7 +126,7 @@ class TestingConfig:
 
     DOMAIN_URL_PROTOCOL = 'http://'
     DOMAIN_URL_EN = 'localhost:9092'
-    DOMAIN_URL_CY = ''
+    DOMAIN_URL_CY = 'localhost:9092'
 
     ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
@@ -153,4 +153,4 @@ class TestingConfig:
     # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     SITE_NAME_EN = 'ONS Surveys'
-    SITE_NAME_CY = 'ONS Surveys'
+    SITE_NAME_CY = 'PLACEHOLDER WELSH ONS Surveys'
