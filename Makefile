@@ -55,7 +55,7 @@ down:
 	./docker/rh-ui-stop.sh
 
 check:
-	pipenv check
+	pipenv check -i 51499 -i 51457
 
 load_templates:
 	./scripts/load_templates.sh

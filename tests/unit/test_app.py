@@ -62,7 +62,6 @@ class TestCreateApp(AioHTTPTestCase):
             "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
-        self.assertEqual(response.headers['X-XSS-Protection'], '1; mode=block')
         self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
         self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
                       response.headers['X-Content-Security-Policy'])
