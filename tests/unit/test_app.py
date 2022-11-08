@@ -80,7 +80,7 @@ class TestCreateApp(AioHTTPTestCase):
             "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['X-Content-Security-Policy'])
-        self.assertEqual(response.headers['Referrer-Policy'], 'strict-origin-when-cross-origin')
+        self.assertEqual(response.headers['Referrer-Policy'], 'no-referrer')
 
 
 class TestCreateAppURLPathPrefix(TestCase):
