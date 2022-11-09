@@ -40,6 +40,7 @@ CSP = {
         'https://www.gstatic.com',
         'https://cdn.ons.gov.uk'
     ],
+
 }
 
 
@@ -52,7 +53,8 @@ DEFAULT_RESPONSE_HEADERS = {
     'Referrer-Policy': 'no-referrer',
     'X-Permitted-Cross-Domain-Policies': 'None',
     'clear-site-data': ['cache', 'cookies', 'storage'],
-    'Cross-Origin-Embedder-Policy': 'require-corp',
+    # When this is set to require-corp it doesn't
+    'Cross-Origin-Embedder-Policy': 'unsafe-none',
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Resource-Policy': 'same-site',
     'Cache-Control': ['no-store', 'max-age=0']
