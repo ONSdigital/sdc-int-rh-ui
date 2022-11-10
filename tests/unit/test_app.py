@@ -85,7 +85,7 @@ class TestCreateApp(AioHTTPTestCase):
 
         self.assertEqual(response.headers['clear-site-data'], 'cache cookies storage')
         self.assertEqual(response.headers['Cross-Origin-Opener-Policy'], 'same-origin')
-        self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-origin')
+        self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-site')
         self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
 
 

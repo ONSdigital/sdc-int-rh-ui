@@ -54,7 +54,7 @@ DEFAULT_RESPONSE_HEADERS = {
     'X-Permitted-Cross-Domain-Policies': 'None',
     'clear-site-data': ['cache', 'cookies', 'storage'],
     'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Resource-Policy': 'same-origin',
+    'Cross-Origin-Resource-Policy': 'same-site',
     'Cache-Control': ['no-store', 'max-age=0']
 }
 
