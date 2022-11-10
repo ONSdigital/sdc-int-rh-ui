@@ -1,7 +1,6 @@
 from importlib import reload
 
-from unittest import TestCase\
-    # , mock
+from unittest import TestCase, mock
 
 from aiohttp.test_utils import AioHTTPTestCase
 from aiohttp.web_app import Application
@@ -36,52 +35,58 @@ class TestCreateApp(AioHTTPTestCase):
     async def test_create_app(self):
         self.assertIsInstance(self.app, Application)
 
-    # async def test_security_headers(self):
-    #     from app import config
-    #     aims_url = config.TestingConfig.ADDRESS_INDEX_SVC_URL
-    #
-    #     nonce = '123456'
-    #     with mock.patch('app.security.get_random_string') as mocked_rando:
-    #         mocked_rando.return_value = nonce
-    #         response = await self.client.request('GET', '/')
-    #     self.assertEqual(response.headers['Strict-Transport-Security'],
-    #                      'max-age=31536000 includeSubDomains')
-    #     self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
-    #                   response.headers['Content-Security-Policy'])
-    #     self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
-    #                   response.headers['Content-Security-Policy'])
-    #     self.assertIn(
-    #         f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
-    #         response.headers['Content-Security-Policy'])
-    #     self.assertIn(
-    #         "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
-    #         response.headers['Content-Security-Policy'])
-    #     self.assertIn(
-    #         "frame-src https://www.timeforstorm.com",
-    #         response.headers['Content-Security-Policy'])
-    #     self.assertIn(
-    #         "img-src 'self' data: https://ssl.gstatic.com "
-    #         "https://www.gstatic.com https://cdn.ons.gov.uk",
-    #         response.headers['Content-Security-Policy'])
-    #     self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
-    #     self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
-    #                   response.headers['X-Content-Security-Policy'])
-    #     self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
-    #                   response.headers['X-Content-Security-Policy'])
-    #     self.assertIn(
-    #         f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
-    #         response.headers['X-Content-Security-Policy'])
-    #     self.assertIn(
-    #         "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
-    #         response.headers['X-Content-Security-Policy'])
-    #     self.assertIn(
-    #         "frame-src https://www.timeforstorm.com",
-    #         response.headers['X-Content-Security-Policy'])
-    #     self.assertIn(
-    #         "img-src 'self' data: https://ssl.gstatic.com "
-    #         "https://www.gstatic.com https://cdn.ons.gov.uk",
-    #         response.headers['X-Content-Security-Policy'])
-    #     self.assertEqual(response.headers['Referrer-Policy'], 'no-referrer')
+    async def test_security_headers(self):
+        from app import config
+        aims_url = config.TestingConfig.ADDRESS_INDEX_SVC_URL
+
+        nonce = '123456'
+        with mock.patch('app.security.get_random_string') as mocked_rando:
+            mocked_rando.return_value = nonce
+            response = await self.client.request('GET', '/')
+        self.assertEqual(response.headers['Strict-Transport-Security'],
+                         'max-age=31536000 includeSubDomains')
+        self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
+                      response.headers['Content-Security-Policy'])
+        self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
+                      response.headers['Content-Security-Policy'])
+        self.assertIn(
+            f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
+            response.headers['Content-Security-Policy'])
+        self.assertIn(
+            "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
+            response.headers['Content-Security-Policy'])
+        self.assertIn(
+            "frame-src https://www.timeforstorm.com",
+            response.headers['Content-Security-Policy'])
+        self.assertIn(
+            "img-src 'self' data: https://ssl.gstatic.com "
+            "https://www.gstatic.com https://cdn.ons.gov.uk",
+            response.headers['Content-Security-Policy'])
+        self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
+        self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
+                      response.headers['X-Content-Security-Policy'])
+        self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
+                      response.headers['X-Content-Security-Policy'])
+        self.assertIn(
+            f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
+            response.headers['X-Content-Security-Policy'])
+        self.assertIn(
+            "connect-src 'self' https://cdn.ons.gov.uk " + aims_url,
+            response.headers['X-Content-Security-Policy'])
+        self.assertIn(
+            "frame-src https://www.timeforstorm.com",
+            response.headers['X-Content-Security-Policy'])
+        self.assertIn(
+            "img-src 'self' data: https://ssl.gstatic.com "
+            "https://www.gstatic.com https://cdn.ons.gov.uk",
+            response.headers['X-Content-Security-Policy'])
+        self.assertEqual(response.headers['Referrer-Policy'], 'no-referrer')
+        self.assertEqual(response.headers['X-Permitted-Cross-Domain-Policies'], 'None')
+
+        self.assertEqual(response.headers['clear-site-data'], 'cache cookies storage')
+        self.assertEqual(response.headers['Cross-Origin-Opener-Policy'], 'same-origin')
+        self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-origin')
+        self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
 
 
 class TestCreateAppURLPathPrefix(TestCase):
