@@ -53,10 +53,11 @@ DEFAULT_RESPONSE_HEADERS = {
     'Referrer-Policy': 'no-referrer',
     'X-Permitted-Cross-Domain-Policies': 'None',
     'clear-site-data': ['cache', 'cookies', 'storage'],
-    # When this is set to require-corp it doesn't
-    'Cross-Origin-Embedder-Policy': 'unsafe-none',
+    # When this is set to require-corp it doesn't load main.js, main.css etc
+    # 'Cross-Origin-Embedder-Policy': 'require-corp',
     'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Resource-Policy': 'same-site',
+
+    'Cross-Origin-Resource-Policy': 'same-origin',
     'Cache-Control': ['no-store', 'max-age=0']
 }
 
