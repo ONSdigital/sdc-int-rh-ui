@@ -55,7 +55,8 @@ DEFAULT_RESPONSE_HEADERS = {
     'clear-site-data': ['cache', 'cookies', 'storage'],
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Resource-Policy': 'same-site',
-    'Cache-Control': ['no-store', 'max-age=0']
+    'Cache-Control': ['no-store', 'max-age=0'],
+    'Server': 'Office For National Statistics',
 }
 
 ADD_NONCE_SECTIONS = [
