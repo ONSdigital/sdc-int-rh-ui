@@ -87,6 +87,7 @@ class TestCreateApp(AioHTTPTestCase):
         self.assertEqual(response.headers['Cross-Origin-Opener-Policy'], 'same-origin')
         self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-site')
         self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
+        self.assertEqual(response.headers['Server'], 'Office for National Statistics')
 
 
 class TestCreateAppURLPathPrefix(TestCase):
