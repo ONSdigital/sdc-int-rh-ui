@@ -45,7 +45,7 @@ CSP = {
 
 
 DEFAULT_RESPONSE_HEADERS = {
-    'Strict-Transport-Security': 'max-age=31536000 includeSubDomains',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
     'Content-Security-Policy': CSP,
     'X-Content-Security-Policy': CSP,
     'X-Frame-Options': 'DENY',
@@ -57,6 +57,11 @@ DEFAULT_RESPONSE_HEADERS = {
     'Cross-Origin-Resource-Policy': 'same-site',
     'Cache-Control': ['no-store', 'max-age=0'],
     'Server': 'Office For National Statistics',
+    'Permissions-Policy': 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),'
+                          'encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=('
+                          '),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=('
+                          '),sync-xhr=(self),usb=(),xr-spatial-tracking=()',
+    'set-cookie': 'max-age=31536000'
 }
 
 ADD_NONCE_SECTIONS = [
