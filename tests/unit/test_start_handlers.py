@@ -1,7 +1,7 @@
 from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
 
-# from app import (BAD_CODE_MSG, INVALID_CODE_MSG)
+from app import (BAD_CODE_MSG, INVALID_CODE_MSG)
 from app.start_handlers import Start
 from .helpers import TestHelpers
 
@@ -21,56 +21,56 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/cy/signed-out/&accountServiceUrl=http://localhost:9092/cy/start' \
                        '/&languageCode=cy'
 
-    # async def test_post_start_invalid_blank_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = ''
-    #
-    #     with self.assertLogs('respondent-home', 'INFO') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'access code not supplied')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     # LANGUAGE TOGGLE TEST
-    #     # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(BAD_CODE_MSG, contents)
+    async def test_post_start_invalid_blank_ew(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = ''
 
-    # async def test_post_start_invalid_text_url_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'http://www.census.gov.uk/'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     # LANGUAGE TOGGLE TEST
-    #     # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG, contents)
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'access code not supplied')
 
-    # async def test_post_start_invalid_text_random_ew(self):
-    #     form_data = self.start_data_valid.copy()
-    #     form_data['uac'] = 'rT~l34u8{?nm4£#f'
-    #
-    #     with self.assertLogs('respondent-home', 'WARNING') as cm:
-    #         response = await self.client.request('POST',
-    #                                              self.post_start_en,
-    #                                              data=form_data)
-    #     self.assertLogEvent(cm, 'attempt to use a malformed access code')
-    #
-    #     self.assertEqual(response.status, 200)
-    #     contents = str(await response.content.read())
-    #     self.assertSiteLogo('en', contents)
-    #     # LANGUAGE TOGGLE TEST
-    #     # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
-    #     self.assertMessagePanel(INVALID_CODE_MSG, contents)
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('en', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertMessagePanel(BAD_CODE_MSG, contents)
+
+    async def test_post_start_invalid_text_url_ew(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = 'http://www.census.gov.uk/'
+
+        with self.assertLogs('respondent-home', 'WARNING') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'attempt to use a malformed access code')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('en', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertMessagePanel(INVALID_CODE_MSG, contents)
+
+    async def test_post_start_invalid_text_random_ew(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = 'rT~l34u8{?nm4£#f'
+
+        with self.assertLogs('respondent-home', 'WARNING') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'attempt to use a malformed access code')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('en', contents)
+        # LANGUAGE TOGGLE TEST
+        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_uac_closed_ew_w(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
