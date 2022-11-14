@@ -50,12 +50,6 @@ DEFAULT_RESPONSE_HEADERS = {
     'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'no-referrer',
     'X-Permitted-Cross-Domain-Policies': 'None',
-    # TODO: cookies and cache result in Clear-Site-Data header on 'http://localhost:9092/en/start/': Cleared data
-    #  types: "cache", "cookies", "storage". Clearing channel IDs and HTTP authentication cache is currently not
-    #  supported, as it breaks active network connections. Had been expressed wrong in Array, until preserve log
-    #  turned on the rejection of incorrect settings was quietly ignored 'clear-site-data': '"cache", "cookies",
-    #  "storage"',
-
     'clear-site-data': '"storage"',
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Resource-Policy': 'same-site',
@@ -65,11 +59,6 @@ DEFAULT_RESPONSE_HEADERS = {
                           'encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=('
                           '),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=('
                           '),sync-xhr=(self),usb=(),xr-spatial-tracking=()'
-    # TODO cookies stops things like Blank or invalid UAC error Panel working, in tests and code
-    # 'set-cookie': 'name=ons-rh',
-
-    #  TODO: This stops lots of desgin system scripts being loaded
-    # 'Cross Origin Embedded Policy': 'require-corp'
 }
 
 ADD_NONCE_SECTIONS = [

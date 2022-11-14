@@ -83,17 +83,16 @@ class TestCreateApp(AioHTTPTestCase):
         self.assertEqual(response.headers['Referrer-Policy'], 'no-referrer')
         self.assertEqual(response.headers['X-Permitted-Cross-Domain-Policies'], 'None')
 
-        self.assertEqual(response.headers['clear-site-data'], 'cache cookies storage')
+        self.assertEqual(response.headers['clear-site-data'], '"storage"')
         self.assertEqual(response.headers['Cross-Origin-Opener-Policy'], 'same-origin')
         self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-site')
-        # self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
+        self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
         self.assertEqual(response.headers['Server'], 'Office For National Statistics')
         self.assertEqual(response.headers['Permissions-Policy'],
                          'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),'
                          'encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=('
                          '),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=('
                          '),sync-xhr=(self),usb=(),xr-spatial-tracking=()')
-#         TODO: test set-cookie
 
 
 class TestCreateAppURLPathPrefix(TestCase):
