@@ -10,7 +10,6 @@ from structlog import get_logger
 
 from .session import get_existing_session
 
-
 CSP = {
     'default-src': [
         "'self'",
@@ -26,12 +25,6 @@ CSP = {
         "'self'",
         'https://cdn.ons.gov.uk',
     ],
-    'style-src': [
-        "'self'",
-        'https://fonts.googleapis.com',
-        "'unsafe-inline'",
-        'https://cdn.ons.gov.uk'
-    ],
     'connect-src': [
         "'self'",
         'https://cdn.ons.gov.uk',
@@ -46,17 +39,26 @@ CSP = {
         'https://www.gstatic.com',
         'https://cdn.ons.gov.uk'
     ],
+
 }
 
-
 DEFAULT_RESPONSE_HEADERS = {
-    'Strict-Transport-Security': 'max-age=31536000 includeSubDomains',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
     'Content-Security-Policy': CSP,
     'X-Content-Security-Policy': CSP,
-    'X-XSS-Protection': '1; mode=block',
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Referrer-Policy': 'no-referrer',
+    'X-Permitted-Cross-Domain-Policies': 'None',
+    'clear-site-data': '"storage"',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+    'Cross-Origin-Resource-Policy': 'same-site',
+    'Cache-Control': ['no-store', 'max-age=0'],
+    'Server': 'Office For National Statistics',
+    'Permissions-Policy': 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),'
+                          'encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=('
+                          '),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=('
+                          '),sync-xhr=(self),usb=(),xr-spatial-tracking=()'
 }
 
 ADD_NONCE_SECTIONS = [

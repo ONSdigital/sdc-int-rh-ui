@@ -44,7 +44,7 @@ class TestCreateApp(AioHTTPTestCase):
             mocked_rando.return_value = nonce
             response = await self.client.request('GET', '/')
         self.assertEqual(response.headers['Strict-Transport-Security'],
-                         'max-age=31536000 includeSubDomains')
+                         'max-age=31536000; includeSubDomains')
         self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
                       response.headers['Content-Security-Policy'])
         self.assertIn("font-src 'self' data: https://fonts.gstatic.com https://cdn.ons.gov.uk",
@@ -62,7 +62,6 @@ class TestCreateApp(AioHTTPTestCase):
             "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
-        self.assertEqual(response.headers['X-XSS-Protection'], '1; mode=block')
         self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
         self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
                       response.headers['X-Content-Security-Policy'])
@@ -81,7 +80,19 @@ class TestCreateApp(AioHTTPTestCase):
             "img-src 'self' data: https://ssl.gstatic.com "
             "https://www.gstatic.com https://cdn.ons.gov.uk",
             response.headers['X-Content-Security-Policy'])
-        self.assertEqual(response.headers['Referrer-Policy'], 'strict-origin-when-cross-origin')
+        self.assertEqual(response.headers['Referrer-Policy'], 'no-referrer')
+        self.assertEqual(response.headers['X-Permitted-Cross-Domain-Policies'], 'None')
+
+        self.assertEqual(response.headers['clear-site-data'], '"storage"')
+        self.assertEqual(response.headers['Cross-Origin-Opener-Policy'], 'same-origin')
+        self.assertEqual(response.headers['Cross-Origin-Resource-Policy'], 'same-site')
+        self.assertEqual(response.headers['Cache-Control'], 'no-store max-age=0')
+        self.assertEqual(response.headers['Server'], 'Office For National Statistics')
+        self.assertEqual(response.headers['Permissions-Policy'],
+                         'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),'
+                         'encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=('
+                         '),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=('
+                         '),sync-xhr=(self),usb=(),xr-spatial-tracking=()')
 
 
 class TestCreateAppURLPathPrefix(TestCase):
