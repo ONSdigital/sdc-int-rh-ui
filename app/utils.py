@@ -44,7 +44,7 @@ class View:
     @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
         base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN']
-        base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_CY']
+        base_cy = base_en + '/'
 
         link = '/'
 
