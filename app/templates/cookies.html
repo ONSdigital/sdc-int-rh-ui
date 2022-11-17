@@ -1,4 +1,4 @@
-{%- extends 'base-' + display_region + '.html' -%}
+{%- extends 'base-'+ display_region + '.html' -%}
 {% from "components/radios/_macro.njk" import onsRadios %}
 {% from "components/button/_macro.njk" import onsButton %}
 {% from "components/panel/_macro.njk" import onsPanel %}
@@ -6,7 +6,7 @@
 {% from "components/table/_macro.njk" import onsTable %}
 {% from "components/lists/_macro.njk" import onsList %}
 
-{% set page_title = "Cookies on start.surveys.ons.gov.uk" %}
+{% set page_title = _("Cookies on start.surveys.ons.gov.uk") %}
 
 {%- block main -%}
 
@@ -14,121 +14,121 @@
             "classes": "ons-u-mb-s ons-u-d-no ons-cookies-confirmation-message",
             "type": "success"
         }) %}
-        <h2>Your cookie settings have been saved</h2>
-        <p>Some parts of start.surveys.ons.gov.uk may use additional cookies and will have their own cookie policy and
-            banner.</p>
-        <a class="ons-js-return-link ons-u-mt-s ons-u-dib" href="#0">Return to previous page</a>
+        <h2>{{ _('Your cookie settings have been saved') }}</h2>
+        <p>{{ _('Some parts of start.surveys.ons.gov.uk may use additional cookies and will have their own cookie policy and
+            banner.') }}</p>
+        <a class="ons-js-return-link ons-u-mt-s ons-u-dib" href="#0">{{ _('Return to previous page') }}</a>
     {% endcall %}
-    <h1 class="ons-u-fs-xxl">Cookies on start.surveys.ons.gov.uk</h1>
-    <p>Cookies are small files saved on your phone, tablet or computer when you visit a website.</p>
-    <p>We use cookies to store information about how you use this service, such as the pages you visit.</p>
-    <h2>Cookie settings</h2>
+    <h1 class="ons-u-fs-xxl">{{ _('Cookies on start.surveys.ons.gov.uk') }}</h1>
+    <p>{{ _('Cookies are small files saved on your phone, tablet or computer when you visit a website.') }}</p>
+    <p>{{ _('We use cookies to store information about how you use this service, such as the pages you visit.') }}</p>
+    <h2>{{ _('Cookie settings') }}</h2>
     <div class="ons-u-db-no-js_enabled">
-        <p>We use JavaScript to set our cookies. Javascript is not running on your browser so you cannot change your
-            settings.</p>
-        <p>You can try:</p>
+        <p>{{ _('We use JavaScript to set our cookies. Javascript is not running on your browser so you cannot change your
+            settings.') }}</p>
+        <p>{{ _('You can try:') }}</p>
         {{ onsList({
                 "itemsList": [
                     {
-                        "text": 'turning on JavaScript in your browser'
+                        "text": _('turning on JavaScript in your browser')
                     },
                     {
-                        "text": 'reloading the page in case there was a temporary fault with JavaScript'
+                        "text": _('reloading the page in case there was a temporary fault with JavaScript')
                     }
                 ]
             }) }}
     </div>
     <div class="ons-u-db-no-js_disabled">
-        <p>We use two types of cookie. You can choose which cookies you're happy for us to use.</p>
+        <p>{{ _("We use two types of cookie. You can choose which cookies you're happy for us to use.") }}</p>
         <form data-module="cookie-settings">
-            <h3>Cookies that help with our communications</h3>
-            <p>Some of our pages may contain content from other sites which may set their own cookies. These sites are
+            <h3>{{ _('Cookies that help with our communications') }}</h3>
+            <p>{{ _('Some of our pages may contain content from other sites which may set their own cookies. These sites are
                 sometimes called “third party” services. This tells us how many people are seeing the content and
-                whether it’s useful.</p>
-            <p>In addition, if you share a link to a page, the service you share it on may set a cookie. We have no
-                control over cookies set on other websites – you can turn them off, but not through us.</p>
+                whether it’s useful.') }}</p>
+            <p>{{ _('In addition, if you share a link to a page, the service you share it on may set a cookie. We have no
+                control over cookies set on other websites – you can turn them off, but not through us.') }}</p>
             {{ onsRadios({
                 "id": "cookies-measure-website-comms",
                 "name": "cookies-campaigns",
-                "legend": "Do you want to allow communications tracking?",
+                "legend": _("Do you want to allow communications tracking?"),
                 "legendClasses": "ons-u-vh",
                 "radios": [
                     {
                         "id": "on-2",
                         "label": {
-                            "text": "On"
+                            "text": _("On")
                         },
                         "value": "on"
                     },
                     {
                         "id": "off-2",
                         "label": {
-                            "text": "Off"
+                            "text": _("Off")
                         },
                         "value": "off"
                     }
                 ]
             }) }}
-            <h3 class="ons-u-mt-l">Cookies that remember your settings</h3>
-            <p>These cookies do things like remember your preferences and the choices you make, to personalise your
-                experience of using the site.</p>
+            <h3 class="ons-u-mt-l">{{ _('Cookies that remember your settings') }}</h3>
+            <p>{{ _('These cookies do things like remember your preferences and the choices you make, to personalise your
+                experience of using the site.') }}</p>
             {{ onsRadios({
                 "id": "cookies-measure-website-settings",
                 "name": "cookies-settings",
-                "legend": "Do you want to allow settings?",
+                "legend": _("Do you want to allow settings?"),
                 "legendClasses": "ons-u-vh",
                 "radios": [
                     {
                         "id": "on-3",
                         "label": {
-                            "text": "On"
+                            "text": _("On")
                         },
                         "value": "on"
                     },
                     {
                         "id": "off-3",
                         "label": {
-                            "text": "Off"
+                            "text": _("Off")
                         },
                         "value": "off"
                     }
                 ]
             }) }}
-            <h3 class="ons-u-mt-l">Strictly necessary cookies</h3>
-            <p>These essential cookies do things like:</p>
+            <h3 class="ons-u-mt-l">{{ _('Strictly necessary cookies') }}</h3>
+            <p>{{ _('These essential cookies do things like:') }}</p>
             {{ onsList({
                     "itemsList": [
                         {
-                            "text": "remember the notifications you've seen so we do not show them to you again"
+                            "text": _("remember the notifications you've seen so we do not show them to you again")
                         },
                         {
-                            "text": 'remember your progress through a form (for example, online business surveys)'
+                            "text": _('remember your progress through a form (for example, online business surveys)')
                         }
                     ]
                 }) }}
-            <p>They always need to be on.</p>
+            <p>{{ _('They always need to be on.') }}</p>
             {% call onsCollapsible({
                 "id": "cookies-essential-details",
                 "classes": "ons-u-mb-l",
-                "title": "Learn more about these essential cookies",
+                "title": _("Learn more about these essential cookies"),
                 "button": {
-                    "close": "Hide this",
+                    "close": _("Hide this"),
                     "contextSuffix": "content"
                 }
             }) %}
-                <h4>Your progress </h4>
-                <p>We’ll set a cookie to remember your progress while logged in. These cookies do not store your
-                    personal data.</p>
+                <h4>{{ _('Your progress') }}</h4>
+                <p>{{ _('We’ll set a cookie to remember your progress while logged in. These cookies do not store your
+                    personal data.') }}</p>
                 {{ onsTable({
                         "ths": [
                             {
-                                "value": "Name"
+                                "value": _("Name")
                             },
                             {
-                                "value": "Purpose"
+                                "value": _("Purpose")
                             },
                             {
-                                "value": "Expires"
+                                "value": _("Expires")
                             }
                         ],
                         "trs": [
@@ -138,10 +138,10 @@
                                         "value": "<code>COOKIE_SUPPORT</code>"
                                     },
                                     {
-                                        "value": 'To check that your browser can support cookies'
+                                        "value": _('To check that your browser can support cookies')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             },
@@ -151,10 +151,10 @@
                                         "value": "<code>GUEST_LANGUAGE_ID</code>"
                                     },
                                     {
-                                        "value": 'To store your preferred language so that certain content can be displayed in your own language'
+                                        "value": _('To store your preferred language so that certain content can be displayed in your own language')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             },
@@ -164,10 +164,10 @@
                                         "value": "<code>JSESSIONID</code>"
                                     },
                                     {
-                                        "value": 'To keep your session active when using your account to access portfolio and messages'
+                                        "value": _('To keep your session active when using your account to access portfolio and messages')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             },
@@ -177,23 +177,23 @@
                                         "value": "<code>USER_UUID</code>"
                                     },
                                     {
-                                        "value": 'To store the universally unique identifier created for your account'
+                                        "value": _('To store the universally unique identifier created for your account')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             },
                             {
                                 "tds": [
                                     {
-                                        "value": "<code>LFR_SESSION_STATE_*	</code>"
+                                        "value": "<code>LFR_SESSION_STATE_* </code>"
                                     },
                                     {
-                                        "value": 'To store the timestamp of the last request so that the session expiry warning message can be displayed'
+                                        "value": _('To store the timestamp of the last request so that the session expiry warning message can be displayed')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             },
@@ -203,10 +203,10 @@
                                         "value": "<code>Session</code>"
                                     },
                                     {
-                                        "value": 'To keep you signed in when completing a survey'
+                                        "value": _('To keep you signed in when completing a survey')
                                     },
                                     {
-                                        "value": "When a user logs out or closes the browser. Or when their cookie cache is cleared"
+                                        "value": _("When a user logs out or closes the browser. Or when their cookie cache is cleared")
                                     }
                                 ]
                             },
@@ -216,29 +216,29 @@
                                         "value": "<code>csfcfc</code>"
                                     },
                                     {
-                                        "value": 'To store the flash object identifier for the most recent action you have performed'
+                                        "value": _('To store the flash object identifier for the most recent action you have performed')
                                     },
                                     {
-                                        "value": "When a user closes the browser or when their cookie cache is cleared"
+                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
                                     }
                                 ]
                             }
                         ]
                     }) }}
-                <h4>Cookie message</h4>
-                <p>You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your
+                <h4>{{ _('Cookie message') }}</h4>
+                <p>{{ _('You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your
                     settings. We’ll set cookies so that your computer knows you’ve seen it and not to show it again, and
-                    also to store your settings.</p>
+                    also to store your settings.') }}</p>
                 {{ onsTable({
                         "ths": [
                             {
-                                "value": "Name"
+                                "value": _("Name")
                             },
                             {
-                                "value": "Purpose"
+                                "value": _("Purpose")
                             },
                             {
-                                "value": "Expires"
+                                "value": _("Expires")
                             }
                         ],
                         "trs": [
@@ -248,10 +248,10 @@
                                         "value": "<code>ons_cookie_message_displayed</code>"
                                     },
                                     {
-                                        "value": 'Lets us know that you’ve seen our cookie message'
+                                        "value": _('Lets us know that you’ve seen our cookie message')
                                     },
                                     {
-                                        "value": "1 year"
+                                        "value": _("1 year")
                                     }
                                 ]
                             },
@@ -261,10 +261,10 @@
                                         "value": "<code>ons_cookie_policy</code>"
                                     },
                                     {
-                                        "value": 'Saves your cookie consent settings'
+                                        "value": _('Saves your cookie consent settings')
                                     },
                                     {
-                                        "value": "1 year"
+                                        "value": _("1 year")
                                     }
                                 ]
                             }
@@ -273,7 +273,7 @@
             {% endcall %}
             {{ onsButton({
                     "type": 'submit',
-                    "text": 'Save changes'
+                    "text": _('Save changes')
                 }) }}
         </form>
     </div>
