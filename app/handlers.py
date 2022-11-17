@@ -47,7 +47,10 @@ class SignedOut(View):
 class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
     async def get(self, request):
+        display_region = request.match_info['display_region']
+        self.log_entry(request, display_region + '/cookies')
         return {
+            'display_region': display_region,
             'page_url': View.gen_page_url(request)
         }
 
@@ -56,6 +59,9 @@ class Cookies(View):
 class PrivacyAndDataProtection(View):
     @aiohttp_jinja2.template('privacy-and-data-protection.html')
     async def get(self, request):
+        display_region = request.match_info['display_region']
+        self.log_entry(request, display_region + '/privacy-and-data-protection')
         return {
+            'display_region': display_region,
             'page_url': View.gen_page_url(request)
         }
