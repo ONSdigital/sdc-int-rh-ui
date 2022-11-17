@@ -44,7 +44,7 @@ spec:
         - name: http-server
           containerPort: 9092
         env:
-        - name: DOMAIN_URL_EN
+        - name: DOMAIN_URL_EN # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
           valueFrom:
             configMapKeyRef:
               name: domains
