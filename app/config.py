@@ -84,7 +84,8 @@ class DevelopmentConfig:
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
 
     DOMAIN_URL_PROTOCOL = 'http://'
-    DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092') # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+    # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+    DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092')
 
     ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
                                   default='http://localhost:9092')
@@ -123,7 +124,7 @@ class TestingConfig:
     EXT_LOG_LEVEL = 'DEBUG'
 
     DOMAIN_URL_PROTOCOL = 'http://'
-    DOMAIN_URL_EN = 'localhost:9092' # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+    DOMAIN_URL_EN = 'localhost:9092'  # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
 
     ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
