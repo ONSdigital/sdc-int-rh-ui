@@ -43,8 +43,9 @@ class View:
 
     @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
-        base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN']
-        base_cy = base_en + '/'
+        # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+        base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/en'
+        base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/cy'
 
         link = '/'
 
@@ -60,8 +61,7 @@ class View:
                 link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
         elif requested_link == 'privacy':
             if display_region == 'cy':
-                # PLACEHOLDER WELSH
-                link = base_cy + '/preifatrwydd-a-diogelu-data/'
+                link = base_cy + '/privacy-and-data-protection/'
             else:
                 link = base_en + '/privacy-and-data-protection/'
 
