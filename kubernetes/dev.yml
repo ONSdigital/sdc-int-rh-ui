@@ -44,16 +44,11 @@ spec:
         - name: http-server
           containerPort: 9092
         env:
-        - name: DOMAIN_URL_EN
+        - name: DOMAIN_URL_EN # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
           valueFrom:
             configMapKeyRef:
               name: domains
               key: en-host
-        - name: DOMAIN_URL_CY
-          valueFrom:
-            configMapKeyRef:
-              name: domains
-              key: cy-host
         - name: ADDRESS_INDEX_SVC_URL
           valueFrom:
             configMapKeyRef:

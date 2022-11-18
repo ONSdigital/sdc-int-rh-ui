@@ -238,12 +238,9 @@ def check_display_region(request):
 
     domain_url_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app[
         'DOMAIN_URL_EN']
-    domain_url_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app[
-        'DOMAIN_URL_CY']
 
     base_attributes = {
         'domain_url_en': domain_url_en,
-        'domain_url_cy': domain_url_cy,
         'page_url': View.gen_page_url(request)
     }
 

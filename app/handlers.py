@@ -43,7 +43,7 @@ class SignedOut(View):
         }
 
 
-@static_routes.view('/cookies/')
+@static_routes.view(r'/' + View.valid_display_regions + '/cookies/')
 class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
     async def get(self, request):
@@ -52,7 +52,7 @@ class Cookies(View):
         }
 
 
-@static_routes.view('/privacy-and-data-protection/')
+@static_routes.view(r'/' + View.valid_display_regions + '/privacy-and-data-protection/')
 class PrivacyAndDataProtection(View):
     @aiohttp_jinja2.template('privacy-and-data-protection.html')
     async def get(self, request):

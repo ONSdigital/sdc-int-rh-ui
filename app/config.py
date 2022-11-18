@@ -43,8 +43,7 @@ class BaseConfig:
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL')
 
     DOMAIN_URL_PROTOCOL = env('DOMAIN_URL_PROTOCOL', default='https://')
-    DOMAIN_URL_EN = env('DOMAIN_URL_EN')
-    DOMAIN_URL_CY = env('DOMAIN_URL_CY')
+    DOMAIN_URL_EN = env('DOMAIN_URL_EN')  # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
 
     ACCOUNT_SERVICE_URL = env('ACCOUNT_SERVICE_URL')
     EQ_URL = env('EQ_URL')
@@ -85,8 +84,8 @@ class DevelopmentConfig:
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
 
     DOMAIN_URL_PROTOCOL = 'http://'
+    # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
     DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092')
-    DOMAIN_URL_CY = env.str('DOMAIN_URL_CY', default='localhost:9092')
 
     ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
                                   default='http://localhost:9092')
@@ -125,8 +124,7 @@ class TestingConfig:
     EXT_LOG_LEVEL = 'DEBUG'
 
     DOMAIN_URL_PROTOCOL = 'http://'
-    DOMAIN_URL_EN = 'localhost:9092'
-    DOMAIN_URL_CY = 'localhost:9092'
+    DOMAIN_URL_EN = 'localhost:9092'  # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
 
     ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
