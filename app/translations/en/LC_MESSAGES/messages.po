@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-02 17:39+0000\n"
+"POT-Creation-Date: 2022-11-18 13:02+0000\n"
 "PO-Revision-Date: 2019-08-30 11:45+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -37,16 +37,242 @@ msgid ""
 "%(open)scontact us%(close)s for more help."
 msgstr ""
 
-#: app/templates/closed.html:6
-msgid "This study has closed"
+#: app/templates/cookies.html:9 app/templates/cookies.html:22
+msgid "Cookies on start.surveys.ons.gov.uk"
 msgstr ""
 
-#: app/templates/closed.html:9
-msgid "Your access code is for a study that has now closed."
+#: app/templates/cookies.html:17
+msgid "Your cookie settings have been saved"
 msgstr ""
 
-#: app/templates/closed.html:11
-msgid "Thank you for your help."
+#: app/templates/cookies.html:18
+msgid ""
+"Some parts of start.surveys.ons.gov.uk may use additional cookies and "
+"will have their own cookie policy and\n"
+"            banner."
+msgstr ""
+
+#: app/templates/cookies.html:20
+msgid "Return to previous page"
+msgstr ""
+
+#: app/templates/cookies.html:23
+msgid ""
+"Cookies are small files saved on your phone, tablet or computer when you "
+"visit a website."
+msgstr ""
+
+#: app/templates/cookies.html:24
+msgid ""
+"We use cookies to store information about how you use this service, such "
+"as the pages you visit."
+msgstr ""
+
+#: app/templates/cookies.html:25
+msgid "Cookie settings"
+msgstr ""
+
+#: app/templates/cookies.html:27
+msgid ""
+"We use JavaScript to set our cookies. Javascript is not running on your "
+"browser so you cannot change your\n"
+"            settings."
+msgstr ""
+
+#: app/templates/cookies.html:29
+msgid "You can try:"
+msgstr ""
+
+#: app/templates/cookies.html:33
+msgid "turning on JavaScript in your browser"
+msgstr ""
+
+#: app/templates/cookies.html:36
+msgid "reloading the page in case there was a temporary fault with JavaScript"
+msgstr ""
+
+#: app/templates/cookies.html:42
+msgid ""
+"We use two types of cookie. You can choose which cookies you're happy for"
+" us to use."
+msgstr ""
+
+#: app/templates/cookies.html:44
+msgid "Cookies that help with our communications"
+msgstr ""
+
+#: app/templates/cookies.html:45
+msgid ""
+"Some of our pages may contain content from other sites which may set "
+"their own cookies. These sites are\n"
+"                sometimes called “third party” services. This tells us "
+"how many people are seeing the content and\n"
+"                whether it’s useful."
+msgstr ""
+
+#: app/templates/cookies.html:48
+msgid ""
+"In addition, if you share a link to a page, the service you share it on "
+"may set a cookie. We have no\n"
+"                control over cookies set on other websites – you can turn"
+" them off, but not through us."
+msgstr ""
+
+#: app/templates/cookies.html:53
+msgid "Do you want to allow communications tracking?"
+msgstr ""
+
+#: app/templates/cookies.html:59 app/templates/cookies.html:84
+msgid "On"
+msgstr ""
+
+#: app/templates/cookies.html:66 app/templates/cookies.html:91
+msgid "Off"
+msgstr ""
+
+#: app/templates/cookies.html:72
+msgid "Cookies that remember your settings"
+msgstr ""
+
+#: app/templates/cookies.html:73
+msgid ""
+"These cookies do things like remember your preferences and the choices "
+"you make, to personalise your\n"
+"                experience of using the site."
+msgstr ""
+
+#: app/templates/cookies.html:78
+msgid "Do you want to allow settings?"
+msgstr ""
+
+#: app/templates/cookies.html:97
+msgid "Strictly necessary cookies"
+msgstr ""
+
+#: app/templates/cookies.html:98
+msgid "These essential cookies do things like:"
+msgstr ""
+
+#: app/templates/cookies.html:102
+msgid "remember the notifications you've seen so we do not show them to you again"
+msgstr ""
+
+#: app/templates/cookies.html:105
+msgid ""
+"remember your progress through a form (for example, online business "
+"surveys)"
+msgstr ""
+
+#: app/templates/cookies.html:109
+msgid "They always need to be on."
+msgstr ""
+
+#: app/templates/cookies.html:113
+msgid "Learn more about these essential cookies"
+msgstr ""
+
+#: app/templates/cookies.html:115 app/templates/start.html:71
+msgid "Hide this"
+msgstr ""
+
+#: app/templates/cookies.html:119
+msgid "Your progress"
+msgstr ""
+
+#: app/templates/cookies.html:120
+msgid ""
+"We’ll set a cookie to remember your progress while logged in. These "
+"cookies do not store your\n"
+"                    personal data."
+msgstr ""
+
+#: app/templates/cookies.html:125 app/templates/cookies.html:235
+msgid "Name"
+msgstr ""
+
+#: app/templates/cookies.html:128 app/templates/cookies.html:238
+msgid "Purpose"
+msgstr ""
+
+#: app/templates/cookies.html:131 app/templates/cookies.html:241
+msgid "Expires"
+msgstr ""
+
+#: app/templates/cookies.html:141
+msgid "To check that your browser can support cookies"
+msgstr ""
+
+#: app/templates/cookies.html:144 app/templates/cookies.html:157
+#: app/templates/cookies.html:170 app/templates/cookies.html:183
+#: app/templates/cookies.html:196 app/templates/cookies.html:222
+msgid "When a user closes the browser or when their cookie cache is cleared"
+msgstr ""
+
+#: app/templates/cookies.html:154
+msgid ""
+"To store your preferred language so that certain content can be displayed"
+" in your own language"
+msgstr ""
+
+#: app/templates/cookies.html:167
+msgid ""
+"To keep your session active when using your account to access portfolio "
+"and messages"
+msgstr ""
+
+#: app/templates/cookies.html:180
+msgid "To store the universally unique identifier created for your account"
+msgstr ""
+
+#: app/templates/cookies.html:193
+msgid ""
+"To store the timestamp of the last request so that the session expiry "
+"warning message can be displayed"
+msgstr ""
+
+#: app/templates/cookies.html:206
+msgid "To keep you signed in when completing a survey"
+msgstr ""
+
+#: app/templates/cookies.html:209
+msgid ""
+"When a user logs out or closes the browser. Or when their cookie cache is"
+" cleared"
+msgstr ""
+
+#: app/templates/cookies.html:219
+msgid ""
+"To store the flash object identifier for the most recent action you have "
+"performed"
+msgstr ""
+
+#: app/templates/cookies.html:228
+msgid "Cookie message"
+msgstr ""
+
+#: app/templates/cookies.html:229
+msgid ""
+"You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
+" to accept cookies or review your\n"
+"                    settings. We’ll set cookies so that your computer "
+"knows you’ve seen it and not to show it again, and\n"
+"                    also to store your settings."
+msgstr ""
+
+#: app/templates/cookies.html:251
+msgid "Lets us know that you’ve seen our cookie message"
+msgstr ""
+
+#: app/templates/cookies.html:254 app/templates/cookies.html:267
+msgid "1 year"
+msgstr ""
+
+#: app/templates/cookies.html:264
+msgid "Saves your cookie consent settings"
+msgstr ""
+
+#: app/templates/cookies.html:276
+msgid "Save changes"
 msgstr ""
 
 #: app/templates/error-forbidden.html:8
@@ -75,126 +301,98 @@ msgid ""
 "continues."
 msgstr ""
 
-#: app/templates/launch-eq.html:15 app/templates/launch-eq.html:31
-msgid "Launch EQ"
+#: app/templates/privacy-and-data-protection.html:4
+msgid "Privacy and data protection"
 msgstr ""
 
-#: app/templates/launch-eq.html:17
-msgid "Press the below button to launch EQ"
+#: app/templates/privacy-and-data-protection.html:9
+msgid "We will keep your information secure and confidential"
 msgstr ""
 
-#: app/templates/request-code-sent-by-text.html:37
-msgid "The text will be sent from <strong>ONS</strong>"
+#: app/templates/privacy-and-data-protection.html:12
+msgid "This means that we will:"
 msgstr ""
 
-#: app/templates/request-code-confirm-send-by-text.html:28
-msgid "No, I need to change it"
-msgstr ""
-
-#: app/templates/request-code-confirm-send-by-text.html:46
-#: app/templates/request-code-confirm-send-by-text.html:54
-msgid "Is this mobile number correct?"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:18
-#: app/templates/request-code-enter-name.html:23
-msgid "You have entered too many characters. Enter up to 35 characters"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:53
-#: app/templates/request-code-enter-name.html:76
-msgid "First name"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:60
-#: app/templates/request-code-enter-name.html:83
-#: app/templates/request-code-enter-name.html:112
-#: app/templates/request-code-enter-name.html:135
-msgid "{x} character too many"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:61
-#: app/templates/request-code-enter-name.html:84
-#: app/templates/request-code-enter-name.html:113
-#: app/templates/request-code-enter-name.html:136
-msgid "{x} characters too many"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:62
-#: app/templates/request-code-enter-name.html:85
-#: app/templates/request-code-enter-name.html:114
-#: app/templates/request-code-enter-name.html:137
-msgid "You have {x} character remaining"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:63
-#: app/templates/request-code-enter-name.html:86
-#: app/templates/request-code-enter-name.html:115
-#: app/templates/request-code-enter-name.html:138
-msgid "You have {x} characters remaining"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:105
-#: app/templates/request-code-enter-name.html:128
-msgid "Last name"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:18
-msgid "Enter your mobile number"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:20
+#: app/templates/privacy-and-data-protection.html:18
 msgid ""
-"Enter a UK mobile number in a valid format, for example, 07700 900345 or "
-"+44 7700 900345"
+"recognise that you are sharing personal information with us and treat it "
+"as confidential, as directed\n"
+"                        by the <a "
+"href=\"https://code.statisticsauthority.gov.uk/\">Code of Practice for "
+"Statistics</a>"
 msgstr ""
 
-#: app/templates/request-code-enter-mobile.html:30
-msgid "What is your mobile number?"
-msgstr ""
-
-#: app/templates/request-code-enter-mobile.html:40
-msgid "UK mobile number"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:20
-msgid "Enter your first name"
-msgstr ""
-
-#: app/templates/request-code-enter-name.html:25
-msgid "Enter your last name"
-msgstr ""
-
-#: app/templates/start-timeout.html:9
-msgid "This is because you’ve either:"
-msgstr ""
-
-#: app/templates/start-timeout.html:11
+#: app/templates/privacy-and-data-protection.html:22
 msgid ""
-"been inactive for 45 minutes and your session has timed out to protect "
-"your information"
+"only use your information for statistical purposes, or to help us run our"
+" surveys, and not publish anything\n"
+"                        that identifies an individual, household or "
+"business"
 msgstr ""
 
-#: app/templates/start.html:64
-msgid "Start study"
+#: app/templates/privacy-and-data-protection.html:26
+msgid ""
+"only hold your information for as long as it is being used for producing "
+"statistics"
 msgstr ""
 
-#: app/templates/request-timeout.html:13
-msgid "followed a link to the middle of a request for a new access code"
-msgstr ""
-
-#: app/templates/request-timeout.html:17
+#: app/templates/privacy-and-data-protection.html:29
 #, python-format
-msgid "You need to start again to %(open)srequest a new access code%(close)s."
+msgid ""
+"provide survey information to%(open_access_to_research_link)s\n"
+"                        other government departments, approved "
+"organisations%(close_link)s and%(open_approved_researchers_link)s\n"
+"                        approved researchers%(close_link)s for "
+"statistical purposes only, subject to the same standards of\n"
+"                        protection we apply (and according to the "
+"provisions of the Data Protection Legislation,\n"
+"                        the Statistics and Registration Service Act 2007 "
+"and the Code of Practice for Statistics)"
 msgstr ""
 
-#: app/templates/request-too-many-requests.html:34
-msgid "You have reached the maximum number of access codes you can request online"
+#: app/templates/privacy-and-data-protection.html:39
+msgid ""
+"ensure our staff are aware of their obligations to protect your "
+"confidential information"
 msgstr ""
 
-#: app/templates/request-too-many-requests.html:36
+#: app/templates/privacy-and-data-protection.html:42
+msgid "maintain the security of our systems and our buildings"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:49
+msgid "Who can access the information?"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:50
+msgid ""
+"We employ third-party providers to assist us in survey data collection. "
+"These third parties work under our instruction,\n"
+"        and are strictly used as technical service providers in a "
+"capacity as a data processor.\n"
+"        We retain your data and control how this is used. The third "
+"parties we work with are:"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:57
+msgid "Google Cloud Platform service"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:60
+msgid "GOV.UK Notify"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:68
+msgid "Where can I find out more about how my information will be treated?"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:69
 #, python-format
-msgid "If you need a new access code, please %(open)scontact us%(close)s"
+msgid ""
+"If you have a question about how we process your personal data or want to"
+" find out more\n"
+"        about your rights under data protection legislation, please see "
+"our %(open_ons_data_protection_link)sprotection page%(close_link)s."
 msgstr ""
 
 #: app/templates/signed-out.html:19
@@ -208,23 +406,18 @@ msgid ""
 "to %(open)saccess your study%(close)s."
 msgstr ""
 
-#: app/templates/start-expired.html:7
-msgid "This access code has already been used"
-msgstr ""
-
-#: app/templates/start-expired.html:9
-msgid "Someone has already submitted a response using this access code."
-msgstr ""
-
-#: app/templates/start-expired.html:12
-#, python-format
-msgid ""
-"If you need to start your study again, you can %(open)srequest a new "
-"access code%(close)s."
-msgstr ""
-
 #: app/templates/start-timeout.html:7
 msgid "Sorry, you need to enter your access code"
+msgstr ""
+
+#: app/templates/start-timeout.html:9
+msgid "This is because you’ve either:"
+msgstr ""
+
+#: app/templates/start-timeout.html:11
+msgid ""
+"been inactive for 45 minutes and your session has timed out to protect "
+"your information"
 msgstr ""
 
 #: app/templates/start-timeout.html:12
@@ -254,54 +447,78 @@ msgid ""
 "access your study."
 msgstr ""
 
-#: app/templates/start.html:24
+#: app/templates/start-uac-already-used.html:5
+msgid "This access code has already been used"
+msgstr ""
+
+#: app/templates/start-uac-already-used.html:7
+msgid "Someone has already submitted a response using this access code."
+msgstr ""
+
+#: app/templates/start-uac-inactive.html:6
+msgid "This access code has been marked inactive"
+msgstr ""
+
+#: app/templates/start.html:21
 msgid "Enter an access code"
 msgstr ""
 
-#: app/templates/start.html:26
+#: app/templates/start.html:23
 msgid "Enter a valid access code"
 msgstr ""
 
-#: app/templates/start.html:70
-msgid "Where to find your access code"
+#: app/templates/start.html:34
+msgid "Start study"
 msgstr ""
 
-#: app/templates/start.html:73
+#: app/templates/start.html:41
 msgid "Enter your 16-character access code"
 msgstr ""
 
-#: app/templates/start.html:74
+#: app/templates/start.html:42
 msgid ""
 "Keep this code safe. You will need to enter it every time you access your"
 " study"
 msgstr ""
 
-#: app/templates/start.html:76
+#: app/templates/start.html:44
 msgid ""
 "Your personal information is protected by law and will be kept "
 "confidential."
 msgstr ""
 
-#: app/templates/start.html:82
-msgid "Access survey"
+#: app/templates/start.html:51
+msgid "Access study"
 msgstr ""
 
-#: app/templates/start.html:88
-msgid "If you don’t have an access code"
-msgstr ""
-
-#: app/templates/start.html:90
-#, python-format
+#: app/templates/start.html:58
 msgid ""
-"You can %(open)srequest a new access code%(close)s to start a new study "
-"if you have lost or not received an access code. This can be sent to you "
-"by text or post."
+"Telephone: +44 800 085 7376<br>8am to 7pm Monday to Friday<br>8am to 1pm "
+"Saturday"
 msgstr ""
 
-#, python-format
+#: app/templates/start.html:59
+msgid "Minicom (for the deaf and hearing impaired): 18001 +44 800 085 7376"
+msgstr ""
+
+#: app/templates/start.html:60
 msgid ""
-"Information about what we do with your personal data is available in our "
-"%(open)sprivacy and data protection statement%(close)s."
+"Email: <a href=\"mailto: "
+"surveyfeedback@ons.gov.uk\">surveyfeedback@ons.gov.uk</a>"
+msgstr ""
+
+#: app/templates/start.html:63
+msgid "Where to find your access code"
+msgstr ""
+
+#: app/templates/start.html:64
+msgid ""
+"Your access code can be found in the invitation letter or email you "
+"received."
+msgstr ""
+
+#: app/templates/start.html:68
+msgid "Who can I contact for assistance or further information?"
 msgstr ""
 
 #: app/templates/partials/messages.html:8
@@ -464,5 +681,113 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Take part in a survey"
+#~ msgstr ""
+
+#~ msgid "This study has closed"
+#~ msgstr ""
+
+#~ msgid "Your access code is for a study that has now closed."
+#~ msgstr ""
+
+#~ msgid "Thank you for your help."
+#~ msgstr ""
+
+#~ msgid "Launch EQ"
+#~ msgstr ""
+
+#~ msgid "Press the below button to launch EQ"
+#~ msgstr ""
+
+#~ msgid "The text will be sent from <strong>ONS</strong>"
+#~ msgstr ""
+
+#~ msgid "No, I need to change it"
+#~ msgstr ""
+
+#~ msgid "Is this mobile number correct?"
+#~ msgstr ""
+
+#~ msgid "You have entered too many characters. Enter up to 35 characters"
+#~ msgstr ""
+
+#~ msgid "First name"
+#~ msgstr ""
+
+#~ msgid "{x} character too many"
+#~ msgstr ""
+
+#~ msgid "{x} characters too many"
+#~ msgstr ""
+
+#~ msgid "You have {x} character remaining"
+#~ msgstr ""
+
+#~ msgid "You have {x} characters remaining"
+#~ msgstr ""
+
+#~ msgid "Last name"
+#~ msgstr ""
+
+#~ msgid "Enter your mobile number"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enter a UK mobile number in a "
+#~ "valid format, for example, 07700 900345"
+#~ " or +44 7700 900345"
+#~ msgstr ""
+
+#~ msgid "What is your mobile number?"
+#~ msgstr ""
+
+#~ msgid "UK mobile number"
+#~ msgstr ""
+
+#~ msgid "Enter your first name"
+#~ msgstr ""
+
+#~ msgid "Enter your last name"
+#~ msgstr ""
+
+#~ msgid "followed a link to the middle of a request for a new access code"
+#~ msgstr ""
+
+#~ msgid "You need to start again to %(open)srequest a new access code%(close)s."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You have reached the maximum number "
+#~ "of access codes you can request "
+#~ "online"
+#~ msgstr ""
+
+#~ msgid "If you need a new access code, please %(open)scontact us%(close)s"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you need to start your study"
+#~ " again, you can %(open)srequest a new"
+#~ " access code%(close)s."
+#~ msgstr ""
+
+#~ msgid "Access survey"
+#~ msgstr ""
+
+#~ msgid "If you don’t have an access code"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You can %(open)srequest a new access "
+#~ "code%(close)s to start a new study "
+#~ "if you have lost or not received"
+#~ " an access code. This can be "
+#~ "sent to you by text or post."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Information about what we do with "
+#~ "your personal data is available in "
+#~ "our %(open)sprivacy and data protection "
+#~ "statement%(close)s."
 #~ msgstr ""
 
