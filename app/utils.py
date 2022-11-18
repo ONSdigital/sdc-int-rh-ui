@@ -82,6 +82,8 @@ class View:
                 link = "https://cy.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
             else:
                 link = "https://www.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
+        elif requested_link == 'code_of_practice_link':
+            link = "https://code.statisticsauthority.gov.uk/"
 
         return link
 

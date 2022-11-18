@@ -66,6 +66,7 @@ class PrivacyAndDataProtection(View):
         return {
             'display_region': display_region,
             'locale': locale,
+            'code_of_practice_link': View.get_campaign_site_link(request, display_region, 'code_of_practice_link'),
             'access_to_research_link': View.get_campaign_site_link(request, display_region, 'access_to_research_link'),
             'approved_researchers_link': View.get_campaign_site_link(request, display_region,
                                                                      'approved_researchers_link'),
