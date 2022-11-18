@@ -311,13 +311,6 @@ msgid "We employ third-party providers to assist us in survey data collection.
        We retain your data and control how this is used. The third parties we work with are:"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:59
-msgid "Google Cloud Platform service"
-msgstr ""
-
-#: app/templates/privacy-and-data-protection.html:62
-msgid "GOV.UK Notify"
-msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:70
 msgid "Where can I find out more about how my information will be treated?"
