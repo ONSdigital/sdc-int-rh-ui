@@ -51,7 +51,6 @@ class Cookies(View):
         self.log_entry(request, display_region + '/cookies')
         return {
             'display_region': display_region,
-            'page_url': View.gen_page_url(request)
         }
 
 
@@ -63,5 +62,8 @@ class PrivacyAndDataProtection(View):
         self.log_entry(request, display_region + '/privacy-and-data-protection')
         return {
             'display_region': display_region,
-            'page_url': View.gen_page_url(request)
+            'access_to_research_link': View.get_campaign_site_link(request, display_region, 'access_to_research_link'),
+            'approved_researchers_link': View.get_campaign_site_link(request, display_region,
+                                                                     'approved_researchers_link'),
+            'ons_data_protection_link': View.get_campaign_site_link(request, display_region, 'ons_data_protection_link')
         }

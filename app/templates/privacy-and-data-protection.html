@@ -10,6 +10,7 @@
     </h1>
 
     <p>{{ _('This means that we will:') }}</p>
+    {%- autoescape false -%}
     {{
         onsList({
             "itemsList": [
@@ -25,12 +26,14 @@
                     "text": _('only hold your information for as long as it is being used for producing statistics')
                 },
                 {
-                    "text": _('provide survey information to <a href="https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics/accesstounpublishedonsresearchdatabygovernmentorganisationsforstatisticalresearch">
-                        other government departments, approved organisations</a> and
-                        <a href="https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics/approvedresearcherscheme">
-                        approved researchers</a> for statistical purposes only, subject to the same standards of
+                    "text": _('provide survey information to%(open_access_to_research_link)s
+                        other government departments, approved organisations%(close_link)s and%(open_approved_researchers_link)s
+                        approved researchers%(close_link)s for statistical purposes only, subject to the same standards of
                         protection we apply (and according to the provisions of the Data Protection Legislation,
-                        the Statistics and Registration Service Act 2007 and the Code of Practice for Statistics)')
+                        the Statistics and Registration Service Act 2007 and the Code of Practice for Statistics)',
+                        open_access_to_research_link='<a href="%s">' % access_to_research_link,
+                        open_approved_researchers_link='<a href="%s">' % approved_researchers_link,
+                        close_link='</a>')
                 },
                 {
                     "text": _('ensure our staff are aware of their obligations to protect your confidential information')
@@ -41,6 +44,7 @@
             ]
         })
     }}
+    {%- endautoescape -%}
 
     <h2>{{ _('Who can access the information?') }}</h2>
     <p>{{ _('We employ third-party providers to assist us in survey data collection. These third parties work under our instruction,
@@ -59,10 +63,13 @@
         })
     }}
 
+
+    {%- autoescape false -%}
     <h2 class="ons-u-fs-xl ons-u-mt-l">{{ _('Where can I find out more about how my information will be treated?') }}</h2>
     <p>{{ _('If you have a question about how we process your personal data or want to find out more
-        about your rights under data protection legislation, please see our
-        <a href="https://www.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection">protection page</a>.') }}
+        about your rights under data protection legislation, please see our %(open_ons_data_protection_link)sprotection page%(close_link)s.',
+        open_ons_data_protection_link='<a href="%s">' % ons_data_protection_link, close_link='</a>') }}
     </p>
+    {%- endautoescape -%}
 
 {% endblock main %}

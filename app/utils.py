@@ -64,6 +64,24 @@ class View:
                 link = base_cy + '/privacy-and-data-protection/'
             else:
                 link = base_en + '/privacy-and-data-protection/'
+        elif requested_link == 'access_to_research_link':
+            if display_region == 'cy':
+                link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/accesstounpublishedonsresearchdatabygovernmentorganisationsforstatisticalresearch "
+            else:
+                link = "https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/accesstounpublishedonsresearchdatabygovernmentorganisationsforstatisticalresearch "
+        elif requested_link == 'approved_researchers_link':
+            if display_region == 'cy':
+                link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics/approvedresearcherscheme"
+            else:
+                link = "https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/approvedresearcherscheme "
+        elif requested_link == 'ons_data_protection_link':
+            if display_region == 'cy':
+                link = "https://cy.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
+            else:
+                link = "https://www.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
 
         return link
 
