@@ -48,9 +48,11 @@ class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
+        locale = display_region
         self.log_entry(request, display_region + '/cookies')
         return {
             'display_region': display_region,
+            'locale': locale
         }
 
 
@@ -59,9 +61,11 @@ class PrivacyAndDataProtection(View):
     @aiohttp_jinja2.template('privacy-and-data-protection.html')
     async def get(self, request):
         display_region = request.match_info['display_region']
+        locale = display_region
         self.log_entry(request, display_region + '/privacy-and-data-protection')
         return {
             'display_region': display_region,
+            'locale': locale,
             'access_to_research_link': View.get_campaign_site_link(request, display_region, 'access_to_research_link'),
             'approved_researchers_link': View.get_campaign_site_link(request, display_region,
                                                                      'approved_researchers_link'),
