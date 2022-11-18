@@ -1,14 +1,14 @@
 # English translations for PROJECT.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2022 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-18 17:03+0000\n"
-"PO-Revision-Date: 2019-08-30 11:45+0100\n"
+"POT-Creation-Date: 2022-11-18 18:30+0000\n"
+"PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -48,7 +48,8 @@ msgstr ""
 #: app/templates/cookies.html:18
 msgid ""
 "Some parts of start.surveys.ons.gov.uk may use additional cookies and "
-"will have their own cookie policy and banner."
+"will have their own cookie policy and\n"
+"            banner."
 msgstr ""
 
 #: app/templates/cookies.html:20
@@ -72,7 +73,10 @@ msgid "Cookie settings"
 msgstr ""
 
 #: app/templates/cookies.html:27
-msgid "We use JavaScript to set our cookies"
+msgid ""
+"We use JavaScript to set our cookies. Javascript is not running on your "
+"browser so you cannot change your\n"
+"            settings."
 msgstr ""
 
 #: app/templates/cookies.html:29
@@ -100,13 +104,18 @@ msgstr ""
 #: app/templates/cookies.html:45
 msgid ""
 "Some of our pages may contain content from other sites which may set "
-"their own cookies"
+"their own cookies. These sites are\n"
+"                sometimes called “third party” services. This tells us "
+"how many people are seeing the content and\n"
+"                whether it’s useful."
 msgstr ""
 
 #: app/templates/cookies.html:48
 msgid ""
 "In addition, if you share a link to a page, the service you share it on "
-"may set a cookie"
+"may set a cookie. We have no\n"
+"                control over cookies set on other websites – you can turn"
+" them off, but not through us."
 msgstr ""
 
 #: app/templates/cookies.html:53
@@ -128,7 +137,8 @@ msgstr ""
 #: app/templates/cookies.html:73
 msgid ""
 "These cookies do things like remember your preferences and the choices "
-"you make"
+"you make, to personalise your\n"
+"                experience of using the site."
 msgstr ""
 
 #: app/templates/cookies.html:78
@@ -172,7 +182,8 @@ msgstr ""
 #: app/templates/cookies.html:120
 msgid ""
 "We’ll set a cookie to remember your progress while logged in. These "
-"cookies do not store your personal data."
+"cookies do not store your\n"
+"                    personal data."
 msgstr ""
 
 #: app/templates/cookies.html:125 app/templates/cookies.html:235
@@ -242,7 +253,10 @@ msgstr ""
 #: app/templates/cookies.html:229
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
-" to accept cookies or review your settings"
+" to accept cookies or review your\n"
+"                    settings. We’ll set cookies so that your computer "
+"knows you’ve seen it and not to show it again, and\n"
+"                    also to store your settings."
 msgstr ""
 
 #: app/templates/cookies.html:251
@@ -300,15 +314,20 @@ msgid "This means that we will:"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:18
+#, python-format
 msgid ""
 "recognise that you are sharing personal information with us and treat it "
-"as confidential"
+"as confidential, as directed\n"
+"                        by the%(open_code_of_practice_link)s Code of "
+"Practice for Statistics%(close_link)s"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:24
 msgid ""
 "only use your information for statistical purposes, or to help us run our"
-" surveys"
+" surveys, and not publish anything\n"
+"                        that identifies an individual, household or "
+"business"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:28
@@ -320,8 +339,15 @@ msgstr ""
 #: app/templates/privacy-and-data-protection.html:31
 #, python-format
 msgid ""
-"provide survey information to%(open_access_to_research_link)s other "
-"government departments"
+"provide survey information to%(open_access_to_research_link)s\n"
+"                        other government departments, approved "
+"organisations%(close_link)s and%(open_approved_researchers_link)s\n"
+"                        approved researchers%(close_link)s for "
+"statistical purposes only, subject to the same standards of\n"
+"                        protection we apply (and according to the "
+"provisions of the Data Protection Legislation,\n"
+"                        the Statistics and Registration Service Act 2007 "
+"and the Code of Practice for Statistics)"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:41
@@ -339,15 +365,13 @@ msgid "Who can access the information?"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:52
-msgid "We employ third-party providers to assist us in survey data collection"
-msgstr ""
-
-#: app/templates/privacy-and-data-protection.html:59
-msgid "Google Cloud Platform service"
-msgstr ""
-
-#: app/templates/privacy-and-data-protection.html:62
-msgid "GOV.UK Notify"
+msgid ""
+"We employ third-party providers to assist us in survey data collection. "
+"These third parties work under our instruction,\n"
+"        and are strictly used as technical service providers in a "
+"capacity as a data processor.\n"
+"        We retain your data and control how this is used. The third "
+"parties we work with are:"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:70
@@ -355,7 +379,12 @@ msgid "Where can I find out more about how my information will be treated?"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:71
-msgid "If you have a question about how we process your personal dat"
+#, python-format
+msgid ""
+"If you have a question about how we process your personal data or want to"
+" find out more\n"
+"        about your rights under data protection legislation, please see "
+"our %(open_ons_data_protection_link)sprotection page%(close_link)s."
 msgstr ""
 
 #: app/templates/signed-out.html:19
@@ -465,9 +494,7 @@ msgid "Minicom (for the deaf and hearing impaired): 18001 +44 800 085 7376"
 msgstr ""
 
 #: app/templates/start.html:60
-msgid ""
-"Email: <a "
-"href=\"mailto:surveyfeedback@ons.gov.uk\">surveyfeedback@ons.gov.uk</a>"
+msgid "Email:"
 msgstr ""
 
 #: app/templates/start.html:63
@@ -501,379 +528,4 @@ msgstr ""
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
 msgstr ""
-
-#~ msgid "This survey has closed"
-#~ msgstr ""
-
-#~ msgid "Your access code is for a survey that has now closed."
-#~ msgstr ""
-
-#~ msgid "Your children have been registered for the survey"
-#~ msgstr ""
-
-#~ msgid "Someone has already submitted a study using this access code."
-#~ msgstr ""
-
-#~ msgid "Enter a valid date"
-#~ msgstr ""
-
-#~ msgid "What is the date of birth of %(name)s?"
-#~ msgstr ""
-
-#~ msgid "Check answers"
-#~ msgstr ""
-
-#~ msgid "Save and continue"
-#~ msgstr ""
-
-#~ msgid "Your child has been registered for the survey"
-#~ msgstr ""
-
-#~ msgid "A text message confirming your registration should arrive soon"
-#~ msgstr ""
-
-#~ msgid "Yes, my mobile number is correct"
-#~ msgstr ""
-
-#~ msgid "You have been removed from this study"
-#~ msgstr ""
-
-#~ msgid "Confirm consent"
-#~ msgstr ""
-
-#~ msgid "I confirm that I have read and understand the Information Sheet."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "I understand that my child’s "
-#~ "participation is voluntary. I am free"
-#~ " to withdraw my child from the "
-#~ "study at any time without giving a"
-#~ " reason and without my child’s care"
-#~ " or education being affected."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "I have explained to my child what"
-#~ " is involved in the study and "
-#~ "my child is happy to participate."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "I understand that the results of "
-#~ "the antibody test will/ won’t be "
-#~ "reported back to me."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "I understand that information about "
-#~ "other children and adults in my "
-#~ "household will be collected in the "
-#~ "questionnaire. and I have discussed this"
-#~ " with my family."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "I understand that my information I "
-#~ "provide will be shared within the "
-#~ "study team which will include the "
-#~ "Office for National Statistics (ONS), "
-#~ "Public Health England (PHE), the London"
-#~ " School of Hygiene and Tropical "
-#~ "Medicine (LSHTM) and Department for "
-#~ "Education (DfE)."
-#~ msgstr ""
-
-#~ msgid "I accept"
-#~ msgstr ""
-
-#~ msgid "I decline"
-#~ msgstr ""
-
-#~ msgid "Enter your child's first name"
-#~ msgstr ""
-
-#~ msgid "Enter your child's last name"
-#~ msgstr ""
-
-#~ msgid "Who would you like to register?"
-#~ msgstr ""
-
-#~ msgid "Middle name(s)"
-#~ msgstr ""
-
-#~ msgid "This will be stored and used to send study access codes"
-#~ msgstr ""
-
-#~ msgid "What is the parent/guardian's name?"
-#~ msgstr ""
-
-#~ msgid "Schools taking part in SIS"
-#~ msgstr ""
-
-#~ msgid "Enter a value"
-#~ msgstr ""
-
-#~ msgid "What school does %(name)s attend?"
-#~ msgstr ""
-
-#~ msgid "COVID-19 Schools Infection Survey (SIS)"
-#~ msgstr ""
-
-#~ msgid "Register a child"
-#~ msgstr ""
-
-#~ msgid "Register now"
-#~ msgstr ""
-
-#~ msgid "Sorry, you need to start again"
-#~ msgstr ""
-
-#~ msgid "followed a link to the middle of a registration request"
-#~ msgstr ""
-
-#~ msgid "You need to start again to %(open)sregister%(close)s."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You have reached the maximum number "
-#~ "of registrations you can make online"
-#~ msgstr ""
-
-#~ msgid "If you need to register, please %(open)scontact us%(close)s"
-#~ msgstr ""
-
-#~ msgid "Take part in a survey"
-#~ msgstr ""
-
-#~ msgid "This study has closed"
-#~ msgstr ""
-
-#~ msgid "Your access code is for a study that has now closed."
-#~ msgstr ""
-
-#~ msgid "Thank you for your help."
-#~ msgstr ""
-
-#~ msgid "Launch EQ"
-#~ msgstr ""
-
-#~ msgid "Press the below button to launch EQ"
-#~ msgstr ""
-
-#~ msgid "The text will be sent from <strong>ONS</strong>"
-#~ msgstr ""
-
-#~ msgid "No, I need to change it"
-#~ msgstr ""
-
-#~ msgid "Is this mobile number correct?"
-#~ msgstr ""
-
-#~ msgid "You have entered too many characters. Enter up to 35 characters"
-#~ msgstr ""
-
-#~ msgid "First name"
-#~ msgstr ""
-
-#~ msgid "{x} character too many"
-#~ msgstr ""
-
-#~ msgid "{x} characters too many"
-#~ msgstr ""
-
-#~ msgid "You have {x} character remaining"
-#~ msgstr ""
-
-#~ msgid "You have {x} characters remaining"
-#~ msgstr ""
-
-#~ msgid "Last name"
-#~ msgstr ""
-
-#~ msgid "Enter your mobile number"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Enter a UK mobile number in a "
-#~ "valid format, for example, 07700 900345"
-#~ " or +44 7700 900345"
-#~ msgstr ""
-
-#~ msgid "What is your mobile number?"
-#~ msgstr ""
-
-#~ msgid "UK mobile number"
-#~ msgstr ""
-
-#~ msgid "Enter your first name"
-#~ msgstr ""
-
-#~ msgid "Enter your last name"
-#~ msgstr ""
-
-#~ msgid "followed a link to the middle of a request for a new access code"
-#~ msgstr ""
-
-#~ msgid "You need to start again to %(open)srequest a new access code%(close)s."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You have reached the maximum number "
-#~ "of access codes you can request "
-#~ "online"
-#~ msgstr ""
-
-#~ msgid "If you need a new access code, please %(open)scontact us%(close)s"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you need to start your study"
-#~ " again, you can %(open)srequest a new"
-#~ " access code%(close)s."
-#~ msgstr ""
-
-#~ msgid "Access survey"
-#~ msgstr ""
-
-#~ msgid "If you don’t have an access code"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You can %(open)srequest a new access "
-#~ "code%(close)s to start a new study "
-#~ "if you have lost or not received"
-#~ " an access code. This can be "
-#~ "sent to you by text or post."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Information about what we do with "
-#~ "your personal data is available in "
-#~ "our %(open)sprivacy and data protection "
-#~ "statement%(close)s."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Some parts of start.surveys.ons.gov.uk may "
-#~ "use additional cookies and will have "
-#~ "their own cookie policy and\n"
-#~ "            banner."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We use JavaScript to set our "
-#~ "cookies. Javascript is not running on"
-#~ " your browser so you cannot change"
-#~ " your\n"
-#~ "            settings."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Some of our pages may contain "
-#~ "content from other sites which may "
-#~ "set their own cookies. These sites "
-#~ "are\n"
-#~ "                sometimes called “third party”"
-#~ " services. This tells us how many "
-#~ "people are seeing the content and\n"
-#~ ""
-#~ "                whether it’s useful."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "In addition, if you share a link"
-#~ " to a page, the service you "
-#~ "share it on may set a cookie. "
-#~ "We have no\n"
-#~ "                control over cookies set "
-#~ "on other websites – you can turn"
-#~ " them off, but not through us."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "These cookies do things like remember"
-#~ " your preferences and the choices you"
-#~ " make, to personalise your\n"
-#~ "                experience of using the site."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We’ll set a cookie to remember "
-#~ "your progress while logged in. These "
-#~ "cookies do not store your\n"
-#~ "                    personal data."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You may see a banner when you "
-#~ "visit start.surveys.ons.gov.uk inviting you to"
-#~ " accept cookies or review your\n"
-#~ "                    settings. We’ll set "
-#~ "cookies so that your computer knows "
-#~ "you’ve seen it and not to show "
-#~ "it again, and\n"
-#~ "                    also to store your settings."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "recognise that you are sharing personal"
-#~ " information with us and treat it "
-#~ "as confidential, as directed\n"
-#~ "                        by the <a "
-#~ "href=\"https://code.statisticsauthority.gov.uk/\">Code of "
-#~ "Practice for Statistics</a>"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "only use your information for "
-#~ "statistical purposes, or to help us "
-#~ "run our surveys, and not publish "
-#~ "anything\n"
-#~ "                        that identifies an "
-#~ "individual, household or business"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "provide survey information to%(open_access_to_research_link)s\n"
-#~ "                        other government "
-#~ "departments, approved organisations%(close_link)s "
-#~ "and%(open_approved_researchers_link)s\n"
-#~ "                        approved researchers%(close_link)s"
-#~ " for statistical purposes only, subject "
-#~ "to the same standards of\n"
-#~ "                        protection we apply "
-#~ "(and according to the provisions of "
-#~ "the Data Protection Legislation,\n"
-#~ "                        the Statistics and "
-#~ "Registration Service Act 2007 and the"
-#~ " Code of Practice for Statistics)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We employ third-party providers to "
-#~ "assist us in survey data collection. "
-#~ "These third parties work under our "
-#~ "instruction,\n"
-#~ "        and are strictly used as "
-#~ "technical service providers in a "
-#~ "capacity as a data processor.\n"
-#~ "        We retain your data and "
-#~ "control how this is used. The "
-#~ "third parties we work with are:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you have a question about how"
-#~ " we process your personal data or "
-#~ "want to find out more\n"
-#~ "        about your rights under data "
-#~ "protection legislation, please see our "
-#~ "%(open_ons_data_protection_link)sprotection page%(close_link)s."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Email: <a href=\"mailto: "
-#~ "surveyfeedback@ons.gov.uk\">surveyfeedback@ons.gov.uk</a>"
-#~ msgstr ""
 
