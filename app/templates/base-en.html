@@ -36,7 +36,7 @@
                 'itemsList': [
                     {
                         'text': 'Cookies',
-                        'url': domain_url_en + '/en/cookies/'
+                        'url': domain_url_en + '/en/cookies'
                     },
                     {
                         'text': 'Accessibility statement',
@@ -44,7 +44,7 @@
                     },
                     {
                         'text': 'Privacy and data protection',
-                        'url': domain_url_en + '/en/privacy-and-data-protection/'
+                        'url': domain_url_en + '/en/privacy-and-data-protection'
                     },
                 ]
             }
@@ -101,8 +101,8 @@
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{ onsCookiesBanner({
             "statementTitle": 'Tell us whether you accept cookies',
-            "statementText": 'We use <a href="' + domain_url_en + '/en/cookies/' + '">cookies to collect information</a> about how you use start.surveys.ons.gov.uk. We use this information to make the website work as well as possible and improve our services.',
-            "confirmationText": 'You’ve accepted all cookies. You can <a href="' + domain_url_en + '/en/cookies/' + '">change your cookie preferences</a> at any time.',
-            "secondaryButtonUrl": domain_url_en + '/cookies/'
+            "statementText": 'We use <a href="' + domain_url_en + '/en/cookies' + '">cookies to collect information</a> about how you use start.surveys.ons.gov.uk. We use this information to make the website work as well as possible and improve our services.',
+            "confirmationText": 'You’ve accepted all cookies. You can <a href="' + domain_url_en + '/en/cookies' + '">change your cookie preferences</a> at any time.',
+            "secondaryButtonUrl": domain_url_en + '/cookies'
         }) }}
 {%- endblock -%}
