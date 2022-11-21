@@ -61,9 +61,9 @@ class View:
                 link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
         elif requested_link == 'privacy':
             if display_region == 'cy':
-                link = base_cy + '/privacy-and-data-protection/'
+                link = base_cy + '/privacy-and-data-protection'
             else:
-                link = base_en + '/privacy-and-data-protection/'
+                link = base_en + '/privacy-and-data-protection'
         elif requested_link == 'access_to_research_link':
             if display_region == 'cy':
                 link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \

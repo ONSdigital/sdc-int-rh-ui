@@ -391,6 +391,25 @@ class RHTestCase(AioHTTPTestCase):
 
         # End Common
 
+        # Cookies
+        self.content_cookies_page_title_en = '<title>Cookies on start.surveys.ons.gov.uk - ' + site_name_en + '</title>'
+        self.content_cookies_page_title_cy = '<title>PLACEHOLDER WELSH Cookies on start.surveys.ons.gov.uk - ' +\
+                                             site_name_cy + '</title>'
+
+        self.content_cookies_heading_en = '<h1 class="ons-u-fs-xxl">Cookies on start.surveys.ons.gov.uk</h1>'
+        self.content_cookies_heading_cy = '<h1 class="ons-u-fs-xxl">PLACEHOLDER WELSH Cookies on ' \
+                                          'start.surveys.ons.gov.uk</h1>'
+
+        # Privacy and Data Protection
+        self.content_privacy_page_title_en = '<title>Privacy and data protection - ' + site_name_en + '</title>'
+        self.content_privacy_page_title_cy = '<title>PLACEHOLDER WELSH Privacy and data protection - ' + \
+                                             site_name_cy + '</title>'
+
+        self.content_privacy_heading_en = '<h1 class="ons-u-fs-xl">We will keep your information secure and ' \
+                                          'confidential</h1>'
+        self.content_privacy_heading_cy = '<h1 class="ons-u-fs-xl">PLACEHOLDER WELSH We will keep your information ' \
+                                          'secure and confidential</h1>'
+
         # Start Journey
 
         # Content
@@ -459,6 +478,12 @@ class RHTestCase(AioHTTPTestCase):
 
         self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
         self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
+
+        self.get_cookies_en = self.app.router['Cookies:get'].url_for(display_region='en')
+        self.get_cookies_cy = self.app.router['Cookies:get'].url_for(display_region='cy')
+
+        self.get_privacy_en = self.app.router['PrivacyAndDataProtection:get'].url_for(display_region='en')
+        self.get_privacy_cy = self.app.router['PrivacyAndDataProtection:get'].url_for(display_region='cy')
 
         self.eq_id = '9999'
         self.form_type = 'zzz'

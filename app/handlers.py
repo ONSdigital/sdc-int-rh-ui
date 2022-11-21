@@ -22,7 +22,7 @@ class Info(View):
         return json_response(info)
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/signed-out')
+@static_routes.view(r'/' + View.valid_display_regions + '/signed-out/')
 class SignedOut(View):
     @aiohttp_jinja2.template('signed-out.html')
     async def get(self, request):
@@ -52,7 +52,8 @@ class Cookies(View):
         self.log_entry(request, display_region + '/cookies')
         return {
             'display_region': display_region,
-            'locale': locale
+            'locale': locale,
+            'page_url': View.gen_page_url(request)
         }
 
 
@@ -70,5 +71,7 @@ class PrivacyAndDataProtection(View):
             'access_to_research_link': View.get_campaign_site_link(request, display_region, 'access_to_research_link'),
             'approved_researchers_link': View.get_campaign_site_link(request, display_region,
                                                                      'approved_researchers_link'),
-            'ons_data_protection_link': View.get_campaign_site_link(request, display_region, 'ons_data_protection_link')
+            'ons_data_protection_link': View.get_campaign_site_link(request, display_region,
+                                                                    'ons_data_protection_link'),
+            'page_url': View.gen_page_url(request)
         }
