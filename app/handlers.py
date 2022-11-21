@@ -29,7 +29,7 @@ class SignedOut(View):
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/signed-out')
         if display_region == 'cy':
-            page_title = "Cynnydd wedi'i gadw"
+            page_title = "PLACEHOLDER WELSH Progress saved"
             locale = 'cy'
         else:
             page_title = 'Progress saved'

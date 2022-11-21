@@ -12,7 +12,7 @@ class View:
     valid_display_regions_en_only = r'{display_region:\ben\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     page_title_error_prefix_en = 'Error: '
-    page_title_error_prefix_cy = 'Gwall: '
+    page_title_error_prefix_cy = 'PLACEHOLDER WELSH Error: '
 
     @staticmethod
     def log_entry(request, endpoint):
