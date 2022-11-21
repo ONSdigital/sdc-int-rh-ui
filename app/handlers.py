@@ -22,7 +22,7 @@ class Info(View):
         return json_response(info)
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/signed-out/')
+@static_routes.view(r'/' + View.valid_display_regions + '/signed-out')
 class SignedOut(View):
     @aiohttp_jinja2.template('signed-out.html')
     async def get(self, request):
@@ -43,7 +43,7 @@ class SignedOut(View):
         }
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/cookies/')
+@static_routes.view(r'/' + View.valid_display_regions + '/cookies')
 class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
     async def get(self, request):
@@ -56,7 +56,7 @@ class Cookies(View):
         }
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/privacy-and-data-protection/')
+@static_routes.view(r'/' + View.valid_display_regions + '/privacy-and-data-protection')
 class PrivacyAndDataProtection(View):
     @aiohttp_jinja2.template('privacy-and-data-protection.html')
     async def get(self, request):
