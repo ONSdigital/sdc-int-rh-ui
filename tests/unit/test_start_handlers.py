@@ -85,7 +85,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(200, response.status)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        self.assertIn("This access code has been marked inactive", contents)
+        self.assertIn("This questionnaire has now closed", contents)
 
     async def test_post_start_get_uac_connection_error_ew(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:

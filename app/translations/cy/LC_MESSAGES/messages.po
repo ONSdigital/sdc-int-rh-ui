@@ -361,7 +361,7 @@ msgid 'Email: <a href="mailto: surveyfeedback@ons.gov.uk">surveyfeedback@ons.gov
 msgstr 'PLACEHOLDER WELSH Email: <a href="mailto: surveyfeedback@ons.gov.uk">surveyfeedback@ons.gov.uk</a>'
 
 msgid 'This access code has been marked inactive'
-msgstr 'PLACEHOLDER WELSH This access code has been marked inactive''
+msgstr 'PLACEHOLDER WELSH This access code has been marked inactive'
 
 #~ msgid "Your children have been registered for the survey"
 #~ msgstr ""
