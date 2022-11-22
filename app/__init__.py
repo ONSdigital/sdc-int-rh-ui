@@ -11,4 +11,4 @@ NO_SELECTION_CHECK_MSG = {'text': 'Select an answer', 'level': 'ERROR', 'type': 
 BAD_CODE_MSG_CY = {'text': 'PLACEHOLDER WELSH Enter an access code', 'clickable': True, 'level': 'ERROR', 'type': 'BAD_CODE', 'field': 'uac_empty'}  # NOQA
 INVALID_CODE_MSG_CY = {'text': 'PLACEHOLDER WELSH Enter a valid access code', 'clickable': True, 'level': 'ERROR', 'type': 'INVALID_CODE', 'field': 'uac_invalid'}  # NOQA
 
-NO_SELECTION_CHECK_MSG_CY = {'text': "PLACEHOLDER Select an answer", 'level': 'ERROR', 'type': 'NO_SELECTION_ERROR', 'field': 'no-selection'}  # NOQA
+NO_SELECTION_CHECK_MSG_CY = {'text': "PLACEHOLDER WELSH Select an answer", 'level': 'ERROR', 'type': 'NO_SELECTION_ERROR', 'field': 'no-selection'}  # NOQA

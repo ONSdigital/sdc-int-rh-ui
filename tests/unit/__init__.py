@@ -260,7 +260,7 @@ class RHTestCase(AioHTTPTestCase):
         """
         if display_region == 'cy':
             if panel_label == 'answer':
-                panel_label_text = "PLACEHOLDER There is a problem with your answer"
+                panel_label_text = "PLACEHOLDER WELSH There is a problem with your answer"
             else:
                 panel_label_text = "PLACEHOLDER WELSH There is a problem with this page"
         else:
