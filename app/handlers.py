@@ -49,7 +49,7 @@ class Cookies(View):
     async def get(self, request):
         display_region = request.match_info['display_region']
         locale = display_region
-        self.log_entry(request, display_region + '/cookies')
+        self.log_entry(request, display_region + '/cookies/')
         return {
             'display_region': display_region,
             'locale': locale,
@@ -63,7 +63,7 @@ class PrivacyAndDataProtection(View):
     async def get(self, request):
         display_region = request.match_info['display_region']
         locale = display_region
-        self.log_entry(request, display_region + '/privacy-and-data-protection')
+        self.log_entry(request, display_region + '/privacy-and-data-protection/')
         return {
             'display_region': display_region,
             'locale': locale,
