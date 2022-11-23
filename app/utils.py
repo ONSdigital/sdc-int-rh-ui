@@ -12,7 +12,7 @@ class View:
     valid_display_regions_en_only = r'{display_region:\ben\b}'
     valid_user_journeys = r'{user_journey:\bstart|request\b}'
     page_title_error_prefix_en = 'Error: '
-    page_title_error_prefix_cy = 'Gwall: '
+    page_title_error_prefix_cy = 'PLACEHOLDER WELSH Error: '
 
     @staticmethod
     def log_entry(request, endpoint):
@@ -43,27 +43,33 @@ class View:
 
     @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
-        # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
-        base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/en'
-        base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/cy'
-
         link = '/'
 
-        if requested_link == 'surveys-home':
-            if display_region == 'cy':
-                link = base_cy
-            else:
-                link = base_en
-        elif requested_link == 'contact-us':
+        if requested_link == 'contact-us':
             if display_region == 'cy':
                 link = 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries'
             else:
                 link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
-        elif requested_link == 'privacy':
+        elif requested_link == 'access_to_research_link':
             if display_region == 'cy':
-                link = base_cy + '/privacy-and-data-protection/'
+                link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/accesstounpublishedonsresearchdatabygovernmentorganisationsforstatisticalresearch "
             else:
-                link = base_en + '/privacy-and-data-protection/'
+                link = "https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/accesstounpublishedonsresearchdatabygovernmentorganisationsforstatisticalresearch "
+        elif requested_link == 'approved_researchers_link':
+            if display_region == 'cy':
+                link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics/approvedresearcherscheme"
+            else:
+                link = "https://www.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
+                       "/approvedresearcherscheme "
+        elif requested_link == 'ons_data_protection_link':
+            if display_region == 'cy':
+                link = "https://cy.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
+            else:
+                link = "https://www.ons.gov.uk/aboutus/transparencyandgovernance/dataprotection"
+        elif requested_link == 'code_of_practice_link':
+            link = "https://code.statisticsauthority.gov.uk/"
 
         return link
 
