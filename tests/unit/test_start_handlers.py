@@ -197,6 +197,7 @@ class TestStartHandlers(TestHelpers):
             response = await self.client.request('GET', self.get_signed_out_cy)
             self.assertLogEvent(cm, "received GET on endpoint 'cy/signed-out'")
             self.assertLogEvent(cm, "identity not previously remembered")
+            print("Response: ", response.status)
             self.assertEqual(response.status, 200)
             contents = str(await response.content.read())
             self.assertIn(self.content_signed_out_page_title_cy, contents)
