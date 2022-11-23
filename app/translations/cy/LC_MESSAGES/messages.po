@@ -360,8 +360,8 @@ msgstr 'PLACEHOLDER WELSH Minicom (for the deaf and hearing impaired): 18001 +44
 msgid 'Email: <a href="mailto: surveyfeedback@ons.gov.uk">surveyfeedback@ons.gov.uk</a>'
 msgstr 'PLACEHOLDER WELSH Email: <a href="mailto: surveyfeedback@ons.gov.uk">surveyfeedback@ons.gov.uk</a>'
 
-msgid 'This access code has been marked inactive'
-msgstr 'PLACEHOLDER WELSH This access code has been marked inactive'
+msgid 'This questionnaire has now closed'
+msgstr 'PLACEHOLDER WELSH This questionnaire has now closed'
 
 #~ msgid "Your children have been registered for the survey"
 #~ msgstr ""
