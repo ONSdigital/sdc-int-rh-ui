@@ -43,27 +43,13 @@ class View:
 
     @staticmethod
     def get_campaign_site_link(request, display_region, requested_link):
-        # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
-        base_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/en'
-        base_cy = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL_EN'] + '/cy'
-
         link = '/'
 
-        if requested_link == 'surveys-home':
-            if display_region == 'cy':
-                link = base_cy
-            else:
-                link = base_en
-        elif requested_link == 'contact-us':
+        if requested_link == 'contact-us':
             if display_region == 'cy':
                 link = 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries'
             else:
                 link = 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
-        elif requested_link == 'privacy':
-            if display_region == 'cy':
-                link = base_cy + '/privacy-and-data-protection'
-            else:
-                link = base_en + '/privacy-and-data-protection'
         elif requested_link == 'access_to_research_link':
             if display_region == 'cy':
                 link = "https://cy.ons.gov.uk/aboutus/whatwedo/statistics/requestingstatistics" \
