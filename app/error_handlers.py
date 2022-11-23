@@ -201,7 +201,7 @@ async def session_timeout(request, user_journey: str, request_type: str):
         return jinja.render_template('start-timeout.html', request, attributes, status=403)
 
 
-def setup(app):
+def setup():
     overrides = {
         400: response_error,  # HTTPBadRequest
         401: response_error,  # HTTPUnauthorized
@@ -240,10 +240,7 @@ def setup(app):
         510: response_error,  # HTTPNotExtended
         511: response_error,  # HTTPNetworkAuthenticationRequired
     }
-    error_middleware = create_error_middleware(overrides)
-    # This error handling middleware must set its self up first in the chain of middlewares
-    # so that it can handle errors throughout the middlewares
-    app.middlewares.insert(0, error_middleware)
+    return create_error_middleware(overrides)
 
 
 def check_display_region(request):
