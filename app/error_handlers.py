@@ -4,6 +4,8 @@ from aiohttp import web
 from aiohttp.client_exceptions import (ClientResponseError,
                                        ClientConnectorError,
                                        ClientConnectionError, ContentTypeError)
+from aiohttp.web_exceptions import HTTPServerError
+from aioredis import RedisError
 
 from .exceptions import (InactiveUacError, AlreadyReceiptedUacError,
                          InvalidForEqTokenGeneration, InvalidAccessCode,
@@ -71,6 +73,10 @@ def create_error_middleware(overrides):
             return await key_error(request, error)
         except ClientResponseError as ex:
             return await response_error(request, ex)
+        except RedisError as ex:
+            return await internal_error('Redis connection error', request, ex)
+        except HTTPServerError as ex:
+            return await internal_error('An unknown server error has occurred', request, ex)
 
     return middleware_handler
 
@@ -146,6 +152,14 @@ async def response_error(request, ex: ClientResponseError = None):
         logger.error('uncaught response error', **tracking)
 
     attributes = check_display_region(request)
+    return jinja.render_template('error.html', request, attributes, status=500)
+
+
+async def internal_error(message, request, ex):
+    logger.error(message,
+                 exception=ex)
+    attributes = check_display_region(request)
+    _get_site_name(attributes, request)
     return jinja.render_template('error.html', request, attributes, status=500)
 
 
@@ -227,7 +241,9 @@ def setup(app):
         511: response_error,  # HTTPNetworkAuthenticationRequired
     }
     error_middleware = create_error_middleware(overrides)
-    app.middlewares.append(error_middleware)
+    # This error handling middleware must set its self up first in the chain of middlewares
+    # so that it can handle errors throughout the middlewares
+    app.middlewares.insert(0, error_middleware)
 
 
 def check_display_region(request):
@@ -259,3 +275,10 @@ def check_display_region(request):
             'page_title': 'Error',
             'contact_us_link': View.get_campaign_site_link(request, 'en', 'contact-us')
         }
+
+
+def _get_site_name(attributes, request):
+    if attributes['display_region'] == 'cy':
+        attributes['site_name_cy'] = request.app['SITE_NAME_CY']
+    else:
+        attributes['site_name_en'] = request.app['SITE_NAME_EN']
