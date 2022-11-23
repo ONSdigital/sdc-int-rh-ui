@@ -1,7 +1,7 @@
 from .helpers import TestHelpers
 
 
-class TestStartHandlers(TestHelpers):
+class TestCookiesAndPrivacyHandlers(TestHelpers):
 
     # Cookies
     async def test_get_cookies_page_en(self):
