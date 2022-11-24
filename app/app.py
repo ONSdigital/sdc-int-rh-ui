@@ -79,16 +79,15 @@ def create_app(config_name=None) -> Application:
     app = Application(
         debug=settings.DEBUG,
         middlewares=[
+            # Sets the order of middleware evaluation. Security first then error handling, then all others
             security.nonce_middleware,
+            error_handlers.setup(),
             session.setup(app_config),
             flash.flash_middleware,
             trace.trace_middleware
         ],
         router=routing.ResourceRouter(),
     )
-
-    # Handle 500 errors
-    error_handlers.setup(app)
 
     # Store upper-cased configuration variables on app
     app.update(app_config)
