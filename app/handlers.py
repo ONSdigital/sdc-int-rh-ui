@@ -29,7 +29,7 @@ class SignedOut(View):
         display_region = request.match_info['display_region']
         self.log_entry(request, display_region + '/signed-out')
         if display_region == 'cy':
-            page_title = "Cynnydd wedi'i gadw"
+            page_title = "PLACEHOLDER WELSH Progress saved"
             locale = 'cy'
         else:
             page_title = 'Progress saved'
@@ -47,7 +47,12 @@ class SignedOut(View):
 class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
     async def get(self, request):
+        display_region = request.match_info['display_region']
+        locale = display_region
+        self.log_entry(request, display_region + '/cookies/')
         return {
+            'display_region': display_region,
+            'locale': locale,
             'page_url': View.gen_page_url(request)
         }
 
@@ -56,6 +61,17 @@ class Cookies(View):
 class PrivacyAndDataProtection(View):
     @aiohttp_jinja2.template('privacy-and-data-protection.html')
     async def get(self, request):
+        display_region = request.match_info['display_region']
+        locale = display_region
+        self.log_entry(request, display_region + '/privacy-and-data-protection/')
         return {
+            'display_region': display_region,
+            'locale': locale,
+            'code_of_practice_link': View.get_campaign_site_link(request, display_region, 'code_of_practice_link'),
+            'access_to_research_link': View.get_campaign_site_link(request, display_region, 'access_to_research_link'),
+            'approved_researchers_link': View.get_campaign_site_link(request, display_region,
+                                                                     'approved_researchers_link'),
+            'ons_data_protection_link': View.get_campaign_site_link(request, display_region,
+                                                                    'ons_data_protection_link'),
             'page_url': View.gen_page_url(request)
         }
