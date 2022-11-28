@@ -5,9 +5,9 @@
 
 {% block main %}
 
-    <h1 class="ons-u-fs-xl">{{ _('We will keep your information secure and confidential') }}</h1>
+    <h1 class="ons-u-fs-xl">{{ _('Privacy and data protection') }}</h1>
 
-    <p>{{ _('This means that we will:') }}</p>
+    <p>{{ _('We will keep your information secure and confidential. This means that we will:') }}</p>
     {%- autoescape false -%}
     {{
         onsList({
@@ -19,8 +19,10 @@
                             close_link='</a>')
                 },
                 {
-                    "text": _('only use your information for statistical purposes, or to help us run our surveys, and not publish anything
-                        that identifies an individual, household or business')
+                    "text": _('only use your information for statistical purposes, or to help us run our surveys')
+                },
+                {
+                    "text": _('not publish anything that identifies an individual, household or business')
                 },
                 {
                     "text": _('only hold your information for as long as it is being used for producing statistics')
@@ -46,10 +48,10 @@
     }}
     {%- endautoescape -%}
 
-    <h2>{{ _('Who can access the information?') }}</h2>
-    <p>{{ _('We employ third-party providers to assist us in survey data collection. These third parties work under our instruction,
-        and are strictly used as technical service providers in a capacity as a data processor.
-        We retain your data and control how this is used. The third parties we work with are:') }}</p>
+    <h2>{{ _('Access to information') }}</h2>
+    <p>{{ _('We employ third-party providers to assist us in survey data collection. These third parties work under
+        our instruction and are strictly used as technical service providers in a capacity as a data processor.
+        We retain your data and control of how it is used. The third parties we work with are:') }}</p>
     {{
         onsList({
             "itemsList": [
@@ -63,11 +65,10 @@
         })
     }}
 
-
     {%- autoescape false -%}
-    <h2 class="ons-u-fs-xl ons-u-mt-l">{{ _('Where can I find out more about how my information will be treated?') }}</h2>
-    <p>{{ _('If you have a question about how we process your personal data or want to find out more
-        about your rights under data protection legislation, please see our %(open_ons_data_protection_link)sprotection page%(close_link)s.',
+    <h2 class="ons-u-fs-xl ons-u-mt-l">{{ _('Further information') }}</h2>
+    <p>{{ _('If you have a question about how we process your data or want to find out more about your rights
+        under data protection legislation, see our %(open_ons_data_protection_link)sprotection page%(close_link)s.',
         open_ons_data_protection_link='<a href="%s">' % ons_data_protection_link, close_link='</a>') }}
     </p>
     {%- endautoescape -%}
