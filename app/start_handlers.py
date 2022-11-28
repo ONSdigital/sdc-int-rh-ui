@@ -4,8 +4,8 @@ import aiohttp_jinja2
 from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
-from . import (BAD_CODE_MSG, INVALID_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG_CY, START_PAGE_TITLE_EN,
-               START_PAGE_TITLE_CY)
+from .constants import BAD_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG, INVALID_CODE_MSG_CY, START_PAGE_TITLE_CY, \
+    START_PAGE_TITLE_EN
 from .eq import EqLaunch
 from .flash import flash
 from .security import get_sha256_hash, invalidate

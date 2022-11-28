@@ -1,7 +1,7 @@
 from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
 
-from app import (BAD_CODE_MSG, INVALID_CODE_MSG)
+from app.constants import BAD_CODE_MSG, INVALID_CODE_MSG
 from app.start_handlers import Start
 from .helpers import TestHelpers
 

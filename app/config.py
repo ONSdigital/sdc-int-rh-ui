@@ -4,6 +4,9 @@ from envparse import Env, ConfigurationError
 
 
 class Config(dict):
+
+    CONFIG_NAME = Env().str('CONFIG_NAME', default='BaseConfig')
+
     def from_object(self, obj):
         for key in dir(obj):
             if key.isupper():
@@ -39,16 +42,19 @@ class BaseConfig:
 
     HOST = env('HOST')
     PORT = env('PORT')
+    DEBUG = env('DEBUG', cast=bool, default=False)
     LOG_LEVEL = env('LOG_LEVEL')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL')
 
     DOMAIN_URL_PROTOCOL = env('DOMAIN_URL_PROTOCOL', default='https://')
-    DOMAIN_URL_EN = env('DOMAIN_URL_EN')  # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+    DOMAIN_URL = env('DOMAIN_URL')
 
+    # NB: "ACCOUNT_SERVICE_URL" is actually the RH UI route which is passed in the launch token to allow redirection
+    # back to the RH UI "start" page, the name is a hangover from other survey systems
     ACCOUNT_SERVICE_URL = env('ACCOUNT_SERVICE_URL')
+
     EQ_URL = env('EQ_URL')
     RHSVC_URL = env('RHSVC_URL')
-    RHSVC_AUTH = (env('RHSVC_USERNAME'), env('RHSVC_PASSWORD'))
 
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
@@ -63,11 +69,6 @@ class BaseConfig:
 
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
-    ADDRESS_INDEX_SVC_URL = env('ADDRESS_INDEX_SVC_URL')
-    ADDRESS_INDEX_EPOCH = env('ADDRESS_INDEX_EPOCH', default='')
-    ADDRESS_INDEX_SVC_EXTERNAL_URL = env('ADDRESS_INDEX_SVC_EXTERNAL_URL')
-    ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='')
-
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
     SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
@@ -76,23 +77,21 @@ class ProductionConfig(BaseConfig):
     pass
 
 
-class DevelopmentConfig:
+class DevelopmentConfig(BaseConfig):
     env = Env()
     HOST = env.str('HOST', default='0.0.0.0')
     PORT = env.int('PORT', default='9092')
+    DEBUG = env('DEBUG', cast=bool, default=False)
     LOG_LEVEL = env('LOG_LEVEL', default='INFO')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
 
     DOMAIN_URL_PROTOCOL = 'http://'
-    # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
-    DOMAIN_URL_EN = env.str('DOMAIN_URL_EN', default='localhost:9092')
+    DOMAIN_URL = env.str('DOMAIN_URL', default='localhost:9092')
 
     ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
                                   default='http://localhost:9092')
     EQ_URL = env.str('EQ_URL', default='http://localhost:5000')
     RHSVC_URL = env.str('RHSVC_URL', default='http://localhost:8071')
-    RHSVC_AUTH = (env.str('RHSVC_USERNAME', default='admin'),
-                  env.str('RHSVC_PASSWORD', default='secret'))
 
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
@@ -107,29 +106,23 @@ class DevelopmentConfig:
 
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
-    ADDRESS_INDEX_SVC_URL = env.str('ADDRESS_INDEX_SVC_URL', default='http://localhost:9000')
-    ADDRESS_INDEX_EPOCH = env.str('ADDRESS_INDEX_EPOCH', default='')
-    ADDRESS_INDEX_SVC_EXTERNAL_URL = env('ADDRESS_INDEX_SVC_EXTERNAL_URL', default='http://localhost:9000')
-    ADDRESS_INDEX_SVC_KEY = env('ADDRESS_INDEX_SVC_KEY', default='c2VjcmV0PT0=')  # secret== base64 encoded
-    # Value must be base64 encoded, and multiple of 4 characters long unencoded
-
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
     SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
 
 
-class TestingConfig:
+class TestingConfig(DevelopmentConfig):
     HOST = '0.0.0.0'
     PORT = '9092'
+    DEBUG = True
     LOG_LEVEL = 'DEBUG'
     EXT_LOG_LEVEL = 'DEBUG'
 
     DOMAIN_URL_PROTOCOL = 'http://'
-    DOMAIN_URL_EN = 'localhost:9092'  # DOMAIN_URL_EN needs to be renamed to DOMAIN_URL
+    DOMAIN_URL = 'localhost:9092'
 
     ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
     RHSVC_URL = 'http://localhost:8071'
-    RHSVC_AUTH = ('admin', 'secret')
 
     URL_PATH_PREFIX = ''
 
@@ -143,12 +136,6 @@ class TestingConfig:
     REDIS_POOL_MAX = '500'
 
     SESSION_AGE = ''
-
-    ADDRESS_INDEX_SVC_URL = 'http://localhost:9000'
-    ADDRESS_INDEX_EPOCH = ''
-    ADDRESS_INDEX_SVC_EXTERNAL_URL = 'http://localhost:9000'
-    ADDRESS_INDEX_SVC_KEY = 'c2VjcmV0PT0='  # secret== base64 encoded
-    # Value must be base64 encoded, and multiple of 4 characters long unencoded
 
     SITE_NAME_EN = 'ONS Surveys'
     SITE_NAME_CY = 'PLACEHOLDER WELSH ONS Surveys'
