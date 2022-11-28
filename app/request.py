@@ -5,14 +5,9 @@ from aiohttp import BasicAuth
 from aiohttp.client_exceptions import (ClientConnectionError,
                                        ClientConnectorError,
                                        ClientResponseError)
-
-from tenacity import (retry,
-                      stop_after_attempt,
-                      retry_if_exception_message,
-                      retry_if_exception_type,
-                      wait_exponential,
-                      RetryError)
 from structlog import get_logger
+from tenacity import (RetryError, retry, retry_if_exception_message, retry_if_exception_type, stop_after_attempt,
+                      wait_exponential)
 
 logger = get_logger('respondent-home')
 

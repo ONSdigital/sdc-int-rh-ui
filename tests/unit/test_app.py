@@ -22,8 +22,6 @@ class TestCreateApp(AioHTTPTestCase):
             SimpleCookieStorage(cookie_name='RH_SESSION'))
 
     async def get_application(self):
-        from app import settings
-        settings.DEBUG = False  # force security headers to be applied to response
         # Monkey patch the session setup function to remove Redis dependency for unit tests
         session.setup = self.session_storage
         return create_app(self.config)

@@ -1,13 +1,9 @@
+import gettext
 import os
 import sys
-import gettext
-from jinja2.ext import InternationalizationExtension
-from jinja2.utils import pass_context, markupsafe
 
-# try:
-#     BASE_PATH = sys._MEIPASS
-# except:
-#     BASE_PATH = os.path.abspath('.')
+from jinja2.ext import InternationalizationExtension
+from jinja2.utils import markupsafe, pass_context
 
 BASE_PATH = os.path.abspath('.')
 

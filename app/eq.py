@@ -2,11 +2,10 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import Application, HTTPFound
 from structlog import get_logger
 
-from .constants import INVALID_CODE_MSG, INVALID_CODE_MSG_CY
-from .exceptions import TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
-    AlreadyReceiptedUacError
-from .flash import flash
-from .rhsvc import RHSvc
+from app.constants import INVALID_CODE_MSG, INVALID_CODE_MSG_CY
+from app.exceptions import AlreadyReceiptedUacError, InactiveUacError, InvalidAccessCode, TooManyRequestsEQLaunch
+from app.flash import flash
+from app.rhsvc import RHSvc
 
 logger = get_logger('respondent-home')
 

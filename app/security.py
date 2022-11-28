@@ -1,14 +1,13 @@
+import hashlib
 import random
 import string
-import hashlib
 
 from aiohttp import web
-from aiohttp_session import get_session, Session
 from aiohttp.web import HTTPForbidden
-
+from aiohttp_session import Session, get_session
 from structlog import get_logger
 
-from .session import get_existing_session
+from app.session import get_existing_session
 
 CSP = {
     'default-src': [
