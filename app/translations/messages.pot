@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-28 16:22+0000\n"
+"POT-Creation-Date: 2022-11-29 09:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,14 @@ msgstr ""
 
 #: app/templates/base-cy.html:118
 msgid "Cookies"
+msgstr ""
+
+#: app/templates/base-cy.html:121
+msgid ""
+"<p>To collect information about how you use this website, we use <a href="
+" + cookiesPageURL + >cookies.</a></p>\n"
+"                        <p>This information helps us improve our services"
+" and make sure that the website works as well as possible.</p>"
 msgstr ""
 
 #: app/templates/cookies.html:9 app/templates/cookies.html:22

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-28 16:22+0000\n"
+"POT-Creation-Date: 2022-11-29 09:20+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -46,6 +46,18 @@ msgstr ""
 msgid "Cookies"
 msgstr "PLACEHOLDER WELSH Cookies"
 
+#: app/templates/base-cy.html:121
+msgid ""
+"<p>To collect information about how you use this website, we use <a href="
+" + cookiesPageURL + >cookies.</a></p>\n"
+"                        <p>This information helps us improve our services"
+" and make sure that the website works as well as possible.</p>"
+msgstr ""
+"<p>PLACEHOLDER WELSH To collect information about how you use this website, we use <a href="
+" + cookiesPageURL + >cookies.</a></p>\n"
+"                        <p>This information helps us improve our services"
+" and make sure that the website works as well as possible.</p>"
+
 #: app/templates/cookies.html:9 app/templates/cookies.html:22
 msgid "Cookies on start.surveys.ons.gov.uk"
 msgstr "PLACEHOLDER WELSH Cookies on start.surveys.ons.gov.uk"
@@ -70,7 +82,9 @@ msgstr "PLACEHOLDER WELSH Return to previous page"
 
 #: app/templates/cookies.html:23
 msgid "Cookies are small files saved on your device when you visit a website."
-msgstr "PLACEHOLDER WELSH Cookies are small files saved on your device when you visit a website."
+msgstr ""
+"PLACEHOLDER WELSH Cookies are small files saved on your device when you "
+"visit a website."
 
 #: app/templates/cookies.html:24
 msgid ""
@@ -128,8 +142,8 @@ msgid ""
 "how many people see the content and\n"
 "                whether it’s useful."
 msgstr ""
-"PLACEHOLDER WELSH Some of our pages may contain content from other sites which may set "
-"their own cookies. These sites are\n"
+"PLACEHOLDER WELSH Some of our pages may contain content from other sites "
+"which may set their own cookies. These sites are\n"
 "                sometimes called “third party” services. This tells us "
 "how many people see the content and\n"
 "                whether it’s useful."
@@ -168,7 +182,8 @@ msgid ""
 "                by doing things like remembering your preferences and the"
 " choices you make."
 msgstr ""
-"PLACEHOLDER WELSH These cookies personalise your experience of using the site,\n"
+"PLACEHOLDER WELSH These cookies personalise your experience of using the "
+"site,\n"
 "                by doing things like remembering your preferences and the"
 " choices you make."
 
@@ -187,7 +202,8 @@ msgstr "PLACEHOLDER WELSH These essential cookies do things like:"
 #: app/templates/cookies.html:102
 msgid "remember the notifications you've seen so we do not show you them again"
 msgstr ""
-"PLACEHOLDER WELSH remember the notifications you've seen so we do not show you them again"
+"PLACEHOLDER WELSH remember the notifications you've seen so we do not "
+"show you them again"
 
 #: app/templates/cookies.html:105
 msgid ""
@@ -368,9 +384,11 @@ msgstr "PLACEHOLDER WELSH Privacy and data protection"
 
 #: app/templates/privacy-and-data-protection.html:10
 msgid ""
-"We will keep your information secure and confidential. This means that we will:"
-msgstr "PLACEHOLDER WELSH We will keep your information secure and confidential. This means that we will:"
-
+"We will keep your information secure and confidential. This means that we"
+" will:"
+msgstr ""
+"PLACEHOLDER WELSH We will keep your information secure and confidential. "
+"This means that we will:"
 
 #: app/templates/privacy-and-data-protection.html:16
 #, python-format
@@ -390,11 +408,14 @@ msgid ""
 "only use your information for statistical purposes, or to help us run our"
 " surveys"
 msgstr ""
-"PLACEHOLDER WELSH only use your information for statistical purposes, or to help us run our surveys"
+"PLACEHOLDER WELSH only use your information for statistical purposes, or "
+"to help us run our surveys"
 
 #: app/templates/privacy-and-data-protection.html:25
 msgid "not publish anything that identifies an individual, household or business"
-msgstr "PLACEHOLDER WELSH not publish anything that identifies an individual, household or business"
+msgstr ""
+"PLACEHOLDER WELSH not publish anything that identifies an individual, "
+"household or business"
 
 #: app/templates/privacy-and-data-protection.html:28
 msgid ""
@@ -453,8 +474,8 @@ msgid ""
 "        We retain your data and control of how it is used. The third "
 "parties we work with are:"
 msgstr ""
-"PLACEHOLDER WELSH We employ third-party providers to assist us in survey data collection. "
-"These third parties work under\n"
+"PLACEHOLDER WELSH We employ third-party providers to assist us in survey "
+"data collection. These third parties work under\n"
 "        our instruction and are strictly used as technical service "
 "providers in a capacity as a data processor.\n"
 "        We retain your data and control of how it is used. The third "
@@ -472,8 +493,8 @@ msgid ""
 "        under data protection legislation, see our "
 "%(open_ons_data_protection_link)sprotection page%(close_link)s."
 msgstr ""
-"PLACEHOLDER WELSH If you have a question about how we process your data or want to find out"
-" more about your rights\n"
+"PLACEHOLDER WELSH If you have a question about how we process your data "
+"or want to find out more about your rights\n"
 "        under data protection legislation, see our "
 "%(open_ons_data_protection_link)sprotection page%(close_link)s."
 
@@ -667,4 +688,10 @@ msgstr "PLACEHOLDER WELSH There are %(errorcount)s problems with your answer"
 
 #~ msgid "This access code has been marked inactive"
 #~ msgstr "PLACEHOLDER WELSH This access code has already been used"
+
+#~ msgid "Cookies"
+#~ msgstr "PLACEHOLDER WELSH Cookies"
+
+#~ msgid "<p>Cookies</p>"
+#~ msgstr ""
 
