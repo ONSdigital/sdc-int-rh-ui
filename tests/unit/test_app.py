@@ -120,8 +120,6 @@ class TestCreateAppMissingConfig(TestCase):
     def test_create_prod_app(self):
         from app import config
 
-        config.ProductionConfig.ACCOUNT_SERVICE_URL = None
-
         with self.assertRaises(ConfigurationError) as ex:
             create_app(self.config)
         self.assertIn('not set', ex.exception.args[0])

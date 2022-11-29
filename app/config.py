@@ -49,10 +49,6 @@ class BaseConfig:
     DOMAIN_URL_PROTOCOL = env('DOMAIN_URL_PROTOCOL', default='https://')
     DOMAIN_URL = env('DOMAIN_URL')
 
-    # NB: "ACCOUNT_SERVICE_URL" is actually the RH UI route which is passed in the launch token to allow redirection
-    # back to the RH UI "start" page, the name is a hangover from other survey systems
-    ACCOUNT_SERVICE_URL = env('ACCOUNT_SERVICE_URL')
-
     EQ_URL = env('EQ_URL')
     RHSVC_URL = env('RHSVC_URL')
 
@@ -88,8 +84,6 @@ class DevelopmentConfig(BaseConfig):
     DOMAIN_URL_PROTOCOL = 'http://'
     DOMAIN_URL = env.str('DOMAIN_URL', default='localhost:9092')
 
-    ACCOUNT_SERVICE_URL = env.str('ACCOUNT_SERVICE_URL',
-                                  default='http://localhost:9092')
     EQ_URL = env.str('EQ_URL', default='http://localhost:5000')
     RHSVC_URL = env.str('RHSVC_URL', default='http://localhost:8071')
 
@@ -120,7 +114,6 @@ class TestingConfig(DevelopmentConfig):
     DOMAIN_URL_PROTOCOL = 'http://'
     DOMAIN_URL = 'localhost:9092'
 
-    ACCOUNT_SERVICE_URL = 'http://localhost:9092'
     EQ_URL = 'http://localhost:5000'
     RHSVC_URL = 'http://localhost:8071'
 
