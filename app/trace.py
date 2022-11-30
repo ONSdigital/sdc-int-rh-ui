@@ -1,6 +1,7 @@
+from uuid import uuid4
+
 from aiohttp import web
 from aiohttp_session import get_session
-from uuid import uuid4
 
 
 def get_trace(headers):

@@ -1,11 +1,11 @@
 import asyncio
 
-from aiohttp_session import session_middleware, Session, get_session
+from aiohttp_session import Session, get_session, session_middleware
 from aiohttp_session.redis_storage import RedisStorage
-from aioredis import from_url, RedisError
+from aioredis import RedisError, from_url
 from structlog import get_logger
 
-from .exceptions import SessionTimeout
+from app.exceptions import SessionTimeout
 
 logger = get_logger('respondent-home')
 

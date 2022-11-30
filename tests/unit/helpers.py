@@ -89,7 +89,8 @@ class TestHelpers(RHTestCase):
 
     async def check_get_start(self, display_region):
         with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', self.get_url_from_class('Start', 'get', display_region))
+            response = await self.client.request('GET',
+                                                 self.get_url_from_class('Start', 'get', display_region))
             self.assertLogEvent(cm, self.build_url_log_entry('', display_region, 'GET', include_request_type=False,
                                                              include_page=False))
             self.assertEqual(200, response.status)

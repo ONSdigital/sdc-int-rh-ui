@@ -2,11 +2,10 @@ from aiohttp.client_exceptions import (ClientResponseError)
 from aiohttp.web import Application, HTTPFound
 from structlog import get_logger
 
-from . import INVALID_CODE_MSG_CY, INVALID_CODE_MSG
-from .exceptions import TooManyRequestsEQLaunch, InvalidAccessCode, InactiveUacError, \
-    AlreadyReceiptedUacError
-from .flash import flash
-from .rhsvc import RHSvc
+from app.constants import INVALID_CODE_MSG, INVALID_CODE_MSG_CY
+from app.exceptions import AlreadyReceiptedUacError, InactiveUacError, InvalidAccessCode, TooManyRequestsEQLaunch
+from app.flash import flash
+from app.rhsvc import RHSvc
 
 logger = get_logger('respondent-home')
 
@@ -69,7 +68,7 @@ class EqLaunch(object):
     @staticmethod
     def _get_account_service_url_and_logout(app: Application, display_region: str):
         domain_url_protocol = app['DOMAIN_URL_PROTOCOL']
-        domain_url = app['DOMAIN_URL_EN']
+        domain_url = app['DOMAIN_URL']
         url_path_prefix = app['URL_PATH_PREFIX']
         url_display_region = '/' + display_region
         save_and_exit_url = '/signed-out/'

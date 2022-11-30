@@ -1,4 +1,4 @@
-from .helpers import TestHelpers
+from tests.unit.helpers import TestHelpers
 
 
 class TestCookiesAndPrivacyHandlers(TestHelpers):

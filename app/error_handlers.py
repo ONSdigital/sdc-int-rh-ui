@@ -1,22 +1,16 @@
 import aiohttp_jinja2 as jinja
-
 from aiohttp import web
-from aiohttp.client_exceptions import (ClientResponseError,
-                                       ClientConnectorError,
-                                       ClientConnectionError, ContentTypeError)
+from aiohttp.client_exceptions import (ClientConnectionError, ClientConnectorError, ClientResponseError,
+                                       ContentTypeError)
 from aiohttp.web_exceptions import HTTPServerError
 from aioredis import RedisError
-
-from .exceptions import (InactiveUacError, AlreadyReceiptedUacError,
-                         InvalidForEqTokenGeneration, InvalidAccessCode,
-                         SessionTimeout, TooManyRequestsEQLaunch)
 from structlog import get_logger
 
-from .utils import View
-
-from . import (START_PAGE_TITLE_EN, START_PAGE_TITLE_CY)
-
-from .security import invalidate
+from app.constants import START_PAGE_TITLE_CY, START_PAGE_TITLE_EN
+from app.exceptions import (AlreadyReceiptedUacError, InactiveUacError, InvalidAccessCode, InvalidForEqTokenGeneration,
+                            SessionTimeout, TooManyRequestsEQLaunch)
+from app.security import invalidate
+from app.utils import View
 
 logger = get_logger('respondent-home')
 
@@ -81,6 +75,7 @@ def create_error_middleware(overrides):
     return middleware_handler
 
 
+# TODO these error functions are mostly identical, refactor to share code where possible
 async def receipted_uac(request):
     logger.warn('attempt to use a receipted access code',
                 client_ip=request['client_ip'],
@@ -168,6 +163,8 @@ async def not_found_error(request):
     return jinja.render_template('404.html', request, attributes, status=404)
 
 
+# TODO: this is NOT a server error, it is a normal page a user can reach in a typical user journey and should not be
+#  handled through the error handler middleware
 async def invalid_access_code(request):
     logger.warn('invalid access code entered',
                 client_ip=request['client_ip'],
@@ -250,7 +247,7 @@ def check_display_region(request):
         return request.path.startswith(path_prefix + suffix)
 
     domain_url_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app[
-        'DOMAIN_URL_EN']
+        'DOMAIN_URL']
 
     base_attributes = {
         'domain_url_en': domain_url_en,
