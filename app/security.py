@@ -1,14 +1,13 @@
+import hashlib
 import random
 import string
-import hashlib
 
 from aiohttp import web
-from aiohttp_session import get_session, Session
 from aiohttp.web import HTTPForbidden
-
+from aiohttp_session import Session, get_session
 from structlog import get_logger
 
-from .session import get_existing_session
+from app.session import get_existing_session
 
 CSP = {
     'default-src': [
@@ -94,8 +93,6 @@ async def on_prepare(request: web.BaseRequest, response: web.StreamResponse):
             value = '; '.join([
                 f"{section} {' '.join(content)} 'nonce-{request.csp_nonce}'"
                 if section in ADD_NONCE_SECTIONS else
-                f"{section} {' '.join(content)} {request.app['ADDRESS_INDEX_SVC_EXTERNAL_URL']}"
-                if section in ADD_AIMS_URL_SECTIONS else
                 f"{section} {' '.join(content)}"
                 for section, content in value.items()
             ])

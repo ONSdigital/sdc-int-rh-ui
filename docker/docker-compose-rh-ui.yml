@@ -24,8 +24,6 @@ services:
       - REDIS_PORT=6379
       - APP_SETTINGS=DevelopmentConfig
       - PORT=9092
-      - ADDRESS_INDEX_SVC_URL=http://host.docker.internal:8162
-      - ADDRESS_INDEX_SVC_EXTERNAL_URL=http://host.docker.internal:8162
       - RHSVC_URL=http://host.docker.internal:8071
     ports:
       - "9092:9092"

@@ -1,9 +1,10 @@
+import logging
 import os
 import sys
-import logging
-import structlog
 import time
 from collections import OrderedDict
+
+import structlog
 from pythonjsonlogger import jsonlogger
 
 service = 'rhui'

@@ -1,7 +1,7 @@
 from aiohttp_utils.routing import add_resource_context
 
-from .start_handlers import start_routes
-from .handlers import static_routes
+from app.handlers import static_routes
+from app.start_handlers import start_routes
 
 
 def setup(app, url_path_prefix):

@@ -13,7 +13,7 @@ class TestEq(TestHelpers):
 
     async def test_get_token(self):
         # Given
-        app = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        app = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
         data = {'uac_hash': 'TEST_UAC_HASH'}
 
         expected_token = 'TEST_TOKEN'
@@ -36,7 +36,7 @@ class TestEq(TestHelpers):
 
     async def test_inactive_access_code(self):
         # Given
-        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
         data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey'}
 
         client_response_error = ClientResponseError(status=400, message='UAC_INACTIVE', history=Mock(),
@@ -55,7 +55,7 @@ class TestEq(TestHelpers):
 
     async def test_already_receipted_code(self):
         # Given
-        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
         data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey'}
 
         client_response_error = ClientResponseError(status=400, message='UAC_RECEIPTED', history=Mock(),
@@ -75,7 +75,7 @@ class TestEq(TestHelpers):
 
     async def test_invalid_code_404_english(self):
         # Given
-        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
         data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
                 'flash': []}
 
@@ -100,7 +100,7 @@ class TestEq(TestHelpers):
 
     async def test_invalid_code_404_welsh(self):
         # Given
-        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL_EN': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
+        app_mock = {'DOMAIN_URL_PROTOCOL': 'http', 'DOMAIN_URL': 'domain_url', 'URL_PATH_PREFIX': 'url_prefix'}
         data = {'uac_hash': 'TEST_UAC_HASH', 'client_ip': 'xxx.xxx.xxx.xxx', 'client_id': 'clientId', 'trace': 'tracey',
                 'flash': []}
 
