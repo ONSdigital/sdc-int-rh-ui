@@ -405,10 +405,8 @@ class RHTestCase(AioHTTPTestCase):
         self.content_privacy_page_title_cy = '<title>PLACEHOLDER WELSH Privacy and data protection - ' + \
                                              site_name_cy + '</title>'
 
-        self.content_privacy_heading_en = '<h1 class="ons-u-fs-xl">We will keep your information secure and ' \
-                                          'confidential</h1>'
-        self.content_privacy_heading_cy = '<h1 class="ons-u-fs-xl">PLACEHOLDER WELSH We will keep your information ' \
-                                          'secure and confidential</h1>'
+        self.content_privacy_heading_en = '<h1 class="ons-u-fs-xl">Privacy and data protection</h1>'
+        self.content_privacy_heading_cy = '<h1 class="ons-u-fs-xl">PLACEHOLDER WELSH Privacy and data protection</h1>'
 
         # Start Journey
 
