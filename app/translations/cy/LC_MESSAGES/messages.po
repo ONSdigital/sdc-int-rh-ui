@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-29 09:20+0000\n"
+"POT-Creation-Date: 2022-11-30 11:03+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -53,8 +53,8 @@ msgid ""
 "                        <p>This information helps us improve our services"
 " and make sure that the website works as well as possible.</p>"
 msgstr ""
-"<p>PLACEHOLDER WELSH To collect information about how you use this website, we use <a href="
-" + cookiesPageURL + >cookies.</a></p>\n"
+"<p>PLACEHOLDER WELSH To collect information about how you use this "
+"website, we use <a href= + cookiesPageURL + >cookies.</a></p>\n"
 "                        <p>This information helps us improve our services"
 " and make sure that the website works as well as possible.</p>"
 
@@ -239,15 +239,15 @@ msgstr ""
 "logged in. These cookies do not store your\n"
 "                    personal data."
 
-#: app/templates/cookies.html:125 app/templates/cookies.html:235
+#: app/templates/cookies.html:125 app/templates/cookies.html:234
 msgid "Name"
 msgstr "PLACEHOLDER WELSH Name"
 
-#: app/templates/cookies.html:128 app/templates/cookies.html:238
+#: app/templates/cookies.html:128 app/templates/cookies.html:237
 msgid "Purpose"
 msgstr "PLACEHOLDER WELSH Purpose"
 
-#: app/templates/cookies.html:131 app/templates/cookies.html:241
+#: app/templates/cookies.html:131 app/templates/cookies.html:240
 msgid "Expires"
 msgstr "PLACEHOLDER WELSH Expires"
 
@@ -320,30 +320,28 @@ msgstr "PLACEHOLDER WELSH Cookie message"
 #: app/templates/cookies.html:229
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
-" to accept cookies or review your\n"
-"                    settings. We’ll set cookies so that your computer "
-"knows you’ve seen it and not to show it again, and\n"
-"                    also to store your settings."
+" to accept cookies or review your settings.\n"
+"                    We’ll set cookies so that your computer knows you’ve "
+"seen it and not to show it again and store your settings."
 msgstr ""
-"PLACEHOLDER WELSH You may see a banner when you visit "
-"start.surveys.ons.gov.uk inviting you to accept cookies or review your\n"
-"                    settings. We’ll set cookies so that your computer "
-"knows you’ve seen it and not to show it again, and\n"
-"                    also to store your settings."
+"PLACEHOLDER WELSH You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
+" to accept cookies or review your settings.\n"
+"                    We’ll set cookies so that your computer knows you’ve "
+"seen it and not to show it again and store your settings."
 
-#: app/templates/cookies.html:251
+#: app/templates/cookies.html:250
 msgid "Lets us know that you’ve seen our cookie message"
 msgstr "PLACEHOLDER WELSH Lets us know that you’ve seen our cookie message"
 
-#: app/templates/cookies.html:254 app/templates/cookies.html:267
+#: app/templates/cookies.html:253 app/templates/cookies.html:266
 msgid "1 year"
 msgstr "PLACEHOLDER WELSH 1 year"
 
-#: app/templates/cookies.html:264
+#: app/templates/cookies.html:263
 msgid "Saves your cookie consent settings"
 msgstr "PLACEHOLDER WELSH Saves your cookie consent settings"
 
-#: app/templates/cookies.html:276
+#: app/templates/cookies.html:275
 msgid "Save changes"
 msgstr "PLACEHOLDER WELSH Save changes"
 
@@ -661,37 +659,4 @@ msgstr "PLACEHOLDER WELSH There are %(errorcount)s problems with this page"
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
 msgstr "PLACEHOLDER WELSH There are %(errorcount)s problems with your answer"
-
-#~ msgid "This questionnaire has now closed'"
-#~ msgstr "PLACEHOLDER WELSH This questionnaire has now closed'"
-
-#~ msgid ""
-#~ "These cookies do things like remember"
-#~ " your preferences and the choices you"
-#~ " make, to personalise your\n"
-#~ "                experience of using the site."
-#~ msgstr ""
-#~ "PLACEHOLDER WELSH These cookies do "
-#~ "things like remember your preferences "
-#~ "and the choices you make, to "
-#~ "personalise your\n"
-#~ "                experience of using the site."
-
-#~ msgid "This means that we will:"
-#~ msgstr "PLACEHOLDER WELSH This means that we will:"
-
-#~ msgid "Where can I find out more about how my information will be treated?"
-#~ msgstr ""
-#~ "PLACEHOLDER WELSH Where can I find "
-#~ "out more about how my information "
-#~ "will be treated?"
-
-#~ msgid "This access code has been marked inactive"
-#~ msgstr "PLACEHOLDER WELSH This access code has already been used"
-
-#~ msgid "Cookies"
-#~ msgstr "PLACEHOLDER WELSH Cookies"
-
-#~ msgid "<p>Cookies</p>"
-#~ msgstr ""
 

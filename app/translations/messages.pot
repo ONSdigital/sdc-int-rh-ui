@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-29 09:20+0000\n"
+"POT-Creation-Date: 2022-11-30 11:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,15 +195,15 @@ msgid ""
 "                    personal data."
 msgstr ""
 
-#: app/templates/cookies.html:125 app/templates/cookies.html:235
+#: app/templates/cookies.html:125 app/templates/cookies.html:234
 msgid "Name"
 msgstr ""
 
-#: app/templates/cookies.html:128 app/templates/cookies.html:238
+#: app/templates/cookies.html:128 app/templates/cookies.html:237
 msgid "Purpose"
 msgstr ""
 
-#: app/templates/cookies.html:131 app/templates/cookies.html:241
+#: app/templates/cookies.html:131 app/templates/cookies.html:240
 msgid "Expires"
 msgstr ""
 
@@ -262,25 +262,24 @@ msgstr ""
 #: app/templates/cookies.html:229
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
-" to accept cookies or review your\n"
-"                    settings. We’ll set cookies so that your computer "
-"knows you’ve seen it and not to show it again, and\n"
-"                    also to store your settings."
+" to accept cookies or review your settings.\n"
+"                    We’ll set cookies so that your computer knows you’ve "
+"seen it and not to show it again and store your settings."
 msgstr ""
 
-#: app/templates/cookies.html:251
+#: app/templates/cookies.html:250
 msgid "Lets us know that you’ve seen our cookie message"
 msgstr ""
 
-#: app/templates/cookies.html:254 app/templates/cookies.html:267
+#: app/templates/cookies.html:253 app/templates/cookies.html:266
 msgid "1 year"
 msgstr ""
 
-#: app/templates/cookies.html:264
+#: app/templates/cookies.html:263
 msgid "Saves your cookie consent settings"
 msgstr ""
 
-#: app/templates/cookies.html:276
+#: app/templates/cookies.html:275
 msgid "Save changes"
 msgstr ""
 
