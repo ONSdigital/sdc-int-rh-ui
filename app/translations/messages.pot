@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-30 11:03+0000\n"
+"POT-Creation-Date: 2022-11-28 16:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,14 +38,6 @@ msgstr ""
 
 #: app/templates/base-cy.html:118
 msgid "Cookies"
-msgstr ""
-
-#: app/templates/base-cy.html:121
-msgid ""
-"<p>To collect information about how you use this website, we use <a href="
-" + cookiesPageURL + >cookies.</a></p>\n"
-"                        <p>This information helps us improve our services"
-" and make sure that the website works as well as possible.</p>"
 msgstr ""
 
 #: app/templates/cookies.html:9 app/templates/cookies.html:22
@@ -195,15 +187,15 @@ msgid ""
 "                    personal data."
 msgstr ""
 
-#: app/templates/cookies.html:125 app/templates/cookies.html:234
+#: app/templates/cookies.html:125 app/templates/cookies.html:235
 msgid "Name"
 msgstr ""
 
-#: app/templates/cookies.html:128 app/templates/cookies.html:237
+#: app/templates/cookies.html:128 app/templates/cookies.html:238
 msgid "Purpose"
 msgstr ""
 
-#: app/templates/cookies.html:131 app/templates/cookies.html:240
+#: app/templates/cookies.html:131 app/templates/cookies.html:241
 msgid "Expires"
 msgstr ""
 
@@ -262,24 +254,25 @@ msgstr ""
 #: app/templates/cookies.html:229
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
-" to accept cookies or review your settings.\n"
-"                    We’ll set cookies so that your computer knows you’ve "
-"seen it and not to show it again and store your settings."
+" to accept cookies or review your\n"
+"                    settings. We’ll set cookies so that your computer "
+"knows you’ve seen it and not to show it again, and\n"
+"                    also to store your settings."
 msgstr ""
 
-#: app/templates/cookies.html:250
+#: app/templates/cookies.html:251
 msgid "Lets us know that you’ve seen our cookie message"
 msgstr ""
 
-#: app/templates/cookies.html:253 app/templates/cookies.html:266
+#: app/templates/cookies.html:254 app/templates/cookies.html:267
 msgid "1 year"
 msgstr ""
 
-#: app/templates/cookies.html:263
+#: app/templates/cookies.html:264
 msgid "Saves your cookie consent settings"
 msgstr ""
 
-#: app/templates/cookies.html:275
+#: app/templates/cookies.html:276
 msgid "Save changes"
 msgstr ""
 
