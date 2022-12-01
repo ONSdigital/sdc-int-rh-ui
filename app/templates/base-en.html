@@ -102,8 +102,11 @@
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{ onsCookiesBanner({
         'lang': 'en',
+        'statementTitle': 'Cookies',
+        'serviceName': '',
         'settingsLinkURL': cookiesPageURL,
-        'statementText': '<p>Cookies are small files stored on your device when you visit a website. We use some essential cookies to make this website work.</p><p>We would like to set <a href="' + cookiesPageURL + '">additional cookies</a> to remember your settings and understand how you use the site. This helps us to improve our services. </p>',
+        'statementText': '<p>To collect information about how you use this website, we use <a href="' + cookiesPageURL + '">cookies.</a></p>
+                        <p>This information helps us improve our services and make sure that the website works as well as possible.</p>',
         'preferencesText':  'You can <a href="' + cookiesPageURL + '">change your cookie preferences</a> at any time.'
         }) }}
 {%- endblock -%}
