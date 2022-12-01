@@ -591,9 +591,9 @@ msgstr "PLACEHOLDER WELSH "
 "Someone has already submitted a response using this access code."
 
 #: app/templates/start-uac-inactive.html:6
-msgid "This questionnaire has now closed'"
+msgid "This questionnaire has now closed"
 msgstr "PLACEHOLDER WELSH "
-"This questionnaire has now closed'"
+"This questionnaire has now closed"
 
 #: app/templates/start.html:21
 msgid "Enter an access code"
