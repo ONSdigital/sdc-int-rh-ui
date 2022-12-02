@@ -7,5 +7,5 @@ if not os.getenv('APP_SETTINGS'):
 
 if __name__ == '__main__':
     from app.app import create_app
-    app = create_app()
+    app = create_app(os.getenv('APP_SETTINGS'))
     web.run_app(app, port=app['PORT'])
