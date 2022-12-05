@@ -47,7 +47,7 @@ DEFAULT_RESPONSE_HEADERS = {
     'X-Content-Security-Policy': CSP,
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
-    'Referrer-Policy': 'strict-origin-when-cross-originrr',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
     'X-Permitted-Cross-Domain-Policies': 'None',
     'clear-site-data': '"storage"',
     'Cross-Origin-Opener-Policy': 'same-origin',
