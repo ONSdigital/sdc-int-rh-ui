@@ -43,7 +43,7 @@
         <form data-module="cookie-settings">
             <h3>{{ _('Cookies that help with our communications') }}</h3>
             <p>{{ _('Some of our pages may contain content from other sites which may set their own cookies. These sites are
-                sometimes called “third party” services. This tells us how many people are seeing the content and
+                sometimes called “third party” services. This tells us how many people see the content and
                 whether it’s useful.') }}</p>
             <p>{{ _('In addition, if you share a link to a page, the service you share it on may set a cookie. We have no
                 control over cookies set on other websites – you can turn them off, but not through us.') }}</p>
@@ -70,8 +70,8 @@
                 ]
             }) }}
             <h3 class="ons-u-mt-l">{{ _('Cookies that remember your settings') }}</h3>
-            <p>{{ _('These cookies do things like remember your preferences and the choices you make, to personalise your
-                experience of using the site.') }}</p>
+            <p>{{ _('These cookies personalise your experience of using the site,
+                by doing things like remembering your preferences and the choices you make.') }}</p>
             {{ onsRadios({
                 "id": "cookies-measure-website-settings",
                 "name": "cookies-settings",
@@ -99,7 +99,7 @@
             {{ onsList({
                     "itemsList": [
                         {
-                            "text": _("remember the notifications you've seen so we do not show them to you again")
+                            "text": _("remember the notifications you've seen so we do not show you them again")
                         },
                         {
                             "text": _('remember your progress through a form (for example, online business surveys)')
@@ -226,9 +226,8 @@
                         ]
                     }) }}
                 <h4>{{ _('Cookie message') }}</h4>
-                <p>{{ _('You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your
-                    settings. We’ll set cookies so that your computer knows you’ve seen it and not to show it again, and
-                    also to store your settings.') }}</p>
+                <p>{{ _('You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your settings.
+                    We’ll set cookies so that your computer knows you’ve seen it and not to show it again and store your settings.') }}</p>
                 {{ onsTable({
                         "ths": [
                             {
