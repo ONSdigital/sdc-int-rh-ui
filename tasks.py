@@ -8,16 +8,7 @@ env = Env()
 
 
 @task
-def run(ctx, port=None):
-    """Run the development server"""
-    port = port or env('PORT', default=9092)
-    if not os.getenv('APP_SETTINGS'):
-        os.environ['APP_SETTINGS'] = 'DevelopmentConfig'
-    run_command(f'adev runserver app --port {port}', echo=True)
-
-
-@task
-def server(ctx, port=None, reload=True, debug=False, production=True):
+def server(_ctx, port=None, reload=True, debug=False, production=True):
     """Run the gunicorn server"""
     try:
         port = port or env('PORT')
@@ -43,13 +34,13 @@ def server(ctx, port=None, reload=True, debug=False, production=True):
 
 
 @task
-def flake8(ctx):
+def flake8(_ctx):
     """Run flake8 on the codebase"""
     run_command('flake8 app', echo=True)
 
 
 @task
-def unittests(ctx):
+def unittests(_ctx):
     """Run the unit tests"""
     import pytest
 
@@ -67,7 +58,7 @@ def test(ctx, clean=False):
 
 
 @task
-def smoke(ctx, local=False):
+def smoke(_ctx, local=False):
     """Run the smoke tests."""
     import pytest
 
@@ -92,27 +83,27 @@ def integration(ctx, clean=False, live=False):
 
 
 @task
-def cleanpy(ctx):
+def cleanpy(_ctx):
     """Clear out __pycache__ directories."""
     run_command("find . -path '*/__pycache__/*' -delete", echo=True)
     print('Cleaned up.')
 
 
 @task
-def demo(ctx):
+def demo(_ctx):
     """Run the demo server"""
     run_command('python -m tests.demo')
 
 
 @task
-def wait(ctx):
+def wait(_ctx):
     from tests.wait_for_services import check_all_services
     check_all_services()
     print('all services are up')
 
 
 @task
-def coverage(ctx):
+def coverage(_ctx):
     """Calculate coverage and render to HTML"""
     run_command(
         'pytest tests/unit --cov app --cov-report html --ignore=node_modules')
