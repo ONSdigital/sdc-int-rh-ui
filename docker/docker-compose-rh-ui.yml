@@ -22,7 +22,7 @@ services:
     environment:
       - REDIS_SERVER=redis
       - REDIS_PORT=6379
-      - APP_SETTINGS=DevelopmentConfig
+      - CONFIG_NAME=DevelopmentConfig
       - PORT=9092
       - RHSVC_URL=http://host.docker.internal:8071
     ports:
