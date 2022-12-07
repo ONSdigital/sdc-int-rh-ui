@@ -62,29 +62,19 @@
     {%- set language = { 'languages':
         [
             {
-                'url': '/cy' + page_url,
-                'ISOCode': 'cy',
-                'text': 'PLACEHOLDER WELSH Cymraeg',
-                'buttonAriaLabel': 'PLACEHOLDER WELSH Dewisydd iaith. Iaith gyfredol: Cymraeg',
-                'chooseLanguage': 'PLACEHOLDER WELSH Dewiswch iaith',
-                'allLanguages': 'PLACEHOLDER WELSH Pob iaith',
-                'current': true
+                "url": '/en' + page_url,
+                "ISOCode": "en",
+                "text": "English",
+                "current": false
             },
             {
-                'current': false
-            }
+                "url": '/cy' + page_url,
+                "ISOCode": "cy",
+                "text": "Cymraeg",
+                "current": true
+             }
         ]
-}
-    -%}
-{#    LANGUAGE TOGGGLE CODE, CAN'T BE COMMENTED OUT IN PLACE#}
-{#                    'url': '/en' + page_url,
-{#                'ISOCode': 'en',
-{#                'text': 'English',
-{#                'buttonAriaLabel': 'Language selector. Current language: English',
-{#                'chooseLanguage': 'Choose language',
-{#                 'allLanguages': 'All languages',#}
-{#                 'current': false#}
-
+    }-%}
 {%- endif -%}
 
 {%- set pageConfig = {
