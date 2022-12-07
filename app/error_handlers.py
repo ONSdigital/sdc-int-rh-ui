@@ -246,11 +246,10 @@ def check_display_region(request):
     def path_starts_with(suffix):
         return request.path.startswith(path_prefix + suffix)
 
-    domain_url_en = request.app['DOMAIN_URL_PROTOCOL'] + request.app[
-        'DOMAIN_URL']
+    domain_url = request.app['DOMAIN_URL_PROTOCOL'] + request.app['DOMAIN_URL']
 
     base_attributes = {
-        'domain_url_en': domain_url_en,
+        'domain_url': domain_url,
         'page_url': View.gen_page_url(request)
     }
 

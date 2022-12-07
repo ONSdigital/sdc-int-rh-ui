@@ -38,7 +38,7 @@
                 'itemsList': [
                     {
                         'text': 'PLACEHOLDER WELSH Cwcis',
-                        'url': domain_url_en + '/cy/cookies/'
+                        'url': domain_url + '/cy/cookies/'
                     },
                     {
                         'text': 'PLACEHOLDER WELSH Datganiad hygyrchedd',
@@ -46,7 +46,7 @@
                     },
                     {
                         'text': 'PLACEHOLDER WELSH Preifatrwydd a diogelu data',
-                        'url': domain_url_en + '/cy/privacy-and-data-protection/'
+                        'url': domain_url + '/cy/privacy-and-data-protection/'
                     }
                 ]
             }
@@ -92,6 +92,7 @@
     'language': language,
     'header': {
         'language': 'cy',
+        'orgLogoHref': domain_url + '/cy/start/',
         'title': site_name_cy
     },
     'signoutButton': signout_button_value,
@@ -110,7 +111,7 @@
 {%- endblock -%}
 
 {%- block preHeader -%}
-    {% set cookiesPageURL = domain_url_en + '/cy/cookies/' %}
+    {% set cookiesPageURL = domain_url + '/cy/cookies/' %}
 
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{ onsCookiesBanner({

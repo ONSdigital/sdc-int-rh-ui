@@ -36,7 +36,7 @@
                 'itemsList': [
                     {
                         'text': 'Cookies',
-                        'url': domain_url_en + '/en/cookies/'
+                        'url': domain_url + '/en/cookies/'
                     },
                     {
                         'text': 'Accessibility statement',
@@ -44,7 +44,7 @@
                     },
                     {
                         'text': 'Privacy and data protection',
-                        'url': domain_url_en + '/en/privacy-and-data-protection/'
+                        'url': domain_url + '/en/privacy-and-data-protection/'
                     },
                 ]
             }
@@ -87,7 +87,7 @@
 {%- set pageConfig = {
     'title': page_title_value,
     'header': {
-        'logoHref': 'https://www.ons.gov.uk/',
+        'orgLogoHref': domain_url + '/en/start/',
         'title': site_name_en
     },
     'signoutButton': signout_button_value,
@@ -97,7 +97,7 @@
 } -%}
 
 {%- block preHeader -%}
-    {% set cookiesPageURL = domain_url_en + '/en/cookies/' %}
+    {% set cookiesPageURL = domain_url + '/en/cookies/' %}
 
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{ onsCookiesBanner({
