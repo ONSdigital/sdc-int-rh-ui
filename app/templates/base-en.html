@@ -6,8 +6,7 @@
     {%- set page_title_value = site_name_en -%}
 {%- endif -%}
 
-#TODO change that so it works with the new format of the URL
-{%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
+{%- if ('/en/start/' in page_url) and (page_url != '/en/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'Exit',
             'iconType': 'exit',

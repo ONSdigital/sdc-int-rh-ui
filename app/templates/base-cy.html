@@ -6,14 +6,13 @@
     {%- set page_title_value = site_name_cy -%}
 {%- endif -%}
 
-{%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
+{%- if ('/cy/start/' in page_url) and (page_url != '/cy/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'PLACEHOLDER WELSH Gadael',
             'iconType': 'exit',
             'iconPosition': 'after',
             'url': url('StartExit:get', display_region='cy')
-        }
-    -%}
+        }-%}
 {%- endif -%}
 
 {%- set footer_content = {
