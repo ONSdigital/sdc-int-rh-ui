@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-28 16:22+0000\n"
+"POT-Creation-Date: 2022-12-09 14:19+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -37,6 +37,18 @@ msgid ""
 "%(open)scontact us%(close)s for more help."
 msgstr ""
 
+#: app/templates/base-cy.html:118
+msgid "Cookies"
+msgstr ""
+
+#: app/templates/base-cy.html:121
+msgid ""
+"<p>To collect information about how you use this website, we use <a href="
+" + cookiesPageURL + >cookies.</a></p>\n"
+"                        <p>This information helps us improve our services"
+" and make sure that the website works as well as possible.</p>"
+msgstr ""
+
 #: app/templates/cookies.html:9 app/templates/cookies.html:22
 msgid "Cookies on start.surveys.ons.gov.uk"
 msgstr ""
@@ -57,9 +69,7 @@ msgid "Return to previous page"
 msgstr ""
 
 #: app/templates/cookies.html:23
-msgid ""
-"Cookies are small files saved on your phone, tablet or computer when you "
-"visit a website."
+msgid "Cookies are small files saved on your device when you visit a website."
 msgstr ""
 
 #: app/templates/cookies.html:24
@@ -106,7 +116,7 @@ msgid ""
 "Some of our pages may contain content from other sites which may set "
 "their own cookies. These sites are\n"
 "                sometimes called “third party” services. This tells us "
-"how many people are seeing the content and\n"
+"how many people see the content and\n"
 "                whether it’s useful."
 msgstr ""
 
@@ -136,9 +146,9 @@ msgstr ""
 
 #: app/templates/cookies.html:73
 msgid ""
-"These cookies do things like remember your preferences and the choices "
-"you make, to personalise your\n"
-"                experience of using the site."
+"These cookies personalise your experience of using the site,\n"
+"                by doing things like remembering your preferences and the"
+" choices you make."
 msgstr ""
 
 #: app/templates/cookies.html:78
@@ -154,7 +164,7 @@ msgid "These essential cookies do things like:"
 msgstr ""
 
 #: app/templates/cookies.html:102
-msgid "remember the notifications you've seen so we do not show them to you again"
+msgid "remember the notifications you've seen so we do not show you them again"
 msgstr ""
 
 #: app/templates/cookies.html:105
@@ -186,15 +196,15 @@ msgid ""
 "                    personal data."
 msgstr ""
 
-#: app/templates/cookies.html:125 app/templates/cookies.html:235
+#: app/templates/cookies.html:125 app/templates/cookies.html:234
 msgid "Name"
 msgstr ""
 
-#: app/templates/cookies.html:128 app/templates/cookies.html:238
+#: app/templates/cookies.html:128 app/templates/cookies.html:237
 msgid "Purpose"
 msgstr ""
 
-#: app/templates/cookies.html:131 app/templates/cookies.html:241
+#: app/templates/cookies.html:131 app/templates/cookies.html:240
 msgid "Expires"
 msgstr ""
 
@@ -253,25 +263,24 @@ msgstr ""
 #: app/templates/cookies.html:229
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
-" to accept cookies or review your\n"
-"                    settings. We’ll set cookies so that your computer "
-"knows you’ve seen it and not to show it again, and\n"
-"                    also to store your settings."
+" to accept cookies or review your settings.\n"
+"                    We’ll set cookies so that your computer knows you’ve "
+"seen it and not to show it again and store your settings."
 msgstr ""
 
-#: app/templates/cookies.html:251
+#: app/templates/cookies.html:250
 msgid "Lets us know that you’ve seen our cookie message"
 msgstr ""
 
-#: app/templates/cookies.html:254 app/templates/cookies.html:267
+#: app/templates/cookies.html:253 app/templates/cookies.html:266
 msgid "1 year"
 msgstr ""
 
-#: app/templates/cookies.html:264
+#: app/templates/cookies.html:263
 msgid "Saves your cookie consent settings"
 msgstr ""
 
-#: app/templates/cookies.html:276
+#: app/templates/cookies.html:275
 msgid "Save changes"
 msgstr ""
 
@@ -302,18 +311,17 @@ msgid ""
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:4
+#: app/templates/privacy-and-data-protection.html:8
 msgid "Privacy and data protection"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:9
-msgid "We will keep your information secure and confidential"
+#: app/templates/privacy-and-data-protection.html:10
+msgid ""
+"We will keep your information secure and confidential. This means that we"
+" will:"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:12
-msgid "This means that we will:"
-msgstr ""
-
-#: app/templates/privacy-and-data-protection.html:18
+#: app/templates/privacy-and-data-protection.html:16
 #, python-format
 msgid ""
 "recognise that you are sharing personal information with us and treat it "
@@ -322,12 +330,14 @@ msgid ""
 "Practice for Statistics%(close_link)s"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:24
+#: app/templates/privacy-and-data-protection.html:22
 msgid ""
 "only use your information for statistical purposes, or to help us run our"
-" surveys, and not publish anything\n"
-"                        that identifies an individual, household or "
-"business"
+" surveys"
+msgstr ""
+
+#: app/templates/privacy-and-data-protection.html:25
+msgid "not publish anything that identifies an individual, household or business"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:28
@@ -361,7 +371,7 @@ msgid "maintain the security of our systems and our buildings"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:51
-msgid "Who can access the information?"
+msgid "Access to information"
 msgstr ""
 
 #: app/templates/privacy-and-data-protection.html:52
@@ -374,17 +384,17 @@ msgid ""
 "parties we work with are:"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:70
-msgid "Where can I find out more about how my information will be treated?"
+#: app/templates/privacy-and-data-protection.html:69
+msgid "Further information"
 msgstr ""
 
-#: app/templates/privacy-and-data-protection.html:71
+#: app/templates/privacy-and-data-protection.html:70
 #, python-format
 msgid ""
-"If you have a question about how we process your personal data or want to"
-" find out more\n"
-"        about your rights under data protection legislation, please see "
-"our %(open_ons_data_protection_link)sprotection page%(close_link)s."
+"If you have a question about how we process your data or want to find out"
+" more about your rights\n"
+"        under data protection legislation, see our "
+"%(open_ons_data_protection_link)sprotection page%(close_link)s."
 msgstr ""
 
 #: app/templates/signed-out.html:19
@@ -448,7 +458,7 @@ msgid "Someone has already submitted a response using this access code."
 msgstr ""
 
 #: app/templates/start-uac-inactive.html:6
-msgid "This access code has been marked inactive"
+msgid "This questionnaire has now closed"
 msgstr ""
 
 #: app/templates/start.html:21
@@ -508,7 +518,7 @@ msgid ""
 msgstr ""
 
 #: app/templates/start.html:68
-msgid "Who can I contact for assistance or further information?"
+msgid "Who can I contact for further information?"
 msgstr ""
 
 #: app/templates/partials/messages.html:8
@@ -528,4 +538,82 @@ msgstr ""
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
 msgstr ""
+
+#~ msgid ""
+#~ "Cookies are small files saved on "
+#~ "your phone, tablet or computer when "
+#~ "you visit a website."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Some of our pages may contain "
+#~ "content from other sites which may "
+#~ "set their own cookies. These sites "
+#~ "are\n"
+#~ "                sometimes called “third party”"
+#~ " services. This tells us how many "
+#~ "people are seeing the content and\n"
+#~ ""
+#~ "                whether it’s useful."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "These cookies do things like remember"
+#~ " your preferences and the choices you"
+#~ " make, to personalise your\n"
+#~ "                experience of using the site."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "remember the notifications you've seen "
+#~ "so we do not show them to "
+#~ "you again"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You may see a banner when you "
+#~ "visit start.surveys.ons.gov.uk inviting you to"
+#~ " accept cookies or review your\n"
+#~ "                    settings. We’ll set "
+#~ "cookies so that your computer knows "
+#~ "you’ve seen it and not to show "
+#~ "it again, and\n"
+#~ "                    also to store your settings."
+#~ msgstr ""
+
+#~ msgid "We will keep your information secure and confidential"
+#~ msgstr ""
+
+#~ msgid "This means that we will:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "only use your information for "
+#~ "statistical purposes, or to help us "
+#~ "run our surveys, and not publish "
+#~ "anything\n"
+#~ "                        that identifies an "
+#~ "individual, household or business"
+#~ msgstr ""
+
+#~ msgid "Who can access the information?"
+#~ msgstr ""
+
+#~ msgid "Where can I find out more about how my information will be treated?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you have a question about how"
+#~ " we process your personal data or "
+#~ "want to find out more\n"
+#~ "        about your rights under data "
+#~ "protection legislation, please see our "
+#~ "%(open_ons_data_protection_link)sprotection page%(close_link)s."
+#~ msgstr ""
+
+#~ msgid "This access code has been marked inactive"
+#~ msgstr ""
+
+#~ msgid "Who can I contact for assistance or further information?"
+#~ msgstr ""
 
