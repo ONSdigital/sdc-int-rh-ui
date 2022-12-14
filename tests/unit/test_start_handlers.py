@@ -34,8 +34,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        # LANGUAGE TOGGLE TEST
-        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_url_ew(self):
@@ -51,8 +50,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        # LANGUAGE TOGGLE TEST
-        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_invalid_text_random_ew(self):
@@ -68,8 +66,7 @@ class TestStartHandlers(TestHelpers):
         self.assertEqual(response.status, 200)
         contents = str(await response.content.read())
         self.assertSiteLogo('en', contents)
-        # LANGUAGE TOGGLE TEST
-        # self.assertIn('<a href="/cy/start/" lang="cy" >Cymraeg</a>', contents)
+        self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
     async def test_post_start_uac_closed_ew_w(self):
@@ -181,7 +178,7 @@ class TestStartHandlers(TestHelpers):
             Start._uac_hash(post_data['uac'])
         # Then a TypeError is raised
 
-    async def test_get_signed_out_ew(self):
+    async def test_get_signed_out_en(self):
         with self.assertLogs('respondent-home', 'INFO') as cm:
             response = await self.client.request('GET', self.get_signed_out_en)
             self.assertLogEvent(cm, "received GET on endpoint 'en/signed-out'")
@@ -203,10 +200,8 @@ class TestStartHandlers(TestHelpers):
             self.assertIn(self.content_signed_out_page_title_cy, contents)
             self.assertIn(self.content_signed_out_title_cy, contents)
             self.assertSiteLogo('cy', contents)
-            # LANGUAGE TOGGLE TEST
-            # self.assertIn('<a href="/en/signed-out/" lang="en" >English</a>', contents)
 
-    async def test_post_start_for_receiptReceived_true_ew_e(self):
+    async def test_post_start_for_receipt_received_true_en(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
                 passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.eq_launch_url_en, body='UAC_RECEIPTED', status=400)
@@ -221,7 +216,7 @@ class TestStartHandlers(TestHelpers):
             self.assertSiteLogo('en', contents)
             self.assertIn(self.content_start_uac_already_used_en, contents)
 
-    async def test_post_start_for_receiptReceived_true_cy(self):
+    async def test_post_start_for_receipt_received_true_cy(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
                 passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.eq_launch_url_cy, body='UAC_RECEIPTED', status=400)
@@ -235,3 +230,4 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertSiteLogo('cy', contents)
             self.assertIn(self.content_start_uac_already_used_cy, contents)
+            self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)

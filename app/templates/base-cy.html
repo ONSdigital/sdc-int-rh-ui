@@ -6,14 +6,13 @@
     {%- set page_title_value = site_name_cy -%}
 {%- endif -%}
 
-{%- if ('/start/' in page_url) and (page_url != '/start/') and (timeout != 'true') -%}
+{%- if ('/cy/start/' in page_url) and (page_url != '/cy/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'PLACEHOLDER WELSH Gadael',
             'iconType': 'exit',
             'iconPosition': 'after',
             'url': url('StartExit:get', display_region='cy')
-        }
-    -%}
+        }-%}
 {%- endif -%}
 
 {%- set footer_content = {
@@ -62,29 +61,19 @@
     {%- set language = { 'languages':
         [
             {
-                'url': '/cy' + page_url,
-                'ISOCode': 'cy',
-                'text': 'PLACEHOLDER WELSH Cymraeg',
-                'buttonAriaLabel': 'PLACEHOLDER WELSH Dewisydd iaith. Iaith gyfredol: Cymraeg',
-                'chooseLanguage': 'PLACEHOLDER WELSH Dewiswch iaith',
-                'allLanguages': 'PLACEHOLDER WELSH Pob iaith',
-                'current': true
+                "url": '/en' + page_url,
+                "ISOCode": "en",
+                "text": "English",
+                "current": false
             },
             {
-                'current': false
-            }
+                "url": '/cy' + page_url,
+                "ISOCode": "cy",
+                "text": "Cymraeg",
+                "current": true
+             }
         ]
-}
-    -%}
-{#    LANGUAGE TOGGGLE CODE, CAN'T BE COMMENTED OUT IN PLACE#}
-{#                    'url': '/en' + page_url,
-{#                'ISOCode': 'en',
-{#                'text': 'English',
-{#                'buttonAriaLabel': 'Language selector. Current language: English',
-{#                'chooseLanguage': 'Choose language',
-{#                 'allLanguages': 'All languages',#}
-{#                 'current': false#}
-
+    }-%}
 {%- endif -%}
 
 {%- set pageConfig = {
