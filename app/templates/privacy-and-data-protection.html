@@ -1,9 +1,22 @@
 {%- extends 'base-' + display_region + '.html' -%}
+{% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
 {% from "components/lists/_macro.njk" import onsList %}
 
 {% set page_title = _("Privacy and data protection") %}
 
 {% block main %}
+    {{
+        onsBreadcrumbs({
+            "ariaLabel": 'Back',
+            "itemsList": [
+                {
+                    "url": domain_url + '/en/start/',
+                    "id": "back",
+                    "text": 'Back',
+                }
+            ]
+        })
+    }}
 
     <h1 class="ons-u-fs-xl">{{ _('Privacy and data protection') }}</h1>
 

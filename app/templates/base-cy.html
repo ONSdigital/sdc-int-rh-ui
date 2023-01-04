@@ -16,6 +16,7 @@
 {%- endif -%}
 
 {%- set footer_content = {
+        'newTabWarning': 'PLACEHOLDER WELSH The following links open in a new tab',
         'lang': 'cy',
         'crest': true,
         'rows': [
@@ -23,11 +24,13 @@
                 'itemsList': [
                     {
                         'text': 'PLACEHOLDER WELSH About ONS studies',
-                        'url': 'https://cy.ons.gov.uk/surveys/informationforhouseholdsandindividuals'
+                        'url': 'https://cy.ons.gov.uk/surveys/informationforhouseholdsandindividuals',
+                        'target': '_blank'
                     },
                     {
                         'text': 'PLACEHOLDER WELSH Cysylltu â ni',
-                        'url': 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries'
+                        'url': 'https://cy.ons.gov.uk/aboutus/contactus/surveyenquiries',
+                        'target': '_blank'
                     }
                 ]
             }
@@ -37,15 +40,18 @@
                 'itemsList': [
                     {
                         'text': 'PLACEHOLDER WELSH Cwcis',
-                        'url': domain_url + '/cy/cookies/'
+                        'url': domain_url + '/cy/cookies/',
+                        'target': '_blank'
                     },
                     {
                         'text': 'PLACEHOLDER WELSH Datganiad hygyrchedd',
-                        'url': 'https://cy.ons.gov.uk/help/accessibility'
+                        'url': 'https://cy.ons.gov.uk/help/accessibility',
+                        'target': '_blank'
                     },
                     {
                         'text': 'PLACEHOLDER WELSH Preifatrwydd a diogelu data',
-                        'url': domain_url + '/cy/privacy-and-data-protection/'
+                        'url': domain_url + '/cy/privacy-and-data-protection/',
+                        'target': '_blank'
                     }
                 ]
             }
@@ -81,7 +87,7 @@
     'language': language,
     'header': {
         'language': 'cy',
-        'orgLogoHref': domain_url + '/cy/start/',
+        'orgLogoHref': 'https://cy.ons.gov.uk/',
         'title': site_name_cy
     },
     'signoutButton': signout_button_value,
