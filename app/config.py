@@ -81,7 +81,7 @@ class DevelopmentConfig(BaseConfig):
     LOG_LEVEL = env('LOG_LEVEL', default='INFO')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
 
-    DOMAIN_URL_PROTOCOL = 'http://'
+    DOMAIN_URL_PROTOCOL = env.str('DOMAIN_URL_PROTOCOL', default='http://')
     DOMAIN_URL = env.str('DOMAIN_URL', default='localhost:9092')
 
     EQ_URL = env.str('EQ_URL', default='http://localhost:5000')
