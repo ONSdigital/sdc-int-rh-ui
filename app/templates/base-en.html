@@ -16,17 +16,25 @@
 {%- endif -%}
 
 {%- set footer_content = {
+        'newTabWarning': 'The following links open in a new tab',
         'crest': true,
         'rows': [
             {
                 'itemsList': [
                     {
                         'text': 'About ONS studies',
-                        'url': 'https://www.ons.gov.uk/surveys/informationforhouseholdsandindividuals'
+                        'url': 'https://www.ons.gov.uk/surveys/informationforhouseholdsandindividuals',
+                        'target': '_blank'
+                    },
+                    {
+                        'text': 'Accessibility statement',
+                        'url': 'https://www.ons.gov.uk/help/accessibility',
+                        'target': '_blank'
                     },
                     {
                         'text': 'Contact us',
-                        'url': 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries'
+                        'url': 'https://www.ons.gov.uk/aboutus/contactus/surveyenquiries',
+                        'target': '_blank'
                     }
                 ]
             }
@@ -36,16 +44,12 @@
                 'itemsList': [
                     {
                         'text': 'Cookies',
-                        'url': domain_url + '/en/cookies/'
-                    },
-                    {
-                        'text': 'Accessibility statement',
-                        'url': 'https://www.ons.gov.uk/help/accessibility'
+                        'url': domain_url + '/en/cookies/',
                     },
                     {
                         'text': 'Privacy and data protection',
-                        'url': domain_url + '/en/privacy-and-data-protection/'
-                    },
+                        'url': domain_url + '/en/privacy-and-data-protection/',
+                    }
                 ]
             }
         ],
@@ -77,7 +81,7 @@
 {%- set pageConfig = {
     'title': page_title_value,
     'header': {
-        'orgLogoHref': domain_url + '/en/start/',
+        'orgLogoHref': 'https://www.ons.gov.uk/',
         'title': site_name_en
     },
     'signoutButton': signout_button_value,
