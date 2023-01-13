@@ -9,8 +9,6 @@
 {%- if ('/en/start/' in page_url) and (page_url != '/en/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'Exit',
-            'iconType': 'exit',
-            'iconPosition': 'after',
             'url': url('StartExit:get', display_region='en')
         }-%}
 {%- endif -%}
@@ -81,13 +79,16 @@
 {%- set pageConfig = {
     'title': page_title_value,
     'header': {
-        'orgLogoHref': 'https://www.ons.gov.uk/',
-        'title': site_name_en
+        'mastheadLogoUrl': 'https://www.ons.gov.uk/',
+        'title': site_name_en,
+        'signoutButton': signout_button_value,
+        'language': language,
+        'mastheadLogo' : {},
+        'titleLogo' : {}
     },
-    'signoutButton': signout_button_value,
-    'language': language,
     'footer': footer_content,
-    'cspNonce': cspNonce
+    'cspNonce': cspNonce,
+    'meta' : {}
 } -%}
 
 {%- block preHeader -%}

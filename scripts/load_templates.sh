@@ -6,7 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd "${DIR}"/..
 
-DESIGN_SYSTEM_VERSION="55.1.0"
+DESIGN_SYSTEM_VERSION="61.0.3"
 
 TEMP_DIR=$(mktemp -d)
 
