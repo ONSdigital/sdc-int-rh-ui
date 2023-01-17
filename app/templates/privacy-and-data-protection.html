@@ -4,7 +4,7 @@
 
 {% set page_title = _("Privacy and data protection") %}
 
-{% block main %}
+{%- block preMain -%}
     {{
         onsBreadcrumbs({
             "ariaLabel": 'Back',
@@ -17,7 +17,9 @@
             ]
         })
     }}
+{%- endblock -%}
 
+{% block main %}
     <h1 class="ons-u-fs-xl">{{ _('Privacy and data protection') }}</h1>
 
     <p>{{ _('We will keep your information secure and confidential. This means that we will:') }}</p>
