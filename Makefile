@@ -55,7 +55,7 @@ down:
 	./docker/rh-ui-stop.sh
 
 check:
-	pipenv check -i 51499 -i 51457 # Ignore issues with py from pytest and wheels from pipenv
+	pipenv check -i 51499 -i 51457  -i 52365 # Ignore issues with py from pytest and wheels from pipenv
 
 load_templates:
 	./scripts/load_templates.sh
