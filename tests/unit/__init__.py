@@ -329,10 +329,10 @@ class RHTestCase(AioHTTPTestCase):
         url_path_prefix = self.app['URL_PATH_PREFIX']
         return f'{account_svc_url}{url_path_prefix}/{display_region}/signed-out/'
 
-    def setUp(self):
+    async def asyncSetUp(self):
         # This section gets ugly if YAPF reformats it
         # yapf: disable
-        super().setUp()  # NB: setUp the server first so we can use self.app
+        await super().asyncSetUp()  # NB: setUp the server first so we can use self.app
 
         # URLs used in later statements
         rh_svc_url = self.app['RHSVC_URL']
