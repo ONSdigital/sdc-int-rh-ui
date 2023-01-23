@@ -9,8 +9,6 @@
 {%- if ('/cy/start/' in page_url) and (page_url != '/cy/start/') and (timeout != 'true') -%}
     {%- set signout_button_value = {
             'text': 'PLACEHOLDER WELSH Gadael',
-            'iconType': 'exit',
-            'iconPosition': 'after',
             'url': url('StartExit:get', display_region='cy')
         }-%}
 {%- endif -%}
@@ -82,15 +80,17 @@
 
 {%- set pageConfig = {
     'title': page_title_value,
-    'language': language,
     'header': {
-        'language': 'cy',
-        'orgLogoHref': 'https://cy.ons.gov.uk/',
-        'title': site_name_cy
+        'language': language,
+        'mastheadLogoUrl': 'https://cy.ons.gov.uk/',
+        'title': site_name_cy,
+        'signoutButton': signout_button_value,
+        'mastheadLogo' : {},
+        'titleLogo' : {}
     },
-    'signoutButton': signout_button_value,
     'footer': footer_content,
-    'cspNonce': cspNonce
+    'cspNonce': cspNonce,
+    'meta' : {}
     }
 -%}
 
