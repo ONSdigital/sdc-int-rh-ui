@@ -98,9 +98,8 @@ class TestHelpers(RHTestCase):
         base = self.rhsvc_url_get_launch_token
         p1 = 'languageCode=' + display_region
         p2 = 'accountServiceUrl=' + self.get_full_account_service_url(display_region)
-        p3 = 'accountServiceLogoutUrl=' + self.get_full_account_service_logout_url(display_region)
-        p4 = 'clientIP=None'
-        url = f'{base}?{p1}&{p2}&{p3}&{p4}'
+        p3 = 'clientIP=None'
+        url = f'{base}?{p1}&{p2}&{p3}'
         return url
 
     async def check_post_start_get_uac_error(self, post_start_url, display_region, status):
