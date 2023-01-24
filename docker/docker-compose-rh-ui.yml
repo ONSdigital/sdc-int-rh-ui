@@ -12,7 +12,6 @@ services:
     image: europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/sdc-int-rh-ui:latest
     depends_on:
       - redis
-      - mock-service
     environment:
       - REDIS_SERVER=redis
       - REDIS_PORT=6379
