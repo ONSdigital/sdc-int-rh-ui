@@ -155,7 +155,7 @@ class TestStartHandlers(TestHelpers):
         post_data = {'uac': 'w4nw wpph jjpt p7fn', 'action[save_continue]': ''}
 
         # When join_uac is called
-        result = Start._uac_hash(post_data['uac'])
+        result = Start._get_uac_hash(post_data['uac'])
 
         # Then a single string built from the uac values is returned
         self.assertEqual(result, '54598f02da027026a584fd0bc7176de55a3e6472f4b3c74f68d0ae7be206e17c')
@@ -166,7 +166,7 @@ class TestStartHandlers(TestHelpers):
 
         # When join_uac is called
         with self.assertRaises(TypeError):
-            Start._uac_hash(post_data['uac'])
+            Start._get_uac_hash(post_data['uac'])
         # Then a TypeError is raised
 
     def test_join_uac_some_missing(self):
@@ -175,7 +175,7 @@ class TestStartHandlers(TestHelpers):
 
         # When join_uac is called
         with self.assertRaises(TypeError):
-            Start._uac_hash(post_data['uac'])
+            Start._get_uac_hash(post_data['uac'])
         # Then a TypeError is raised
 
     async def test_get_signed_out_en(self):

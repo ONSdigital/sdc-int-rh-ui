@@ -21,6 +21,8 @@
     {%- set error_uac = {'id': 'uac_empty', 'text': _('Enter an access code')} -%}
 {%- elif 'uac_invalid' in field_messages_dict -%}
     {%- set error_uac = {'id': 'uac_invalid', 'text': _('Enter a valid access code')} -%}
+{%- elif 'uac_invalid' in field_messages_dict -%}
+    {%- set error_uac = {'id': 'uac_invalid', 'text': _('Enter a valid access code')} -%}
 {%- else -%}
     {%- set error_uac = None -%}
 {%- endif -%}
