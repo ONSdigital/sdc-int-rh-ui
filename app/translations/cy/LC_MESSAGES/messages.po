@@ -571,7 +571,7 @@ msgstr "Rhowch god mynediad 16 nod"
 
 #: app/templates/start.html:25
 msgid "Access code not recognised. Enter the code again."
-msgstr "Nid yw’r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
+msgstr "Nid yw'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
 
 #: app/templates/start.html:36
 msgid "Start study"
