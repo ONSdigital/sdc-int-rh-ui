@@ -48,11 +48,9 @@ class Start(View):
         data = await request.post()
 
         uac = data.get('uac').upper().replace(' ', '')
-        if not uac:
-            return self._display_missing_uac_error(request, display_region)
-
-        if len(uac) < EXPECTED_UAC_LENGTH:
-            return self._display_invalid_uac_length_error(request, display_region)
+        uac_validation_error = self._validate_uac(uac, request, display_region)
+        if uac_validation_error:
+            return self._display_uac_error(request, display_region, uac_validation_error)
 
         try:
             request['uac_hash'] = self._get_uac_hash(uac)
@@ -82,32 +80,22 @@ class Start(View):
         return get_sha256_hash(uac)
 
     @staticmethod
-    def _display_missing_uac_error(request, display_region):
-        logger.info('access code not supplied',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    region_of_site=display_region)
-        if display_region == 'cy':
-            flash(request, BAD_CODE_MSG_CY)
-        else:
-            flash(request, BAD_CODE_MSG)
+    def _validate_uac(uac, request, display_region):
+        if not uac:
+            logger.info('Access code not supplied', client_ip=request['client_ip'], client_id=request['client_id'],
+                        trace=request['trace'], region_of_site=display_region)
+            return BAD_CODE_MSG_CY if display_region == 'cy' else BAD_CODE_MSG
 
-        return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
+        if len(uac) < EXPECTED_UAC_LENGTH:
+            logger.info('Invalid access code length', client_ip=request['client_ip'], client_id=request['client_id'],
+                        trace=request['trace'], region_of_site=display_region)
+            return BAD_CODE_LENGTH_MSG_CY if display_region == 'cy' else BAD_CODE_LENGTH_MSG
 
     @staticmethod
-    def _display_invalid_uac_length_error(request, display_region):
-        logger.info('Invalid access code length',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    region_of_site=display_region)
-        if display_region == 'cy':
-            flash(request, BAD_CODE_LENGTH_MSG_CY)
-        else:
-            flash(request, BAD_CODE_LENGTH_MSG)
+    def _display_uac_error(request, region, region_error_details):
+        flash(request, region_error_details)
+        return HTTPFound(request.app.router['Start:get'].url_for(display_region=region))
 
-        return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
 class StartExit(View):
