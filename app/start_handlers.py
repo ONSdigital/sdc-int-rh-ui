@@ -5,7 +5,7 @@ from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
 from app.constants import (BAD_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG, INVALID_CODE_MSG_CY, START_PAGE_TITLE_CY,
-                           START_PAGE_TITLE_EN, EXPECTED_UAC_LENGTH, BAD_CODE_LENGTH_MSG_CY, BAD_CODE_LENGTH_MSG)
+                           START_PAGE_TITLE_EN, UAC_LENGTH, BAD_CODE_LENGTH_MSG_CY, BAD_CODE_LENGTH_MSG)
 from app.eq import EqLaunch
 from app.flash import flash
 from app.security import get_sha256_hash, invalidate
@@ -73,7 +73,8 @@ class Start(View):
 
     @staticmethod
     def _get_uac_hash(uac):
-        uac_validation_pattern = re.compile(r'^[A-Z0-9]{EXPECTED_UAC_LENGTH}$')
+        reg_ex = fr'^[A-Z0-9]{{{UAC_LENGTH}}}$'  # Outer 2 curly braces are to escape f-string inside the regex
+        uac_validation_pattern = re.compile(reg_ex)
         if not uac_validation_pattern.fullmatch(uac):
             raise TypeError
 
@@ -86,7 +87,7 @@ class Start(View):
                         trace=request['trace'], region_of_site=display_region)
             return BAD_CODE_MSG_CY if display_region == 'cy' else BAD_CODE_MSG
 
-        if len(uac) < EXPECTED_UAC_LENGTH:
+        if len(uac) < UAC_LENGTH:
             logger.info('Invalid access code length', client_ip=request['client_ip'], client_id=request['client_id'],
                         trace=request['trace'], region_of_site=display_region)
             return BAD_CODE_LENGTH_MSG_CY if display_region == 'cy' else BAD_CODE_LENGTH_MSG
