@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-25 09:02+0000\n"
+"POT-Creation-Date: 2023-01-25 10:39+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -462,7 +462,7 @@ msgid "Enter a 16-character access code"
 msgstr ""
 
 #: app/templates/start.html:25
-msgid "Enter a valid access code"
+msgid "Access code not recognised. Enter the code again."
 msgstr ""
 
 #: app/templates/start.html:36
