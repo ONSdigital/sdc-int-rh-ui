@@ -3,8 +3,7 @@
 {% from 'components/access-code/_macro.njk' import onsUACInput %}
 {% from 'components/button/_macro.njk' import onsButton %}
 {% from "components/input/_macro.njk" import onsInput %}
-
-{% from "components/collapsible/_macro.njk" import onsCollapsible %}
+{% from "components/details/_macro.njk" import onsDetails %}
 {% from "components/panel/_macro.njk" import onsPanel %}
 
 {% set messages_dict=dict(get_flashed_messages()|groupby('level')) %}
@@ -54,26 +53,19 @@
         "variants": 'loader'
     }) }}
 
-    {%- set content -%}
+    <h2 class="ons-u-fs-xl ons-u-mt-l">{{_('Where to find your access code')}}</h2>
+    <p>{{ _('Your access code can be found in the invitation letter or email you received.') }}</p>
+
+    {%- set details_content -%}
         <p>{{ _('Telephone: +44 800 085 7376<br>8am to 7pm Monday to Friday<br>8am to 1pm Saturday') }}</p>
         <p>{{ _('Minicom (for the deaf and hearing impaired): 18001 +44 800 085 7376') }}</p>
         <p>{{ _('Email:') }} <a href="mailto: surveyfeedback@ons.gov.uk">surveyfeedback@ons.gov.uk</a></p>
     {%- endset -%}
 
-    <h2 class="ons-u-fs-xl ons-u-mt-l">{{_('Where to find your access code')}}</h2>
-    <p>{{ _('Your access code can be found in the invitation letter or email you received.') }}</p>
-
-    {%- call onsCollapsible({
-        'id': 'collapsible',
-        'title': _('Who can I contact for further information?'),
-        'titleTag': 'h2',
-        'button': {
-            'close': _('Hide this'),
-            'contextSuffix': 'content'
-        }
-        })
-    -%}
-        {{ content | safe }}
-    {%- endcall -%}
-
+    {{ onsDetails({
+        "titleTag": "h3",
+        "id": "details",
+        "title": _('Who can I contact for further information?'),
+        "content": details_content
+    }) }}
 {% endblock %}
