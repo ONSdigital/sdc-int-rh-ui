@@ -50,6 +50,9 @@ class Start(View):
         if (not data.get('uac')) or (data.get('uac') == ''):
             return self._display_missing_uac_error(request, display_region)
 
+        if (not data.get('uac')) or (data.get('uac') == ''):
+            return self._display_missing_uac_error(request, display_region)
+
         try:
             request['uac_hash'] = self._uac_hash(data.get('uac'))
         except TypeError:
@@ -69,8 +72,7 @@ class Start(View):
         flash(request, message)
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-    @staticmethod
-    def _uac_hash(uac, expected_length=16):
+    def _uac_hash(self, uac, expected_length=16):
         if uac:
             combined = uac.upper().replace(' ', '')
         else:
@@ -78,7 +80,10 @@ class Start(View):
 
         uac_validation_pattern = re.compile(r'^[A-Z0-9]{16}$')
 
-        if (len(combined) < expected_length) or not (uac_validation_pattern.fullmatch(combined)):  # yapf: disable
+        if len(combined) < expected_length:
+            self.
+
+        if not uac_validation_pattern.fullmatch(combined):  # yapf: disable
             raise TypeError
 
         return get_sha256_hash(combined)
@@ -97,6 +102,19 @@ class Start(View):
 
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
+    @staticmethod
+    def _display_missing_uac_error(request, display_region):
+        logger.info('access code not supplied',
+                    client_ip=request['client_ip'],
+                    client_id=request['client_id'],
+                    trace=request['trace'],
+                    region_of_site=display_region)
+        if display_region == 'cy':
+            flash(request, BAD_CODE_MSG_CY)
+        else:
+            flash(request, BAD_CODE_MSG)
+
+        return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
 class StartExit(View):
