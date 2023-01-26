@@ -52,7 +52,6 @@ class Start(View):
             return self._display_missing_uac_error(request, display_region)
 
         combined_uac = uac.upper().replace(' ', '')
-
         if len(combined_uac) < UAC_LENGTH:
             return self._display_malformed_uac_message(request, display_region, BAD_CODE_LENGTH_MSG,
                                                        BAD_CODE_LENGTH_MSG_CY)
