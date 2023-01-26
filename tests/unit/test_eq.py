@@ -95,8 +95,8 @@ class TestEq(TestHelpers):
             # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
             # can test it here
             self.assertEqual(data['flash'], [
-                {'text': 'Enter a valid access code', 'clickable': True, 'level': 'ERROR', 'type': 'INVALID_CODE',
-                 'field': 'uac_invalid'}])
+                {'text': 'Access code not recognised. Enter the code again.', 'clickable': True, 'level': 'ERROR',
+                 'type': 'INVALID_CODE', 'field': 'uac_invalid'}])
 
     async def test_invalid_code_404_welsh(self):
         # Given
@@ -120,5 +120,5 @@ class TestEq(TestHelpers):
             # As part of code 'flash' has failure info attached to it, 'data' is a passed in and enriched, so we
             # can test it here
             self.assertEqual(data['flash'],
-                             [{'text': 'PLACEHOLDER WELSH Enter a valid access code', 'clickable': True,
-                               'level': 'ERROR', 'type': 'INVALID_CODE', 'field': 'uac_invalid'}])
+                             [{'text': "Nid yw'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto.",
+                               'clickable': True, 'level': 'ERROR', 'type': 'INVALID_CODE', 'field': 'uac_invalid'}])
