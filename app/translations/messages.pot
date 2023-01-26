@@ -465,7 +465,10 @@ msgid "Enter an access code"
 msgstr ""
 
 #: app/templates/start.html:23
-msgid "Enter a valid access code"
+msgid "Enter a 16-character access code"
+msgstr ""
+
+msgid "Access code not recognised. Enter the code again."
 msgstr ""
 
 #: app/templates/start.html:34

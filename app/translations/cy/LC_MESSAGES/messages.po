@@ -571,8 +571,11 @@ msgid "Enter an access code"
 msgstr "PLACEHOLDER WELSH Enter an access code"
 
 #: app/templates/start.html:23
-msgid "Enter a valid access code"
-msgstr "PLACEHOLDER WELSH Enter a valid access code"
+msgid "Enter a 16-character access code"
+msgstr "Rhowch god mynediad 16 nod"
+
+msgid "Access code not recognised. Enter the code again."
+msgstr "Nid yw'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
 
 #: app/templates/start.html:34
 msgid "Start study"

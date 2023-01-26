@@ -5,7 +5,7 @@ from aiohttp.web import HTTPFound, RouteTableDef
 from structlog import get_logger
 
 from app.constants import (BAD_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG, INVALID_CODE_MSG_CY, START_PAGE_TITLE_CY,
-                           START_PAGE_TITLE_EN)
+                           START_PAGE_TITLE_EN, UAC_LENGTH, BAD_CODE_LENGTH_MSG, BAD_CODE_LENGTH_MSG_CY)
 from app.eq import EqLaunch
 from app.flash import flash
 from app.security import get_sha256_hash, invalidate
@@ -47,46 +47,43 @@ class Start(View):
 
         data = await request.post()
 
-        if (not data.get('uac')) or (data.get('uac') == ''):
+        uac = data.get('uac')
+        if not uac:
             return self._display_missing_uac_error(request, display_region)
 
-        if (not data.get('uac')) or (data.get('uac') == ''):
-            return self._display_missing_uac_error(request, display_region)
+        combined_uac = uac.upper().replace(' ', '')
+
+        if len(combined_uac) < UAC_LENGTH:
+            return self._display_malformed_uac_message(request, display_region, BAD_CODE_LENGTH_MSG,
+                                                       BAD_CODE_LENGTH_MSG_CY)
 
         try:
-            request['uac_hash'] = self._uac_hash(data.get('uac'))
+            request['uac_hash'] = self._uac_hash(combined_uac)
         except TypeError:
-            return self._display_malformed_uac_message(request, display_region)
+            return self._display_malformed_uac_message(request, display_region, INVALID_CODE_MSG, INVALID_CODE_MSG_CY)
 
         token = await EqLaunch.get_token(request, display_region, request.app)
         EqLaunch.call_eq(request.app['EQ_URL'], token)
 
     @staticmethod
-    def _display_malformed_uac_message(request, display_region):
+    def _display_malformed_uac_message(request, display_region, en_code, cy_code):
         logger.warn('attempt to use a malformed access code',
                     client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
         message = {
-            'en': INVALID_CODE_MSG,
-            'cy': INVALID_CODE_MSG_CY
+            'en': en_code,
+            'cy': cy_code
         }[display_region]
         flash(request, message)
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-    def _uac_hash(self, uac, expected_length=16):
-        if uac:
-            combined = uac.upper().replace(' ', '')
-        else:
-            combined = ''
-
+    @staticmethod
+    def _uac_hash(uac, expected_length=16):
         uac_validation_pattern = re.compile(r'^[A-Z0-9]{16}$')
 
-        if len(combined) < expected_length:
-            self.
-
-        if not uac_validation_pattern.fullmatch(combined):  # yapf: disable
+        if not uac_validation_pattern.fullmatch(uac):  # yapf: disable
             raise TypeError
 
-        return get_sha256_hash(combined)
+        return get_sha256_hash(uac)
 
     @staticmethod
     def _display_missing_uac_error(request, display_region):
@@ -102,19 +99,6 @@ class Start(View):
 
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-    @staticmethod
-    def _display_missing_uac_error(request, display_region):
-        logger.info('access code not supplied',
-                    client_ip=request['client_ip'],
-                    client_id=request['client_id'],
-                    trace=request['trace'],
-                    region_of_site=display_region)
-        if display_region == 'cy':
-            flash(request, BAD_CODE_MSG_CY)
-        else:
-            flash(request, BAD_CODE_MSG)
-
-        return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
 @start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
 class StartExit(View):
