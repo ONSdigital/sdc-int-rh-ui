@@ -1,7 +1,7 @@
 from aiohttp.client_exceptions import ClientConnectionError
 from aioresponses import aioresponses
 
-from app.constants import BAD_CODE_MSG, INVALID_CODE_MSG
+from app.constants import BAD_CODE_MSG, INVALID_CODE_MSG, BAD_CODE_LENGTH_MSG, BAD_CODE_LENGTH_MSG_CY, BAD_CODE_MSG_CY
 from app.start_handlers import Start
 from .helpers import TestHelpers
 
@@ -21,7 +21,7 @@ class TestStartHandlers(TestHelpers):
                        '=http://localhost:9092/cy/signed-out/&accountServiceUrl=http://localhost:9092/cy/start' \
                        '/&languageCode=cy'
 
-    async def test_post_start_invalid_blank_ew(self):
+    async def test_post_start_invalid_blank_en(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = ''
 
@@ -36,6 +36,54 @@ class TestStartHandlers(TestHelpers):
         self.assertSiteLogo('en', contents)
         self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(BAD_CODE_MSG, contents)
+
+    async def test_post_start_invalid_blank_cy(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = ''
+
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_cy,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'access code not supplied')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('cy', contents)
+        self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)
+        self.assertMessagePanel(BAD_CODE_MSG_CY, contents)
+
+    async def test_post_start_invalid_length_en(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = '1'
+
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'attempt to use a malformed access code')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('en', contents)
+        self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
+        self.assertMessagePanel(BAD_CODE_LENGTH_MSG, contents)
+
+    async def test_post_start_invalid_length_cy(self):
+        form_data = self.start_data_valid.copy()
+        form_data['uac'] = '1'
+
+        with self.assertLogs('respondent-home', 'INFO') as cm:
+            response = await self.client.request('POST',
+                                                 self.post_start_cy,
+                                                 data=form_data)
+        self.assertLogEvent(cm, 'attempt to use a malformed access code')
+
+        self.assertEqual(response.status, 200)
+        contents = str(await response.content.read())
+        self.assertSiteLogo('cy', contents)
+        self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)
+        self.assertMessagePanel(BAD_CODE_LENGTH_MSG_CY, contents)
 
     async def test_post_start_invalid_text_url_ew(self):
         form_data = self.start_data_valid.copy()
