@@ -2,7 +2,7 @@
 {% from "components/radios/_macro.njk" import onsRadios %}
 {% from "components/button/_macro.njk" import onsButton %}
 {% from "components/panel/_macro.njk" import onsPanel %}
-{% from "components/collapsible/_macro.njk" import onsCollapsible %}
+{% from "components/details/_macro.njk" import onsDetails %}
 {% from "components/table/_macro.njk" import onsTable %}
 {% from "components/lists/_macro.njk" import onsList %}
 {% from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs %}
@@ -123,173 +123,178 @@
                     ]
                 }) }}
             <p>{{ _('They always need to be on.') }}</p>
-            {% call onsCollapsible({
-                "id": "cookies-essential-details",
-                "classes": "ons-u-mb-l",
-                "title": _("Learn more about these essential cookies"),
-                "button": {
-                    "close": _("Hide this"),
-                    "contextSuffix": "content"
-                }
-            }) %}
-                <h4>{{ _('Your progress') }}</h4>
-                <p>{{ _('We’ll set a cookie to remember your progress while logged in. These cookies do not store your
-                    personal data.') }}</p>
-                {{ onsTable({
-                        "ths": [
+        </form>
+    </div>
+
+    {%- set essential_cookies_content -%}
+        <h4>{{ _('Your progress') }}</h4>
+        <p>{{ _('We’ll set a cookie to remember your progress while logged in. These cookies do not store your
+            personal data.') }}</p>
+        {{ onsTable({
+                "ths": [
+                    {
+                        "value": _("Name")
+                    },
+                    {
+                        "value": _("Purpose")
+                    },
+                    {
+                        "value": _("Expires")
+                    }
+                ],
+                "trs": [
+                    {
+                        "tds": [
                             {
-                                "value": _("Name")
+                                "value": "<code>COOKIE_SUPPORT</code>"
                             },
                             {
-                                "value": _("Purpose")
+                                "value": _('To check that your browser can support cookies')
                             },
                             {
-                                "value": _("Expires")
-                            }
-                        ],
-                        "trs": [
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>COOKIE_SUPPORT</code>"
-                                    },
-                                    {
-                                        "value": _('To check that your browser can support cookies')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>GUEST_LANGUAGE_ID</code>"
-                                    },
-                                    {
-                                        "value": _('To store your preferred language so that certain content can be displayed in your own language')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>JSESSIONID</code>"
-                                    },
-                                    {
-                                        "value": _('To keep your session active when using your account to access portfolio and messages')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>USER_UUID</code>"
-                                    },
-                                    {
-                                        "value": _('To store the universally unique identifier created for your account')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>LFR_SESSION_STATE_* </code>"
-                                    },
-                                    {
-                                        "value": _('To store the timestamp of the last request so that the session expiry warning message can be displayed')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>Session</code>"
-                                    },
-                                    {
-                                        "value": _('To keep you signed in when completing a survey')
-                                    },
-                                    {
-                                        "value": _("When a user logs out or closes the browser. Or when their cookie cache is cleared")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>csfcfc</code>"
-                                    },
-                                    {
-                                        "value": _('To store the flash object identifier for the most recent action you have performed')
-                                    },
-                                    {
-                                        "value": _("When a user closes the browser or when their cookie cache is cleared")
-                                    }
-                                ]
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
                             }
                         ]
-                    }) }}
-                <h4>{{ _('Cookie message') }}</h4>
-                <p>{{ _('You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your settings.
-                    We’ll set cookies so that your computer knows you’ve seen it and not to show it again and store your settings.') }}</p>
-                {{ onsTable({
-                        "ths": [
+                    },
+                    {
+                        "tds": [
                             {
-                                "value": _("Name")
+                                "value": "<code>GUEST_LANGUAGE_ID</code>"
                             },
                             {
-                                "value": _("Purpose")
+                                "value": _('To store your preferred language so that certain content can be displayed in your own language')
                             },
                             {
-                                "value": _("Expires")
-                            }
-                        ],
-                        "trs": [
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>ons_cookie_message_displayed</code>"
-                                    },
-                                    {
-                                        "value": _('Lets us know that you’ve seen our cookie message')
-                                    },
-                                    {
-                                        "value": _("1 year")
-                                    }
-                                ]
-                            },
-                            {
-                                "tds": [
-                                    {
-                                        "value": "<code>ons_cookie_policy</code>"
-                                    },
-                                    {
-                                        "value": _('Saves your cookie consent settings')
-                                    },
-                                    {
-                                        "value": _("1 year")
-                                    }
-                                ]
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
                             }
                         ]
-                    }) }}
-            {% endcall %}
-            {{ onsButton({
-                    "type": 'submit',
-                    "text": _('Save changes')
-                }) }}
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>JSESSIONID</code>"
+                            },
+                            {
+                                "value": _('To keep your session active when using your account to access portfolio and messages')
+                            },
+                            {
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
+                            }
+                        ]
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>USER_UUID</code>"
+                            },
+                            {
+                                "value": _('To store the universally unique identifier created for your account')
+                            },
+                            {
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
+                            }
+                        ]
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>LFR_SESSION_STATE_* </code>"
+                            },
+                            {
+                                "value": _('To store the timestamp of the last request so that the session expiry warning message can be displayed')
+                            },
+                            {
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
+                            }
+                        ]
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>Session</code>"
+                            },
+                            {
+                                "value": _('To keep you signed in when completing a survey')
+                            },
+                            {
+                                "value": _("When a user logs out or closes the browser. Or when their cookie cache is cleared")
+                            }
+                        ]
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>csfcfc</code>"
+                            },
+                            {
+                                "value": _('To store the flash object identifier for the most recent action you have performed')
+                            },
+                            {
+                                "value": _("When a user closes the browser or when their cookie cache is cleared")
+                            }
+                        ]
+                    }
+                ]
+            }) }}
+        <h4>{{ _('Cookie message') }}</h4>
+        <p>{{ _('You may see a banner when you visit start.surveys.ons.gov.uk inviting you to accept cookies or review your settings.
+            We’ll set cookies so that your computer knows you’ve seen it and not to show it again and store your settings.') }}</p>
+        {{ onsTable({
+                "ths": [
+                    {
+                        "value": _("Name")
+                    },
+                    {
+                        "value": _("Purpose")
+                    },
+                    {
+                        "value": _("Expires")
+                    }
+                ],
+                "trs": [
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>ons_cookie_message_displayed</code>"
+                            },
+                            {
+                                "value": _('Lets us know that you’ve seen our cookie message')
+                            },
+                            {
+                                "value": _("1 year")
+                            }
+                        ]
+                    },
+                    {
+                        "tds": [
+                            {
+                                "value": "<code>ons_cookie_policy</code>"
+                            },
+                            {
+                                "value": _('Saves your cookie consent settings')
+                            },
+                            {
+                                "value": _("1 year")
+                            }
+                        ]
+                    }
+                ]
+            }) }}
+    {%- endset -%}
+
+    {{ onsDetails({
+        "id": "essential-cookies-details",
+        "classes": "ons-u-mb-l",
+        "title": _("Learn more about these essential cookies"),
+        "content": essential_cookies_content
+    }) }}
+
+    <div class="ons-u-db-no-js_disabled">
+        <form data-module="cookie-settings">
+        {{ onsButton({
+                        "type": 'submit',
+                        "text": _('Save changes')
+        }) }}
         </form>
     </div>
 
