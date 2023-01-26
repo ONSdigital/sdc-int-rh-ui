@@ -77,8 +77,8 @@ class Start(View):
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
     @staticmethod
-    def _uac_hash(uac, expected_length=16):
-        uac_validation_pattern = re.compile(r'^[A-Z0-9]{16}$')
+    def _uac_hash(uac):
+        uac_validation_pattern = re.compile(fr'^[A-Z0-9]{{{UAC_LENGTH}}}$')   # Outer 2 curly braces escape the f-string
 
         if not uac_validation_pattern.fullmatch(uac):  # yapf: disable
             raise TypeError
