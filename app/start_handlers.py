@@ -65,12 +65,12 @@ class Start(View):
         EqLaunch.call_eq(request.app['EQ_URL'], token)
 
     @staticmethod
-    def _display_malformed_uac_message(request, display_region, en_code, cy_code):
+    def _display_malformed_uac_message(request, display_region, malformed_uac_msg_en, malformed_uac_msg_cy):
         logger.warn('attempt to use a malformed access code',
                     client_ip=request['client_ip'], client_id=request['client_id'], trace=request['trace'])
         message = {
-            'en': en_code,
-            'cy': cy_code
+            'en': malformed_uac_msg_en,
+            'cy': malformed_uac_msg_cy
         }[display_region]
         flash(request, message)
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
