@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-26 09:58+0000\n"
+"POT-Creation-Date: 2023-01-30 10:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,90 +168,82 @@ msgstr ""
 msgid "They always need to be on."
 msgstr ""
 
-#: app/templates/cookies.html:129
-msgid "Learn more about these essential cookies"
-msgstr ""
-
-#: app/templates/cookies.html:131 app/templates/start.html:73
-msgid "Hide this"
-msgstr ""
-
-#: app/templates/cookies.html:135
+#: app/templates/cookies.html:128
 msgid "Your progress"
 msgstr ""
 
-#: app/templates/cookies.html:136
+#: app/templates/cookies.html:129
 msgid ""
 "We’ll set a cookie to remember your progress while logged in. These "
 "cookies do not store your\n"
 "                    personal data."
 msgstr ""
 
-#: app/templates/cookies.html:141 app/templates/cookies.html:250
+#: app/templates/cookies.html:134 app/templates/cookies.html:243
 msgid "Name"
 msgstr ""
 
-#: app/templates/cookies.html:144 app/templates/cookies.html:253
+#: app/templates/cookies.html:137 app/templates/cookies.html:246
 msgid "Purpose"
 msgstr ""
 
-#: app/templates/cookies.html:147 app/templates/cookies.html:256
+#: app/templates/cookies.html:140 app/templates/cookies.html:249
 msgid "Expires"
 msgstr ""
 
-#: app/templates/cookies.html:157
+#: app/templates/cookies.html:150
 msgid "To check that your browser can support cookies"
 msgstr ""
 
-#: app/templates/cookies.html:160 app/templates/cookies.html:173
-#: app/templates/cookies.html:186 app/templates/cookies.html:199
-#: app/templates/cookies.html:212 app/templates/cookies.html:238
+#: app/templates/cookies.html:153 app/templates/cookies.html:166
+#: app/templates/cookies.html:179 app/templates/cookies.html:192
+#: app/templates/cookies.html:205 app/templates/cookies.html:231
 msgid "When a user closes the browser or when their cookie cache is cleared"
 msgstr ""
 
-#: app/templates/cookies.html:170
+#: app/templates/cookies.html:163
 msgid ""
 "To store your preferred language so that certain content can be displayed"
 " in your own language"
 msgstr ""
 
-#: app/templates/cookies.html:183
+#: app/templates/cookies.html:176
 msgid ""
 "To keep your session active when using your account to access portfolio "
 "and messages"
 msgstr ""
 
-#: app/templates/cookies.html:196
+#: app/templates/cookies.html:189
 msgid "To store the universally unique identifier created for your account"
 msgstr ""
 
-#: app/templates/cookies.html:209
+#: app/templates/cookies.html:202
 msgid ""
 "To store the timestamp of the last request so that the session expiry "
 "warning message can be displayed"
 msgstr ""
 
-#: app/templates/cookies.html:222
+#: app/templates/cookies.html:215
 msgid "To keep you signed in when completing a survey"
 msgstr ""
 
-#: app/templates/cookies.html:225
+#: app/templates/cookies.html:218
 msgid ""
 "When a user logs out or closes the browser. Or when their cookie cache is"
 " cleared"
 msgstr ""
 
-#: app/templates/cookies.html:235
+#: app/templates/cookies.html:228
 msgid ""
 "To store the flash object identifier for the most recent action you have "
 "performed"
 msgstr ""
 
-#: app/templates/cookies.html:244
+#: app/templates/cookies.html:237
 msgid "Cookie message"
 msgstr ""
 
-#: app/templates/cookies.html:245
+#: app/templates/cookies.html:238
 msgid ""
 "You may see a banner when you visit start.surveys.ons.gov.uk inviting you"
 " to accept cookies or review your settings.\n"
@@ -259,19 +251,23 @@ msgid ""
 "seen it and not to show it again and store your settings."
 msgstr ""
 
-#: app/templates/cookies.html:266
+#: app/templates/cookies.html:259
 msgid "Lets us know that you’ve seen our cookie message"
 msgstr ""
 
-#: app/templates/cookies.html:269 app/templates/cookies.html:282
+#: app/templates/cookies.html:262 app/templates/cookies.html:275
 msgid "1 year"
 msgstr ""
 
-#: app/templates/cookies.html:279
+#: app/templates/cookies.html:272
 msgid "Saves your cookie consent settings"
 msgstr ""
 
-#: app/templates/cookies.html:291
+#: app/templates/cookies.html:286
+msgid "Learn more about these essential cookies"
+msgstr ""
+
+#: app/templates/cookies.html:292
 msgid "Save changes"
 msgstr ""
 
@@ -452,67 +448,69 @@ msgstr ""
 msgid "This questionnaire has now closed"
 msgstr ""
 
-#: app/templates/start.html:21
+#: app/templates/start.html:20
 msgid "Enter an access code"
 msgstr ""
 
-#: app/templates/start.html:23
+#: app/templates/start.html:22
 msgid "Enter a 16-character access code"
 msgstr ""
 
-#: app/templates/start.html:25
+#: app/templates/start.html:24
 msgid "Access code not recognised. Enter the code again."
 msgstr ""
 
-#: app/templates/start.html:36
+#: app/templates/start.html:35
 msgid "Start study"
 msgstr ""
 
-#: app/templates/start.html:43
+#: app/templates/start.html:42
 msgid "Enter your 16-character access code"
 msgstr ""
 
-#: app/templates/start.html:44
+#: app/templates/start.html:43
 msgid ""
 "Keep this code safe. You will need to enter it every time you access your"
 " study"
 msgstr ""
 
-#: app/templates/start.html:46
+#: app/templates/start.html:45
 msgid ""
 "Your personal information is protected by law and will be kept "
 "confidential."
 msgstr ""
 
-#: app/templates/start.html:53
+#: app/templates/start.html:52
 msgid "Access study"
 msgstr ""
 
-#: app/templates/start.html:60
+#: app/templates/start.html:58
+msgid "Where to find your access code"
+msgstr ""
+
+#: app/templates/start.html:59
+msgid ""
+"Your access code can be found in the invitation letter or email you "
+"received.\n"
+"        Your 16-character access code will be a combination of letters "
+"and numbers."
+msgstr ""
+
+#: app/templates/start.html:63
 msgid ""
 "Telephone: +44 800 085 7376<br>8am to 7pm Monday to Friday<br>8am to 1pm "
 "Saturday"
 msgstr ""
 
-#: app/templates/start.html:61
+#: app/templates/start.html:64
 msgid "Minicom (for the deaf and hearing impaired): 18001 +44 800 085 7376"
 msgstr ""
 
-#: app/templates/start.html:62
+#: app/templates/start.html:65
 msgid "Email:"
 msgstr ""
 
-#: app/templates/start.html:65
-msgid "Where to find your access code"
-msgstr ""
-
-#: app/templates/start.html:66
-msgid ""
-"Your access code can be found in the invitation letter or email you "
-"received."
-msgstr ""
-
-#: app/templates/start.html:70
+#: app/templates/start.html:71
 msgid "Who can I contact for further information?"
 msgstr ""
 
