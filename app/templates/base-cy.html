@@ -104,18 +104,20 @@
 {%- endblock -%}
 
 {%- block preHeader -%}
+    {%- autoescape false -%}
     {% set cookiesPageURL = domain_url + '/cy/cookies/' %}
-
     {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
     {{ onsCookiesBanner({
         'lang': 'cy',
         'statementTitle': _('Cookies'),
         'serviceName': '',
         'settingsLinkURL': cookiesPageURL,
-        'statementText': _('<p>To collect information about how you use this website, we use <a href="' + cookiesPageURL + '">cookies.</a></p>
-                        <p>This information helps us improve our services and make sure that the website works as well as possible.</p>'),
+        'statementText': _("To collect information about how you use this website, we use%(open_cookies_link)s cookies.%(close_link)s</br>
+                        This information helps us improve our services and make sure that the website works as well as possible.",
+                        open_cookies_link='<a href="%s">' % cookiesPageURL, close_link='</a>'),
         'preferencesText':  'Gallwch chi <a href="' + cookiesPageURL + '">newid eich dewisiadau o ran cwcis</a> ar unrhyw adeg.'
         })
     }}
+    {% endautoescape %}
 {%- endblock -%}
 
