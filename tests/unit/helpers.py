@@ -51,14 +51,14 @@ class TestHelpers(RHTestCase):
             title_tag = 'PLACEHOLDER WELSH Start study'
             h1_title = 'PLACEHOLDER WELSH Start study'
             secondary_text = "PLACEHOLDER WELSH Enter your 16-character access code"
-            error_text_link = "PLACEHOLDER WELSH Enter a valid access code"
+            error_text_link = "Nid yw\\'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
             error_text = error_text_link
             error_text_empty = 'PLACEHOLDER WELSH Enter an access code'
         else:
             title_tag = 'Start study'
             h1_title = 'Start study'
             secondary_text = 'Enter your 16-character access code'
-            error_text_link = 'Enter a valid access code'
+            error_text_link = 'Access code not recognised. Enter the code again.'
             error_text = error_text_link
             error_text_empty = 'Enter an access code'
 
@@ -98,9 +98,8 @@ class TestHelpers(RHTestCase):
         base = self.rhsvc_url_get_launch_token
         p1 = 'languageCode=' + display_region
         p2 = 'accountServiceUrl=' + self.get_full_account_service_url(display_region)
-        p3 = 'accountServiceLogoutUrl=' + self.get_full_account_service_logout_url(display_region)
-        p4 = 'clientIP=None'
-        url = f'{base}?{p1}&{p2}&{p3}&{p4}'
+        p3 = 'clientIP=None'
+        url = f'{base}?{p1}&{p2}&{p3}'
         return url
 
     async def check_post_start_get_uac_error(self, post_start_url, display_region, status):

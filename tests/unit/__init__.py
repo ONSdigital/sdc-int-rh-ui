@@ -324,11 +324,6 @@ class RHTestCase(AioHTTPTestCase):
         url_path_prefix = self.app['URL_PATH_PREFIX']
         return f'{account_svc_url}{url_path_prefix}/{display_region}/start/'
 
-    def get_full_account_service_logout_url(self, display_region):
-        account_svc_url = self.app['ACCOUNT_SERVICE_URL']
-        url_path_prefix = self.app['URL_PATH_PREFIX']
-        return f'{account_svc_url}{url_path_prefix}/{display_region}/signed-out/'
-
     async def asyncSetUp(self):
         # This section gets ugly if YAPF reformats it
         # yapf: disable
@@ -501,7 +496,6 @@ class RHTestCase(AioHTTPTestCase):
         }
 
         self.account_service_url = '/start/'
-        self.account_service_log_out_url = '/signed-out/'
 
         self.rhsvc_url = (
             f'{rh_svc_url}/eqLaunch/{self.uacHash}'

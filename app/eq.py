@@ -56,25 +56,19 @@ class EqLaunch(object):
 
     @staticmethod
     def _url_path(uac_hash: str, display_region: str, app: Application):
-        account_service_url, account_service_log_out_url = EqLaunch._get_account_service_url_and_logout(app,
-                                                                                                        display_region)
+        account_service_url = EqLaunch._get_account_service_url(app,
+                                                                display_region)
         base = f'/eqLaunch/{uac_hash}'
         p1 = f'languageCode={display_region}'
         p2 = f'accountServiceUrl={account_service_url}'
-        p3 = f'accountServiceLogoutUrl={account_service_log_out_url}'
-        url = f'{base}?{p3}&{p2}&{p1}'
+        url = f'{base}?{p2}&{p1}'
         return url
 
     @staticmethod
-    def _get_account_service_url_and_logout(app: Application, display_region: str):
+    def _get_account_service_url(app: Application, display_region: str):
         domain_url_protocol = app['DOMAIN_URL_PROTOCOL']
         domain_url = app['DOMAIN_URL']
         url_path_prefix = app['URL_PATH_PREFIX']
-        url_display_region = '/' + display_region
-        save_and_exit_url = '/signed-out/'
-        start_url = '/start/'
-        account_service_url = f'{domain_url_protocol}{domain_url}{url_path_prefix}{url_display_region}{start_url}'
-        account_service_log_out_url = \
-            f'{domain_url_protocol}{domain_url}{url_path_prefix}{url_display_region}{save_and_exit_url}'
+        account_service_url = f'{domain_url_protocol}{domain_url}{url_path_prefix}'
 
-        return account_service_url, account_service_log_out_url
+        return account_service_url
