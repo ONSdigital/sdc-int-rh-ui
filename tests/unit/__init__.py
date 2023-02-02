@@ -262,7 +262,7 @@ class RHTestCase(AioHTTPTestCase):
             if panel_label == 'answer':
                 panel_label_text = "PLACEHOLDER WELSH There is a problem with your answer"
             else:
-                panel_label_text = "PLACEHOLDER WELSH There is a problem with this page"
+                panel_label_text = "Mae problem gyda\\\'r dudalen hon"
         else:
             if panel_label == 'answer':
                 panel_label_text = 'There is a problem with your answer'
@@ -388,26 +388,24 @@ class RHTestCase(AioHTTPTestCase):
 
         # Cookies
         self.content_cookies_page_title_en = '<title>Cookies on start.surveys.ons.gov.uk - ' + site_name_en + '</title>'
-        self.content_cookies_page_title_cy = '<title>PLACEHOLDER WELSH Cookies on start.surveys.ons.gov.uk - ' +\
-                                             site_name_cy + '</title>'
+        self.content_cookies_page_title_cy = '<title>Cwcis ar start.surveys.ons.gov.uk - ' + site_name_cy + '</title>'
 
         self.content_cookies_heading_en = '<h1 class="ons-u-fs-xxl">Cookies on start.surveys.ons.gov.uk</h1>'
-        self.content_cookies_heading_cy = '<h1 class="ons-u-fs-xxl">PLACEHOLDER WELSH Cookies on ' \
-                                          'start.surveys.ons.gov.uk</h1>'
+        self.content_cookies_heading_cy = '<h1 class="ons-u-fs-xxl">Cwcis ar start.surveys.ons.gov.uk</h1>'
 
         # Privacy and Data Protection
         self.content_privacy_page_title_en = '<title>Privacy and data protection - ' + site_name_en + '</title>'
-        self.content_privacy_page_title_cy = '<title>PLACEHOLDER WELSH Privacy and data protection - ' + \
+        self.content_privacy_page_title_cy = '<title>Preifatrwydd a diogelu data - ' + \
                                              site_name_cy + '</title>'
 
         self.content_privacy_heading_en = '<h1 class="ons-u-fs-xl">Privacy and data protection</h1>'
-        self.content_privacy_heading_cy = '<h1 class="ons-u-fs-xl">PLACEHOLDER WELSH Privacy and data protection</h1>'
+        self.content_privacy_heading_cy = '<h1 class="ons-u-fs-xl">Preifatrwydd a diogelu data</h1>'
 
         # Start Journey
 
         # Content
         self.content_start_uac_already_used_en = 'This access code has already been used'
-        self.content_start_uac_already_used_cy = "PLACEHOLDER WELSH This access code has already been used"
+        self.content_start_uac_already_used_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
         self.content_signed_out_page_title_en = '<title>Progress saved - ' + site_name_en + '</title>'
         self.content_signed_out_title_en = 'Your progress has been saved'

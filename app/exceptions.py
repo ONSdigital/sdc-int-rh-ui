@@ -33,6 +33,7 @@ class InactiveUacError(Exception):
         super().__init__()
 
 
+# this class is not used anywhere
 class InvalidDataError(Exception):
     """ Raised when user supplies invalid data in form fields (on english language page) """
     def __init__(self, message=None, message_type=None):
@@ -40,6 +41,7 @@ class InvalidDataError(Exception):
         self.message_type = message_type
 
 
+# this class is not used anywhere
 class InvalidDataErrorWelsh(Exception):
     """ Raised when user supplies invalid data in form fields (on welsh language page) """
     def __init__(self, message=None, message_type=None):
