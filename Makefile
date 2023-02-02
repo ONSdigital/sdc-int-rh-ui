@@ -62,5 +62,5 @@ load_templates:
 
 translate:
 	pipenv run pybabel extract -F babel.cfg -o app/translations/messages.pot . 		# update the .pot files basing on templates
-	pipenv run pybabel update -i app/translations/messages.pot -d app/translations	# update .pot files basing on .pot
+	pipenv run pybabel update -i app/translations/messages.pot -d app/translations	# update .po files basing on .pot
 	pipenv run pybabel compile -d app/translations									# compile to .mo basing on .po
