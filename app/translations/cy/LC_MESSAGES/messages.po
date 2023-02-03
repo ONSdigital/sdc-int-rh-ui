@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-30 10:33+0000\n"
+"POT-Creation-Date: 2023-02-02 14:25+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -21,17 +21,17 @@ msgstr ""
 
 #: app/templates/404.html:5
 msgid "Page not found"
-msgstr "PLACEHOLDER WELSH Page not found"
+msgstr "Heb ddod o hyd i'r dudalen"
 
 #: app/templates/404.html:7
 msgid "If you entered a web address, check it is correct."
-msgstr "PLACEHOLDER WELSH If you entered a web address, check it is correct."
+msgstr "Os gwnaethoch chi roi cyfeiriad gwe, gwnewch yn siŵr ei fod yn gywir."
 
 #: app/templates/404.html:8
 msgid "If you pasted the web address, check you copied the whole address."
 msgstr ""
-"PLACEHOLDER WELSH If you pasted the web address, check you copied the "
-"whole address."
+"Os gwnaethoch chi ludo'r cyfeiriad gwe, gwnewch yn siŵr eich bod wedi "
+"copïo'r cyfeiriad cyfan."
 
 #: app/templates/404.html:10
 #, python-format
@@ -39,16 +39,29 @@ msgid ""
 "If the web address is correct or you selected a link or button, "
 "%(open)scontact us%(close)s for more help."
 msgstr ""
-"PLACEHOLDER WELSH If the web address is correct or you selected a link or"
-" button, %(open)scontact us%(close)s for more help."
+"Os yw'r cyfeiriad gwe yn gywir neu os gwnaethoch chi ddewis dolen neu "
+"fotwm"
 
-#: app/templates/base-cy.html:112
+#: app/templates/base-cy.html:111
 msgid "Cookies"
-msgstr "PLACEHOLDER WELSH Cookies"
+msgstr "Cwcis"
+
+#: app/templates/base-cy.html:114
+#, python-format
+msgid ""
+"To collect information about how you use this website, we "
+"use%(open_cookies_link)s cookies.%(close_link)s</br>\n"
+"                        This information helps us improve our services "
+"and make sure that the website works as well as possible."
+msgstr ""
+"Er mwyn casglu gwybodaeth am sut rydych chi'n defnyddio'r wefan hon, "
+"rydym yn defnyddio%(open_cookies_link)s cwcis.%(close_link)s</br>Mae'r "
+"wybodaeth hon yn ein helpu i wella ein gwasanaethau a gwneud yn siŵr bod "
+"y wefan yn gweithio gystal â phosibl."
 
 #: app/templates/cookies.html:10 app/templates/cookies.html:38
 msgid "Cookies on start.surveys.ons.gov.uk"
-msgstr "PLACEHOLDER WELSH Cookies on start.surveys.ons.gov.uk"
+msgstr "Cwcis ar start.surveys.ons.gov.uk"
 
 #: app/templates/cookies.html:33
 msgid "Your cookie settings have been saved"
@@ -71,20 +84,20 @@ msgstr "PLACEHOLDER WELSH Return to previous page"
 #: app/templates/cookies.html:39
 msgid "Cookies are small files saved on your device when you visit a website."
 msgstr ""
-"PLACEHOLDER WELSH Cookies are small files saved on your device when you "
-"visit a website."
+"Ffeiliau bach a gaiff eu cadw ar eich dyfais pan fyddwch chi'n mynd ar "
+"wefan yw cwcis."
 
 #: app/templates/cookies.html:40
 msgid ""
 "We use cookies to store information about how you use this service, such "
 "as the pages you visit."
 msgstr ""
-"PLACEHOLDER WELSH We use cookies to store information about how you use "
-"this service, such as the pages you visit."
+"Rydyn ni'n defnyddio cwcis i storio gwybodaeth am y ffordd rydych chi'n "
+"defnyddio'r gwasanaeth hwn"
 
 #: app/templates/cookies.html:41
 msgid "Cookie settings"
-msgstr "PLACEHOLDER WELSH Cookie settings"
+msgstr "Gosodiadau cwcis"
 
 #: app/templates/cookies.html:43
 msgid ""
@@ -115,12 +128,12 @@ msgid ""
 "We use two types of cookie. You can choose which cookies you're happy for"
 " us to use."
 msgstr ""
-"PLACEHOLDER WELSH We use two types of cookie. You can choose which "
-"cookies you're happy for us to use."
+"Gallwch ddewis pa gwcis rydych chi'n fodlon i ni eu defnyddio. Rydyn ni'n"
+" defnyddio dau fath o gwci:"
 
 #: app/templates/cookies.html:60
 msgid "Cookies that help with our communications"
-msgstr "PLACEHOLDER WELSH Cookies that help with our communications"
+msgstr "Cwcis sy'n ein helpu i gyfathrebu"
 
 #: app/templates/cookies.html:61
 msgid ""
@@ -130,11 +143,10 @@ msgid ""
 "how many people see the content and\n"
 "                whether it’s useful."
 msgstr ""
-"PLACEHOLDER WELSH Some of our pages may contain content from other sites "
-"which may set their own cookies. These sites are\n"
-"                sometimes called “third party” services. This tells us "
-"how many people see the content and\n"
-"                whether it’s useful."
+"Gall rhai o'n tudalennau gynnwys eitemau o wefannau eraill a all osod eu "
+"cwcis eu hunain. Caiff y gwefannau hyn eu galw'n wasanaethau “trydydd "
+"parti” weithiau. Mae hyn yn dweud wrthym faint o bobl sy'n gweld y "
+"cynnwys a ph'un a yw'n ddefnyddiol."
 
 #: app/templates/cookies.html:64
 msgid ""
@@ -143,10 +155,10 @@ msgid ""
 "                control over cookies set on other websites – you can turn"
 " them off, but not through us."
 msgstr ""
-"PLACEHOLDER WELSH In addition, if you share a link to a page, the service"
-" you share it on may set a cookie. We have no\n"
-"                control over cookies set on other websites – you can turn"
-" them off, but not through us."
+"Hefyd, os byddwch chi'n rhannu dolen i dudalen, mae'n bosibl y bydd y "
+"gwasanaeth y byddwch yn ei rhannu arno yn gosod cwci. Nid oes gennym "
+"unrhyw reolaeth dros gwcis a gaiff eu gosod ar wefannau eraill – gallwch "
+"eu diffodd, ond nid drwyddom ni."
 
 #: app/templates/cookies.html:69
 msgid "Do you want to allow communications tracking?"
@@ -154,15 +166,15 @@ msgstr "PLACEHOLDER WELSH Do you want to allow communications tracking?"
 
 #: app/templates/cookies.html:75 app/templates/cookies.html:100
 msgid "On"
-msgstr "PLACEHOLDER WELSH On"
+msgstr "Ymlaen"
 
 #: app/templates/cookies.html:82 app/templates/cookies.html:107
 msgid "Off"
-msgstr "PLACEHOLDER WELSH Off"
+msgstr "I ffwrdd"
 
 #: app/templates/cookies.html:88
 msgid "Cookies that remember your settings"
-msgstr "PLACEHOLDER WELSH Cookies that remember your settings"
+msgstr "Cwcis sy'n cofio eich gosodiadau"
 
 #: app/templates/cookies.html:89
 msgid ""
@@ -170,10 +182,8 @@ msgid ""
 "                by doing things like remembering your preferences and the"
 " choices you make."
 msgstr ""
-"PLACEHOLDER WELSH These cookies personalise your experience of using the "
-"site,\n"
-"                by doing things like remembering your preferences and the"
-" choices you make."
+"Mae'r cwcis hyn yn personoli eich profiad wrth ddefnyddio'r wefan, drwy "
+"wneud pethau fel cofio eich eich gosodiadau a'ch dewisiadau."
 
 #: app/templates/cookies.html:94
 msgid "Do you want to allow settings?"
@@ -181,33 +191,33 @@ msgstr "PLACEHOLDER WELSH Do you want to allow settings?"
 
 #: app/templates/cookies.html:113
 msgid "Strictly necessary cookies"
-msgstr "PLACEHOLDER WELSH Strictly necessary cookies"
+msgstr "Cwcis cwbl angenrheidiol"
 
 #: app/templates/cookies.html:114
 msgid "These essential cookies do things like:"
-msgstr "PLACEHOLDER WELSH These essential cookies do things like:"
+msgstr "Mae'r cwcis hanfodol hyn yn gwneud pethau fel:"
 
 #: app/templates/cookies.html:118
 msgid "remember the notifications you've seen so we do not show you them again"
 msgstr ""
-"PLACEHOLDER WELSH remember the notifications you've seen so we do not "
-"show you them again"
+"cofio'r hysbysiadau rydych chi wedi'u gweld fel nad ydym yn eu dangos i "
+"chi eto"
 
 #: app/templates/cookies.html:121
 msgid ""
 "remember your progress through a form (for example, online business "
 "surveys)"
 msgstr ""
-"PLACEHOLDER WELSH remember your progress through a form (for example, "
-"online business surveys)"
+"cofio ble rydych chi arni ar ffurflen (er enghraifft, arolygon busnes ar-"
+"lein)"
 
 #: app/templates/cookies.html:125
 msgid "They always need to be on."
-msgstr "PLACEHOLDER WELSH They always need to be on."
+msgstr "Mae angen i'r rhain fod ymlaen bob amser."
 
 #: app/templates/cookies.html:128
 msgid "Your progress"
-msgstr "PLACEHOLDER WELSH Your progress"
+msgstr "Ble rydych chi arni"
 
 #: app/templates/cookies.html:129
 msgid ""
@@ -215,87 +225,82 @@ msgid ""
 "cookies do not store your\n"
 "                    personal data."
 msgstr ""
-"PLACEHOLDER WELSH We’ll set a cookie to remember your progress while "
-"logged in. These cookies do not store your\n"
-"                    personal data."
+"Byddwn yn gosod cwci er mwyn cofio ble rydych chi arni tra byddwch chi "
+"wedi mewngofnodi. Nid yw'r cwcis hyn yn storio eich data personol."
 
 #: app/templates/cookies.html:134 app/templates/cookies.html:243
 msgid "Name"
-msgstr "PLACEHOLDER WELSH Name"
+msgstr "Enw"
 
 #: app/templates/cookies.html:137 app/templates/cookies.html:246
 msgid "Purpose"
-msgstr "PLACEHOLDER WELSH Purpose"
+msgstr "Diben"
 
 #: app/templates/cookies.html:140 app/templates/cookies.html:249
 msgid "Expires"
-msgstr "PLACEHOLDER WELSH Expires"
+msgstr "Daw i ben"
 
 #: app/templates/cookies.html:150
 msgid "To check that your browser can support cookies"
-msgstr "PLACEHOLDER WELSH To check that your browser can support cookies"
+msgstr "Cadarnhau y gall eich porwr gynnal cwcis"
 
 #: app/templates/cookies.html:153 app/templates/cookies.html:166
 #: app/templates/cookies.html:179 app/templates/cookies.html:192
 #: app/templates/cookies.html:205 app/templates/cookies.html:231
 msgid "When a user closes the browser or when their cookie cache is cleared"
-msgstr ""
-"PLACEHOLDER WELSH When a user closes the browser or when their cookie "
-"cache is cleared"
+msgstr "Pan fydd defnyddiwr yn cau'r porwr neu pan gaiff y storfa cwcis ei chlirio"
 
 #: app/templates/cookies.html:163
 msgid ""
 "To store your preferred language so that certain content can be displayed"
 " in your own language"
 msgstr ""
-"PLACEHOLDER WELSH To store your preferred language so that certain "
-"content can be displayed in your own language"
+"Storio eich dewis iaith fel bod modd dangos cynnwys penodol yn yr iaith "
+"honno"
 
 #: app/templates/cookies.html:176
 msgid ""
 "To keep your session active when using your account to access portfolio "
 "and messages"
 msgstr ""
-"PLACEHOLDER WELSH To keep your session active when using your account to "
-"access portfolio and messages"
+"Cadw eich sesiwn yn weithredol pan fyddwch chi'n defnyddio eich cyfrif i "
+"agor portffolio a negeseuon"
 
 #: app/templates/cookies.html:189
 msgid "To store the universally unique identifier created for your account"
-msgstr ""
-"PLACEHOLDER WELSH To store the universally unique identifier created for "
-"your account"
+msgstr "Storio'r dynodydd unigryw cyffredinol a grëwyd ar gyfer eich cyfrif"
 
 #: app/templates/cookies.html:202
 msgid ""
 "To store the timestamp of the last request so that the session expiry "
 "warning message can be displayed"
 msgstr ""
-"PLACEHOLDER WELSH To store the timestamp of the last request so that the "
-"session expiry warning message can be displayed"
+"Storio stamp amser y cais diwethaf fel bod modd dangos neges yn rhybuddio"
+" bod y sesiwn ar fin dod i ben"
 
 #: app/templates/cookies.html:215
 msgid "To keep you signed in when completing a survey"
-msgstr "PLACEHOLDER WELSH To keep you signed in when completing a survey"
+msgstr "Sicrhau eich bod yn parhau i fod wedi'ch mewngofnodi wrth gwblhau arolwg"
 
 #: app/templates/cookies.html:218
 msgid ""
 "When a user logs out or closes the browser. Or when their cookie cache is"
 " cleared"
 msgstr ""
-"PLACEHOLDER WELSH When a user logs out or closes the browser. Or when "
-"their cookie cache is cleared"
+"Pan fydd defnyddiwr yn allgofnodi neu'n cau'r porwr. Neu pan gaiff y "
+"storfa cwcis ei chlirio"
 
 #: app/templates/cookies.html:228
 msgid ""
 "To store the flash object identifier for the most recent action you have "
 "performed"
 msgstr ""
-"PLACEHOLDER WELSH To store the flash object identifier for the most "
-"recent action you have performed"
+"Storio'r dynodydd gwrthrych fflach ar gyfer y weithred ddiweddaraf a "
+"gwblhawyd gennych"
 
 #: app/templates/cookies.html:237
 msgid "Cookie message"
-msgstr "PLACEHOLDER WELSH Cookie message"
+msgstr "Neges am gwcis"
 
 #: app/templates/cookies.html:238
 msgid ""
@@ -304,31 +309,31 @@ msgid ""
 "                    We’ll set cookies so that your computer knows you’ve "
 "seen it and not to show it again and store your settings."
 msgstr ""
-"PLACHOLDER WELSH You may see a banner when you visit "
-"start.surveys.ons.gov.uk inviting you to accept cookies or review your "
-"settings.\n"
-"                    We’ll set cookies so that your computer knows you’ve "
-"seen it and not to show it again and store your settings."
+"Mae'n bosibl y gwelwch faner pan fyddwch chi'n mynd i "
+"start.surveys.ons.gov.uk yn gofyn i chi dderbyn cwcis neu adolygu eich "
+"gosodiadau. Byddwn ni'n gosod cwcis fel bod eich cyfrifiadur yn gwybod "
+"eich bod wedi'i gweld ac yn peidio â'i dangos eto, ac i storio eich "
+"gosodiadau."
 
 #: app/templates/cookies.html:259
 msgid "Lets us know that you’ve seen our cookie message"
-msgstr "PLACEHOLDER WELSH Lets us know that you’ve seen our cookie message"
+msgstr "Mae'n rhoi gwybod i ni eich bod wedi gweld ein neges am gwcis"
 
 #: app/templates/cookies.html:262 app/templates/cookies.html:275
 msgid "1 year"
-msgstr "PLACEHOLDER WELSH 1 year"
+msgstr "Blwyddyn"
 
 #: app/templates/cookies.html:272
 msgid "Saves your cookie consent settings"
-msgstr "PLACEHOLDER WELSH Saves your cookie consent settings"
+msgstr "Mae'n cadw eich gosodiadau caniatâd cwcis"
 
 #: app/templates/cookies.html:286
 msgid "Learn more about these essential cookies"
-msgstr "PLACEHOLDER WELSH Learn more about these essential cookies"
+msgstr "Rhagor o wybodaeth am y cwcis hanfodol hyn"
 
 #: app/templates/cookies.html:292
 msgid "Save changes"
-msgstr "PLACEHOLDER WELSH Save changes"
+msgstr "Cadw newidiadau"
 
 #: app/templates/error-forbidden.html:8
 msgid "Sorry, there is a problem"
@@ -363,15 +368,15 @@ msgstr ""
 #: app/templates/privacy-and-data-protection.html:5
 #: app/templates/privacy-and-data-protection.html:23
 msgid "Privacy and data protection"
-msgstr "PLACEHOLDER WELSH Privacy and data protection"
+msgstr "Preifatrwydd a diogelu data"
 
 #: app/templates/privacy-and-data-protection.html:25
 msgid ""
 "We will keep your information secure and confidential. This means that we"
 " will:"
 msgstr ""
-"PLACEHOLDER WELSH We will keep your information secure and confidential. "
-"This means that we will:"
+"Byddwn ni'n cadw eich gwybodaeth yn ddiogel ac yn gyfrinachol. Mae hyn yn"
+" golygu y byddwn ni'n:"
 
 #: app/templates/privacy-and-data-protection.html:31
 #, python-format
@@ -381,32 +386,30 @@ msgid ""
 "                        by the%(open_code_of_practice_link)s Code of "
 "Practice for Statistics%(close_link)s"
 msgstr ""
-"PLACEHOLDER WELSH recognise that you are sharing personal information "
-"with us and treat it as confidential, as directed\n"
-"                        by the%(open_code_of_practice_link)s Code of "
-"Practice for Statistics%(close_link)s"
+"cydnabod eich bod yn rhannu gwybodaeth bersonol â ni a'i thrin yn "
+"gyfrinachol"
 
 #: app/templates/privacy-and-data-protection.html:37
 msgid ""
 "only use your information for statistical purposes, or to help us run our"
 " surveys"
 msgstr ""
-"PLACEHOLDER WELSH only use your information for statistical purposes, or "
-"to help us run our surveys"
+"defnyddio eich gwybodaeth at ddibenion ystadegol yn unig, neu i'n helpu i"
+" gynnal ein harolygon"
 
 #: app/templates/privacy-and-data-protection.html:40
 msgid "not publish anything that identifies an individual, household or business"
 msgstr ""
-"PLACEHOLDER WELSH not publish anything that identifies an individual, "
-"household or business"
+"sicrhau na chaiff unrhyw beth ei gyhoeddi sy'n datgelu pwy yw unigolyn, "
+"cartref neu fusnes"
 
 #: app/templates/privacy-and-data-protection.html:43
 msgid ""
 "only hold your information for as long as it is being used for producing "
 "statistics"
 msgstr ""
-"PLACEHOLDER WELSH only hold your information for as long as it is being "
-"used for producing statistics"
+"ond yn cadw eich gwybodaeth cyhyd ag y bydd yn cael ei defnyddio i "
+"gynhyrchu ystadegau"
 
 #: app/templates/privacy-and-data-protection.html:46
 #, python-format
@@ -421,32 +424,29 @@ msgid ""
 "                        the Statistics and Registration Service Act 2007 "
 "and the Code of Practice for Statistics)"
 msgstr ""
-"PLACEHOLDER WELSH provide survey information "
-"to%(open_access_to_research_link)s\n"
-"                        other government departments, approved "
-"organisations%(close_link)s and%(open_approved_researchers_link)s\n"
-"                        approved researchers%(close_link)s for "
-"statistical purposes only, subject to the same standards of\n"
-"                        protection we apply (and according to the "
-"provisions of the Data Protection Legislation,\n"
-"                        the Statistics and Registration Service Act 2007 "
-"and the Code of Practice for Statistics)"
+"darparu gwybodaeth arolwg i%(open_approved_researchers_link)s adrannau "
+"eraill y Llywodraeth, sefydliadau cymeradwy%(close_link)s "
+"ac%(open_approved_researchers_link)s ymchwilwyr cymeradwy%(close_link)s "
+"at ddibenion ystadegol yn unig, gan gydymffurfio â'r un safonau diogelwch"
+" rydym yn eu dilyn (ac yn unol â darpariaethau Deddfwriaeth Diogelu Data,"
+" y Ddeddf Ystadegau a'r Gwasanaeth Cofrestru 2007 a'r Cod Ymarfer ar "
+"gyfer Ystadegau)"
 
 #: app/templates/privacy-and-data-protection.html:56
 msgid ""
 "ensure our staff are aware of their obligations to protect your "
 "confidential information"
 msgstr ""
-"PLACEHOLDER WELSH ensure our staff are aware of their obligations to "
-"protect your confidential information"
+"sicrhau bod ein staff yn ymwybodol o'u rhwymedigaethau i ddiogelu eich "
+"gwybodaeth gyfrinachol"
 
 #: app/templates/privacy-and-data-protection.html:59
 msgid "maintain the security of our systems and our buildings"
-msgstr "PLACEHOLDER WELSH maintain the security of our systems and our buildings"
+msgstr "sicrhau bod ein systemau a'n hadeiladau yn ddiogel"
 
 #: app/templates/privacy-and-data-protection.html:66
 msgid "Access to information"
-msgstr "PLACEHOLDER WELSH Access to information"
+msgstr "Mynediad at wybodaeth"
 
 #: app/templates/privacy-and-data-protection.html:67
 msgid ""
@@ -457,16 +457,15 @@ msgid ""
 "        We retain your data and control how this is used. The third "
 "parties we work with are:"
 msgstr ""
-"PLACEHOLDER WELSH We employ third-party providers to assist us in survey "
-"data collection. These third parties work under our instruction,\n"
-"        and are strictly used as technical service providers in a "
-"capacity as a data processor.\n"
-"        We retain your data and control how this is used. The third "
-"parties we work with are:"
+"Rydyn ni'n cyflogi darparwyr trydydd parti i'n helpu i gasglu data "
+"arolygon. Mae'r trydydd partïon hyn yn gweithio yn unol â'n cyfarwyddyd "
+"ni, ac yn cael eu defnyddio'n llwyr fel darparwyr gwasanaethau technegol "
+"fel prosesydd data. Rydyn ni'n cadw eich data ac yn rheoli sut y cânt eu "
+"defnyddio. Y trydydd partïon rydyn ni'n gweithio gyda nhw yw:"
 
 #: app/templates/privacy-and-data-protection.html:84
 msgid "Further information"
-msgstr "PLACEHOLDER WELSH Further information"
+msgstr "Rhagor o wybodaeth"
 
 #: app/templates/privacy-and-data-protection.html:85
 #, python-format
@@ -476,10 +475,10 @@ msgid ""
 "        under data protection legislation, see our "
 "%(open_ons_data_protection_link)sprotection page%(close_link)s."
 msgstr ""
-"PLACEHOLDER WELSH If you have a question about how we process your data "
-"or want to find out more about your rights\n"
-"        under data protection legislation, see our "
-"%(open_ons_data_protection_link)sprotection page%(close_link)s."
+"Os bydd gennych chi gwestiwn am y ffordd rydyn ni'n prosesu eich data "
+"personol, neu os byddwch chi am ddysgu mwy am eich hawliau o dan "
+"ddeddfwriaeth diogelu data, gweler ein "
+"%(open_ons_data_protection_link)studalen diogelu data%(close_link)s."
 
 #: app/templates/signed-out.html:19
 msgid "Your progress has been saved"
@@ -545,7 +544,7 @@ msgstr ""
 
 #: app/templates/start-uac-already-used.html:5
 msgid "This access code has already been used"
-msgstr "PLACEHOLDER WELSH This access code has already been used"
+msgstr "Mae'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
 #: app/templates/start-uac-already-used.html:7
 msgid "Someone has already submitted a response using this access code."
@@ -555,11 +554,11 @@ msgstr ""
 
 #: app/templates/start-uac-inactive.html:6
 msgid "This questionnaire has now closed"
-msgstr "PLACEHOLDER WELSH This questionnaire has now closed"
+msgstr "Mae'r holiadur hwn wedi cau erbyn hyn"
 
 #: app/templates/start.html:20
 msgid "Enter an access code"
-msgstr "PLACEHOLDER WELSH Enter an access code"
+msgstr "Rhowch god mynediad"
 
 #: app/templates/start.html:22
 msgid "Enter a 16-character access code"
@@ -571,35 +570,35 @@ msgstr "Nid yw'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
 
 #: app/templates/start.html:35
 msgid "Start study"
-msgstr "PLACEHOLDER WELSH Start study"
+msgstr "Dechrau'r astudiaeth"
 
 #: app/templates/start.html:42
 msgid "Enter your 16-character access code"
-msgstr "PLACEHOLDER WELSH Enter your 16-character access code"
+msgstr "Rhowch eich cod mynediad sy'n cynnwys 16 o nodau"
 
 #: app/templates/start.html:43
 msgid ""
 "Keep this code safe. You will need to enter it every time you access your"
 " study"
 msgstr ""
-"PLACEHOLDER WELSH Keep this code safe. You will need to enter it every "
-"time you access your study"
+"Cadwch y cod hwn yn ddiogel. Bydd angen i chi roi eich cod bob tro y "
+"byddwch chi'n mynd at eich astudiaeth"
 
 #: app/templates/start.html:45
 msgid ""
 "Your personal information is protected by law and will be kept "
 "confidential."
 msgstr ""
-"PLACEHOLDER WELSH Your personal information is protected by law and will "
-"be kept confidential."
+"Mae eich gwybodaeth bersonol wedi'i diogelu gan y gyfraith a chaiff ei "
+"chadw'n gyfrinachol."
 
 #: app/templates/start.html:52
 msgid "Access study"
-msgstr "PLACEHOLDER WELSH Access study"
+msgstr "Agor yr astudiaeth"
 
 #: app/templates/start.html:58
 msgid "Where to find your access code"
-msgstr "PLACEHOLDER WELSH TEST Where to find your access code"
+msgstr "Ble i ddod o hyd i'ch cod mynediad"
 
 #: app/templates/start.html:59
 msgid ""
@@ -608,36 +607,33 @@ msgid ""
 "        Your 16-character access code will be a combination of letters "
 "and numbers."
 msgstr ""
-"PLACEHOLDER WELSH Your access code can be found in the invitation letter "
-"or email you received.\n"
-"        Your 16-character access code will be a combination of letters "
-"and numbers."
+"Gellir dod o hyd i'ch cod mynediad yn y llythyr neu'r e-bost gwahoddiad a"
+" gawsoch. Bydd eich cod mynediad 16 nod yn gyfuniad o lythrennau a "
+"rhifau."
 
 #: app/templates/start.html:63
 msgid ""
 "Telephone: +44 800 085 7376<br>8am to 7pm Monday to Friday<br>8am to 1pm "
 "Saturday"
 msgstr ""
-"PLACEHOLDER WELSH Telephone: +44 800 085 7376<br>8am to 7pm Monday to "
-"Friday<br>8am to 1pm Saturday"
+"Ffôn: +44 800 085 7376<br>8am i 7pm o ddydd Llun i ddydd Gwener<br>8am i "
+"1pm ar ddydd Sadwrn"
 
 #: app/templates/start.html:64
 msgid "Minicom (for the deaf and hearing impaired): 18001 +44 800 085 7376"
-msgstr ""
-"PLACEHOLDER WELSH Minicom (for the deaf and hearing impaired): 18001 +44 "
-"800 085 7376"
+msgstr "Minicom (ar gyfer pobl fyddar neu drwm eu clyw): 18001 +44 800 085 7376"
 
 #: app/templates/start.html:65
 msgid "Email:"
-msgstr "PLACEHOLDER WELSH Email:"
+msgstr "E-bost:"
 
 #: app/templates/start.html:71
 msgid "Who can I contact for further information?"
-msgstr "PLACEHOLDER WELSH Who can I contact for further information?"
+msgstr "Â phwy y gallaf gysylltu i gael rhagor o wybodaeth?"
 
 #: app/templates/partials/messages.html:8
 msgid "There is a problem with this page"
-msgstr "PLACEHOLDER WELSH There is a problem with this page"
+msgstr "Mae problem gyda'r dudalen hon"
 
 #: app/templates/partials/messages.html:10
 msgid "There is a problem with your answer"
@@ -652,44 +648,4 @@ msgstr "PLACEHOLDER WELSH There are %(errorcount)s problems with this page"
 #, python-format
 msgid "There are %(errorcount)s problems with your answer"
 msgstr "PLACEHOLDER WELSH There are %(errorcount)s problems with your answer"
-
-#~ msgid ""
-#~ "These cookies do things like remember"
-#~ " your preferences and the choices you"
-#~ " make, to personalise your\n"
-#~ "                experience of using the site."
-#~ msgstr ""
-#~ "PLACEHOLDER WELSH These cookies do "
-#~ "things like remember your preferences "
-#~ "and the choices you make, to "
-#~ "personalise your\n"
-#~ "                experience of using the site."
-
-#~ msgid "This means that we will:"
-#~ msgstr "PLACEHOLDER WELSH This means that we will:"
-
-#~ msgid "Where can I find out more about how my information will be treated?"
-#~ msgstr ""
-#~ "PLACEHOLDER WELSH Where can I find "
-#~ "out more about how my information "
-#~ "will be treated?"
-
-#~ msgid ""
-#~ "<p>To collect information about how you"
-#~ " use this website, we use <a "
-#~ "href= + cookiesPageURL + >cookies.</a></p>"
-#~ "\n"
-#~ "                        <p>This information helps"
-#~ " us improve our services and make "
-#~ "sure that the website works as "
-#~ "well as possible.</p>"
-#~ msgstr ""
-#~ "<p>PLACEHOLDER WELSH To collect information"
-#~ " about how you use this website, "
-#~ "we use <a href= + cookiesPageURL +"
-#~ " >cookies.</a></p>\n"
-#~ "                        <p>This information helps"
-#~ " us improve our services and make "
-#~ "sure that the website works as "
-#~ "well as possible.</p>"
 

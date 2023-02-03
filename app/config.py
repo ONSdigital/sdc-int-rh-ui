@@ -66,7 +66,7 @@ class BaseConfig:
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='Arolygon SYG')
 
 
 class ProductionConfig(BaseConfig):
@@ -101,7 +101,7 @@ class DevelopmentConfig(BaseConfig):
     SESSION_AGE = env('SESSION_AGE', default='2700')  # 45 minutes
 
     SITE_NAME_EN = env('SITE_NAME_EN', default='ONS Surveys')
-    SITE_NAME_CY = env('SITE_NAME_CY', default='PLACEHOLDER WELSH ONS Surveys')
+    SITE_NAME_CY = env('SITE_NAME_CY', default='Arolygon SYG')
 
 
 class TestingConfig(DevelopmentConfig):
@@ -131,4 +131,4 @@ class TestingConfig(DevelopmentConfig):
     SESSION_AGE = ''
 
     SITE_NAME_EN = 'ONS Surveys'
-    SITE_NAME_CY = 'PLACEHOLDER WELSH ONS Surveys'
+    SITE_NAME_CY = 'Arolygon SYG'

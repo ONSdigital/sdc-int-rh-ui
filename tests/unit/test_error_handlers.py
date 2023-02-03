@@ -19,7 +19,7 @@ class TestErrorHandlers(RHTestCase):
         self.assertLogEvent(cm, 'redirecting to index')
         self.assertEqual(response.status, 200)
         contents = await response.content.read()
-        self.assertIn('Start study', str(contents))
+        self.assertIn("Dechrau\\\'r astudiaeth", str(contents))
         self.assertEqual(contents.count(b'input--text'), 1)
         self.assertIn(b'type="submit"', contents)
 

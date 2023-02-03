@@ -48,12 +48,12 @@ class TestHelpers(RHTestCase):
 
     def check_content_start(self, display_region, contents, check_empty=False, check_error=False):
         if display_region == 'cy':
-            title_tag = 'PLACEHOLDER WELSH Start study'
-            h1_title = 'PLACEHOLDER WELSH Start study'
-            secondary_text = "PLACEHOLDER WELSH Enter your 16-character access code"
-            error_text_link = "Nid yw\\'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
+            title_tag = "Dechrau&#39;r astudiaeth"  # &#39; is an HTML entity for an apostrophe
+            h1_title = "Dechrau\\\'r astudiaeth"
+            secondary_text = "Rhowch eich cod mynediad sy\\\'n cynnwys 16 o nodau"
+            error_text_link = "Nid yw\\\'r cod mynediad yn cael ei gydnabod. Rhowch y cod eto."
             error_text = error_text_link
-            error_text_empty = 'PLACEHOLDER WELSH Enter an access code'
+            error_text_empty = 'Rhowch god mynediad'
         else:
             title_tag = 'Start study'
             h1_title = 'Start study'
