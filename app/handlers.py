@@ -18,27 +18,6 @@ class Info(View):
         return json_response(info)
 
 
-@static_routes.view(r'/' + View.valid_display_regions + '/signed-out/')
-class SignedOut(View):
-    @aiohttp_jinja2.template('signed-out.html')
-    async def get(self, request):
-        display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/signed-out')
-        if display_region == 'cy':
-            page_title = "PLACEHOLDER WELSH Progress saved"
-            locale = 'cy'
-        else:
-            page_title = 'Progress saved'
-            locale = 'en'
-        await forget(request)
-        return {
-            'page_title': page_title,
-            'display_region': display_region,
-            'locale': locale,
-            'page_url': View.gen_page_url(request)
-        }
-
-
 @static_routes.view(r'/' + View.valid_display_regions + '/cookies/')
 class Cookies(View):
     @aiohttp_jinja2.template('cookies.html')
