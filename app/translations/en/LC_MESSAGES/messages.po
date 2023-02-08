@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-02 14:25+0000\n"
+"POT-Creation-Date: 2023-02-08 17:14+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -392,17 +392,6 @@ msgid ""
 " more about your rights\n"
 "        under data protection legislation, see our "
 "%(open_ons_data_protection_link)sprotection page%(close_link)s."
-msgstr ""
-
-#: app/templates/signed-out.html:19
-msgid "Your progress has been saved"
-msgstr ""
-
-#: app/templates/signed-out.html:30
-#, python-format
-msgid ""
-"Keep your 16-character access code safe. You will need to enter it again "
-"to %(open)saccess your study%(close)s."
 msgstr ""
 
 #: app/templates/start-timeout.html:7
