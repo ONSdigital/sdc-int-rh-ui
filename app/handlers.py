@@ -2,7 +2,6 @@ import aiohttp_jinja2
 from aiohttp.web import RouteTableDef, json_response
 from structlog import get_logger
 
-from app.security import forget
 from app.utils import View
 
 logger = get_logger('respondent-home')

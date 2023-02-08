@@ -467,9 +467,6 @@ class RHTestCase(AioHTTPTestCase):
         self.get_start_cy = self.app.router['Start:get'].url_for(display_region='cy')
         self.post_start_cy = self.app.router['Start:post'].url_for(display_region='cy')
 
-        self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
-        self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
-
         self.get_cookies_en = self.app.router['Cookies:get'].url_for(display_region='en')
         self.get_cookies_cy = self.app.router['Cookies:get'].url_for(display_region='cy')
 
