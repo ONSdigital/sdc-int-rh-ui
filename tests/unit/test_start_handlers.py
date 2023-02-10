@@ -224,29 +224,6 @@ class TestStartHandlers(TestHelpers):
             Start._uac_hash(uac)
         # Then a TypeError is raised
 
-    async def test_get_signed_out_en(self):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', self.get_signed_out_en)
-            self.assertLogEvent(cm, "received GET on endpoint 'en/signed-out'")
-            self.assertLogEvent(cm, "identity not previously remembered")
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_signed_out_page_title_en, contents)
-            self.assertIn(self.content_signed_out_title_en, contents)
-            self.assertSiteLogo('en', contents)
-
-    async def test_get_signed_out_cy(self):
-        with self.assertLogs('respondent-home', 'INFO') as cm:
-            response = await self.client.request('GET', self.get_signed_out_cy)
-            self.assertLogEvent(cm, "received GET on endpoint 'cy/signed-out'")
-            self.assertLogEvent(cm, "identity not previously remembered")
-            print("Response: ", response.status)
-            self.assertEqual(response.status, 200)
-            contents = str(await response.content.read())
-            self.assertIn(self.content_signed_out_page_title_cy, contents)
-            self.assertIn(self.content_signed_out_title_cy, contents)
-            self.assertSiteLogo('cy', contents)
-
     async def test_post_start_for_receipt_received_true_en(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
                 passthrough=[str(self.server._root)]) as mocked:

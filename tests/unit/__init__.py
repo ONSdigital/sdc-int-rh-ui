@@ -407,11 +407,6 @@ class RHTestCase(AioHTTPTestCase):
         self.content_start_uac_already_used_en = 'This access code has already been used'
         self.content_start_uac_already_used_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
-        self.content_signed_out_page_title_en = '<title>Progress saved - ' + site_name_en + '</title>'
-        self.content_signed_out_title_en = 'Your progress has been saved'
-        self.content_signed_out_page_title_cy = '<title>PLACEHOLDER WELSH Progress saved - ' + site_name_cy + '</title>'
-        self.content_signed_out_title_cy = 'PLACEHOLDER WELSH Your progress has been saved'
-
         self.content_start_timeout_title_en = 'Your session has timed out due to inactivity'
         self.content_start_timeout_title_cy = 'Mae eich sesiwn wedi cyrraedd y terfyn amser oherwydd anweithgarwch'
         self.content_start_timeout_bullet_one_en = 'To protect your information we have timed you out'
@@ -466,12 +461,6 @@ class RHTestCase(AioHTTPTestCase):
 
         self.get_start_cy = self.app.router['Start:get'].url_for(display_region='cy')
         self.post_start_cy = self.app.router['Start:post'].url_for(display_region='cy')
-
-        self.get_signed_out_en = self.app.router['SignedOut:get'].url_for(display_region='en')
-        self.get_signed_out_cy = self.app.router['SignedOut:get'].url_for(display_region='cy')
-
-        self.get_cookies_en = self.app.router['Cookies:get'].url_for(display_region='en')
-        self.get_cookies_cy = self.app.router['Cookies:get'].url_for(display_region='cy')
 
         self.get_privacy_en = self.app.router['PrivacyAndDataProtection:get'].url_for(display_region='en')
         self.get_privacy_cy = self.app.router['PrivacyAndDataProtection:get'].url_for(display_region='cy')
