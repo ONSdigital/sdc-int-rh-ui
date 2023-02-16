@@ -98,13 +98,3 @@ class Start(View):
 
         return HTTPFound(request.app.router['Start:get'].url_for(display_region=display_region))
 
-
-@start_routes.view(r'/' + View.valid_display_regions + '/' + user_journey + '/exit/')
-class StartExit(View):
-    async def get(self, request):
-        display_region = request.match_info['display_region']
-        self.log_entry(request, display_region + '/' + user_journey + '/exit')
-        await invalidate(request)
-        return HTTPFound(
-            request.app.router['Start:get'].url_for(display_region=display_region)
-        )
