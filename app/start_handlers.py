@@ -8,7 +8,7 @@ from app.constants import (BAD_CODE_MSG, BAD_CODE_MSG_CY, INVALID_CODE_MSG, INVA
                            START_PAGE_TITLE_EN, UAC_LENGTH, BAD_CODE_LENGTH_MSG, BAD_CODE_LENGTH_MSG_CY)
 from app.eq import EqLaunch
 from app.flash import flash
-from app.security import get_sha256_hash
+from app.security import get_sha256_hash, invalidate
 from app.utils import View
 
 logger = get_logger('respondent-home')
