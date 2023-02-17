@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-17 09:09+0000\n"
+"POT-Creation-Date: 2023-02-17 09:28+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -62,6 +62,18 @@ msgstr ""
 #: app/templates/cookies.html:10 app/templates/cookies.html:38
 msgid "Cookies on start.surveys.ons.gov.uk"
 msgstr "Cwcis ar start.surveys.ons.gov.uk"
+
+#: app/templates/cookies.html:20
+#: app/templates/privacy-and-data-protection.html:10
+#: app/templates/privacy-and-data-protection.html:15
+#: app/templates/start-too-many-requests.html:9
+#: app/templates/start-too-many-requests.html:14
+#: app/templates/start-uac-already-used.html:7
+#: app/templates/start-uac-already-used.html:12
+#: app/templates/start-uac-inactive.html:7
+#: app/templates/start-uac-inactive.html:12
+msgid "Back"
+msgstr "PLACEHOLDER WELSH Back"
 
 #: app/templates/cookies.html:33
 msgid "Your cookie settings have been saved"
@@ -369,17 +381,6 @@ msgstr ""
 #: app/templates/privacy-and-data-protection.html:23
 msgid "Privacy and data protection"
 msgstr "Preifatrwydd a diogelu data"
-
-#: app/templates/privacy-and-data-protection.html:10
-#: app/templates/privacy-and-data-protection.html:15
-#: app/templates/start-too-many-requests.html:9
-#: app/templates/start-too-many-requests.html:14
-#: app/templates/start-uac-already-used.html:7
-#: app/templates/start-uac-already-used.html:12
-#: app/templates/start-uac-inactive.html:7
-#: app/templates/start-uac-inactive.html:12
-msgid "Back"
-msgstr "PLACEHOLDER WELSH Back"
 
 #: app/templates/privacy-and-data-protection.html:25
 msgid ""
