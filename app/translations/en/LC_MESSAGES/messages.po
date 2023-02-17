@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-10 15:39+0000\n"
+"POT-Creation-Date: 2023-02-17 09:28+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -37,11 +37,11 @@ msgid ""
 "%(open)scontact us%(close)s for more help."
 msgstr ""
 
-#: app/templates/base-cy.html:111
+#: app/templates/base-cy.html:104
 msgid "Cookies"
 msgstr ""
 
-#: app/templates/base-cy.html:114
+#: app/templates/base-cy.html:107
 #, python-format
 msgid ""
 "To collect information about how you use this website, we "
@@ -52,6 +52,18 @@ msgstr ""
 
 #: app/templates/cookies.html:10 app/templates/cookies.html:38
 msgid "Cookies on start.surveys.ons.gov.uk"
+msgstr ""
+
+#: app/templates/cookies.html:20
+#: app/templates/privacy-and-data-protection.html:10
+#: app/templates/privacy-and-data-protection.html:15
+#: app/templates/start-too-many-requests.html:9
+#: app/templates/start-too-many-requests.html:14
+#: app/templates/start-uac-already-used.html:7
+#: app/templates/start-uac-already-used.html:12
+#: app/templates/start-uac-inactive.html:7
+#: app/templates/start-uac-inactive.html:12
+msgid "Back"
 msgstr ""
 
 #: app/templates/cookies.html:33
@@ -419,31 +431,31 @@ msgid ""
 "access your study."
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:36
+#: app/templates/start-too-many-requests.html:23
 msgid ""
 "We are currently experiencing very high demand, thank you for your "
 "patience"
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:38
+#: app/templates/start-too-many-requests.html:25
 msgid "Please try again later."
 msgstr ""
 
-#: app/templates/start-too-many-requests.html:45
+#: app/templates/start-too-many-requests.html:32
 msgid ""
 "Keep your 16-character access code safe. You will need it every time you "
 "access your study."
 msgstr ""
 
-#: app/templates/start-uac-already-used.html:5
+#: app/templates/start-uac-already-used.html:21
 msgid "This access code has already been used"
 msgstr ""
 
-#: app/templates/start-uac-already-used.html:7
+#: app/templates/start-uac-already-used.html:23
 msgid "Someone has already submitted a response using this access code."
 msgstr ""
 
-#: app/templates/start-uac-inactive.html:6
+#: app/templates/start-uac-inactive.html:22
 msgid "This questionnaire has now closed"
 msgstr ""
 

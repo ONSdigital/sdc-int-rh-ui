@@ -1,32 +1,19 @@
 {%- extends 'base-' + display_region + '.html' -%}
 
 {%- from "components/breadcrumbs/_macro.njk" import onsBreadcrumbs -%}
-
 {%- from "components/panel/_macro.njk" import onsPanel -%}
-
-{%- if display_region == 'cy' -%}
-    {%- set breadcrumb_items = [
-                {
-                    "url": domain_url + '/cy',
-                    "text": 'Hafan'
-                }
-            ]
-    -%}
-{%- else -%}
-    {%- set breadcrumb_items = [
-                {
-                    "url": domain_url + '/en',
-                    "text": 'Home'
-                }
-            ]
-    -%}
-{%- endif -%}
 
 {%- block preMain -%}
     {{
         onsBreadcrumbs({
-            "ariaLabel": 'Breadcrumb',
-            "itemsList": breadcrumb_items
+            "ariaLabel": _('Back'),
+            "itemsList": [
+                {
+                    "url": domain_url + '/' + display_region +  '/start/',
+                    "id": "back",
+                    "text": _('Back'),
+                }
+            ]
         })
     }}
 {%- endblock -%}

@@ -83,7 +83,7 @@ class TestStartHandlers(TestHelpers):
         self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)
         self.assertMessagePanel(BAD_CODE_LENGTH_MSG_CY, contents)
 
-    async def test_post_start_invalid_text_url_ew(self):
+    async def test_post_start_invalid_text_url_en(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'http://www.census.gov.uk/'
 
@@ -99,7 +99,7 @@ class TestStartHandlers(TestHelpers):
         self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
-    async def test_post_start_invalid_text_random_ew(self):
+    async def test_post_start_invalid_text_random_en(self):
         form_data = self.start_data_valid.copy()
         form_data['uac'] = 'rT~l34u8{?nm4£#f'
 
@@ -115,7 +115,7 @@ class TestStartHandlers(TestHelpers):
         self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
         self.assertMessagePanel(INVALID_CODE_MSG, contents)
 
-    async def test_post_start_uac_closed_ew_w(self):
+    async def test_post_start_uac_closed_en(self):
         with aioresponses(passthrough=[str(self.server._root)]) as mocked:
             mocked.get(self.eq_launch_url_en, status=400, body="UAC_INACTIVE")
 
@@ -238,6 +238,8 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertSiteLogo('en', contents)
             self.assertIn(self.content_start_uac_already_used_en, contents)
+            self.assertIn(self.content_breadcrumbs_back_button_en, contents)
+            self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
 
     async def test_post_start_for_receipt_received_true_cy(self):
         with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
@@ -253,4 +255,39 @@ class TestStartHandlers(TestHelpers):
             contents = str(await response.content.read())
             self.assertSiteLogo('cy', contents)
             self.assertIn(self.content_start_uac_already_used_cy, contents)
+            self.assertIn(self.content_breadcrumbs_back_button_cy, contents)
+            self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)
+
+    async def test_post_start_for_receipt_deactivated_en(self):
+        with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
+                passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.eq_launch_url_en, body='UAC_INACTIVE', status=400)
+
+            response = await self.client.request('POST',
+                                                 self.post_start_en,
+                                                 data=self.start_data_valid)
+
+            self.assertLogEvent(cm, "attempt to use inactive UAC")
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo('en', contents)
+            self.assertIn(self.content_start_uac_deactivated_en, contents)
+            self.assertIn(self.content_breadcrumbs_back_button_en, contents)
+            self.assertCorrectTranslationLink(contents, 'en', self.user_journey)
+
+    async def test_post_start_for_receipt_deactivated_cy(self):
+        with self.assertLogs('respondent-home', 'WARNING') as cm, aioresponses(
+                passthrough=[str(self.server._root)]) as mocked:
+            mocked.get(self.eq_launch_url_cy, body='UAC_INACTIVE', status=400)
+
+            response = await self.client.request('POST',
+                                                 self.post_start_cy,
+                                                 data=self.start_data_valid)
+
+            self.assertLogEvent(cm, "attempt to use inactive UAC")
+            self.assertEqual(response.status, 200)
+            contents = str(await response.content.read())
+            self.assertSiteLogo('cy', contents)
+            self.assertIn(self.content_start_uac_deactivated_cy, contents)
+            self.assertIn(self.content_breadcrumbs_back_button_cy, contents)
             self.assertCorrectTranslationLink(contents, 'cy', self.user_journey)

@@ -332,6 +332,8 @@ class RHTestCase(AioHTTPTestCase):
         # URLs used in later statements
         rh_svc_url = self.app['RHSVC_URL']
 
+        domain_url = self.app['DOMAIN_URL']
+
         site_name_en = self.app['SITE_NAME_EN']
         site_name_cy = self.app['SITE_NAME_CY']
 
@@ -384,6 +386,11 @@ class RHTestCase(AioHTTPTestCase):
         self.content_common_429_error_eq_launch_title_cy = \
             "Rydym ni\\\'n brysur iawn ar hyn o bryd, diolch am eich amynedd"
 
+        self.content_breadcrumbs_back_button_en = 'class="ons-breadcrumb__link" href="http://' + domain_url + \
+                                                  '/en/start/" id="back"'
+        self.content_breadcrumbs_back_button_cy = 'class="ons-breadcrumb__link" href="http://' + domain_url + \
+                                                  '/cy/start/" id="back"'
+
         # End Common
 
         # Cookies
@@ -406,6 +413,9 @@ class RHTestCase(AioHTTPTestCase):
         # Content
         self.content_start_uac_already_used_en = 'This access code has already been used'
         self.content_start_uac_already_used_cy = "Mae\\\'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
+
+        self.content_start_uac_deactivated_en = 'This questionnaire has now closed'
+        self.content_start_uac_deactivated_cy = "Mae\\\'r holiadur hwn wedi cau erbyn hyn"
 
         self.content_start_timeout_title_en = 'Your session has timed out due to inactivity'
         self.content_start_timeout_title_cy = 'Mae eich sesiwn wedi cyrraedd y terfyn amser oherwydd anweithgarwch'
