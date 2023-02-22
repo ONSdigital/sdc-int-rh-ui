@@ -223,7 +223,7 @@ class RHTestCase(AioHTTPTestCase):
         """
         if display_region == 'cy':
             site_name = self.app['SITE_NAME_CY']
-            error_prefix = 'PLACEHOLDER WELSH Error'
+            error_prefix = 'Gwall'
         else:
             site_name = self.app['SITE_NAME_EN']
             error_prefix = 'Error'
