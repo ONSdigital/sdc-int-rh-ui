@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-17 09:28+0000\n"
+"POT-Creation-Date: 2023-02-21 16:17+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -42,11 +42,11 @@ msgstr ""
 "Os yw'r cyfeiriad gwe yn gywir neu os gwnaethoch chi ddewis dolen neu "
 "fotwm, %(open)scysylltwch â ni%(close)s am fwy o gymorth."
 
-#: app/templates/base-cy.html:104
+#: app/templates/base-cy.html:111
 msgid "Cookies"
 msgstr "Cwcis"
 
-#: app/templates/base-cy.html:107
+#: app/templates/base-cy.html:114
 #, python-format
 msgid ""
 "To collect information about how you use this website, we "
@@ -73,11 +73,11 @@ msgstr "Cwcis ar start.surveys.ons.gov.uk"
 #: app/templates/start-uac-inactive.html:7
 #: app/templates/start-uac-inactive.html:12
 msgid "Back"
-msgstr "PLACEHOLDER WELSH Back"
+msgstr "Yn ol"
 
 #: app/templates/cookies.html:33
 msgid "Your cookie settings have been saved"
-msgstr "PLACEHOLDER WELSH Your cookie settings have been saved"
+msgstr "Mae eich gosodiadau cwcis wedi’u cadw"
 
 #: app/templates/cookies.html:34
 msgid ""
@@ -85,13 +85,13 @@ msgid ""
 "will have their own cookie policy and\n"
 "            banner."
 msgstr ""
-"PLACEHOLDER WELSH Some parts of start.surveys.ons.gov.uk may use "
-"additional cookies and will have their own cookie policy and\n"
-"            banner."
+"Gall rhai rhannau o start.surveys.ons.gov.uk ddefnyddio cwcis ychwanegol "
+"a bydd ganddynt eu polisi cwcis a’u baner eu\n"
+"            hunain."
 
 #: app/templates/cookies.html:36
 msgid "Return to previous page"
-msgstr "PLACEHOLDER WELSH Return to previous page"
+msgstr "Dychwelyd i’r dudalen flaenorol"
 
 #: app/templates/cookies.html:39
 msgid "Cookies are small files saved on your device when you visit a website."
@@ -117,23 +117,21 @@ msgid ""
 "browser so you cannot change your\n"
 "            settings."
 msgstr ""
-"PLACEHOLDER WELSH We use JavaScript to set our cookies. Javascript is not"
-" running on your browser so you cannot change your\n"
-"            settings."
+"Rydym yn defnyddio JavaScript i osod ein cwcis. Nid yw JavaScript yn "
+"rhedeg ar eich porwr felly ni allwch newid eich\n"
+"            gosodiadau."
 
 #: app/templates/cookies.html:45
 msgid "You can try:"
-msgstr "PLACEHOLDER WELSH You can try:"
+msgstr "Gallwch geisio:"
 
 #: app/templates/cookies.html:49
 msgid "turning on JavaScript in your browser"
-msgstr "PLACEHOLDER WELSH turning on JavaScript in your browser"
+msgstr "troi JavaScript ymlaen yn eich porwr"
 
 #: app/templates/cookies.html:52
 msgid "reloading the page in case there was a temporary fault with JavaScript"
-msgstr ""
-"PLACEHOLDER WELSH reloading the page in case there was a temporary fault "
-"with JavaScript"
+msgstr "ail-lwytho’r dudalen rhag ofn bod nam dros dro gyda JavaScript"
 
 #: app/templates/cookies.html:58
 msgid ""
@@ -362,11 +360,11 @@ msgstr ""
 
 #: app/templates/error.html:6
 msgid "Sorry, something went wrong"
-msgstr "PLACEHOLDER WELSH Sorry, something went wrong"
+msgstr "Mae’n ddrwg gennym, aeth rhywbeth o’i le"
 
 #: app/templates/error.html:9
 msgid "We are experiencing some technical problems."
-msgstr "PLACEHOLDER WELSH We are experiencing some technical problems."
+msgstr "Rydym yn profi rhai problemau technegol"
 
 #: app/templates/error.html:12
 #, python-format
@@ -374,8 +372,8 @@ msgid ""
 "Please try again later, or %(open)scontact us%(close)s if the problem "
 "continues."
 msgstr ""
-"PLACEHOLDER WELSH Please try again later, or %(open)scontact us%(close)s "
-"if the problem continues."
+"Ceisiwch eto nes ymlaen, neu cysylltwch â ni os bydd y broblem yn parhau."
+" %(open)scontact us%(close)s \" //TODO contact u"
 
 #: app/templates/privacy-and-data-protection.html:5
 #: app/templates/privacy-and-data-protection.html:23
