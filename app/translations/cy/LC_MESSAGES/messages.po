@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-22 10:46+0000\n"
+"POT-Creation-Date: 2023-03-01 19:20+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -545,9 +545,7 @@ msgstr "Mae'r cod mynediad hwn eisoes wedi cael ei ddefnyddio"
 
 #: app/templates/start-uac-already-used.html:23
 msgid "Someone has already submitted a response using this access code."
-msgstr ""
-"PLACEHOLDER WELSH Someone has already submitted a response using this "
-"access code."
+msgstr "Mae rhywun eisoes wedi cyflwyno ymateb gan ddefnyddio’r cod mynediad hwn."
 
 #: app/templates/start-uac-inactive.html:22
 msgid "This questionnaire has now closed"
