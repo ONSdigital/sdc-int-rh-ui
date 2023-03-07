@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-07 14:03+0000\n"
+"POT-Creation-Date: 2023-03-07 14:27+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -42,11 +42,11 @@ msgstr ""
 "Os yw'r cyfeiriad gwe yn gywir neu os gwnaethoch chi ddewis dolen neu "
 "fotwm, %(open)scysylltwch â ni%(close)s am fwy o gymorth."
 
-#: app/templates/base-cy.html:111
+#: app/templates/base-cy.html:99
 msgid "Cookies"
 msgstr "Cwcis"
 
-#: app/templates/base-cy.html:114
+#: app/templates/base-cy.html:102
 #, python-format
 msgid ""
 "To collect information about how you use this website, we "
