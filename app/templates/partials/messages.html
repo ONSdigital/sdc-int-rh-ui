@@ -6,14 +6,10 @@
 {%- if messages | length == 1 -%}
     {%- if '/start/' in page_url -%}
         {%- set errorTitle = _('There is a problem with this page') -%}
-    {%- else -%}
-        {%- set errorTitle = _('There is a problem with your answer') -%}
     {%- endif -%}
 {%- else -%}
     {%- if '/start/' in page_url -%}
         {%- set errorTitle = _('There are %(errorcount)s problems with this page', errorcount= messages | length | string ) -%}
-    {%- else -%}
-        {%- set errorTitle = _('There are %(errorcount)s problems with your answer', errorcount= messages | length | string ) -%}
     {%- endif -%}
 {%- endif -%}
 

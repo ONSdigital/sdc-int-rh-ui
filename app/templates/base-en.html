@@ -6,13 +6,6 @@
     {%- set page_title_value = site_name_en -%}
 {%- endif -%}
 
-{%- if ('/en/start/' in page_url) and (page_url != '/en/start/') and (timeout != 'true') -%}
-    {%- set signout_button_value = {
-            'text': 'Exit',
-            'url': url('StartExit:get', display_region='en')
-        }-%}
-{%- endif -%}
-
 {%- set footer_content = {
         'newTabWarning': 'The following links open in a new tab',
         'crest': true,
@@ -81,7 +74,6 @@
     'header': {
         'mastheadLogoUrl': 'https://www.ons.gov.uk/',
         'title': site_name_en,
-        'signoutButton': signout_button_value,
         'language': language,
         'mastheadLogo' : {},
         'titleLogo' : {}

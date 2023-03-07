@@ -259,15 +259,9 @@ class RHTestCase(AioHTTPTestCase):
         :param content: rendered HTML str
         """
         if display_region == 'cy':
-            if panel_label == 'answer':
-                panel_label_text = "PLACEHOLDER WELSH There is a problem with your answer"
-            else:
-                panel_label_text = "Mae problem gyda\\\'r dudalen hon"
+            panel_label_text = "Mae problem gyda\\\'r dudalen hon"
         else:
-            if panel_label == 'answer':
-                panel_label_text = 'There is a problem with your answer'
-            else:
-                panel_label_text = 'There is a problem with this page'
+            panel_label_text = 'There is a problem with this page'
 
         self.assertIn('<h2 id="alert" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">'
                       + panel_label_text + '</h2>', content)
