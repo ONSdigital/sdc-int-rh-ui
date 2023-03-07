@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-06 15:25+0000\n"
+"POT-Creation-Date: 2023-03-07 14:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,7 +117,7 @@ msgid ""
 " us to use."
 msgstr ""
 
-#: app/templates/cookies.html:60
+#: app/templates/cookies.html:60 app/templates/cookies.html:69
 msgid "Cookies that help with our communications"
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-#: app/templates/cookies.html:88
+#: app/templates/cookies.html:88 app/templates/cookies.html:94
 msgid "Cookies that remember your settings"
 msgstr ""
 

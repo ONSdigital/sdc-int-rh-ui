@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-06 15:25+0000\n"
+"POT-Creation-Date: 2023-03-07 14:03+0000\n"
 "PO-Revision-Date: 2022-11-18 18:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -139,7 +139,7 @@ msgstr ""
 "Gallwch ddewis pa gwcis rydych chi'n fodlon i ni eu defnyddio. Rydyn ni'n"
 " defnyddio dau fath o gwci:"
 
-#: app/templates/cookies.html:60
+#: app/templates/cookies.html:60 app/templates/cookies.html:69
 msgid "Cookies that help with our communications"
 msgstr "Cwcis sy'n ein helpu i gyfathrebu"
 
@@ -176,7 +176,7 @@ msgstr "Ymlaen"
 msgid "Off"
 msgstr "I ffwrdd"
 
-#: app/templates/cookies.html:88
+#: app/templates/cookies.html:88 app/templates/cookies.html:94
 msgid "Cookies that remember your settings"
 msgstr "Cwcis sy'n cofio eich gosodiadau"
 
