@@ -93,6 +93,24 @@
     }
 -%}
 
+{%- block head -%}
+
+<!-- Google Analytics -->
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm.html' with context -%}
+    {%- endif -%}
+<!-- End Google Analytics -->
+
+{%- endblock -%}
+
+{%- block bodyStart -%}
+
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm-no-script.html' with context -%}
+    {%- endif -%}
+
+{%- endblock -%}
+
 {%- block skipLink -%}
     {{
         onsSkipToContent({

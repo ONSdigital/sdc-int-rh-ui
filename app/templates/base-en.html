@@ -91,6 +91,22 @@
     'meta' : {}
 } -%}
 
+{%- block head -%}
+
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm.html' with context -%}
+    {%- endif -%}
+
+{%- endblock -%}
+
+{%- block bodyStart -%}
+
+    {%- if gtm_cont_id and gtm_auth -%}
+        {%- include 'partials/gtm-no-script.html' with context -%}
+    {%- endif -%}
+
+{%- endblock -%}
+
 {%- block preHeader -%}
     {% set cookiesPageURL = domain_url + '/en/cookies/' %}
 
