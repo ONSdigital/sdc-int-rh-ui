@@ -6,13 +6,6 @@
     {%- set page_title_value = site_name_cy -%}
 {%- endif -%}
 
-{%- if ('/cy/start/' in page_url) and (page_url != '/cy/start/') and (timeout != 'true') -%}
-    {%- set signout_button_value = {
-            'text': 'PLACEHOLDER WELSH Gadael',
-            'url': url('StartExit:get', display_region='cy')
-        }-%}
-{%- endif -%}
-
 {%- set footer_content = {
         'newTabWarning': 'Mae’r dolenni canlynol yn agor mewn tab newydd',
         'lang': 'cy',
@@ -55,8 +48,7 @@
         'copyrightDeclaration': {
             'copyright': "Hawlfraint y Goron a hawliau cronfa ddata 2020 OS 100019153.",
         }
-    }
--%}
+    }-%}
 
 {%- if page_url -%}
     {%- set language = { 'languages':
@@ -83,15 +75,13 @@
         'language': language,
         'mastheadLogoUrl': 'https://cy.ons.gov.uk/',
         'title': site_name_cy,
-        'signoutButton': signout_button_value,
         'mastheadLogo' : {},
         'titleLogo' : {}
     },
     'footer': footer_content,
     'cspNonce': cspNonce,
     'meta' : {}
-    }
--%}
+    }-%}
 
 {%- block head -%}
 
@@ -112,19 +102,17 @@
 {%- endblock -%}
 
 {%- block skipLink -%}
-    {{
-        onsSkipToContent({
+    {{ onsSkipToContent({
             'url': '#main-content',
             'text': "Neidio i’r prif gynnwy"
-        })
-    }}
+        }) }}
 {%- endblock -%}
 
 {%- block preHeader -%}
-    {%- autoescape false -%}
-    {% set cookiesPageURL = domain_url + '/cy/cookies/' %}
-    {%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
-    {{ onsCookiesBanner({
+{%- autoescape false -%}
+{% set cookiesPageURL = domain_url + '/cy/cookies/' %}
+{%- from 'components/cookies-banner/_macro.njk' import onsCookiesBanner -%}
+{{ onsCookiesBanner({
         'lang': 'cy',
         'statementTitle': _('Cookies'),
         'serviceName': '',
@@ -133,8 +121,7 @@
                         This information helps us improve our services and make sure that the website works as well as possible.",
                         open_cookies_link='<a href="%s">' % cookiesPageURL, close_link='</a>'),
         'preferencesText':  'Gallwch chi <a href="' + cookiesPageURL + '">newid eich dewisiadau o ran cwcis</a> ar unrhyw adeg.'
-        })
-    }}
-    {% endautoescape %}
+        }) }}
+{% endautoescape %}
 {%- endblock -%}
 
