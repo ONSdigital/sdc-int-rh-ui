@@ -27,6 +27,11 @@ CSP = {
         'https://ssl.google-analytics.com',
         'https://cdn.ons.gov.uk',
     ],
+    'connect-src': [
+        "'self'",
+        'https://cdn.ons.gov.uk',
+        'https://www.google-analytics.com'
+    ],
     'frame-src': [
         'https://www.googletagmanager.com',
         'https://www.timeforstorm.com'
