@@ -1,7 +1,7 @@
 from aiohttp.test_utils import make_mocked_request
 
 from app.google_analytics import ga_ua_id_processor
-from . import RHTestCase
+from tests.unit import RHTestCase
 
 
 class TestGoogleAnalytics(RHTestCase):
