@@ -44,6 +44,18 @@ spec:
         - name: http-server
           containerPort: 9092
         env:
+        - name: GTM_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: google-analytics
+              key: google-analytics-prop
+              optional: true
+        - name: GTM_CONTAINER_ID
+          valueFrom:
+            secretKeyRef:
+              name: google-analytics
+              key: gtm-container-id
+              optional: true
         - name: DOMAIN_URL
           valueFrom:
             configMapKeyRef:

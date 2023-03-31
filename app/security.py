@@ -22,18 +22,24 @@ CSP = {
     ],
     'script-src': [
         "'self'",
+        'https://www.googletagmanager.com',
+        'https://www.google-analytics.com',
+        'https://ssl.google-analytics.com',
         'https://cdn.ons.gov.uk',
     ],
     'connect-src': [
         "'self'",
         'https://cdn.ons.gov.uk',
+        'https://www.google-analytics.com'
     ],
     'frame-src': [
+        'https://www.googletagmanager.com',
         'https://www.timeforstorm.com'
     ],
     'img-src': [
         "'self'",
         'data:',
+        'https://www.google-analytics.com',
         'https://ssl.gstatic.com',
         'https://www.gstatic.com',
         'https://cdn.ons.gov.uk'

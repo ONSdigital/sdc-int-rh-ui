@@ -89,8 +89,8 @@ class DevelopmentConfig(BaseConfig):
 
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
-    GTM_CONTAINER_ID = env.str('GTM_CONTAINER_ID', default='GTM-MRQGCXS')
-    GTM_AUTH = env.str('GTM_AUTH', default='SMijm6Rii1nctiBFRb1Rdw')
+    GTM_CONTAINER_ID = env.str('GTM_CONTAINER_ID', default='')
+    GTM_AUTH = env.str('GTM_AUTH', default='')
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
