@@ -85,7 +85,7 @@
 
 {%- block head -%}
 
-    {%- if gtm_cont_id and gtm_auth -%}
+    {%- if gtm_cont_id -%}
         {%- include 'partials/gtm.html' with context -%}
     {%- endif -%}
 
@@ -93,7 +93,7 @@
 
 {%- block bodyStart -%}
 
-    {%- if gtm_cont_id and gtm_auth -%}
+    {%- if gtm_cont_id -%}
         {%- include 'partials/gtm-no-script.html' with context -%}
     {%- endif -%}
 

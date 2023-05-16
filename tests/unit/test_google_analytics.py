@@ -7,11 +7,11 @@ from tests.unit import RHTestCase
 class TestGoogleAnalytics(RHTestCase):
     async def test_google_analytics_context(self):
         self.app['GTM_CONTAINER_ID'] = 'GTM-XXXXXXX'
-        self.app['GTM_AUTH'] = '12345'
+        self.app['GTM_TAG_ID'] = '12345'
         request = make_mocked_request('GET', '/', app=self.app)
         context = await ga_ua_id_processor(request)
         self.assertEqual(context['gtm_cont_id'], 'GTM-XXXXXXX')
-        self.assertEqual(context['gtm_auth'], '12345')
+        self.assertEqual(context['gtm_tag_id'], '12345')
 
     async def test_google_analytics_script_rendered_base_en(self):
         self.app['GTM_CONTAINER_ID'] = 'GTM-XXXXXXX'
