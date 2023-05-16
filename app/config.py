@@ -119,8 +119,8 @@ class TestingConfig(DevelopmentConfig):
 
     URL_PATH_PREFIX = ''
 
-    GTM_CONTAINER_ID = 'GTM-MRQGCXS'
-    GTM_TAG_ID = "Dummy?"
+    GTM_CONTAINER_ID = "GTM-XXXXXXX"
+    GTM_TAG_ID = "G-XXXXXXXXXX"
 
     REDIS_SERVER = ''
 
