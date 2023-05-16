@@ -55,7 +55,7 @@ class BaseConfig:
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
     GTM_CONTAINER_ID = env('GTM_CONTAINER_ID', default='')
-    GTM_TAG_ID = env('GTM_TAG_ID', default='') 
+    GTM_TAG_ID = env('GTM_TAG_ID', default='')
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
