@@ -91,11 +91,11 @@
 
 {%- endblock -%}
 
-{%- if gtm_tag_id -%}
-    {%- include 'partials/ga.html' with context -%}
-{%- endif -%}
-
 {%- block bodyStart -%}
+
+    {%- if gtm_tag_id -%}
+        {%- include 'partials/ga.html' with context -%}
+    {%- endif -%}
 
     {%- if gtm_cont_id -%}
         {%- include 'partials/gtm-no-script.html' with context -%}
