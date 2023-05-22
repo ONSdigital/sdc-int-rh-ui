@@ -2,9 +2,13 @@
 <script nonce="{{ cspNonce }}" async src="https://www.googletagmanager.com/gtag/js?id={{ gtm_tag_id }}"></script> 
 
 <script nonce="{{ cspNonce }}">
-    window.dataLayer = window.dataLayer || []; 
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); 
-    gtag('config', '{{ gtm_tag_id }}'); 
+    var allowTrackingCookies = /^(.*)?\s*'campaign':true\s*[^;]+(.*)?$/;
+
+    if (document.cookie.match(allowTrackingCookies)) {
+        window.dataLayer = window.dataLayer || []; 
+        function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); 
+        gtag('config', '{{ gtm_tag_id }}'); 
+    }
 </script>
 
 <!-- End Google tag -->
