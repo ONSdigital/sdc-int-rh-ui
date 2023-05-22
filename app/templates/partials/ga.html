@@ -2,7 +2,7 @@
 <script nonce="{{ cspNonce }}" async src="https://www.googletagmanager.com/gtag/js?id={{ gtm_tag_id }}"></script> 
 
 <script nonce="{{ cspNonce }}">
-    var allowTrackingCookies = /^(.*)?\s*'campaign':true\s*[^;]+(.*)?$/;
+    var allowTrackingCookies = /^(.*)?\s*'campaigns':true\s*[^;]+(.*)?$/;
 
     if (document.cookie.match(allowTrackingCookies)) {
         window.dataLayer = window.dataLayer || []; 
