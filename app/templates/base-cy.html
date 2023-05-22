@@ -89,13 +89,13 @@
         {%- include 'partials/gtm.html' with context -%}
     {%- endif -%}
 
-{%- endblock -%}
-
-{%- block bodyStart -%}
-
     {%- if gtm_tag_id -%}
         {%- include 'partials/ga.html' with context -%}
     {%- endif -%}
+
+{%- endblock -%}
+
+{%- block bodyStart -%}
 
     {%- if gtm_cont_id -%}
         {%- include 'partials/gtm-no-script.html' with context -%}
