@@ -19,7 +19,7 @@ before_install:
   - docker network create ssdcrmdockerdev_default
 
 install:
-  - pip install -U pipenv
+  - pip install -U pipenv==v2023.4.29
 
 script:
   - make test
