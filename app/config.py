@@ -55,7 +55,7 @@ class BaseConfig:
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
     GTM_CONTAINER_ID = env('GTM_CONTAINER_ID', default='')
-    GTM_AUTH = env('GTM_AUTH', default='')
+    GTM_TAG_ID = env('GTM_TAG_ID', default='')
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
@@ -90,7 +90,7 @@ class DevelopmentConfig(BaseConfig):
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
     GTM_CONTAINER_ID = env.str('GTM_CONTAINER_ID', default='')
-    GTM_AUTH = env.str('GTM_AUTH', default='')
+    GTM_TAG_ID = env('GTM_TAG_ID', default='')
 
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
@@ -119,8 +119,8 @@ class TestingConfig(DevelopmentConfig):
 
     URL_PATH_PREFIX = ''
 
-    GTM_CONTAINER_ID = 'GTM-MRQGCXS'
-    GTM_AUTH = 'SMijm6Rii1nctiBFRb1Rdw'
+    GTM_CONTAINER_ID = "GTM-XXXXXXX"
+    GTM_TAG_ID = "G-XXXXXXXXXX"
 
     REDIS_SERVER = ''
 

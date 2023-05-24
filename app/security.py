@@ -17,31 +17,25 @@ CSP = {
     'font-src': [
         "'self'",
         'data:',
-        'https://fonts.gstatic.com',
         'https://cdn.ons.gov.uk',
     ],
     'script-src': [
         "'self'",
-        'https://www.googletagmanager.com',
-        'https://www.google-analytics.com',
-        'https://ssl.google-analytics.com',
+        'https://*.googletagmanager.com',
         'https://cdn.ons.gov.uk',
     ],
     'connect-src': [
         "'self'",
         'https://cdn.ons.gov.uk',
-        'https://www.google-analytics.com'
-    ],
-    'frame-src': [
-        'https://www.googletagmanager.com',
-        'https://www.timeforstorm.com'
+        'https://*.google-analytics.com',
+        'https://*.analytics.google.com',
+        'https://*.googletagmanager.com'
     ],
     'img-src': [
         "'self'",
         'data:',
-        'https://www.google-analytics.com',
-        'https://ssl.gstatic.com',
-        'https://www.gstatic.com',
+        'https://*.google-analytics.com',
+        'https://*.googletagmanager.com',
         'https://cdn.ons.gov.uk'
     ],
 

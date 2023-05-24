@@ -44,11 +44,11 @@ spec:
         - name: http-server
           containerPort: 9092
         env:
-        - name: GTM_AUTH
+        - name: GTM_TAG_ID
           valueFrom:
             secretKeyRef:
               name: google-analytics
-              key: google-analytics-prop
+              key: gtm-tag-id
               optional: true
         - name: GTM_CONTAINER_ID
           valueFrom:
