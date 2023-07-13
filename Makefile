@@ -36,7 +36,7 @@ live_integration_tests: # Unmaintained, may fail
 	pipenv run inv integration --live
 
 unit_tests: check flake8 load_templates
-	pipenv run pytest tests/unit --cov app --cov-report term-missing
+	pipenv run pytest tests/unit --cov app --cov-report term-missing --cov-report xml
 
 coverage: # Unmaintained, may fail
 	pipenv run inv coverage
@@ -55,7 +55,7 @@ down:
 	./docker/rh-ui-stop.sh
 
 check:
-	pipenv check -i 51499 -i 51457 -i 52495 # Ignore issues with py from pytest and wheels from pipenv
+	pipenv check
 
 load_templates:
 	./scripts/load_templates.sh

@@ -1,0 +1,55 @@
+name: Checks and Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Authenticating with Dockerhub ensures image pulls are authenticated, so not as severely rate limited
+      - name: Log in to Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Also log docker in to GCP artifact registry, to allow image pulls from our private registries
+      - name: Log in to Google Docker Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: europe-west2-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Python "3.10"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip pipenv
+          pipenv install --dev --deploy
+
+      - name: Run Tests and Checks
+        run: make unit_tests
+
+      - name: Check Docker Build
+        run: make docker_build
+
+      - name: Run Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          # NB: fail_ci_if_error is enabled to make any teething issues with Codecov visible.
+          # If Codecov has outage issues in the future, this can be toggled to false to allow the action to pass.
+          fail_ci_if_error: true
