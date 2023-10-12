@@ -5,7 +5,7 @@ from aiohttp.web import Application
 from aiohttp_utils import negotiation, routing
 from structlog import get_logger
 
-from app import config, domains, error_handlers, flash, i18n, routes, security, session, trace, google_analytics
+from app import config, domains, error_handlers, flash, i18n, routes, security, session, trace
 from app.app_logging import logger_initial_config
 
 logger = get_logger('respondent-home')
@@ -76,7 +76,6 @@ def create_app(config_name=None) -> Application:
         context_processors=[
             flash.context_processor,
             aiohttp_jinja2.request_processor,
-            google_analytics.ga_ua_id_processor,
             domains.domain_processor,
             security.context_processor
         ],
