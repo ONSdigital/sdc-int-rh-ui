@@ -1,4 +1,4 @@
-ARG  python_pipenv_build_image=europe-west2-docker.pkg.dev/ons-ci-rm/docker/python-pipenv:latest
+ARG  python_pipenv_build_image=europe-west2-docker.pkg.dev/ons-ci-rm/docker/python-pipenv:3.10.13
 FROM ${python_pipenv_build_image} as build
 
 ENV PIPENV_VENV_IN_PROJECT=1
