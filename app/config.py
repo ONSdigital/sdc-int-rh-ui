@@ -54,9 +54,6 @@ class BaseConfig:
 
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
-    GTM_CONTAINER_ID = env('GTM_CONTAINER_ID', default='')
-    GTM_TAG_ID = env('GTM_TAG_ID', default='')
-
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
     REDIS_PORT = env('REDIS_PORT', default='6379')
@@ -89,9 +86,6 @@ class DevelopmentConfig(BaseConfig):
 
     URL_PATH_PREFIX = env('URL_PATH_PREFIX', default='')
 
-    GTM_CONTAINER_ID = env.str('GTM_CONTAINER_ID', default='')
-    GTM_TAG_ID = env('GTM_TAG_ID', default='')
-
     REDIS_SERVER = env('REDIS_SERVER', default='localhost')
 
     REDIS_PORT = env('REDIS_PORT', default='6379')
@@ -118,9 +112,6 @@ class TestingConfig(DevelopmentConfig):
     RHSVC_URL = 'http://localhost:8071'
 
     URL_PATH_PREFIX = ''
-
-    GTM_CONTAINER_ID = "GTM-XXXXXXX"
-    GTM_TAG_ID = "G-XXXXXXXXXX"
 
     REDIS_SERVER = ''
 

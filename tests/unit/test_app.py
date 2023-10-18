@@ -41,14 +41,13 @@ class TestCreateApp(AioHTTPTestCase):
         self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
                       response.headers['Content-Security-Policy'])
         self.assertIn(
-            f"script-src 'self' https://*.googletagmanager.com https://cdn.ons.gov.uk 'nonce-{nonce}'",
+            f"script-src 'self' https://cdn.ons.gov.uk 'nonce-{nonce}'",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "connect-src 'self' https://cdn.ons.gov.uk https://*.google-analytics.com "
-            "https://*.analytics.google.com https://*.googletagmanager.com;",
+            "connect-src 'self' https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
         self.assertIn(
-            "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com https://cdn.ons.gov.uk",
+            "img-src 'self' data: https://cdn.ons.gov.uk",
             response.headers['Content-Security-Policy'])
         self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
         self.assertIn("default-src 'self' https://cdn.ons.gov.uk",
