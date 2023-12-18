@@ -73,7 +73,7 @@ class ProductionConfig(BaseConfig):
 class DevelopmentConfig(BaseConfig):
     env = Env()
     HOST = env.str('HOST', default='0.0.0.0')
-    PORT = env.int('PORT', default='9092', cast=int)
+    PORT = env('PORT', default=9092, cast=int)
     DEBUG = env('DEBUG', cast=bool, default=False)
     LOG_LEVEL = env('LOG_LEVEL', default='INFO')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
