@@ -41,7 +41,7 @@ class BaseConfig:
     env = partial(env, default=None)
 
     HOST = env('HOST')
-    PORT = env('PORT')
+    PORT = env('PORT', cast=int)
     DEBUG = env('DEBUG', cast=bool, default=False)
     LOG_LEVEL = env('LOG_LEVEL')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL')
@@ -73,7 +73,7 @@ class ProductionConfig(BaseConfig):
 class DevelopmentConfig(BaseConfig):
     env = Env()
     HOST = env.str('HOST', default='0.0.0.0')
-    PORT = env.int('PORT', default='9092')
+    PORT = env.int('PORT', default='9092', cast=int)
     DEBUG = env('DEBUG', cast=bool, default=False)
     LOG_LEVEL = env('LOG_LEVEL', default='INFO')
     EXT_LOG_LEVEL = env('EXT_LOG_LEVEL', default='INFO')
@@ -100,7 +100,7 @@ class DevelopmentConfig(BaseConfig):
 
 class TestingConfig(DevelopmentConfig):
     HOST = '0.0.0.0'
-    PORT = '9092'
+    PORT = 9092
     DEBUG = True
     LOG_LEVEL = 'DEBUG'
     EXT_LOG_LEVEL = 'DEBUG'
