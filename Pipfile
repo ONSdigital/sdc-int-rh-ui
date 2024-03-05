@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 aiohttp-jinja2 = "~=1.5"
-aiohttp-session = {version = "~=2.11.0", extras = ["aioredis"]}
+aiohttp-session = {version = "~=2.12.0", extras = ["aioredis"]}
 aiohttp-utils = "~=3.1.1"
 aiohttp = "*"
 aioredis = "~=2.0.1"
