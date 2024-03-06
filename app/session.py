@@ -2,7 +2,7 @@ import asyncio
 
 from aiohttp_session import Session, get_session, session_middleware
 from aiohttp_session.redis_storage import RedisStorage
-from aioredis import RedisError, from_url
+from redis.asyncio import from_url, RedisError
 from structlog import get_logger
 
 from app.exceptions import SessionTimeout
